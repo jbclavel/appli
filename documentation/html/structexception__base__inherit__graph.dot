@@ -1,0 +1,31 @@
+digraph G
+{
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="exception_base",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled" fontcolor="black"];
+  Node1 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="gv_error",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$structgv__error.html",tooltip="struct defining the exception called when an error occurs in GraphViz extends exception_base"];
+  Node2 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="subgraph_not_found",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$structsubgraph__not__found.html",tooltip="struct defining the exception called when the subgraph is not found extends gv_error"];
+  Node1 -> Node4 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="io_error",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$structio__error.html",tooltip="struct defining the base of the IO errors"];
+  Node4 -> Node5 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node5 [label="file_not_exist",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$structfile__not__exist.html",tooltip="struct defining the exception called when the file does not exist extends io_error"];
+  Node4 -> Node6 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node6 [label="not_regular_file",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$structnot__regular__file.html",tooltip="struct defining the exception called when the format of the file is not the one expected extends io_e..."];
+  Node1 -> Node7 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node7 [label="ph_error",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$structph__error.html",tooltip="struct defining the exception called when there is an error in the PH file extends exception_base..."];
+  Node7 -> Node8 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node8 [label="process_not_found",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$structprocess__not__found.html",tooltip="struct defining the exception called when the process called is not found extends ph_error..."];
+  Node7 -> Node9 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node9 [label="process_required",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$structprocess__required.html",tooltip="struct defining the exception called when the process is not specified extends ph_error"];
+  Node7 -> Node10 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node10 [label="sort_not_found",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$structsort__not__found.html",tooltip="struct defining the exception called when the sort called are not found extends ph_error"];
+  Node1 -> Node11 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node11 [label="ph_parse_error",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$structph__parse__error.html",tooltip="struct defining the exception called when the PH file cannot be parsed extends exception_base"];
+  Node11 -> Node12 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node12 [label="pint_phc_crash",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$structpint__phc__crash.html",tooltip="struct defining the exception called when Pint cannot be called extends ph_parse_error"];
+  Node1 -> Node13 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node13 [label="pint_program_not_found",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$structpint__program__not__found.html",tooltip="struct defining the exception called when Pint is not found$ extends exception_base"];
+}

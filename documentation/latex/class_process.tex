@@ -1,0 +1,122 @@
+\hypertarget{class_process}{\section{\-Process \-Class \-Reference}
+\label{class_process}\index{\-Process@{\-Process}}
+}
+
+
+represents a \hyperlink{class_process}{\-Process} of the process hitting  
+
+
+
+
+{\ttfamily \#include $<$\-Process.\-h$>$}
+
+\subsection*{\-Public \-Member \-Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_process_a267617e8f2cfd994e0527635372be90c}{\-Process} (\-Sort\-Ptr s, const int \&n)
+\begin{DoxyCompactList}\small\item\em constructor \end{DoxyCompactList}\item 
+\hypertarget{class_process_acdfa357f41df6f1e09cdffbc5c5b2c3b}{int \hyperlink{class_process_acdfa357f41df6f1e09cdffbc5c5b2c3b}{get\-Number} (void)}\label{class_process_acdfa357f41df6f1e09cdffbc5c5b2c3b}
+
+\begin{DoxyCompactList}\small\item\em gets the number \end{DoxyCompactList}\item 
+\hypertarget{class_process_aaabe803350e1d6dcc23d8aa4ff2314db}{\-Sort\-Ptr \hyperlink{class_process_aaabe803350e1d6dcc23d8aa4ff2314db}{get\-Sort} (void)}\label{class_process_aaabe803350e1d6dcc23d8aa4ff2314db}
+
+\begin{DoxyCompactList}\small\item\em gets the \hyperlink{class_sort}{\-Sort} \end{DoxyCompactList}\item 
+string \hyperlink{class_process_af9a89e83db6a14451104b49eac7dd313}{get\-Dot\-Name} (void)
+\begin{DoxyCompactList}\small\item\em builds name for \-D\-O\-T files \end{DoxyCompactList}\item 
+string \hyperlink{class_process_ad9c1f2be57856c4e62d00f8494d2281f}{to\-Dot\-String} (void)
+\begin{DoxyCompactList}\small\item\em gives a text representation of the process hitting (in .dot format, used in \-Graphviz) \end{DoxyCompactList}\item 
+void \hyperlink{class_process_a14e32beee307cf814fbc569a96951bba}{set\-G\-Process} (\-G\-Process\-Ptr g\-P\-Ptr)
+\begin{DoxyCompactList}\small\item\em sets the related \hyperlink{class_g_process}{\-G\-Process} \end{DoxyCompactList}\item 
+\-G\-Process\-Ptr \hyperlink{class_process_af7c8dfd3af2a014c0371840ce82ed608}{get\-G\-Process} ()
+\begin{DoxyCompactList}\small\item\em gets the related \hyperlink{class_g_process}{\-G\-Process} \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+represents a \hyperlink{class_process}{\-Process} of the process hitting 
+
+\subsection{\-Constructor \& \-Destructor \-Documentation}
+\hypertarget{class_process_a267617e8f2cfd994e0527635372be90c}{\index{\-Process@{\-Process}!\-Process@{\-Process}}
+\index{\-Process@{\-Process}!Process@{\-Process}}
+\subsubsection[{\-Process}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Process\-::\-Process} (
+\begin{DoxyParamCaption}
+\item[{\-Sort\-Ptr}]{s, }
+\item[{const int \&}]{n}
+\end{DoxyParamCaption}
+)}}\label{class_process_a267617e8f2cfd994e0527635372be90c}
+
+
+constructor 
+
+
+\begin{DoxyParams}{\-Parameters}
+{\em \-Sortptr} & pointer to the \hyperlink{class_sort}{\-Sort} the \hyperlink{class_process}{\-Process} is related to \\
+\hline
+{\em int} & number of the \hyperlink{class_process}{\-Process} in the \hyperlink{class_sort}{\-Sort} it is related to \\
+\hline
+\end{DoxyParams}
+
+
+\subsection{\-Member \-Function \-Documentation}
+\hypertarget{class_process_af9a89e83db6a14451104b49eac7dd313}{\index{\-Process@{\-Process}!get\-Dot\-Name@{get\-Dot\-Name}}
+\index{get\-Dot\-Name@{get\-Dot\-Name}!Process@{\-Process}}
+\subsubsection[{get\-Dot\-Name}]{\setlength{\rightskip}{0pt plus 5cm}string {\bf \-Process\-::get\-Dot\-Name} (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{class_process_af9a89e83db6a14451104b49eac7dd313}
+
+
+builds name for \-D\-O\-T files 
+
+\begin{DoxyReturn}{\-Returns}
+string adapted name 
+\end{DoxyReturn}
+\hypertarget{class_process_af7c8dfd3af2a014c0371840ce82ed608}{\index{\-Process@{\-Process}!get\-G\-Process@{get\-G\-Process}}
+\index{get\-G\-Process@{get\-G\-Process}!Process@{\-Process}}
+\subsubsection[{get\-G\-Process}]{\setlength{\rightskip}{0pt plus 5cm}\-G\-Process\-Ptr {\bf \-Process\-::get\-G\-Process} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_process_af7c8dfd3af2a014c0371840ce82ed608}
+
+
+gets the related \hyperlink{class_g_process}{\-G\-Process} 
+
+\begin{DoxyReturn}{\-Returns}
+\-G\-Process\-Ptr a pointer to the related \hyperlink{class_g_process}{\-G\-Process} object 
+\end{DoxyReturn}
+\hypertarget{class_process_a14e32beee307cf814fbc569a96951bba}{\index{\-Process@{\-Process}!set\-G\-Process@{set\-G\-Process}}
+\index{set\-G\-Process@{set\-G\-Process}!Process@{\-Process}}
+\subsubsection[{set\-G\-Process}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-Process\-::set\-G\-Process} (
+\begin{DoxyParamCaption}
+\item[{\-G\-Process\-Ptr}]{g\-P\-Ptr}
+\end{DoxyParamCaption}
+)}}\label{class_process_a14e32beee307cf814fbc569a96951bba}
+
+
+sets the related \hyperlink{class_g_process}{\-G\-Process} 
+
+
+\begin{DoxyParams}{\-Parameters}
+{\em a} & pointer to the related \hyperlink{class_g_process}{\-G\-Process} object \\
+\hline
+\end{DoxyParams}
+\hypertarget{class_process_ad9c1f2be57856c4e62d00f8494d2281f}{\index{\-Process@{\-Process}!to\-Dot\-String@{to\-Dot\-String}}
+\index{to\-Dot\-String@{to\-Dot\-String}!Process@{\-Process}}
+\subsubsection[{to\-Dot\-String}]{\setlength{\rightskip}{0pt plus 5cm}string {\bf \-Process\-::to\-Dot\-String} (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{class_process_ad9c1f2be57856c4e62d00f8494d2281f}
+
+
+gives a text representation of the process hitting (in .dot format, used in \-Graphviz) 
+
+\begin{DoxyReturn}{\-Returns}
+string the representation in \-D\-O\-T format 
+\end{DoxyReturn}
+
+
+\-The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+headers/\hyperlink{_process_8h}{\-Process.\-h}\end{DoxyCompactItemize}

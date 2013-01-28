@@ -1,0 +1,110 @@
+\hypertarget{class_p_h_scene}{\section{\-P\-H\-Scene \-Class \-Reference}
+\label{class_p_h_scene}\index{\-P\-H\-Scene@{\-P\-H\-Scene}}
+}
+
+
+the graphic object representing the process hitting extends \-Q\-Graphics\-Scene  
+
+
+
+
+{\ttfamily \#include $<$\-P\-H\-Scene.\-h$>$}
+
+\subsection*{\-Public \-Member \-Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{class_p_h_scene_ab911261388ccc14254980b5d01909d61}{\hyperlink{class_p_h_scene_ab911261388ccc14254980b5d01909d61}{\-P\-H\-Scene} (\hyperlink{class_p_h}{\-P\-H} $\ast$\-\_\-ph)}\label{class_p_h_scene_ab911261388ccc14254980b5d01909d61}
+
+\begin{DoxyCompactList}\small\item\em constructor \end{DoxyCompactList}\item 
+\hypertarget{class_p_h_scene_a2f9dbd3f096e6cfcd9e924617bcc7d98}{void \hyperlink{class_p_h_scene_a2f9dbd3f096e6cfcd9e924617bcc7d98}{do\-Render} (void)}\label{class_p_h_scene_a2f9dbd3f096e6cfcd9e924617bcc7d98}
+
+\begin{DoxyCompactList}\small\item\em forces the re-\/calculation of the layout of the scene \end{DoxyCompactList}\item 
+\-G\-Sort\-Ptr \hyperlink{class_p_h_scene_ae8be020b063c06f135d644937d65147b}{get\-G\-Sort} (const string \&s)
+\begin{DoxyCompactList}\small\item\em gets a \hyperlink{class_g_sort}{\-G\-Sort} by its related \hyperlink{class_sort}{\-Sort}'s name \end{DoxyCompactList}\item 
+\hypertarget{class_p_h_scene_aee9bc7ca9a154680f38f06005ad9f6ef}{map$<$ string, \-G\-Sort\-Ptr $>$ \hyperlink{class_p_h_scene_aee9bc7ca9a154680f38f06005ad9f6ef}{get\-G\-Sorts} ()}\label{class_p_h_scene_aee9bc7ca9a154680f38f06005ad9f6ef}
+
+\begin{DoxyCompactList}\small\item\em getter for sorts \end{DoxyCompactList}\item 
+\hypertarget{class_p_h_scene_a90867c99c8cc58ca2c7f33d498bffe66}{std\-::vector$<$ \-G\-Process\-Ptr $>$ \hyperlink{class_p_h_scene_a90867c99c8cc58ca2c7f33d498bffe66}{get\-Processes} ()}\label{class_p_h_scene_a90867c99c8cc58ca2c7f33d498bffe66}
+
+\begin{DoxyCompactList}\small\item\em get the processes \end{DoxyCompactList}\item 
+\hypertarget{class_p_h_scene_af1201a8cee5ca753cbe75cbe3d6435c5}{std\-::vector$<$ \-G\-Action\-Ptr $>$ \hyperlink{class_p_h_scene_af1201a8cee5ca753cbe75cbe3d6435c5}{get\-Actions} ()}\label{class_p_h_scene_af1201a8cee5ca753cbe75cbe3d6435c5}
+
+\begin{DoxyCompactList}\small\item\em get the actions \end{DoxyCompactList}\item 
+\hypertarget{class_p_h_scene_ab2e20c3ef500db7facadd0ea9d277803}{void \hyperlink{class_p_h_scene_ab2e20c3ef500db7facadd0ea9d277803}{hide\-Actions} ()}\label{class_p_h_scene_ab2e20c3ef500db7facadd0ea9d277803}
+
+\begin{DoxyCompactList}\small\item\em hides all action arrows \end{DoxyCompactList}\item 
+\hypertarget{class_p_h_scene_a73f4bf5b26c0849c53e93788eacf085a}{void \hyperlink{class_p_h_scene_a73f4bf5b26c0849c53e93788eacf085a}{show\-Actions} ()}\label{class_p_h_scene_a73f4bf5b26c0849c53e93788eacf085a}
+
+\begin{DoxyCompactList}\small\item\em shows all the action arrows which are \-N\-O\-T related to hidden sorts \end{DoxyCompactList}\item 
+\hypertarget{class_p_h_scene_abd6eb00cf340fba49243383af1650ad6}{void \hyperlink{class_p_h_scene_abd6eb00cf340fba49243383af1650ad6}{update\-Graph} ()}\label{class_p_h_scene_abd6eb00cf340fba49243383af1650ad6}
+
+\begin{DoxyCompactList}\small\item\em recalculates the graph, functions of customized \hyperlink{class_g_sort}{\-G\-Sort} items positions \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{\-Protected \-Member \-Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{class_p_h_scene_ad4a998d52e4b2422101a63ba05a24092}{void \hyperlink{class_p_h_scene_ad4a998d52e4b2422101a63ba05a24092}{draw} (void)}\label{class_p_h_scene_ad4a998d52e4b2422101a63ba05a24092}
+
+\begin{DoxyCompactList}\small\item\em clears the scene and adds the elements composing the representation of the process hitting \end{DoxyCompactList}\item 
+void \hyperlink{class_p_h_scene_a38adb7513578a42800228bd442f95ad7}{create\-Actions} (\-G\-V\-Graph\-Ptr graph)
+\begin{DoxyCompactList}\small\item\em creates \hyperlink{class_g_action}{\-G\-Action} items from graphviz graph (\hyperlink{struct_g_v_edge}{\-G\-V\-Edge} structs) \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{\-Protected \-Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{class_p_h_scene_a332655cec4c6cca3153ffc3ee14eb465}{\hyperlink{class_p_h}{\-P\-H} $\ast$ \hyperlink{class_p_h_scene_a332655cec4c6cca3153ffc3ee14eb465}{ph}}\label{class_p_h_scene_a332655cec4c6cca3153ffc3ee14eb465}
+
+\begin{DoxyCompactList}\small\item\em the related process hitting \end{DoxyCompactList}\item 
+\hypertarget{class_p_h_scene_a664d48bb0ae4f95df04e7a939855cae5}{map$<$ string, \-G\-Sort\-Ptr $>$ \hyperlink{class_p_h_scene_a664d48bb0ae4f95df04e7a939855cae5}{sorts}}\label{class_p_h_scene_a664d48bb0ae4f95df04e7a939855cae5}
+
+\begin{DoxyCompactList}\small\item\em map of the \-Sorts drawn in the scene\-: the keys are the names of the \-Sorts \end{DoxyCompactList}\item 
+\hypertarget{class_p_h_scene_a392d190fc16531af5049727766582bed}{std\-::vector$<$ \-G\-Process\-Ptr $>$ \hyperlink{class_p_h_scene_a392d190fc16531af5049727766582bed}{processes}}\label{class_p_h_scene_a392d190fc16531af5049727766582bed}
+
+\begin{DoxyCompactList}\small\item\em vector of the \-Processes drawn in the scene \end{DoxyCompactList}\item 
+\hypertarget{class_p_h_scene_a5802a1a674ffd883d3bf8403399365fb}{std\-::vector$<$ \-G\-Action\-Ptr $>$ \hyperlink{class_p_h_scene_a5802a1a674ffd883d3bf8403399365fb}{actions}}\label{class_p_h_scene_a5802a1a674ffd883d3bf8403399365fb}
+
+\begin{DoxyCompactList}\small\item\em vector of the \-Actions drawn in the scene \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+the graphic object representing the process hitting extends \-Q\-Graphics\-Scene 
+
+\subsection{\-Member \-Function \-Documentation}
+\hypertarget{class_p_h_scene_a38adb7513578a42800228bd442f95ad7}{\index{\-P\-H\-Scene@{\-P\-H\-Scene}!create\-Actions@{create\-Actions}}
+\index{create\-Actions@{create\-Actions}!PHScene@{\-P\-H\-Scene}}
+\subsubsection[{create\-Actions}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-P\-H\-Scene\-::create\-Actions} (
+\begin{DoxyParamCaption}
+\item[{\-G\-V\-Graph\-Ptr}]{graph}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}\label{class_p_h_scene_a38adb7513578a42800228bd442f95ad7}
+
+
+creates \hyperlink{class_g_action}{\-G\-Action} items from graphviz graph (\hyperlink{struct_g_v_edge}{\-G\-V\-Edge} structs) 
+
+
+\begin{DoxyParams}{\-Parameters}
+{\em \-G\-V\-Graph\-Ptr} & a smart pointer to the graphviz graph to convert \\
+\hline
+\end{DoxyParams}
+\hypertarget{class_p_h_scene_ae8be020b063c06f135d644937d65147b}{\index{\-P\-H\-Scene@{\-P\-H\-Scene}!get\-G\-Sort@{get\-G\-Sort}}
+\index{get\-G\-Sort@{get\-G\-Sort}!PHScene@{\-P\-H\-Scene}}
+\subsubsection[{get\-G\-Sort}]{\setlength{\rightskip}{0pt plus 5cm}\-G\-Sort\-Ptr {\bf \-P\-H\-Scene\-::get\-G\-Sort} (
+\begin{DoxyParamCaption}
+\item[{const string \&}]{s}
+\end{DoxyParamCaption}
+)}}\label{class_p_h_scene_ae8be020b063c06f135d644937d65147b}
+
+
+gets a \hyperlink{class_g_sort}{\-G\-Sort} by its related \hyperlink{class_sort}{\-Sort}'s name 
+
+
+\begin{DoxyParams}{\-Parameters}
+{\em string} & the name of the (\-G)\hyperlink{class_sort}{\-Sort} to get \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+\-G\-Sort\-Ptr pointer to the \hyperlink{class_g_sort}{\-G\-Sort} to get 
+\end{DoxyReturn}
+
+
+\-The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+headers/\hyperlink{_p_h_scene_8h}{\-P\-H\-Scene.\-h}\end{DoxyCompactItemize}

@@ -1,0 +1,119 @@
+\hypertarget{class_g_v_graph}{\section{\-G\-V\-Graph \-Class \-Reference}
+\label{class_g_v_graph}\index{\-G\-V\-Graph@{\-G\-V\-Graph}}
+}
+
+
+object containing a libgraph graph and its associated nodes and edges  
+
+
+
+
+{\ttfamily \#include $<$\-G\-V\-Graph.\-h$>$}
+
+\-Inheritance diagram for \-G\-V\-Graph\-:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_g_v_graph}
+\end{center}
+\end{figure}
+\subsection*{\-Public \-Member \-Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_g_v_graph_af47604f64a70e17ba11af26787497fbb}{\-G\-V\-Graph} (\-Q\-String name, \-Q\-Font font=\-Q\-Font())
+\begin{DoxyCompactList}\small\item\em \-Construct a \-Graphviz graph object. \end{DoxyCompactList}\item 
+\hypertarget{class_g_v_graph_aebfd43267ab4f7cfb46d2841f6b52aeb}{void \hyperlink{class_g_v_graph_aebfd43267ab4f7cfb46d2841f6b52aeb}{apply\-Layout} (void)}\label{class_g_v_graph_aebfd43267ab4f7cfb46d2841f6b52aeb}
+
+\begin{DoxyCompactList}\small\item\em builds the layout \end{DoxyCompactList}\item 
+void \hyperlink{class_g_v_graph_a9fee4d22192b53b8b012ed3e72ea92cd}{render\-To\-File} (\-Q\-String name)
+\begin{DoxyCompactList}\small\item\em renders the file \end{DoxyCompactList}\item 
+\-Q\-Rect\-F \hyperlink{class_g_v_graph_a381255296a418044949c6854699a1f76}{bounding\-Rect} ()
+\begin{DoxyCompactList}\small\item\em the rectangle result \end{DoxyCompactList}\item 
+void \hyperlink{class_g_v_graph_ae48ac71c72224ac6e6c761fd6e9b3c61}{set\-Font} (\-Q\-Font font)
+\begin{DoxyCompactList}\small\item\em sets the font that will be used in all the labels \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{\-Static \-Public \-Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{class_g_v_graph_a643ff39dc5b5aba36f91f0d4d55cdc70}{static const qreal \hyperlink{class_g_v_graph_a643ff39dc5b5aba36f91f0d4d55cdc70}{\-Dot\-Default\-D\-P\-I}}\label{class_g_v_graph_a643ff39dc5b5aba36f91f0d4d55cdc70}
+
+\begin{DoxyCompactList}\small\item\em \-Default \-D\-P\-I value used by dot (which uses points instead of pixels for coordinates) \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+object containing a libgraph graph and its associated nodes and edges 
+
+\subsection{\-Constructor \& \-Destructor \-Documentation}
+\hypertarget{class_g_v_graph_af47604f64a70e17ba11af26787497fbb}{\index{\-G\-V\-Graph@{\-G\-V\-Graph}!\-G\-V\-Graph@{\-G\-V\-Graph}}
+\index{\-G\-V\-Graph@{\-G\-V\-Graph}!GVGraph@{\-G\-V\-Graph}}
+\subsubsection[{\-G\-V\-Graph}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-G\-V\-Graph\-::\-G\-V\-Graph} (
+\begin{DoxyParamCaption}
+\item[{\-Q\-String}]{name, }
+\item[{\-Q\-Font}]{font = {\ttfamily \-Q\-Font()}}
+\end{DoxyParamCaption}
+)}}\label{class_g_v_graph_af47604f64a70e17ba11af26787497fbb}
+
+
+\-Construct a \-Graphviz graph object. 
+
+
+\begin{DoxyParams}{\-Parameters}
+{\em name} & \-The name of the graph, must be unique in the application \\
+\hline
+{\em font} & \-The font to use for the graph \\
+\hline
+{\em node\-\_\-size} & \-The size in pixels of each node \\
+\hline
+\end{DoxyParams}
+
+
+\subsection{\-Member \-Function \-Documentation}
+\hypertarget{class_g_v_graph_a381255296a418044949c6854699a1f76}{\index{\-G\-V\-Graph@{\-G\-V\-Graph}!bounding\-Rect@{bounding\-Rect}}
+\index{bounding\-Rect@{bounding\-Rect}!GVGraph@{\-G\-V\-Graph}}
+\subsubsection[{bounding\-Rect}]{\setlength{\rightskip}{0pt plus 5cm}\-Q\-Rect\-F {\bf \-G\-V\-Graph\-::bounding\-Rect} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_g_v_graph_a381255296a418044949c6854699a1f76}
+
+
+the rectangle result 
+
+\begin{DoxyReturn}{\-Returns}
+a \-Q\-Rect\-F representing the rectangle built 
+\end{DoxyReturn}
+\hypertarget{class_g_v_graph_a9fee4d22192b53b8b012ed3e72ea92cd}{\index{\-G\-V\-Graph@{\-G\-V\-Graph}!render\-To\-File@{render\-To\-File}}
+\index{render\-To\-File@{render\-To\-File}!GVGraph@{\-G\-V\-Graph}}
+\subsubsection[{render\-To\-File}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-G\-V\-Graph\-::render\-To\-File} (
+\begin{DoxyParamCaption}
+\item[{\-Q\-String}]{name}
+\end{DoxyParamCaption}
+)}}\label{class_g_v_graph_a9fee4d22192b53b8b012ed3e72ea92cd}
+
+
+renders the file 
+
+
+\begin{DoxyParams}{\-Parameters}
+{\em \-Qstring} & name of the file you want to render \\
+\hline
+\end{DoxyParams}
+\hypertarget{class_g_v_graph_ae48ac71c72224ac6e6c761fd6e9b3c61}{\index{\-G\-V\-Graph@{\-G\-V\-Graph}!set\-Font@{set\-Font}}
+\index{set\-Font@{set\-Font}!GVGraph@{\-G\-V\-Graph}}
+\subsubsection[{set\-Font}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-G\-V\-Graph\-::set\-Font} (
+\begin{DoxyParamCaption}
+\item[{\-Q\-Font}]{font}
+\end{DoxyParamCaption}
+)}}\label{class_g_v_graph_ae48ac71c72224ac6e6c761fd6e9b3c61}
+
+
+sets the font that will be used in all the labels 
+
+
+\begin{DoxyParams}{\-Parameters}
+{\em \-Q\-Font} & chosen to be used \\
+\hline
+\end{DoxyParams}
+
+
+\-The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+headers/\hyperlink{_g_v_graph_8h}{\-G\-V\-Graph.\-h}\end{DoxyCompactItemize}

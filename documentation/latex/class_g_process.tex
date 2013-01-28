@@ -1,0 +1,176 @@
+\hypertarget{class_g_process}{\section{\-G\-Process \-Class \-Reference}
+\label{class_g_process}\index{\-G\-Process@{\-G\-Process}}
+}
+
+
+contains style and layout info to draw a process  
+
+
+
+
+{\ttfamily \#include $<$\-G\-Process.\-h$>$}
+
+\subsection*{\-Public \-Member \-Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_g_process_a4547d1c5884879d599de7b5de2cf7fcb}{\-G\-Process} (\-Process\-Ptr p, \hyperlink{struct_g_v_node}{\-G\-V\-Node} n, qreal graph\-D\-P\-I)
+\begin{DoxyCompactList}\small\item\em constructor \end{DoxyCompactList}\item 
+\-Q\-Graphics\-Item $\ast$ \hyperlink{class_g_process_abc8cdf8bb0a8402a1b507005be3a97f9}{get\-Display\-Item} (void)
+\begin{DoxyCompactList}\small\item\em gets the display \end{DoxyCompactList}\item 
+\hypertarget{class_g_process_a3b19ac4a7cd4558a7e5d78b83f2e1bd8}{\-Q\-Graphics\-Ellipse\-Item $\ast$ \hyperlink{class_g_process_a3b19ac4a7cd4558a7e5d78b83f2e1bd8}{get\-Ellipse\-Item} ()}\label{class_g_process_a3b19ac4a7cd4558a7e5d78b83f2e1bd8}
+
+\begin{DoxyCompactList}\small\item\em gets the ellipse \end{DoxyCompactList}\item 
+\hyperlink{struct_g_v_node}{\-G\-V\-Node} $\ast$ \hyperlink{class_g_process_a9d26b9dad04fd1cb89851d9ae0a3be0f}{get\-Node} ()
+\begin{DoxyCompactList}\small\item\em gets the related \hyperlink{struct_g_v_node}{\-G\-V\-Node} \end{DoxyCompactList}\item 
+\hypertarget{class_g_process_ad369ac5613ff46bcabf93eafd37f006e}{\-Q\-Graphics\-Rect\-Item $\ast$ \hyperlink{class_g_process_ad369ac5613ff46bcabf93eafd37f006e}{get\-Margin\-Rect} ()}\label{class_g_process_ad369ac5613ff46bcabf93eafd37f006e}
+
+\begin{DoxyCompactList}\small\item\em gets the rect item that represents the margin of this \hyperlink{class_g_process}{\-G\-Process} \end{DoxyCompactList}\item 
+void \hyperlink{class_g_process_a617697e8c6615615c988dd5b24a3679d}{set\-Node\-Coords} (int dx, int dy)
+\begin{DoxyCompactList}\small\item\em updates the related \hyperlink{struct_g_v_node}{\-G\-V\-Node}'s coordinates with a vector \end{DoxyCompactList}\item 
+void \hyperlink{class_g_process_a7cea82b28af35301adb9b57eabdcd655}{set\-Node} (\hyperlink{struct_g_v_node}{\-G\-V\-Node} gvnode)
+\begin{DoxyCompactList}\small\item\em sets the related \hyperlink{struct_g_v_node}{\-G\-V\-Node} structure \end{DoxyCompactList}\item 
+bool \hyperlink{class_g_process_a5d4e69825de4164b800ff832d9279715}{check\-Collisions} ()
+\begin{DoxyCompactList}\small\item\em checks collisions with margins of other \hyperlink{class_g_process}{\-G\-Process} items (see graph attribute \char`\"{}sep\char`\"{} in \hyperlink{class_g_v_sub_graph}{\-G\-V\-Sub\-Graph}) \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{\-Protected \-Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{class_g_process_afcb6a6765219d5ca69f23b89a147a7db}{\-Q\-Graphics\-Item $\ast$ \hyperlink{class_g_process_afcb6a6765219d5ca69f23b89a147a7db}{display}}\label{class_g_process_afcb6a6765219d5ca69f23b89a147a7db}
+
+\begin{DoxyCompactList}\small\item\em the graphical item representing the \hyperlink{class_process}{\-Process} \end{DoxyCompactList}\item 
+\hypertarget{class_g_process_ac0770d84d26f835cd409cb1bbd5a2408}{\-Q\-Graphics\-Ellipse\-Item $\ast$ \hyperlink{class_g_process_ac0770d84d26f835cd409cb1bbd5a2408}{ellipse}}\label{class_g_process_ac0770d84d26f835cd409cb1bbd5a2408}
+
+\begin{DoxyCompactList}\small\item\em the graphical item representing the ellipse of the \hyperlink{class_process}{\-Process} \end{DoxyCompactList}\item 
+\hypertarget{class_g_process_a4ff36f4f6daae75d094c53d837ad4ecc}{\-Q\-Graphics\-Text\-Item $\ast$ \hyperlink{class_g_process_a4ff36f4f6daae75d094c53d837ad4ecc}{text}}\label{class_g_process_a4ff36f4f6daae75d094c53d837ad4ecc}
+
+\begin{DoxyCompactList}\small\item\em the graphical item representing the text of the \hyperlink{class_process}{\-Process} \end{DoxyCompactList}\item 
+\hypertarget{class_g_process_adb2d4b43a105c00b5be1f5bc405a3f43}{\-Process\-Ptr \hyperlink{class_g_process_adb2d4b43a105c00b5be1f5bc405a3f43}{process}}\label{class_g_process_adb2d4b43a105c00b5be1f5bc405a3f43}
+
+\begin{DoxyCompactList}\small\item\em the related \hyperlink{class_process}{\-Process} \end{DoxyCompactList}\item 
+\hypertarget{class_g_process_a83a9972757f06e9eff7fe120ac9f2b5b}{\hyperlink{struct_g_v_node}{\-G\-V\-Node} \hyperlink{class_g_process_a83a9972757f06e9eff7fe120ac9f2b5b}{node}}\label{class_g_process_a83a9972757f06e9eff7fe120ac9f2b5b}
+
+\begin{DoxyCompactList}\small\item\em the related node \end{DoxyCompactList}\item 
+\hypertarget{class_g_process_a9488cf1e4bf4351233aaaa1c1bc67370}{\-Q\-Graphics\-Rect\-Item $\ast$ \hyperlink{class_g_process_a9488cf1e4bf4351233aaaa1c1bc67370}{margin\-Rect}}\label{class_g_process_a9488cf1e4bf4351233aaaa1c1bc67370}
+
+\begin{DoxyCompactList}\small\item\em the margin around this process, must exclude any other process' margin (cf. graphviz attribute \char`\"{}pos\char`\"{} in \hyperlink{class_g_v_sub_graph}{\-G\-V\-Sub\-Graph}) \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{\-Static \-Protected \-Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{class_g_process_a94d91ce9eef85fe8d4f97f7c3ab8ee98}{static const int \hyperlink{class_g_process_a94d91ce9eef85fe8d4f97f7c3ab8ee98}{margin\-Zone}}\label{class_g_process_a94d91ce9eef85fe8d4f97f7c3ab8ee98}
+
+\begin{DoxyCompactList}\small\item\em arbitrarily-\/chosen key for \char`\"{}margin item\char`\"{} data \end{DoxyCompactList}\item 
+\hypertarget{class_g_process_a8dd5428c10ff4d7317b244630aa13012}{static const int \hyperlink{class_g_process_a8dd5428c10ff4d7317b244630aa13012}{sort\-Name}}\label{class_g_process_a8dd5428c10ff4d7317b244630aa13012}
+
+\begin{DoxyCompactList}\small\item\em arbitrarily-\/chosen key for sort name data \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+contains style and layout info to draw a process 
+
+\subsection{\-Constructor \& \-Destructor \-Documentation}
+\hypertarget{class_g_process_a4547d1c5884879d599de7b5de2cf7fcb}{\index{\-G\-Process@{\-G\-Process}!\-G\-Process@{\-G\-Process}}
+\index{\-G\-Process@{\-G\-Process}!GProcess@{\-G\-Process}}
+\subsubsection[{\-G\-Process}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-G\-Process\-::\-G\-Process} (
+\begin{DoxyParamCaption}
+\item[{\-Process\-Ptr}]{p, }
+\item[{{\bf \-G\-V\-Node}}]{n, }
+\item[{qreal}]{graph\-D\-P\-I}
+\end{DoxyParamCaption}
+)}}\label{class_g_process_a4547d1c5884879d599de7b5de2cf7fcb}
+
+
+constructor 
+
+
+\begin{DoxyParams}{\-Parameters}
+{\em \-Process\-Ptr} & the related \hyperlink{class_process}{\-Process} object \\
+\hline
+{\em \hyperlink{struct_g_v_node}{\-G\-V\-Node}} & the object that contains style and layout info \\
+\hline
+{\em qreal} & graph \-D\-P\-I value (graphviz) \\
+\hline
+\end{DoxyParams}
+
+
+\subsection{\-Member \-Function \-Documentation}
+\hypertarget{class_g_process_a5d4e69825de4164b800ff832d9279715}{\index{\-G\-Process@{\-G\-Process}!check\-Collisions@{check\-Collisions}}
+\index{check\-Collisions@{check\-Collisions}!GProcess@{\-G\-Process}}
+\subsubsection[{check\-Collisions}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf \-G\-Process\-::check\-Collisions} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_g_process_a5d4e69825de4164b800ff832d9279715}
+
+
+checks collisions with margins of other \hyperlink{class_g_process}{\-G\-Process} items (see graph attribute \char`\"{}sep\char`\"{} in \hyperlink{class_g_v_sub_graph}{\-G\-V\-Sub\-Graph}) 
+
+\begin{DoxyReturn}{\-Returns}
+bool true if this \hyperlink{class_g_process}{\-G\-Process}' margin collides with another one's margin (of a different sort), else false 
+\end{DoxyReturn}
+\hypertarget{class_g_process_abc8cdf8bb0a8402a1b507005be3a97f9}{\index{\-G\-Process@{\-G\-Process}!get\-Display\-Item@{get\-Display\-Item}}
+\index{get\-Display\-Item@{get\-Display\-Item}!GProcess@{\-G\-Process}}
+\subsubsection[{get\-Display\-Item}]{\setlength{\rightskip}{0pt plus 5cm}\-Q\-Graphics\-Item$\ast$ {\bf \-G\-Process\-::get\-Display\-Item} (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{class_g_process_abc8cdf8bb0a8402a1b507005be3a97f9}
+
+
+gets the display 
+
+\begin{DoxyReturn}{\-Returns}
+\-Q\-Graphics\-Item the graphical item representing the \hyperlink{class_process}{\-Process} 
+\end{DoxyReturn}
+\hypertarget{class_g_process_a9d26b9dad04fd1cb89851d9ae0a3be0f}{\index{\-G\-Process@{\-G\-Process}!get\-Node@{get\-Node}}
+\index{get\-Node@{get\-Node}!GProcess@{\-G\-Process}}
+\subsubsection[{get\-Node}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-G\-V\-Node}$\ast$ {\bf \-G\-Process\-::get\-Node} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_g_process_a9d26b9dad04fd1cb89851d9ae0a3be0f}
+
+
+gets the related \hyperlink{struct_g_v_node}{\-G\-V\-Node} 
+
+\begin{DoxyReturn}{\-Returns}
+the related \hyperlink{struct_g_v_node}{\-G\-V\-Node} 
+\end{DoxyReturn}
+\hypertarget{class_g_process_a7cea82b28af35301adb9b57eabdcd655}{\index{\-G\-Process@{\-G\-Process}!set\-Node@{set\-Node}}
+\index{set\-Node@{set\-Node}!GProcess@{\-G\-Process}}
+\subsubsection[{set\-Node}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-G\-Process\-::set\-Node} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-G\-V\-Node}}]{gvnode}
+\end{DoxyParamCaption}
+)}}\label{class_g_process_a7cea82b28af35301adb9b57eabdcd655}
+
+
+sets the related \hyperlink{struct_g_v_node}{\-G\-V\-Node} structure 
+
+
+\begin{DoxyParams}{\-Parameters}
+{\em \hyperlink{struct_g_v_node}{\-G\-V\-Node}} & the \hyperlink{struct_g_v_node}{\-G\-V\-Node} to copy geometry from \\
+\hline
+\end{DoxyParams}
+\hypertarget{class_g_process_a617697e8c6615615c988dd5b24a3679d}{\index{\-G\-Process@{\-G\-Process}!set\-Node\-Coords@{set\-Node\-Coords}}
+\index{set\-Node\-Coords@{set\-Node\-Coords}!GProcess@{\-G\-Process}}
+\subsubsection[{set\-Node\-Coords}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-G\-Process\-::set\-Node\-Coords} (
+\begin{DoxyParamCaption}
+\item[{int}]{dx, }
+\item[{int}]{dy}
+\end{DoxyParamCaption}
+)}}\label{class_g_process_a617697e8c6615615c988dd5b24a3679d}
+
+
+updates the related \hyperlink{struct_g_v_node}{\-G\-V\-Node}'s coordinates with a vector 
+
+
+\begin{DoxyParams}{\-Parameters}
+{\em int} & dx the horizontal component of the translation \\
+\hline
+{\em int} & dy the vertical component of the translation \\
+\hline
+\end{DoxyParams}
+
+
+\-The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+headers/\hyperlink{_g_process_8h}{\-G\-Process.\-h}\end{DoxyCompactItemize}

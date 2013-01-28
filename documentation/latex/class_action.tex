@@ -1,0 +1,163 @@
+\hypertarget{class_action}{\section{\-Action \-Class \-Reference}
+\label{class_action}\index{\-Action@{\-Action}}
+}
+
+
+\-Represents an \hyperlink{class_action}{\-Action} of the process hitting.  
+
+
+
+
+{\ttfamily \#include $<$\-Action.\-h$>$}
+
+\subsection*{\-Public \-Member \-Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_action_a813d7e506bed06d58988b8efa46371c7}{\-Action} (\-Process\-Ptr source\-\_\-, \-Process\-Ptr target\-\_\-, \-Process\-Ptr result\-\_\-, const bool \&infinite\-Rate\-\_\-, const double \&r\-\_\-, const int \&sa\-\_\-)
+\begin{DoxyCompactList}\small\item\em constructor \end{DoxyCompactList}\item 
+\-Process\-Ptr \hyperlink{class_action_a19ce83cb05f0823e2426549108b29c55}{get\-Source} ()
+\begin{DoxyCompactList}\small\item\em gets the source \hyperlink{class_process}{\-Process} \end{DoxyCompactList}\item 
+\-Process\-Ptr \hyperlink{class_action_a1a6bbe7a883a55d0c446ec5e23ae36d6}{get\-Target} ()
+\begin{DoxyCompactList}\small\item\em gets the target \hyperlink{class_process}{\-Process} \end{DoxyCompactList}\item 
+\-Process\-Ptr \hyperlink{class_action_ad2f1969b3f50dd235000c6788a978ba0}{get\-Result} ()
+\begin{DoxyCompactList}\small\item\em gets the result \hyperlink{class_process}{\-Process} \end{DoxyCompactList}\item 
+string \hyperlink{class_action_a0dfc2e29fbaca7c75d60fd3cd8582052}{to\-String} (void)
+\begin{DoxyCompactList}\small\item\em gives a text representation of the \hyperlink{class_process}{\-Process} (as it would be in a .ph file) \end{DoxyCompactList}\item 
+string \hyperlink{class_action_aa38afb2bcdc765b8e905a8c0af68b7a8}{to\-Dot\-String} (void)
+\begin{DoxyCompactList}\small\item\em gives a text representation of the \hyperlink{class_process}{\-Process} (in .dot format, used in \-Graphviz) \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{\-Protected \-Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{class_action_a3c09a49605fcc2f51ee6eb792f7bb9b4}{\-Process\-Ptr \hyperlink{class_action_a3c09a49605fcc2f51ee6eb792f7bb9b4}{source}}\label{class_action_a3c09a49605fcc2f51ee6eb792f7bb9b4}
+
+\begin{DoxyCompactList}\small\item\em the source \hyperlink{class_process}{\-Process} \end{DoxyCompactList}\item 
+\hypertarget{class_action_ac77168b4d172cfc7238cfbb422fa4a98}{\-Process\-Ptr \hyperlink{class_action_ac77168b4d172cfc7238cfbb422fa4a98}{target}}\label{class_action_ac77168b4d172cfc7238cfbb422fa4a98}
+
+\begin{DoxyCompactList}\small\item\em the target \hyperlink{class_process}{\-Process} \end{DoxyCompactList}\item 
+\hypertarget{class_action_a5896c6900916d296ed4220063f24b78d}{\-Process\-Ptr \hyperlink{class_action_a5896c6900916d296ed4220063f24b78d}{result}}\label{class_action_a5896c6900916d296ed4220063f24b78d}
+
+\begin{DoxyCompactList}\small\item\em the result \hyperlink{class_process}{\-Process} \end{DoxyCompactList}\item 
+\hypertarget{class_action_a5107742916f82d9f529f17606ad5ab74}{bool \hyperlink{class_action_a5107742916f82d9f529f17606ad5ab74}{infinite\-Rate}}\label{class_action_a5107742916f82d9f529f17606ad5ab74}
+
+\begin{DoxyCompactList}\small\item\em \-Boolean that determines whether the rate of the hit is infinite or not. \end{DoxyCompactList}\item 
+\hypertarget{class_action_a87bdc737d9edb523ec57adb27adec6b6}{float \hyperlink{class_action_a87bdc737d9edb523ec57adb27adec6b6}{r}}\label{class_action_a87bdc737d9edb523ec57adb27adec6b6}
+
+\begin{DoxyCompactList}\small\item\em the rate of the hit \end{DoxyCompactList}\item 
+\hypertarget{class_action_a5832a567f356f72e4767d84ad6a6212a}{int \hyperlink{class_action_a5832a567f356f72e4767d84ad6a6212a}{sa}}\label{class_action_a5832a567f356f72e4767d84ad6a6212a}
+
+\begin{DoxyCompactList}\small\item\em the stochasticity absorption \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+\-Represents an \hyperlink{class_action}{\-Action} of the process hitting. 
+
+\subsection{\-Constructor \& \-Destructor \-Documentation}
+\hypertarget{class_action_a813d7e506bed06d58988b8efa46371c7}{\index{\-Action@{\-Action}!\-Action@{\-Action}}
+\index{\-Action@{\-Action}!Action@{\-Action}}
+\subsubsection[{\-Action}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Action\-::\-Action} (
+\begin{DoxyParamCaption}
+\item[{\-Process\-Ptr}]{source\-\_\-, }
+\item[{\-Process\-Ptr}]{target\-\_\-, }
+\item[{\-Process\-Ptr}]{result\-\_\-, }
+\item[{const bool \&}]{infinite\-Rate\-\_\-, }
+\item[{const double \&}]{r\-\_\-, }
+\item[{const int \&}]{sa\-\_\-}
+\end{DoxyParamCaption}
+)}}\label{class_action_a813d7e506bed06d58988b8efa46371c7}
+
+
+constructor 
+
+
+\begin{DoxyParams}{\-Parameters}
+{\em \-Process\-Ptr} & the source \hyperlink{class_process}{\-Process} of the hit \\
+\hline
+{\em \-Process\-Ptr} & the target \hyperlink{class_process}{\-Process} of the hit \\
+\hline
+{\em \-Process\-Ptr} & the result of the hit \\
+\hline
+{\em bool} & determines whether the rate of the hit is infinite or not \\
+\hline
+{\em double} & the rate of the hit \\
+\hline
+{\em int} & the stochasticity absorption of the hit \\
+\hline
+\end{DoxyParams}
+
+
+\subsection{\-Member \-Function \-Documentation}
+\hypertarget{class_action_ad2f1969b3f50dd235000c6788a978ba0}{\index{\-Action@{\-Action}!get\-Result@{get\-Result}}
+\index{get\-Result@{get\-Result}!Action@{\-Action}}
+\subsubsection[{get\-Result}]{\setlength{\rightskip}{0pt plus 5cm}\-Process\-Ptr {\bf \-Action\-::get\-Result} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_action_ad2f1969b3f50dd235000c6788a978ba0}
+
+
+gets the result \hyperlink{class_process}{\-Process} 
+
+\begin{DoxyReturn}{\-Returns}
+\-Process\-Ptr pointer to the result \hyperlink{class_process}{\-Process} 
+\end{DoxyReturn}
+\hypertarget{class_action_a19ce83cb05f0823e2426549108b29c55}{\index{\-Action@{\-Action}!get\-Source@{get\-Source}}
+\index{get\-Source@{get\-Source}!Action@{\-Action}}
+\subsubsection[{get\-Source}]{\setlength{\rightskip}{0pt plus 5cm}\-Process\-Ptr {\bf \-Action\-::get\-Source} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_action_a19ce83cb05f0823e2426549108b29c55}
+
+
+gets the source \hyperlink{class_process}{\-Process} 
+
+\begin{DoxyReturn}{\-Returns}
+\-Process\-Ptr pointer to the source \hyperlink{class_process}{\-Process} 
+\end{DoxyReturn}
+\hypertarget{class_action_a1a6bbe7a883a55d0c446ec5e23ae36d6}{\index{\-Action@{\-Action}!get\-Target@{get\-Target}}
+\index{get\-Target@{get\-Target}!Action@{\-Action}}
+\subsubsection[{get\-Target}]{\setlength{\rightskip}{0pt plus 5cm}\-Process\-Ptr {\bf \-Action\-::get\-Target} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_action_a1a6bbe7a883a55d0c446ec5e23ae36d6}
+
+
+gets the target \hyperlink{class_process}{\-Process} 
+
+\begin{DoxyReturn}{\-Returns}
+\-Process\-Ptr pointer to the target \hyperlink{class_process}{\-Process} 
+\end{DoxyReturn}
+\hypertarget{class_action_aa38afb2bcdc765b8e905a8c0af68b7a8}{\index{\-Action@{\-Action}!to\-Dot\-String@{to\-Dot\-String}}
+\index{to\-Dot\-String@{to\-Dot\-String}!Action@{\-Action}}
+\subsubsection[{to\-Dot\-String}]{\setlength{\rightskip}{0pt plus 5cm}string {\bf \-Action\-::to\-Dot\-String} (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{class_action_aa38afb2bcdc765b8e905a8c0af68b7a8}
+
+
+gives a text representation of the \hyperlink{class_process}{\-Process} (in .dot format, used in \-Graphviz) 
+
+\begin{DoxyReturn}{\-Returns}
+string the text representation of the \hyperlink{class_process}{\-Process} 
+\end{DoxyReturn}
+\hypertarget{class_action_a0dfc2e29fbaca7c75d60fd3cd8582052}{\index{\-Action@{\-Action}!to\-String@{to\-String}}
+\index{to\-String@{to\-String}!Action@{\-Action}}
+\subsubsection[{to\-String}]{\setlength{\rightskip}{0pt plus 5cm}string {\bf \-Action\-::to\-String} (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{class_action_a0dfc2e29fbaca7c75d60fd3cd8582052}
+
+
+gives a text representation of the \hyperlink{class_process}{\-Process} (as it would be in a .ph file) 
+
+\begin{DoxyReturn}{\-Returns}
+string the text representation of the \hyperlink{class_process}{\-Process} 
+\end{DoxyReturn}
+
+
+\-The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+headers/\hyperlink{_action_8h}{\-Action.\-h}\end{DoxyCompactItemize}

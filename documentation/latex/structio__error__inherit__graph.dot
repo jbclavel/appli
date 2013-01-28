@@ -1,0 +1,12 @@
+digraph G
+{
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  Node1 [label="io_error",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled" fontcolor="black"];
+  Node2 -> Node1 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node2 [label="exception_base",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$structexception__base.html",tooltip="struct defining the base of the exception"];
+  Node1 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node3 [label="file_not_exist",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$structfile__not__exist.html",tooltip="struct defining the exception called when the file does not exist extends io_error"];
+  Node1 -> Node4 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node4 [label="not_regular_file",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$structnot__regular__file.html",tooltip="struct defining the exception called when the format of the file is not the one expected extends io_e..."];
+}

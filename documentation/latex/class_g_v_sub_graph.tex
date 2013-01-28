@@ -1,0 +1,419 @@
+\hypertarget{class_g_v_sub_graph}{\section{\-G\-V\-Sub\-Graph \-Class \-Reference}
+\label{class_g_v_sub_graph}\index{\-G\-V\-Sub\-Graph@{\-G\-V\-Sub\-Graph}}
+}
+
+
+the object containing a libraph subgraph and its associated nodes and edges  
+
+
+
+
+{\ttfamily \#include $<$\-G\-V\-Sub\-Graph.\-h$>$}
+
+\-Inheritance diagram for \-G\-V\-Sub\-Graph\-:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_g_v_sub_graph}
+\end{center}
+\end{figure}
+\subsection*{\-Public \-Member \-Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_g_v_sub_graph_a2a830f5288096466cff627fb221003f3}{\-G\-V\-Sub\-Graph} (\-Agraph\-\_\-t $\ast$\hyperlink{class_g_v_sub_graph_ae9ba380851ecbc611bbe9cd2980ba152}{\-\_\-graph})
+\begin{DoxyCompactList}\small\item\em \hyperlink{class_g_v_sub_graph}{\-G\-V\-Sub\-Graph} constructor. \end{DoxyCompactList}\item 
+void \hyperlink{class_g_v_sub_graph_a7999f5541dde4ad692b8f1765675e106}{add\-Sub\-Graph} (const \-Q\-String \&name)
+\begin{DoxyCompactList}\small\item\em adds a subgraph \end{DoxyCompactList}\item 
+void \hyperlink{class_g_v_sub_graph_a1bed9f509bbe210754ed6e2878a75dff}{remove\-Sub\-Graph} (const \-Q\-String \&name)
+\begin{DoxyCompactList}\small\item\em removes a subgraph \end{DoxyCompactList}\item 
+\-G\-V\-Sub\-Graph\-Ptr \hyperlink{class_g_v_sub_graph_abfbc0deb675aaf2e0bf0551b17506818}{get\-Sub\-Graph} (const \-Q\-String \&name)
+\begin{DoxyCompactList}\small\item\em retrieves a \hyperlink{class_g_v_sub_graph}{\-G\-V\-Sub\-Graph} by its name \end{DoxyCompactList}\item 
+int \hyperlink{class_g_v_sub_graph_af0087db5d9f5a53132f1b46b636377f9}{count\-Nodes} (void)
+\begin{DoxyCompactList}\small\item\em counts the number of nodes \end{DoxyCompactList}\item 
+void \hyperlink{class_g_v_sub_graph_a99ea8e4c658ea76fc5425644a460362d}{add\-Node} (const \-Q\-String \&name)
+\begin{DoxyCompactList}\small\item\em adds a node, entering its name \end{DoxyCompactList}\item 
+void \hyperlink{class_g_v_sub_graph_af805b3fbfb96c0b1cb99ecc311f1a7f8}{add\-Nodes} (const \-Q\-String\-List \&names)
+\begin{DoxyCompactList}\small\item\em adds a list of nodes, entering their names \end{DoxyCompactList}\item 
+void \hyperlink{class_g_v_sub_graph_ac97b366dadeeb5ac8999ee6b22dd7dd4}{remove\-Node} (const \-Q\-String \&name)
+\begin{DoxyCompactList}\small\item\em removes a node, entering its name \end{DoxyCompactList}\item 
+\hypertarget{class_g_v_sub_graph_a57609be587187f492288d224216b3b14}{void \hyperlink{class_g_v_sub_graph_a57609be587187f492288d224216b3b14}{clear\-Nodes} ()}\label{class_g_v_sub_graph_a57609be587187f492288d224216b3b14}
+
+\begin{DoxyCompactList}\small\item\em removes all the nodes \end{DoxyCompactList}\item 
+void \hyperlink{class_g_v_sub_graph_a84df91480a9e3c7ec38658b475e13d90}{add\-Edge} (const \-Q\-String \&source, const \-Q\-String \&target)
+\begin{DoxyCompactList}\small\item\em adds an edge \end{DoxyCompactList}\item 
+void \hyperlink{class_g_v_sub_graph_adeec195e6301f14864ad3cf4ecb2a7e6}{remove\-Edge} (const \-Q\-String \&source, const \-Q\-String \&target)
+\begin{DoxyCompactList}\small\item\em removes an edge \end{DoxyCompactList}\item 
+void \hyperlink{class_g_v_sub_graph_a42c2d7c92a223e40364c13fdb1cc46e8}{remove\-Edge} (const \-Q\-Pair$<$ \-Q\-String, \-Q\-String $>$ \&key)
+\begin{DoxyCompactList}\small\item\em removes an edge, entering the pair (source, target) \end{DoxyCompactList}\item 
+void \hyperlink{class_g_v_sub_graph_a14a5e0a85c54220e4908e2692576e62b}{set\-Label} (const \-Q\-String \&name)
+\begin{DoxyCompactList}\small\item\em sets the label \end{DoxyCompactList}\item 
+\-Q\-List$<$ \hyperlink{struct_g_v_node}{\-G\-V\-Node} $>$ \hyperlink{class_g_v_sub_graph_a777c2146e514db2ccded4b3f77993155}{nodes} ()
+\begin{DoxyCompactList}\small\item\em gets the list of nodes \end{DoxyCompactList}\item 
+\-Q\-List$<$ \hyperlink{struct_g_v_cluster}{\-G\-V\-Cluster} $>$ \hyperlink{class_g_v_sub_graph_a52594db2f31cfb221820cbd48b6d3530}{clusters} ()
+\begin{DoxyCompactList}\small\item\em gets the list of clusters \end{DoxyCompactList}\item 
+\-Q\-List$<$ \hyperlink{struct_g_v_edge}{\-G\-V\-Edge} $>$ \hyperlink{class_g_v_sub_graph_a88469fa80e33d2506cde3b6352c3c508}{edges} ()
+\begin{DoxyCompactList}\small\item\em gets the list of edges \end{DoxyCompactList}\item 
+\-Agedge\-\_\-t $\ast$ \hyperlink{class_g_v_sub_graph_a08f91a0026b7c196b32dff8d3ca5501a}{get\-Edge} (const \-Q\-String \&source\-Name, const \-Q\-String \&target\-Name)
+\begin{DoxyCompactList}\small\item\em gets a graphviz edge by its source node name and target node name \end{DoxyCompactList}\item 
+\-Agnode\-\_\-t $\ast$ \hyperlink{class_g_v_sub_graph_aaa1df9ed6bbd2ea697646e8bbfb571da}{get\-Node} (const \-Q\-String \&name)
+\begin{DoxyCompactList}\small\item\em gets a node by its name \end{DoxyCompactList}\item 
+\-Agraph\-\_\-t $\ast$ \hyperlink{class_g_v_sub_graph_afe1b1ea41e096fa0de3ced0cbb0d55ac}{graph} ()
+\begin{DoxyCompactList}\small\item\em gets the graphviz graph struct of this \hyperlink{class_g_v_sub_graph}{\-G\-V\-Sub\-Graph} \end{DoxyCompactList}\item 
+qreal \hyperlink{class_g_v_sub_graph_a0405ca939a02f54ccdf044a5a6f4ff6b}{get\-D\-P\-I} ()
+\begin{DoxyCompactList}\small\item\em gets the \-D\-P\-I value \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{\-Static \-Public \-Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{class_g_v_sub_graph_acad7d627217c64966125e7701142c40b}{static const qreal \hyperlink{class_g_v_sub_graph_acad7d627217c64966125e7701142c40b}{node\-Size}}\label{class_g_v_sub_graph_acad7d627217c64966125e7701142c40b}
+
+\begin{DoxyCompactList}\small\item\em the size in pixels of each node \end{DoxyCompactList}\item 
+\hypertarget{class_g_v_sub_graph_a943be36f1628be27837f3f99a0ec7789}{static const qreal \hyperlink{class_g_v_sub_graph_a943be36f1628be27837f3f99a0ec7789}{sep\-Value}}\label{class_g_v_sub_graph_a943be36f1628be27837f3f99a0ec7789}
+
+\begin{DoxyCompactList}\small\item\em the minimum margin around each node (in points for graphviz) \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{\-Protected \-Member \-Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{class_g_v_sub_graph_a6f94775bfde0ef47c59df8a7e6510aaf}{void \hyperlink{class_g_v_sub_graph_a6f94775bfde0ef47c59df8a7e6510aaf}{set\-Graph\-Attributes} (void)}\label{class_g_v_sub_graph_a6f94775bfde0ef47c59df8a7e6510aaf}
+
+\begin{DoxyCompactList}\small\item\em sets the \-Graph \-Attributes \end{DoxyCompactList}\item 
+bool \hyperlink{class_g_v_sub_graph_af55511f05fe4d65e122cc77c2d02a706}{has\-Node} (const \-Q\-String \&name)
+\begin{DoxyCompactList}\small\item\em checks if the node exists \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{\-Protected \-Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{class_g_v_sub_graph_ae9ba380851ecbc611bbe9cd2980ba152}{\-Agraph\-\_\-t $\ast$ \hyperlink{class_g_v_sub_graph_ae9ba380851ecbc611bbe9cd2980ba152}{\-\_\-graph}}\label{class_g_v_sub_graph_ae9ba380851ecbc611bbe9cd2980ba152}
+
+\begin{DoxyCompactList}\small\item\em \-Agraph\-\_\-t the related \-Graphviz graph. \end{DoxyCompactList}\item 
+\hypertarget{class_g_v_sub_graph_ab994dac998f44c0566567d9cf28c5aae}{\-Q\-Map$<$ \-Q\-String, \-Agnode\-\_\-t $\ast$ $>$ {\bfseries \-\_\-nodes}}\label{class_g_v_sub_graph_ab994dac998f44c0566567d9cf28c5aae}
+
+\item 
+\hypertarget{class_g_v_sub_graph_a4bfd077344f6c2c530bb614b347ee7e0}{\-Q\-Map$<$ \-Q\-String, \-G\-V\-Sub\-Graph\-Ptr $>$ {\bfseries \-\_\-subgraphs}}\label{class_g_v_sub_graph_a4bfd077344f6c2c530bb614b347ee7e0}
+
+\item 
+\hypertarget{class_g_v_sub_graph_af3e72648f3a35641ca27b948791e32ca}{\-Q\-Map$<$ \-Q\-Pair$<$ \-Q\-String, \-Q\-String $>$\*
+, \-Agedge\-\_\-t $\ast$ $>$ {\bfseries \-\_\-edges}}\label{class_g_v_sub_graph_af3e72648f3a35641ca27b948791e32ca}
+
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+the object containing a libraph subgraph and its associated nodes and edges 
+
+\subsection{\-Constructor \& \-Destructor \-Documentation}
+\hypertarget{class_g_v_sub_graph_a2a830f5288096466cff627fb221003f3}{\index{\-G\-V\-Sub\-Graph@{\-G\-V\-Sub\-Graph}!\-G\-V\-Sub\-Graph@{\-G\-V\-Sub\-Graph}}
+\index{\-G\-V\-Sub\-Graph@{\-G\-V\-Sub\-Graph}!GVSubGraph@{\-G\-V\-Sub\-Graph}}
+\subsubsection[{\-G\-V\-Sub\-Graph}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-G\-V\-Sub\-Graph\-::\-G\-V\-Sub\-Graph} (
+\begin{DoxyParamCaption}
+\item[{\-Agraph\-\_\-t $\ast$}]{\-\_\-graph}
+\end{DoxyParamCaption}
+)}}\label{class_g_v_sub_graph_a2a830f5288096466cff627fb221003f3}
+
+
+\hyperlink{class_g_v_sub_graph}{\-G\-V\-Sub\-Graph} constructor. 
+
+
+\begin{DoxyParams}{\-Parameters}
+{\em \-Agraph\-\_\-t} & \-\_\-graph a \-Graphviz graph \\
+\hline
+\end{DoxyParams}
+
+
+\subsection{\-Member \-Function \-Documentation}
+\hypertarget{class_g_v_sub_graph_a84df91480a9e3c7ec38658b475e13d90}{\index{\-G\-V\-Sub\-Graph@{\-G\-V\-Sub\-Graph}!add\-Edge@{add\-Edge}}
+\index{add\-Edge@{add\-Edge}!GVSubGraph@{\-G\-V\-Sub\-Graph}}
+\subsubsection[{add\-Edge}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-G\-V\-Sub\-Graph\-::add\-Edge} (
+\begin{DoxyParamCaption}
+\item[{const \-Q\-String \&}]{source, }
+\item[{const \-Q\-String \&}]{target}
+\end{DoxyParamCaption}
+)}}\label{class_g_v_sub_graph_a84df91480a9e3c7ec38658b475e13d90}
+
+
+adds an edge 
+
+\-Q\-String the name of the edge's source \-Q\-String the name of the edge's target \hypertarget{class_g_v_sub_graph_a99ea8e4c658ea76fc5425644a460362d}{\index{\-G\-V\-Sub\-Graph@{\-G\-V\-Sub\-Graph}!add\-Node@{add\-Node}}
+\index{add\-Node@{add\-Node}!GVSubGraph@{\-G\-V\-Sub\-Graph}}
+\subsubsection[{add\-Node}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-G\-V\-Sub\-Graph\-::add\-Node} (
+\begin{DoxyParamCaption}
+\item[{const \-Q\-String \&}]{name}
+\end{DoxyParamCaption}
+)}}\label{class_g_v_sub_graph_a99ea8e4c658ea76fc5425644a460362d}
+
+
+adds a node, entering its name 
+
+
+\begin{DoxyParams}{\-Parameters}
+{\em \-Q\-String} & the name of the node to be added \\
+\hline
+\end{DoxyParams}
+\hypertarget{class_g_v_sub_graph_af805b3fbfb96c0b1cb99ecc311f1a7f8}{\index{\-G\-V\-Sub\-Graph@{\-G\-V\-Sub\-Graph}!add\-Nodes@{add\-Nodes}}
+\index{add\-Nodes@{add\-Nodes}!GVSubGraph@{\-G\-V\-Sub\-Graph}}
+\subsubsection[{add\-Nodes}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-G\-V\-Sub\-Graph\-::add\-Nodes} (
+\begin{DoxyParamCaption}
+\item[{const \-Q\-String\-List \&}]{names}
+\end{DoxyParamCaption}
+)}}\label{class_g_v_sub_graph_af805b3fbfb96c0b1cb99ecc311f1a7f8}
+
+
+adds a list of nodes, entering their names 
+
+
+\begin{DoxyParams}{\-Parameters}
+{\em \-Q\-String\-List} & the list of the names of the nodes to be added \\
+\hline
+\end{DoxyParams}
+\hypertarget{class_g_v_sub_graph_a7999f5541dde4ad692b8f1765675e106}{\index{\-G\-V\-Sub\-Graph@{\-G\-V\-Sub\-Graph}!add\-Sub\-Graph@{add\-Sub\-Graph}}
+\index{add\-Sub\-Graph@{add\-Sub\-Graph}!GVSubGraph@{\-G\-V\-Sub\-Graph}}
+\subsubsection[{add\-Sub\-Graph}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-G\-V\-Sub\-Graph\-::add\-Sub\-Graph} (
+\begin{DoxyParamCaption}
+\item[{const \-Q\-String \&}]{name}
+\end{DoxyParamCaption}
+)}}\label{class_g_v_sub_graph_a7999f5541dde4ad692b8f1765675e106}
+
+
+adds a subgraph 
+
+
+\begin{DoxyParams}{\-Parameters}
+{\em \-Q\-String} & the name of the \-Sub\-Graph to be added \\
+\hline
+\end{DoxyParams}
+\hypertarget{class_g_v_sub_graph_a52594db2f31cfb221820cbd48b6d3530}{\index{\-G\-V\-Sub\-Graph@{\-G\-V\-Sub\-Graph}!clusters@{clusters}}
+\index{clusters@{clusters}!GVSubGraph@{\-G\-V\-Sub\-Graph}}
+\subsubsection[{clusters}]{\setlength{\rightskip}{0pt plus 5cm}\-Q\-List$<${\bf \-G\-V\-Cluster}$>$ {\bf \-G\-V\-Sub\-Graph\-::clusters} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_g_v_sub_graph_a52594db2f31cfb221820cbd48b6d3530}
+
+
+gets the list of clusters 
+
+\begin{DoxyReturn}{\-Returns}
+the list of clusters 
+\end{DoxyReturn}
+\hypertarget{class_g_v_sub_graph_af0087db5d9f5a53132f1b46b636377f9}{\index{\-G\-V\-Sub\-Graph@{\-G\-V\-Sub\-Graph}!count\-Nodes@{count\-Nodes}}
+\index{count\-Nodes@{count\-Nodes}!GVSubGraph@{\-G\-V\-Sub\-Graph}}
+\subsubsection[{count\-Nodes}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf \-G\-V\-Sub\-Graph\-::count\-Nodes} (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{class_g_v_sub_graph_af0087db5d9f5a53132f1b46b636377f9}
+
+
+counts the number of nodes 
+
+\begin{DoxyReturn}{\-Returns}
+int the number of nodes 
+\end{DoxyReturn}
+\hypertarget{class_g_v_sub_graph_a88469fa80e33d2506cde3b6352c3c508}{\index{\-G\-V\-Sub\-Graph@{\-G\-V\-Sub\-Graph}!edges@{edges}}
+\index{edges@{edges}!GVSubGraph@{\-G\-V\-Sub\-Graph}}
+\subsubsection[{edges}]{\setlength{\rightskip}{0pt plus 5cm}\-Q\-List$<${\bf \-G\-V\-Edge}$>$ {\bf \-G\-V\-Sub\-Graph\-::edges} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_g_v_sub_graph_a88469fa80e33d2506cde3b6352c3c508}
+
+
+gets the list of edges 
+
+\begin{DoxyReturn}{\-Returns}
+the list of edges 
+\end{DoxyReturn}
+\hypertarget{class_g_v_sub_graph_a0405ca939a02f54ccdf044a5a6f4ff6b}{\index{\-G\-V\-Sub\-Graph@{\-G\-V\-Sub\-Graph}!get\-D\-P\-I@{get\-D\-P\-I}}
+\index{get\-D\-P\-I@{get\-D\-P\-I}!GVSubGraph@{\-G\-V\-Sub\-Graph}}
+\subsubsection[{get\-D\-P\-I}]{\setlength{\rightskip}{0pt plus 5cm}qreal {\bf \-G\-V\-Sub\-Graph\-::get\-D\-P\-I} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_g_v_sub_graph_a0405ca939a02f54ccdf044a5a6f4ff6b}
+
+
+gets the \-D\-P\-I value 
+
+\begin{DoxyReturn}{\-Returns}
+qreal the \-D\-P\-I value 
+\end{DoxyReturn}
+\hypertarget{class_g_v_sub_graph_a08f91a0026b7c196b32dff8d3ca5501a}{\index{\-G\-V\-Sub\-Graph@{\-G\-V\-Sub\-Graph}!get\-Edge@{get\-Edge}}
+\index{get\-Edge@{get\-Edge}!GVSubGraph@{\-G\-V\-Sub\-Graph}}
+\subsubsection[{get\-Edge}]{\setlength{\rightskip}{0pt plus 5cm}\-Agedge\-\_\-t$\ast$ {\bf \-G\-V\-Sub\-Graph\-::get\-Edge} (
+\begin{DoxyParamCaption}
+\item[{const \-Q\-String \&}]{source\-Name, }
+\item[{const \-Q\-String \&}]{target\-Name}
+\end{DoxyParamCaption}
+)}}\label{class_g_v_sub_graph_a08f91a0026b7c196b32dff8d3ca5501a}
+
+
+gets a graphviz edge by its source node name and target node name 
+
+
+\begin{DoxyParams}{\-Parameters}
+{\em \-Q\-String} & the name of the source node \\
+\hline
+{\em \-Q\-String} & the name of the target name \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+\-Agedge\-\_\-t$\ast$ a pointer to the retrieved edge 
+\end{DoxyReturn}
+\hypertarget{class_g_v_sub_graph_aaa1df9ed6bbd2ea697646e8bbfb571da}{\index{\-G\-V\-Sub\-Graph@{\-G\-V\-Sub\-Graph}!get\-Node@{get\-Node}}
+\index{get\-Node@{get\-Node}!GVSubGraph@{\-G\-V\-Sub\-Graph}}
+\subsubsection[{get\-Node}]{\setlength{\rightskip}{0pt plus 5cm}\-Agnode\-\_\-t$\ast$ {\bf \-G\-V\-Sub\-Graph\-::get\-Node} (
+\begin{DoxyParamCaption}
+\item[{const \-Q\-String \&}]{name}
+\end{DoxyParamCaption}
+)}}\label{class_g_v_sub_graph_aaa1df9ed6bbd2ea697646e8bbfb571da}
+
+
+gets a node by its name 
+
+
+\begin{DoxyParams}{\-Parameters}
+{\em \-Q\-String} & the name of the node \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+\-Agnode\-\_\-t$\ast$ a pointer to the retrieved node 
+\end{DoxyReturn}
+\hypertarget{class_g_v_sub_graph_abfbc0deb675aaf2e0bf0551b17506818}{\index{\-G\-V\-Sub\-Graph@{\-G\-V\-Sub\-Graph}!get\-Sub\-Graph@{get\-Sub\-Graph}}
+\index{get\-Sub\-Graph@{get\-Sub\-Graph}!GVSubGraph@{\-G\-V\-Sub\-Graph}}
+\subsubsection[{get\-Sub\-Graph}]{\setlength{\rightskip}{0pt plus 5cm}\-G\-V\-Sub\-Graph\-Ptr {\bf \-G\-V\-Sub\-Graph\-::get\-Sub\-Graph} (
+\begin{DoxyParamCaption}
+\item[{const \-Q\-String \&}]{name}
+\end{DoxyParamCaption}
+)}}\label{class_g_v_sub_graph_abfbc0deb675aaf2e0bf0551b17506818}
+
+
+retrieves a \hyperlink{class_g_v_sub_graph}{\-G\-V\-Sub\-Graph} by its name 
+
+
+\begin{DoxyParams}{\-Parameters}
+{\em \-Q\-String} & the name of the \hyperlink{class_g_v_sub_graph}{\-G\-V\-Sub\-Graph} to be retrieved \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+\-G\-V\-Sub\-Graph\-Ptr the pointer to the retrieved \hyperlink{class_g_v_sub_graph}{\-G\-V\-Sub\-Graph} 
+\end{DoxyReturn}
+\hypertarget{class_g_v_sub_graph_afe1b1ea41e096fa0de3ced0cbb0d55ac}{\index{\-G\-V\-Sub\-Graph@{\-G\-V\-Sub\-Graph}!graph@{graph}}
+\index{graph@{graph}!GVSubGraph@{\-G\-V\-Sub\-Graph}}
+\subsubsection[{graph}]{\setlength{\rightskip}{0pt plus 5cm}\-Agraph\-\_\-t$\ast$ {\bf \-G\-V\-Sub\-Graph\-::graph} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_g_v_sub_graph_afe1b1ea41e096fa0de3ced0cbb0d55ac}
+
+
+gets the graphviz graph struct of this \hyperlink{class_g_v_sub_graph}{\-G\-V\-Sub\-Graph} 
+
+\begin{DoxyReturn}{\-Returns}
+\-Agraph\-\_\-t$\ast$ a pointer to the graph 
+\end{DoxyReturn}
+\hypertarget{class_g_v_sub_graph_af55511f05fe4d65e122cc77c2d02a706}{\index{\-G\-V\-Sub\-Graph@{\-G\-V\-Sub\-Graph}!has\-Node@{has\-Node}}
+\index{has\-Node@{has\-Node}!GVSubGraph@{\-G\-V\-Sub\-Graph}}
+\subsubsection[{has\-Node}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf \-G\-V\-Sub\-Graph\-::has\-Node} (
+\begin{DoxyParamCaption}
+\item[{const \-Q\-String \&}]{name}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}\label{class_g_v_sub_graph_af55511f05fe4d65e122cc77c2d02a706}
+
+
+checks if the node exists 
+
+
+\begin{DoxyParams}{\-Parameters}
+{\em \-Q\-String} & the name of the node which existence is to be checked \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+bool true if node exists, else fase 
+\end{DoxyReturn}
+\hypertarget{class_g_v_sub_graph_a777c2146e514db2ccded4b3f77993155}{\index{\-G\-V\-Sub\-Graph@{\-G\-V\-Sub\-Graph}!nodes@{nodes}}
+\index{nodes@{nodes}!GVSubGraph@{\-G\-V\-Sub\-Graph}}
+\subsubsection[{nodes}]{\setlength{\rightskip}{0pt plus 5cm}\-Q\-List$<${\bf \-G\-V\-Node}$>$ {\bf \-G\-V\-Sub\-Graph\-::nodes} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_g_v_sub_graph_a777c2146e514db2ccded4b3f77993155}
+
+
+gets the list of nodes 
+
+\begin{DoxyReturn}{\-Returns}
+the list of nodes 
+\end{DoxyReturn}
+\hypertarget{class_g_v_sub_graph_adeec195e6301f14864ad3cf4ecb2a7e6}{\index{\-G\-V\-Sub\-Graph@{\-G\-V\-Sub\-Graph}!remove\-Edge@{remove\-Edge}}
+\index{remove\-Edge@{remove\-Edge}!GVSubGraph@{\-G\-V\-Sub\-Graph}}
+\subsubsection[{remove\-Edge}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-G\-V\-Sub\-Graph\-::remove\-Edge} (
+\begin{DoxyParamCaption}
+\item[{const \-Q\-String \&}]{source, }
+\item[{const \-Q\-String \&}]{target}
+\end{DoxyParamCaption}
+)}}\label{class_g_v_sub_graph_adeec195e6301f14864ad3cf4ecb2a7e6}
+
+
+removes an edge 
+
+\-Q\-String the name of the egde's source \-Q\-String the name of the edge's target \hypertarget{class_g_v_sub_graph_a42c2d7c92a223e40364c13fdb1cc46e8}{\index{\-G\-V\-Sub\-Graph@{\-G\-V\-Sub\-Graph}!remove\-Edge@{remove\-Edge}}
+\index{remove\-Edge@{remove\-Edge}!GVSubGraph@{\-G\-V\-Sub\-Graph}}
+\subsubsection[{remove\-Edge}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-G\-V\-Sub\-Graph\-::remove\-Edge} (
+\begin{DoxyParamCaption}
+\item[{const \-Q\-Pair$<$ \-Q\-String, \-Q\-String $>$ \&}]{key}
+\end{DoxyParamCaption}
+)}}\label{class_g_v_sub_graph_a42c2d7c92a223e40364c13fdb1cc46e8}
+
+
+removes an edge, entering the pair (source, target) 
+
+\-Q\-Pair$<$\-Q\-String, Q\-String$>$ the pair to be removed \hypertarget{class_g_v_sub_graph_ac97b366dadeeb5ac8999ee6b22dd7dd4}{\index{\-G\-V\-Sub\-Graph@{\-G\-V\-Sub\-Graph}!remove\-Node@{remove\-Node}}
+\index{remove\-Node@{remove\-Node}!GVSubGraph@{\-G\-V\-Sub\-Graph}}
+\subsubsection[{remove\-Node}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-G\-V\-Sub\-Graph\-::remove\-Node} (
+\begin{DoxyParamCaption}
+\item[{const \-Q\-String \&}]{name}
+\end{DoxyParamCaption}
+)}}\label{class_g_v_sub_graph_ac97b366dadeeb5ac8999ee6b22dd7dd4}
+
+
+removes a node, entering its name 
+
+
+\begin{DoxyParams}{\-Parameters}
+{\em \-Q\-String} & the name of the node to be removed \\
+\hline
+\end{DoxyParams}
+\hypertarget{class_g_v_sub_graph_a1bed9f509bbe210754ed6e2878a75dff}{\index{\-G\-V\-Sub\-Graph@{\-G\-V\-Sub\-Graph}!remove\-Sub\-Graph@{remove\-Sub\-Graph}}
+\index{remove\-Sub\-Graph@{remove\-Sub\-Graph}!GVSubGraph@{\-G\-V\-Sub\-Graph}}
+\subsubsection[{remove\-Sub\-Graph}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-G\-V\-Sub\-Graph\-::remove\-Sub\-Graph} (
+\begin{DoxyParamCaption}
+\item[{const \-Q\-String \&}]{name}
+\end{DoxyParamCaption}
+)}}\label{class_g_v_sub_graph_a1bed9f509bbe210754ed6e2878a75dff}
+
+
+removes a subgraph 
+
+
+\begin{DoxyParams}{\-Parameters}
+{\em \-Q\-String} & the name of the subgraph to be removed \\
+\hline
+\end{DoxyParams}
+\hypertarget{class_g_v_sub_graph_a14a5e0a85c54220e4908e2692576e62b}{\index{\-G\-V\-Sub\-Graph@{\-G\-V\-Sub\-Graph}!set\-Label@{set\-Label}}
+\index{set\-Label@{set\-Label}!GVSubGraph@{\-G\-V\-Sub\-Graph}}
+\subsubsection[{set\-Label}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-G\-V\-Sub\-Graph\-::set\-Label} (
+\begin{DoxyParamCaption}
+\item[{const \-Q\-String \&}]{name}
+\end{DoxyParamCaption}
+)}}\label{class_g_v_sub_graph_a14a5e0a85c54220e4908e2692576e62b}
+
+
+sets the label 
+
+
+\begin{DoxyParams}{\-Parameters}
+{\em \-Q\-String} & the label \\
+\hline
+\end{DoxyParams}
+
+
+\-The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+headers/\hyperlink{_g_v_sub_graph_8h}{\-G\-V\-Sub\-Graph.\-h}\end{DoxyCompactItemize}

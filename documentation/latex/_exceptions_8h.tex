@@ -1,0 +1,65 @@
+\hypertarget{_exceptions_8h}{\section{headers/\-Exceptions.h \-File \-Reference}
+\label{_exceptions_8h}\index{headers/\-Exceptions.\-h@{headers/\-Exceptions.\-h}}
+}
+
+
+header for the \-Exceptions class  
+
+
+{\ttfamily \#include $<$iostream$>$}\*
+{\ttfamily \#include $<$string$>$}\*
+{\ttfamily \#include $<$boost/exception/all.\-hpp$>$}\*
+\subsection*{\-Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \hyperlink{structexception__base}{exception\-\_\-base}
+\begin{DoxyCompactList}\small\item\em struct defining the base of the exception \end{DoxyCompactList}\item 
+class \hyperlink{structio__error}{io\-\_\-error}
+\begin{DoxyCompactList}\small\item\em struct defining the base of the \hyperlink{class_i_o}{\-I\-O} errors \end{DoxyCompactList}\item 
+class \hyperlink{structfile__not__exist}{file\-\_\-not\-\_\-exist}
+\begin{DoxyCompactList}\small\item\em struct defining the exception called when the file does not exist extends \hyperlink{structio__error}{io\-\_\-error} \end{DoxyCompactList}\item 
+class \hyperlink{structnot__regular__file}{not\-\_\-regular\-\_\-file}
+\begin{DoxyCompactList}\small\item\em struct defining the exception called when the format of the file is not the one expected extends \hyperlink{structio__error}{io\-\_\-error} \end{DoxyCompactList}\item 
+class \hyperlink{structph__parse__error}{ph\-\_\-parse\-\_\-error}
+\begin{DoxyCompactList}\small\item\em struct defining the exception called when the \hyperlink{class_p_h}{\-P\-H} file cannot be parsed extends \hyperlink{structexception__base}{exception\-\_\-base} \end{DoxyCompactList}\item 
+class \hyperlink{structpint__phc__crash}{pint\-\_\-phc\-\_\-crash}
+\begin{DoxyCompactList}\small\item\em struct defining the exception called when \-Pint cannot be called extends \hyperlink{structph__parse__error}{ph\-\_\-parse\-\_\-error} \end{DoxyCompactList}\item 
+class \hyperlink{structpint__program__not__found}{pint\-\_\-program\-\_\-not\-\_\-found}
+\begin{DoxyCompactList}\small\item\em struct defining the exception called when \-Pint is not found\$ extends \hyperlink{structexception__base}{exception\-\_\-base} \end{DoxyCompactList}\item 
+class \hyperlink{structph__error}{ph\-\_\-error}
+\begin{DoxyCompactList}\small\item\em struct defining the exception called when there is an error in the \hyperlink{class_p_h}{\-P\-H} file extends \hyperlink{structexception__base}{exception\-\_\-base} \end{DoxyCompactList}\item 
+class \hyperlink{structprocess__required}{process\-\_\-required}
+\begin{DoxyCompactList}\small\item\em struct defining the exception called when the process is not specified extends \hyperlink{structph__error}{ph\-\_\-error} \end{DoxyCompactList}\item 
+class \hyperlink{structprocess__not__found}{process\-\_\-not\-\_\-found}
+\begin{DoxyCompactList}\small\item\em struct defining the exception called when the process called is not found extends \hyperlink{structph__error}{ph\-\_\-error} \end{DoxyCompactList}\item 
+class \hyperlink{structsort__not__found}{sort\-\_\-not\-\_\-found}
+\begin{DoxyCompactList}\small\item\em struct defining the exception called when the sort called are not found extends \hyperlink{structph__error}{ph\-\_\-error} \end{DoxyCompactList}\item 
+class \hyperlink{structgv__error}{gv\-\_\-error}
+\begin{DoxyCompactList}\small\item\em struct defining the exception called when an error occurs in \-Graph\-Viz extends \hyperlink{structexception__base}{exception\-\_\-base} \end{DoxyCompactList}\item 
+class \hyperlink{structsubgraph__not__found}{subgraph\-\_\-not\-\_\-found}
+\begin{DoxyCompactList}\small\item\em struct defining the exception called when the subgraph is not found extends \hyperlink{structgv__error}{gv\-\_\-error} \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{\-Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{_exceptions_8h_ac8a45d38351c440b700b847175b2b84c}{typedef error\-\_\-info$<$ struct \*
+file\-\_\-path, string $>$ {\bfseries file\-\_\-info}}\label{_exceptions_8h_ac8a45d38351c440b700b847175b2b84c}
+
+\item 
+\hypertarget{_exceptions_8h_a09b9654ca63bf28f46bcc8f0539d8150}{typedef error\-\_\-info$<$ struct \*
+parse\-\_\-detail, string $>$ {\bfseries parse\-\_\-info}}\label{_exceptions_8h_a09b9654ca63bf28f46bcc8f0539d8150}
+
+\item 
+\hypertarget{_exceptions_8h_a172dc189cfd23cf946931ff992c66a88}{typedef error\-\_\-info$<$ struct \*
+process\-\_\-id, int $>$ {\bfseries process\-\_\-info}}\label{_exceptions_8h_a172dc189cfd23cf946931ff992c66a88}
+
+\item 
+\hypertarget{_exceptions_8h_affd819bc3fe0b81e2d9252739fa883d5}{typedef error\-\_\-info$<$ struct \*
+sort\-\_\-name, string $>$ {\bfseries sort\-\_\-info}}\label{_exceptions_8h_affd819bc3fe0b81e2d9252739fa883d5}
+
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+header for the \-Exceptions class \begin{DoxyAuthor}{\-Author}
+\-P\-A\-P\-P\-L\-\_\-2012 
+\end{DoxyAuthor}

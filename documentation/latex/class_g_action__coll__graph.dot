@@ -1,0 +1,23 @@
+digraph G
+{
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="GAction",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled" fontcolor="black"];
+  Node2 -> Node1 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" arrowTails" ];
+  Node2 [label="pair\< QGraphicsPathItem *, QGraphicsPathItem * \>",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled"];
+  Node3 -> Node1 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" arrowHeads" ];
+  Node3 [label="pair\< QGraphicsPolygonItem *, QGraphicsPolygonItem * \>",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled"];
+  Node4 -> Node1 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" scene" ];
+  Node4 [label="PHScene",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_p_h_scene.html",tooltip="the graphic object representing the process hitting extends QGraphicsScene"];
+  Node5 -> Node4 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" sorts" ];
+  Node5 [label="map\< string, GSortPtr \>",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled"];
+  Node6 -> Node4 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" ph" ];
+  Node6 [label="PH",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_p_h.html",tooltip="represents an entire process hitting as defined in a PH file"];
+  Node7 -> Node6 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" actions" ];
+  Node7 [label="list\< ActionPtr \>",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled"];
+  Node8 -> Node6 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" sorts" ];
+  Node8 [label="map\< string, SortPtr \>",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled"];
+  Node9 -> Node1 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" edges" ];
+  Node9 [label="pair\< GVEdge, GVEdge \>",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled"];
+}

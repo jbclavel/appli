@@ -1,0 +1,179 @@
+\hypertarget{class_g_action}{\section{\-G\-Action \-Class \-Reference}
+\label{class_g_action}\index{\-G\-Action@{\-G\-Action}}
+}
+
+
+contains style and layout info to draw an action  
+
+
+
+
+{\ttfamily \#include $<$\-G\-Action.\-h$>$}
+
+\subsection*{\-Public \-Member \-Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_g_action_a697f4b533d191139a1eb401c486afff9}{\-G\-Action} (\-Action\-Ptr a, \hyperlink{struct_g_v_edge}{\-G\-V\-Edge} e, \hyperlink{struct_g_v_edge}{\-G\-V\-Edge} f, \hyperlink{class_p_h_scene}{\-P\-H\-Scene} $\ast$sc)
+\begin{DoxyCompactList}\small\item\em constructor \end{DoxyCompactList}\item 
+\-Q\-Graphics\-Item $\ast$ \hyperlink{class_g_action_ad3086cca158b494f7c2fd31783fb9f77}{get\-Display\-Item} (void)
+\begin{DoxyCompactList}\small\item\em gets the display \end{DoxyCompactList}\item 
+\hypertarget{class_g_action_ac9005fd701c1362eea9d7299b95672cb}{\-Action\-Ptr \hyperlink{class_g_action_ac9005fd701c1362eea9d7299b95672cb}{get\-Action} ()}\label{class_g_action_ac9005fd701c1362eea9d7299b95672cb}
+
+\begin{DoxyCompactList}\small\item\em gets the action \end{DoxyCompactList}\item 
+\-G\-Sort\-Ptr \hyperlink{class_g_action_a1a76d059cb3b169b5e9dfeed00b41da3}{get\-Source\-Sort} ()
+\begin{DoxyCompactList}\small\item\em gets the source \hyperlink{class_g_process}{\-G\-Process} item \end{DoxyCompactList}\item 
+\-G\-Sort\-Ptr \hyperlink{class_g_action_a77a2ac1b8a697c066dcf9d6624bb4fa0}{get\-Target\-Sort} ()
+\begin{DoxyCompactList}\small\item\em gets the target \hyperlink{class_g_process}{\-G\-Process} item \end{DoxyCompactList}\item 
+\-G\-Sort\-Ptr \hyperlink{class_g_action_addc1ebc84b2c739d4fa78d8938f9c6c3}{get\-Result\-Sort} ()
+\begin{DoxyCompactList}\small\item\em gets the result \hyperlink{class_g_process}{\-G\-Process} item \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{\-Protected \-Member \-Functions}
+\begin{DoxyCompactItemize}
+\item 
+\-Q\-Graphics\-Polygon\-Item $\ast$ \hyperlink{class_g_action_afeb408bf85d902191cef8a3cf613c7eb}{make\-Arrow\-Head} (const \hyperlink{struct_g_v_edge}{\-G\-V\-Edge} \&e, const \-Q\-Color \&color)
+\begin{DoxyCompactList}\small\item\em draws the head of the arrow \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{\-Protected \-Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{class_g_action_a5318deb6935859f5d2ebd1836ec6eb85}{\hyperlink{class_p_h_scene}{\-P\-H\-Scene} $\ast$ \hyperlink{class_g_action_a5318deb6935859f5d2ebd1836ec6eb85}{scene}}\label{class_g_action_a5318deb6935859f5d2ebd1836ec6eb85}
+
+\begin{DoxyCompactList}\small\item\em the \hyperlink{class_p_h_scene}{\-P\-H\-Scene} related to the \hyperlink{class_action}{\-Action} \end{DoxyCompactList}\item 
+\hypertarget{class_g_action_a80fd22faf283374dd9861bf4900eafa4}{\-Q\-Graphics\-Item $\ast$ \hyperlink{class_g_action_a80fd22faf283374dd9861bf4900eafa4}{display}}\label{class_g_action_a80fd22faf283374dd9861bf4900eafa4}
+
+\begin{DoxyCompactList}\small\item\em the graphical item representing the \hyperlink{class_action}{\-Action} \end{DoxyCompactList}\item 
+\hypertarget{class_g_action_a22f734f6fb2fade298681819341b4f75}{\-Action\-Ptr \hyperlink{class_g_action_a22f734f6fb2fade298681819341b4f75}{action}}\label{class_g_action_a22f734f6fb2fade298681819341b4f75}
+
+\begin{DoxyCompactList}\small\item\em the related \hyperlink{class_action}{\-Action} \end{DoxyCompactList}\item 
+\hypertarget{class_g_action_abc626fc7dc52a5f02960706c02a52db9}{pair$<$ \-Q\-Graphics\-Path\-Item \*
+$\ast$, \-Q\-Graphics\-Path\-Item $\ast$ $>$ \hyperlink{class_g_action_abc626fc7dc52a5f02960706c02a52db9}{arrow\-Tails}}\label{class_g_action_abc626fc7dc52a5f02960706c02a52db9}
+
+\begin{DoxyCompactList}\small\item\em the pair of graphical items representing the tails of the arrows of the \hyperlink{class_action}{\-Action} \end{DoxyCompactList}\item 
+\hypertarget{class_g_action_aab9cc72a8692e0b15f19e192ab21d609}{pair$<$ \-Q\-Graphics\-Polygon\-Item \*
+$\ast$, \-Q\-Graphics\-Polygon\-Item $\ast$ $>$ \hyperlink{class_g_action_aab9cc72a8692e0b15f19e192ab21d609}{arrow\-Heads}}\label{class_g_action_aab9cc72a8692e0b15f19e192ab21d609}
+
+\begin{DoxyCompactList}\small\item\em the pair of graphical items representing the heads of the arrows of the \hyperlink{class_action}{\-Action} \end{DoxyCompactList}\item 
+\hypertarget{class_g_action_a65f9f4938e024adc07cea387079549f8}{pair$<$ \hyperlink{struct_g_v_edge}{\-G\-V\-Edge}, \hyperlink{struct_g_v_edge}{\-G\-V\-Edge} $>$ \hyperlink{class_g_action_a65f9f4938e024adc07cea387079549f8}{edges}}\label{class_g_action_a65f9f4938e024adc07cea387079549f8}
+
+\begin{DoxyCompactList}\small\item\em the edges related to the arrows \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+contains style and layout info to draw an action 
+
+\subsection{\-Constructor \& \-Destructor \-Documentation}
+\hypertarget{class_g_action_a697f4b533d191139a1eb401c486afff9}{\index{\-G\-Action@{\-G\-Action}!\-G\-Action@{\-G\-Action}}
+\index{\-G\-Action@{\-G\-Action}!GAction@{\-G\-Action}}
+\subsubsection[{\-G\-Action}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-G\-Action\-::\-G\-Action} (
+\begin{DoxyParamCaption}
+\item[{\-Action\-Ptr}]{a, }
+\item[{{\bf \-G\-V\-Edge}}]{e, }
+\item[{{\bf \-G\-V\-Edge}}]{f, }
+\item[{{\bf \-P\-H\-Scene} $\ast$}]{sc}
+\end{DoxyParamCaption}
+)}}\label{class_g_action_a697f4b533d191139a1eb401c486afff9}
+
+
+constructor 
+
+
+\begin{DoxyParams}{\-Parameters}
+{\em \-Action\-Ptr} & the related \hyperlink{class_action}{\-Action} object \\
+\hline
+{\em \hyperlink{struct_g_v_edge}{\-G\-V\-Edge}} & the object that contains style and layout info for hit arrow \\
+\hline
+{\em \hyperlink{struct_g_v_edge}{\-G\-V\-Edge}} & the object that contains style and layout info for bounce (result) arrow \\
+\hline
+{\em \hyperlink{class_p_h_scene}{\-P\-H\-Scene}} & the related scene \\
+\hline
+\end{DoxyParams}
+
+
+\subsection{\-Member \-Function \-Documentation}
+\hypertarget{class_g_action_ad3086cca158b494f7c2fd31783fb9f77}{\index{\-G\-Action@{\-G\-Action}!get\-Display\-Item@{get\-Display\-Item}}
+\index{get\-Display\-Item@{get\-Display\-Item}!GAction@{\-G\-Action}}
+\subsubsection[{get\-Display\-Item}]{\setlength{\rightskip}{0pt plus 5cm}\-Q\-Graphics\-Item$\ast$ {\bf \-G\-Action\-::get\-Display\-Item} (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{class_g_action_ad3086cca158b494f7c2fd31783fb9f77}
+
+
+gets the display 
+
+\begin{DoxyReturn}{\-Returns}
+\-Q\-Graphics\-Item the graphical item representing the \hyperlink{class_action}{\-Action} 
+\end{DoxyReturn}
+\hypertarget{class_g_action_addc1ebc84b2c739d4fa78d8938f9c6c3}{\index{\-G\-Action@{\-G\-Action}!get\-Result\-Sort@{get\-Result\-Sort}}
+\index{get\-Result\-Sort@{get\-Result\-Sort}!GAction@{\-G\-Action}}
+\subsubsection[{get\-Result\-Sort}]{\setlength{\rightskip}{0pt plus 5cm}\-G\-Sort\-Ptr {\bf \-G\-Action\-::get\-Result\-Sort} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_g_action_addc1ebc84b2c739d4fa78d8938f9c6c3}
+
+
+gets the result \hyperlink{class_g_process}{\-G\-Process} item 
+
+
+\begin{DoxyParams}{\-Parameters}
+{\em \-G\-Process\-Ptr} & a pointer to the result \hyperlink{class_g_process}{\-G\-Process} item \\
+\hline
+\end{DoxyParams}
+\hypertarget{class_g_action_a1a76d059cb3b169b5e9dfeed00b41da3}{\index{\-G\-Action@{\-G\-Action}!get\-Source\-Sort@{get\-Source\-Sort}}
+\index{get\-Source\-Sort@{get\-Source\-Sort}!GAction@{\-G\-Action}}
+\subsubsection[{get\-Source\-Sort}]{\setlength{\rightskip}{0pt plus 5cm}\-G\-Sort\-Ptr {\bf \-G\-Action\-::get\-Source\-Sort} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_g_action_a1a76d059cb3b169b5e9dfeed00b41da3}
+
+
+gets the source \hyperlink{class_g_process}{\-G\-Process} item 
+
+
+\begin{DoxyParams}{\-Parameters}
+{\em \-G\-Process\-Ptr} & a pointer to the source \hyperlink{class_g_process}{\-G\-Process} item \\
+\hline
+\end{DoxyParams}
+\hypertarget{class_g_action_a77a2ac1b8a697c066dcf9d6624bb4fa0}{\index{\-G\-Action@{\-G\-Action}!get\-Target\-Sort@{get\-Target\-Sort}}
+\index{get\-Target\-Sort@{get\-Target\-Sort}!GAction@{\-G\-Action}}
+\subsubsection[{get\-Target\-Sort}]{\setlength{\rightskip}{0pt plus 5cm}\-G\-Sort\-Ptr {\bf \-G\-Action\-::get\-Target\-Sort} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_g_action_a77a2ac1b8a697c066dcf9d6624bb4fa0}
+
+
+gets the target \hyperlink{class_g_process}{\-G\-Process} item 
+
+
+\begin{DoxyParams}{\-Parameters}
+{\em \-G\-Process\-Ptr} & a pointer to the target \hyperlink{class_g_process}{\-G\-Process} item \\
+\hline
+\end{DoxyParams}
+\hypertarget{class_g_action_afeb408bf85d902191cef8a3cf613c7eb}{\index{\-G\-Action@{\-G\-Action}!make\-Arrow\-Head@{make\-Arrow\-Head}}
+\index{make\-Arrow\-Head@{make\-Arrow\-Head}!GAction@{\-G\-Action}}
+\subsubsection[{make\-Arrow\-Head}]{\setlength{\rightskip}{0pt plus 5cm}\-Q\-Graphics\-Polygon\-Item$\ast$ {\bf \-G\-Action\-::make\-Arrow\-Head} (
+\begin{DoxyParamCaption}
+\item[{const {\bf \-G\-V\-Edge} \&}]{e, }
+\item[{const \-Q\-Color \&}]{color}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}\label{class_g_action_afeb408bf85d902191cef8a3cf613c7eb}
+
+
+draws the head of the arrow 
+
+
+\begin{DoxyParams}{\-Parameters}
+{\em \hyperlink{struct_g_v_edge}{\-G\-V\-Edge}} & the edge related to the arrow \\
+\hline
+{\em \-Qcolor} & the color of the arrow\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+\-Q\-Graphics\-Polygon\-Item$\ast$ the graphical item representing the head of the arrow 
+\end{DoxyReturn}
+
+
+\-The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+headers/\hyperlink{_g_action_8h}{\-G\-Action.\-h}\end{DoxyCompactItemize}

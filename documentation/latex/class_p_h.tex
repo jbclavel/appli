@@ -1,0 +1,218 @@
+\hypertarget{class_p_h}{\section{\-P\-H \-Class \-Reference}
+\label{class_p_h}\index{\-P\-H@{\-P\-H}}
+}
+
+
+represents an entire process hitting as defined in a \hyperlink{class_p_h}{\-P\-H} file  
+
+
+
+
+{\ttfamily \#include $<$\-P\-H.\-h$>$}
+
+\subsection*{\-Public \-Member \-Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{class_p_h_ae3ab2dd87b4bfadf04c1a14c6091aebc}{\hyperlink{class_p_h_ae3ab2dd87b4bfadf04c1a14c6091aebc}{\-P\-H} ()}\label{class_p_h_ae3ab2dd87b4bfadf04c1a14c6091aebc}
+
+\begin{DoxyCompactList}\small\item\em constructor \end{DoxyCompactList}\item 
+void \hyperlink{class_p_h_ad4335e01899c57e6802021f1afb83e7f}{add\-Sort} (\-Sort\-Ptr s)
+\begin{DoxyCompactList}\small\item\em adds a sort to the \hyperlink{class_p_h}{\-P\-H} \end{DoxyCompactList}\item 
+void \hyperlink{class_p_h_ae9bed9356d272f3c43f2147d6d8e5906}{add\-Action} (\-Action\-Ptr a)
+\begin{DoxyCompactList}\small\item\em adds an action to the \hyperlink{class_p_h}{\-P\-H} \end{DoxyCompactList}\item 
+\hypertarget{class_p_h_a02f1cd90c270555a50c08caa0fb2d491}{\-Sort\-Ptr \hyperlink{class_p_h_a02f1cd90c270555a50c08caa0fb2d491}{get\-Sort} (string const \&)}\label{class_p_h_a02f1cd90c270555a50c08caa0fb2d491}
+
+\begin{DoxyCompactList}\small\item\em getter for a sort \end{DoxyCompactList}\item 
+\hypertarget{class_p_h_ae9861660fe017ab285451b2ac8e191a4}{list$<$ \-Action\-Ptr $>$ \hyperlink{class_p_h_ae9861660fe017ab285451b2ac8e191a4}{get\-Actions} (void)}\label{class_p_h_ae9861660fe017ab285451b2ac8e191a4}
+
+\begin{DoxyCompactList}\small\item\em getter for the actions of the \hyperlink{class_p_h}{\-P\-H} \end{DoxyCompactList}\item 
+\hypertarget{class_p_h_a12e6b41c19521b568df7f86e6979167a}{list$<$ \-Sort\-Ptr $>$ \hyperlink{class_p_h_a12e6b41c19521b568df7f86e6979167a}{get\-Sorts} (void)}\label{class_p_h_a12e6b41c19521b568df7f86e6979167a}
+
+\begin{DoxyCompactList}\small\item\em getter for the sorts of the \hyperlink{class_p_h}{\-P\-H} \end{DoxyCompactList}\item 
+\hypertarget{class_p_h_a0155be0ca23e141f4c463f7b6a59051f}{list$<$ \-Process\-Ptr $>$ \hyperlink{class_p_h_a0155be0ca23e141f4c463f7b6a59051f}{get\-Processes} (void)}\label{class_p_h_a0155be0ca23e141f4c463f7b6a59051f}
+
+\begin{DoxyCompactList}\small\item\em getter for the processes of the \hyperlink{class_p_h}{\-P\-H} \end{DoxyCompactList}\item 
+string \hyperlink{class_p_h_ae870206aad796943dffaa6bab1f7f293}{to\-String} (void)
+\begin{DoxyCompactList}\small\item\em gives a text representation of the process hitting (as it would be in a .ph file) \end{DoxyCompactList}\item 
+string \hyperlink{class_p_h_aa0a7716cb565380f06670517609ee960}{to\-Dot\-String} (void)
+\begin{DoxyCompactList}\small\item\em gives a text representation of the process hitting (in .dot format, used in \-Graphviz) \end{DoxyCompactList}\item 
+void \hyperlink{class_p_h_af1f67304076aded44a15a30aed6dc652}{render} (void)
+\begin{DoxyCompactList}\small\item\em calls for the process hitting in its scene \end{DoxyCompactList}\item 
+\-G\-V\-Graph\-Ptr \hyperlink{class_p_h_a220fd9fdc673988edb461b02a90edb1b}{to\-G\-V\-Graph} (void)
+\begin{DoxyCompactList}\small\item\em makes a representation of the process hitting as a graph \end{DoxyCompactList}\item 
+\-G\-V\-Graph\-Ptr \hyperlink{class_p_h_afbd5cbabc39a0502a95e5c6609a52d58}{update\-G\-V\-Graph} (\hyperlink{class_p_h_scene}{\-P\-H\-Scene} $\ast$\hyperlink{class_p_h_ac8fbe29746ee4097c879be0cf75f3ad7}{scene})
+\begin{DoxyCompactList}\small\item\em updates the representation of the process hitting as a graph after user's customizations \end{DoxyCompactList}\item 
+\-P\-H\-Scene\-Ptr \hyperlink{class_p_h_aaf75a785bb9bd06cec611f0fb69d05f6}{get\-Graphics\-Scene} (void)
+\begin{DoxyCompactList}\small\item\em outputs for display \end{DoxyCompactList}\item 
+\hypertarget{class_p_h_a0494ca8a53e983230a9df06fa71043e1}{int \hyperlink{class_p_h_a0494ca8a53e983230a9df06fa71043e1}{get\-Stochasticity\-Absorption} ()}\label{class_p_h_a0494ca8a53e983230a9df06fa71043e1}
+
+\begin{DoxyCompactList}\small\item\em getter for the stochasticity absorption \end{DoxyCompactList}\item 
+\hypertarget{class_p_h_a78fb558177760ed0e640d8a0aaf8b06a}{void \hyperlink{class_p_h_a78fb558177760ed0e640d8a0aaf8b06a}{set\-Stochasticity\-Absorption} (int sa)}\label{class_p_h_a78fb558177760ed0e640d8a0aaf8b06a}
+
+\begin{DoxyCompactList}\small\item\em setter for the stochasticity absorption \end{DoxyCompactList}\item 
+\hypertarget{class_p_h_aa64e3d43f773122df2329491f6abdf6c}{double \hyperlink{class_p_h_aa64e3d43f773122df2329491f6abdf6c}{get\-Default\-Rate} ()}\label{class_p_h_aa64e3d43f773122df2329491f6abdf6c}
+
+\begin{DoxyCompactList}\small\item\em getter for the default rate; \end{DoxyCompactList}\item 
+\hypertarget{class_p_h_ae49be2823d5a2a7c6517b6783cf9fdfa}{void \hyperlink{class_p_h_ae49be2823d5a2a7c6517b6783cf9fdfa}{set\-Default\-Rate} (double r)}\label{class_p_h_ae49be2823d5a2a7c6517b6783cf9fdfa}
+
+\begin{DoxyCompactList}\small\item\em setter for the default rate \end{DoxyCompactList}\item 
+\hypertarget{class_p_h_a7ede855d04ee8e3a20beb159c5520003}{bool \hyperlink{class_p_h_a7ede855d04ee8e3a20beb159c5520003}{get\-Infinite\-Default\-Rate} ()}\label{class_p_h_a7ede855d04ee8e3a20beb159c5520003}
+
+\begin{DoxyCompactList}\small\item\em getter for the \-Infinite \-Default \-Rate \end{DoxyCompactList}\item 
+\hypertarget{class_p_h_acc38a15dc0e29ddfd2c8ae7d3371f7ab}{void \hyperlink{class_p_h_acc38a15dc0e29ddfd2c8ae7d3371f7ab}{set\-Infinite\-Default\-Rate} (bool b)}\label{class_p_h_acc38a15dc0e29ddfd2c8ae7d3371f7ab}
+
+\begin{DoxyCompactList}\small\item\em setter for the \-Infinitite \-Default \-Rate \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{\-Protected \-Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{class_p_h_abdd55c7db00c19b89de0afba20d97b24}{int \hyperlink{class_p_h_abdd55c7db00c19b89de0afba20d97b24}{stochasticity\-\_\-absorption}}\label{class_p_h_abdd55c7db00c19b89de0afba20d97b24}
+
+\begin{DoxyCompactList}\small\item\em default value for stochasticity absorption \end{DoxyCompactList}\item 
+bool \hyperlink{class_p_h_aa66efaf095a379c3b108a023d7c98afa}{infinite\-\_\-default\-\_\-rate}
+\begin{DoxyCompactList}\small\item\em boolean to know if the default rate is or is not infinite \end{DoxyCompactList}\item 
+\hypertarget{class_p_h_a7a9525bc83257efefbaf9e78d96723ca}{double \hyperlink{class_p_h_a7a9525bc83257efefbaf9e78d96723ca}{default\-\_\-rate}}\label{class_p_h_a7a9525bc83257efefbaf9e78d96723ca}
+
+\begin{DoxyCompactList}\small\item\em default value for rate \end{DoxyCompactList}\item 
+\hypertarget{class_p_h_a889cc129633e88e4257f56dec04c5bac}{map$<$ string, \-Sort\-Ptr $>$ \hyperlink{class_p_h_a889cc129633e88e4257f56dec04c5bac}{sorts}}\label{class_p_h_a889cc129633e88e4257f56dec04c5bac}
+
+\begin{DoxyCompactList}\small\item\em map of the sorts, linked with their names \end{DoxyCompactList}\item 
+\hypertarget{class_p_h_a730f2eb0cd79487213cac9565d746a05}{list$<$ \-Action\-Ptr $>$ \hyperlink{class_p_h_a730f2eb0cd79487213cac9565d746a05}{actions}}\label{class_p_h_a730f2eb0cd79487213cac9565d746a05}
+
+\begin{DoxyCompactList}\small\item\em list of the actions \end{DoxyCompactList}\item 
+\hypertarget{class_p_h_ac8fbe29746ee4097c879be0cf75f3ad7}{\-P\-H\-Scene\-Ptr \hyperlink{class_p_h_ac8fbe29746ee4097c879be0cf75f3ad7}{scene}}\label{class_p_h_ac8fbe29746ee4097c879be0cf75f3ad7}
+
+\begin{DoxyCompactList}\small\item\em graphical object representing the process hitting \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+represents an entire process hitting as defined in a \hyperlink{class_p_h}{\-P\-H} file 
+
+\subsection{\-Member \-Function \-Documentation}
+\hypertarget{class_p_h_ae9bed9356d272f3c43f2147d6d8e5906}{\index{\-P\-H@{\-P\-H}!add\-Action@{add\-Action}}
+\index{add\-Action@{add\-Action}!PH@{\-P\-H}}
+\subsubsection[{add\-Action}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-P\-H\-::add\-Action} (
+\begin{DoxyParamCaption}
+\item[{\-Action\-Ptr}]{a}
+\end{DoxyParamCaption}
+)}}\label{class_p_h_ae9bed9356d272f3c43f2147d6d8e5906}
+
+
+adds an action to the \hyperlink{class_p_h}{\-P\-H} 
+
+
+\begin{DoxyParams}{\-Parameters}
+{\em \-Action\-Ptr} & the action to add \\
+\hline
+\end{DoxyParams}
+\hypertarget{class_p_h_ad4335e01899c57e6802021f1afb83e7f}{\index{\-P\-H@{\-P\-H}!add\-Sort@{add\-Sort}}
+\index{add\-Sort@{add\-Sort}!PH@{\-P\-H}}
+\subsubsection[{add\-Sort}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-P\-H\-::add\-Sort} (
+\begin{DoxyParamCaption}
+\item[{\-Sort\-Ptr}]{s}
+\end{DoxyParamCaption}
+)}}\label{class_p_h_ad4335e01899c57e6802021f1afb83e7f}
+
+
+adds a sort to the \hyperlink{class_p_h}{\-P\-H} 
+
+
+\begin{DoxyParams}{\-Parameters}
+{\em \-Sort\-Ptr} & the sort to add \\
+\hline
+\end{DoxyParams}
+\hypertarget{class_p_h_aaf75a785bb9bd06cec611f0fb69d05f6}{\index{\-P\-H@{\-P\-H}!get\-Graphics\-Scene@{get\-Graphics\-Scene}}
+\index{get\-Graphics\-Scene@{get\-Graphics\-Scene}!PH@{\-P\-H}}
+\subsubsection[{get\-Graphics\-Scene}]{\setlength{\rightskip}{0pt plus 5cm}\-P\-H\-Scene\-Ptr {\bf \-P\-H\-::get\-Graphics\-Scene} (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{class_p_h_aaf75a785bb9bd06cec611f0fb69d05f6}
+
+
+outputs for display 
+
+\begin{DoxyReturn}{\-Returns}
+\-P\-H\-Scene\-Ptr pointer to the \-Scene built 
+\end{DoxyReturn}
+\hypertarget{class_p_h_af1f67304076aded44a15a30aed6dc652}{\index{\-P\-H@{\-P\-H}!render@{render}}
+\index{render@{render}!PH@{\-P\-H}}
+\subsubsection[{render}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-P\-H\-::render} (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{class_p_h_af1f67304076aded44a15a30aed6dc652}
+
+
+calls for the process hitting in its scene 
+
+time-\/expensive method, calls the to\-G\-V\-Graph method \hypertarget{class_p_h_aa0a7716cb565380f06670517609ee960}{\index{\-P\-H@{\-P\-H}!to\-Dot\-String@{to\-Dot\-String}}
+\index{to\-Dot\-String@{to\-Dot\-String}!PH@{\-P\-H}}
+\subsubsection[{to\-Dot\-String}]{\setlength{\rightskip}{0pt plus 5cm}string {\bf \-P\-H\-::to\-Dot\-String} (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{class_p_h_aa0a7716cb565380f06670517609ee960}
+
+
+gives a text representation of the process hitting (in .dot format, used in \-Graphviz) 
+
+\begin{DoxyReturn}{\-Returns}
+string the text representation of the process hitting in \-D\-O\-T format 
+\end{DoxyReturn}
+\hypertarget{class_p_h_a220fd9fdc673988edb461b02a90edb1b}{\index{\-P\-H@{\-P\-H}!to\-G\-V\-Graph@{to\-G\-V\-Graph}}
+\index{to\-G\-V\-Graph@{to\-G\-V\-Graph}!PH@{\-P\-H}}
+\subsubsection[{to\-G\-V\-Graph}]{\setlength{\rightskip}{0pt plus 5cm}\-G\-V\-Graph\-Ptr {\bf \-P\-H\-::to\-G\-V\-Graph} (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{class_p_h_a220fd9fdc673988edb461b02a90edb1b}
+
+
+makes a representation of the process hitting as a graph 
+
+calls graphviz to calculate the optimized graph \begin{DoxyReturn}{\-Returns}
+\-G\-V\-Graph\-Ptr pointer to the \-Graph built 
+\end{DoxyReturn}
+\hypertarget{class_p_h_ae870206aad796943dffaa6bab1f7f293}{\index{\-P\-H@{\-P\-H}!to\-String@{to\-String}}
+\index{to\-String@{to\-String}!PH@{\-P\-H}}
+\subsubsection[{to\-String}]{\setlength{\rightskip}{0pt plus 5cm}string {\bf \-P\-H\-::to\-String} (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{class_p_h_ae870206aad796943dffaa6bab1f7f293}
+
+
+gives a text representation of the process hitting (as it would be in a .ph file) 
+
+\begin{DoxyReturn}{\-Returns}
+string the text representation of the process hitting in \hyperlink{class_p_h}{\-P\-H} format 
+\end{DoxyReturn}
+\hypertarget{class_p_h_afbd5cbabc39a0502a95e5c6609a52d58}{\index{\-P\-H@{\-P\-H}!update\-G\-V\-Graph@{update\-G\-V\-Graph}}
+\index{update\-G\-V\-Graph@{update\-G\-V\-Graph}!PH@{\-P\-H}}
+\subsubsection[{update\-G\-V\-Graph}]{\setlength{\rightskip}{0pt plus 5cm}\-G\-V\-Graph\-Ptr {\bf \-P\-H\-::update\-G\-V\-Graph} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-P\-H\-Scene} $\ast$}]{scene}
+\end{DoxyParamCaption}
+)}}\label{class_p_h_afbd5cbabc39a0502a95e5c6609a52d58}
+
+
+updates the representation of the process hitting as a graph after user's customizations 
+
+calls graphviz to calculate the graph \begin{DoxyReturn}{\-Returns}
+
+\end{DoxyReturn}
+
+
+\subsection{\-Member \-Data \-Documentation}
+\hypertarget{class_p_h_aa66efaf095a379c3b108a023d7c98afa}{\index{\-P\-H@{\-P\-H}!infinite\-\_\-default\-\_\-rate@{infinite\-\_\-default\-\_\-rate}}
+\index{infinite\-\_\-default\-\_\-rate@{infinite\-\_\-default\-\_\-rate}!PH@{\-P\-H}}
+\subsubsection[{infinite\-\_\-default\-\_\-rate}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf \-P\-H\-::infinite\-\_\-default\-\_\-rate}\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}\label{class_p_h_aa66efaf095a379c3b108a023d7c98afa}
+
+
+boolean to know if the default rate is or is not infinite 
+
+if true then the value of default rate makes no sense 
+
+\-The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+headers/\hyperlink{_p_h_8h}{\-P\-H.\-h}\end{DoxyCompactItemize}

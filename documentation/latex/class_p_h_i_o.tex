@@ -1,0 +1,131 @@
+\hypertarget{class_p_h_i_o}{\section{\-P\-H\-I\-O \-Class \-Reference}
+\label{class_p_h_i_o}\index{\-P\-H\-I\-O@{\-P\-H\-I\-O}}
+}
+
+
+manages the inputs and outputs of the \hyperlink{class_p_h}{\-P\-H} files  
+
+
+
+
+{\ttfamily \#include $<$\-P\-H\-I\-O.\-h$>$}
+
+\subsection*{\-Static \-Public \-Member \-Functions}
+\begin{DoxyCompactItemize}
+\item 
+static bool \hyperlink{class_p_h_i_o_a264cd5b35169906843e829a13cbcc09d}{can\-Parse\-File} (string const \&path)
+\begin{DoxyCompactList}\small\item\em checks if the file exists and is recognized by the parser \end{DoxyCompactList}\item 
+static \-P\-H\-Ptr \hyperlink{class_p_h_i_o_afeb84bb5b7960b8a4733b7345d2db025}{parse\-File} (string const \&path)
+\begin{DoxyCompactList}\small\item\em parses the file if it is possible \end{DoxyCompactList}\item 
+static void \hyperlink{class_p_h_i_o_a8a33a5a439f19caf0619ab7132642846}{write\-To\-File} (string const \&path, \-P\-H\-Ptr ph)
+\begin{DoxyCompactList}\small\item\em saves the \hyperlink{class_p_h}{\-P\-H} object as a \hyperlink{class_p_h}{\-P\-H} file \end{DoxyCompactList}\item 
+static void \hyperlink{class_p_h_i_o_a612f877c6332f9d20d6ef8992c1681f3}{export\-To\-P\-N\-G} (\-P\-H\-Ptr ph, \-Q\-String name)
+\begin{DoxyCompactList}\small\item\em saves as a \-P\-N\-G the representation of the \hyperlink{class_p_h}{\-P\-H} file as it is displayed in the \-G\-U\-I \end{DoxyCompactList}\item 
+static void \hyperlink{class_p_h_i_o_acfdd11c04c1a729812857ea563803938}{export\-X\-M\-L\-Metadata} (\hyperlink{class_main_window}{\-Main\-Window} $\ast$window, \-Q\-File \&output)
+\begin{DoxyCompactList}\small\item\em saves as an \-X\-M\-L file the layout and style information of the graph displayed in \-G\-U\-I \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+manages the inputs and outputs of the \hyperlink{class_p_h}{\-P\-H} files 
+
+\subsection{\-Member \-Function \-Documentation}
+\hypertarget{class_p_h_i_o_a264cd5b35169906843e829a13cbcc09d}{\index{\-P\-H\-I\-O@{\-P\-H\-I\-O}!can\-Parse\-File@{can\-Parse\-File}}
+\index{can\-Parse\-File@{can\-Parse\-File}!PHIO@{\-P\-H\-I\-O}}
+\subsubsection[{can\-Parse\-File}]{\setlength{\rightskip}{0pt plus 5cm}static bool {\bf \-P\-H\-I\-O\-::can\-Parse\-File} (
+\begin{DoxyParamCaption}
+\item[{string const \&}]{path}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}static\mbox{]}}}}\label{class_p_h_i_o_a264cd5b35169906843e829a13cbcc09d}
+
+
+checks if the file exists and is recognized by the parser 
+
+
+\begin{DoxyParams}{\-Parameters}
+{\em string} & the path of the file to parse \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+bool true if the file can be parsed 
+\end{DoxyReturn}
+\hypertarget{class_p_h_i_o_a612f877c6332f9d20d6ef8992c1681f3}{\index{\-P\-H\-I\-O@{\-P\-H\-I\-O}!export\-To\-P\-N\-G@{export\-To\-P\-N\-G}}
+\index{export\-To\-P\-N\-G@{export\-To\-P\-N\-G}!PHIO@{\-P\-H\-I\-O}}
+\subsubsection[{export\-To\-P\-N\-G}]{\setlength{\rightskip}{0pt plus 5cm}static void {\bf \-P\-H\-I\-O\-::export\-To\-P\-N\-G} (
+\begin{DoxyParamCaption}
+\item[{\-P\-H\-Ptr}]{ph, }
+\item[{\-Q\-String}]{name}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}static\mbox{]}}}}\label{class_p_h_i_o_a612f877c6332f9d20d6ef8992c1681f3}
+
+
+saves as a \-P\-N\-G the representation of the \hyperlink{class_p_h}{\-P\-H} file as it is displayed in the \-G\-U\-I 
+
+
+\begin{DoxyParams}{\-Parameters}
+{\em \-P\-H\-Ptr} & pointer to the \hyperlink{class_p_h}{\-P\-H} object of the active window \\
+\hline
+{\em \-Q\-String} & the name of the file saved \\
+\hline
+\end{DoxyParams}
+\hypertarget{class_p_h_i_o_acfdd11c04c1a729812857ea563803938}{\index{\-P\-H\-I\-O@{\-P\-H\-I\-O}!export\-X\-M\-L\-Metadata@{export\-X\-M\-L\-Metadata}}
+\index{export\-X\-M\-L\-Metadata@{export\-X\-M\-L\-Metadata}!PHIO@{\-P\-H\-I\-O}}
+\subsubsection[{export\-X\-M\-L\-Metadata}]{\setlength{\rightskip}{0pt plus 5cm}static void {\bf \-P\-H\-I\-O\-::export\-X\-M\-L\-Metadata} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-Main\-Window} $\ast$}]{window, }
+\item[{\-Q\-File \&}]{output}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}static\mbox{]}}}}\label{class_p_h_i_o_acfdd11c04c1a729812857ea563803938}
+
+
+saves as an \-X\-M\-L file the layout and style information of the graph displayed in \-G\-U\-I 
+
+
+\begin{DoxyParams}{\-Parameters}
+{\em \hyperlink{class_main_window}{\-Main\-Window}} & active \hyperlink{class_main_window}{\-Main\-Window} \\
+\hline
+{\em \-Q\-File} & the file to be written \\
+\hline
+\end{DoxyParams}
+\hypertarget{class_p_h_i_o_afeb84bb5b7960b8a4733b7345d2db025}{\index{\-P\-H\-I\-O@{\-P\-H\-I\-O}!parse\-File@{parse\-File}}
+\index{parse\-File@{parse\-File}!PHIO@{\-P\-H\-I\-O}}
+\subsubsection[{parse\-File}]{\setlength{\rightskip}{0pt plus 5cm}static \-P\-H\-Ptr {\bf \-P\-H\-I\-O\-::parse\-File} (
+\begin{DoxyParamCaption}
+\item[{string const \&}]{path}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}static\mbox{]}}}}\label{class_p_h_i_o_afeb84bb5b7960b8a4733b7345d2db025}
+
+
+parses the file if it is possible 
+
+
+\begin{DoxyParams}{\-Parameters}
+{\em string} & the path of the file to parse \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+\-P\-H\-Ptr pointer to the \hyperlink{class_p_h}{\-P\-H} object that results form parsing 
+\end{DoxyReturn}
+\hypertarget{class_p_h_i_o_a8a33a5a439f19caf0619ab7132642846}{\index{\-P\-H\-I\-O@{\-P\-H\-I\-O}!write\-To\-File@{write\-To\-File}}
+\index{write\-To\-File@{write\-To\-File}!PHIO@{\-P\-H\-I\-O}}
+\subsubsection[{write\-To\-File}]{\setlength{\rightskip}{0pt plus 5cm}static void {\bf \-P\-H\-I\-O\-::write\-To\-File} (
+\begin{DoxyParamCaption}
+\item[{string const \&}]{path, }
+\item[{\-P\-H\-Ptr}]{ph}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}static\mbox{]}}}}\label{class_p_h_i_o_a8a33a5a439f19caf0619ab7132642846}
+
+
+saves the \hyperlink{class_p_h}{\-P\-H} object as a \hyperlink{class_p_h}{\-P\-H} file 
+
+
+\begin{DoxyParams}{\-Parameters}
+{\em string} & the path of the file \\
+\hline
+{\em \-P\-H\-Ptr} & pointer to the object that will be saved \\
+\hline
+\end{DoxyParams}
+
+
+\-The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+headers/\hyperlink{_p_h_i_o_8h}{\-P\-H\-I\-O.\-h}\end{DoxyCompactItemize}

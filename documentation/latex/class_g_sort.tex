@@ -1,0 +1,230 @@
+\hypertarget{class_g_sort}{\section{\-G\-Sort \-Class \-Reference}
+\label{class_g_sort}\index{\-G\-Sort@{\-G\-Sort}}
+}
+
+
+contains style and layout info to draw a \hyperlink{class_sort}{\-Sort}  
+
+
+
+
+{\ttfamily \#include $<$\-G\-Sort.\-h$>$}
+
+\subsection*{\-Public \-Member \-Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_g_sort_a423709cc4cc15bc05219b08e1276f455}{\-G\-Sort} (\-Sort\-Ptr p, \hyperlink{struct_g_v_cluster}{\-G\-V\-Cluster} c)
+\begin{DoxyCompactList}\small\item\em constructor \end{DoxyCompactList}\item 
+\hypertarget{class_g_sort_a62b1a8ada691f61cb100568bf25f78d6}{\-Q\-Graphics\-Rect\-Item $\ast$ \hyperlink{class_g_sort_a62b1a8ada691f61cb100568bf25f78d6}{get\-Rect} ()}\label{class_g_sort_a62b1a8ada691f61cb100568bf25f78d6}
+
+\begin{DoxyCompactList}\small\item\em get the rect item \end{DoxyCompactList}\item 
+void \hyperlink{class_g_sort_ac3cbef2a811660668cff937f56ca37fe}{mouse\-Press\-Event} (\-Q\-Graphics\-Scene\-Mouse\-Event $\ast$event)
+\begin{DoxyCompactList}\small\item\em \-Handles mouse press event (handles drag start) \end{DoxyCompactList}\item 
+void \hyperlink{class_g_sort_aad29bd2ba170cd9b89ca80edf3439367}{mouse\-Move\-Event} (\-Q\-Graphics\-Scene\-Mouse\-Event $\ast$event)
+\begin{DoxyCompactList}\small\item\em \-Handles mouse move event (handles drag) \end{DoxyCompactList}\item 
+void \hyperlink{class_g_sort_a340c92716c90ad010232fdd972902ff0}{mouse\-Release\-Event} (\-Q\-Graphics\-Scene\-Mouse\-Event $\ast$event)
+\begin{DoxyCompactList}\small\item\em \-Handles mouse release event (handles drop) \end{DoxyCompactList}\item 
+void \hyperlink{class_g_sort_ae7183314fea0d5a3d9a302004d0614a7}{context\-Menu\-Event} (\-Q\-Graphics\-Scene\-Context\-Menu\-Event $\ast$event)
+\begin{DoxyCompactList}\small\item\em \-Handles context menu event (typically on right click) \end{DoxyCompactList}\item 
+\-Sort\-Ptr \hyperlink{class_g_sort_a69520d78ab078c083b8090f9190424b0}{get\-Sort} ()
+\begin{DoxyCompactList}\small\item\em gets the related \hyperlink{class_sort}{\-Sort} object \end{DoxyCompactList}\item 
+\hyperlink{struct_g_v_cluster}{\-G\-V\-Cluster} \hyperlink{class_g_sort_ad843ded0ec50cef488015b82661991ed}{get\-Cluster} ()
+\begin{DoxyCompactList}\small\item\em gets the related \hyperlink{struct_g_v_cluster}{\-G\-V\-Cluster} which stores \hyperlink{class_g_sort}{\-G\-Sort} absolute coordinates \end{DoxyCompactList}\item 
+\hypertarget{class_g_sort_a4ea434778eaf6e7a6dc3603dc1076bb1}{\-Q\-Graphics\-Text\-Item $\ast$ \hyperlink{class_g_sort_a4ea434778eaf6e7a6dc3603dc1076bb1}{get\-Text} ()}\label{class_g_sort_a4ea434778eaf6e7a6dc3603dc1076bb1}
+
+\begin{DoxyCompactList}\small\item\em gets the text of the sort \end{DoxyCompactList}\item 
+\hypertarget{class_g_sort_a75e1763370c73d2afbe3727f2742bfa4}{void \hyperlink{class_g_sort_a75e1763370c73d2afbe3727f2742bfa4}{update\-Position} ()}\label{class_g_sort_a75e1763370c73d2afbe3727f2742bfa4}
+
+\begin{DoxyCompactList}\small\item\em updates the position of this \hyperlink{class_g_sort}{\-G\-Sort} after drag\&drop \end{DoxyCompactList}\item 
+\hypertarget{class_g_sort_acafeaec8637b62aea47c2ecb4c36e0be}{void \hyperlink{class_g_sort_acafeaec8637b62aea47c2ecb4c36e0be}{hide} ()}\label{class_g_sort_acafeaec8637b62aea47c2ecb4c36e0be}
+
+\begin{DoxyCompactList}\small\item\em hides this \hyperlink{class_g_sort}{\-G\-Sort} setting opacity to 0 \end{DoxyCompactList}\item 
+\hypertarget{class_g_sort_a6cb13a9b6ef35dc7698b165ff0d34b88}{void \hyperlink{class_g_sort_a6cb13a9b6ef35dc7698b165ff0d34b88}{show} ()}\label{class_g_sort_a6cb13a9b6ef35dc7698b165ff0d34b88}
+
+\begin{DoxyCompactList}\small\item\em show the \hyperlink{class_g_sort}{\-G\-Sort} setting full opacity \end{DoxyCompactList}\item 
+\hypertarget{class_g_sort_a58e2a6099a59b26ffe7dafd90590bd3d}{bool \hyperlink{class_g_sort_a58e2a6099a59b26ffe7dafd90590bd3d}{is\-Visible} ()}\label{class_g_sort_a58e2a6099a59b26ffe7dafd90590bd3d}
+
+\begin{DoxyCompactList}\small\item\em indicates whether or not this \hyperlink{class_g_sort}{\-G\-Sort} is made visible (test based on opacity, cf. \hyperlink{class_g_sort_acafeaec8637b62aea47c2ecb4c36e0be}{hide()} and \hyperlink{class_g_sort_a6cb13a9b6ef35dc7698b165ff0d34b88}{show()}) \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{\-Public \-Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{class_g_sort_afdedfe6a6028c586a755315351eee309}{\-Q\-Color $\ast$ \hyperlink{class_g_sort_afdedfe6a6028c586a755315351eee309}{color}}\label{class_g_sort_afdedfe6a6028c586a755315351eee309}
+
+\begin{DoxyCompactList}\small\item\em the color used by the \-Actions that have this \hyperlink{class_sort}{\-Sort} as source \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{\-Static \-Protected \-Member \-Functions}
+\begin{DoxyCompactItemize}
+\item 
+static \-Q\-Color $\ast$ \hyperlink{class_g_sort_a03da0205abd58bad6c4a58419cb40568}{make\-Color} (void)
+\begin{DoxyCompactList}\small\item\em gets a new color in the palette \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{\-Protected \-Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{class_g_sort_aa5979b4b0c0e9efbccce0de13ded38d8}{\-Q\-Graphics\-Rect\-Item $\ast$ \hyperlink{class_g_sort_aa5979b4b0c0e9efbccce0de13ded38d8}{\-\_\-rect}}\label{class_g_sort_aa5979b4b0c0e9efbccce0de13ded38d8}
+
+\begin{DoxyCompactList}\small\item\em the graphical item representing the rectangle of the \hyperlink{class_sort}{\-Sort} \end{DoxyCompactList}\item 
+\hypertarget{class_g_sort_a17c4f8eafc9402f5393e69e614f5429a}{\-Q\-Graphics\-Text\-Item $\ast$ \hyperlink{class_g_sort_a17c4f8eafc9402f5393e69e614f5429a}{text}}\label{class_g_sort_a17c4f8eafc9402f5393e69e614f5429a}
+
+\begin{DoxyCompactList}\small\item\em the graphical item representing the text of the \hyperlink{class_sort}{\-Sort} \end{DoxyCompactList}\item 
+\hypertarget{class_g_sort_a8dea499c0b3fa30f9e9558a165a52030}{\-Sort\-Ptr \hyperlink{class_g_sort_a8dea499c0b3fa30f9e9558a165a52030}{sort}}\label{class_g_sort_a8dea499c0b3fa30f9e9558a165a52030}
+
+\begin{DoxyCompactList}\small\item\em the related \hyperlink{class_sort}{\-Sort} \end{DoxyCompactList}\item 
+\hypertarget{class_g_sort_aed2a99e461d0af9b2b323e1a9fda92fa}{\hyperlink{struct_g_v_cluster}{\-G\-V\-Cluster} \hyperlink{class_g_sort_aed2a99e461d0af9b2b323e1a9fda92fa}{cluster}}\label{class_g_sort_aed2a99e461d0af9b2b323e1a9fda92fa}
+
+\begin{DoxyCompactList}\small\item\em the related cluster \end{DoxyCompactList}\item 
+\hypertarget{class_g_sort_a0985310dc8c415f5ac015cde3a28d6a3}{\-Q\-Point \hyperlink{class_g_sort_a0985310dc8c415f5ac015cde3a28d6a3}{init\-Pos\-Point}}\label{class_g_sort_a0985310dc8c415f5ac015cde3a28d6a3}
+
+\begin{DoxyCompactList}\small\item\em the point used to record this \hyperlink{class_g_sort}{\-G\-Sort}'s coordinates when user clicks it (ie. starts drag\&drop) \end{DoxyCompactList}\item 
+\hypertarget{class_g_sort_ad33260958b9f1fdea916b737dedc5ba7}{\-Q\-Point \hyperlink{class_g_sort_ad33260958b9f1fdea916b737dedc5ba7}{event\-Press\-Point}}\label{class_g_sort_ad33260958b9f1fdea916b737dedc5ba7}
+
+\begin{DoxyCompactList}\small\item\em the point used to record mouse press event position \end{DoxyCompactList}\item 
+\hypertarget{class_g_sort_a92702d91a49f5a4aadf387e6b10c664a}{qreal \hyperlink{class_g_sort_a92702d91a49f5a4aadf387e6b10c664a}{padding\-Top}}\label{class_g_sort_a92702d91a49f5a4aadf387e6b10c664a}
+
+\begin{DoxyCompactList}\small\item\em the space between this \hyperlink{class_g_sort}{\-G\-Sort}'s top side and the top \hyperlink{class_g_process}{\-G\-Process} \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{\-Static \-Protected \-Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{class_g_sort_a575406f7f0f4ce8da65e3456b7fff818}{static std\-::vector$<$ \-Q\-Color $>$ \hyperlink{class_g_sort_a575406f7f0f4ce8da65e3456b7fff818}{palette}}\label{class_g_sort_a575406f7f0f4ce8da65e3456b7fff818}
+
+\begin{DoxyCompactList}\small\item\em the palette of colors that may be used as color member \end{DoxyCompactList}\item 
+\hypertarget{class_g_sort_a684c424c03a77a4f60b88f98021bb2eb}{static int \hyperlink{class_g_sort_a684c424c03a77a4f60b88f98021bb2eb}{palette\-Index}}\label{class_g_sort_a684c424c03a77a4f60b88f98021bb2eb}
+
+\begin{DoxyCompactList}\small\item\em palette management index \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+contains style and layout info to draw a \hyperlink{class_sort}{\-Sort} 
+
+\subsection{\-Constructor \& \-Destructor \-Documentation}
+\hypertarget{class_g_sort_a423709cc4cc15bc05219b08e1276f455}{\index{\-G\-Sort@{\-G\-Sort}!\-G\-Sort@{\-G\-Sort}}
+\index{\-G\-Sort@{\-G\-Sort}!GSort@{\-G\-Sort}}
+\subsubsection[{\-G\-Sort}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-G\-Sort\-::\-G\-Sort} (
+\begin{DoxyParamCaption}
+\item[{\-Sort\-Ptr}]{p, }
+\item[{{\bf \-G\-V\-Cluster}}]{c}
+\end{DoxyParamCaption}
+)}}\label{class_g_sort_a423709cc4cc15bc05219b08e1276f455}
+
+
+constructor 
+
+
+\begin{DoxyParams}{\-Parameters}
+{\em \-Sort\-Ptr} & the related \hyperlink{class_sort}{\-Sort} object \\
+\hline
+{\em \hyperlink{struct_g_v_cluster}{\-G\-V\-Cluster}} & the object that contains style and layout info \\
+\hline
+\end{DoxyParams}
+
+
+\subsection{\-Member \-Function \-Documentation}
+\hypertarget{class_g_sort_ae7183314fea0d5a3d9a302004d0614a7}{\index{\-G\-Sort@{\-G\-Sort}!context\-Menu\-Event@{context\-Menu\-Event}}
+\index{context\-Menu\-Event@{context\-Menu\-Event}!GSort@{\-G\-Sort}}
+\subsubsection[{context\-Menu\-Event}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-G\-Sort\-::context\-Menu\-Event} (
+\begin{DoxyParamCaption}
+\item[{\-Q\-Graphics\-Scene\-Context\-Menu\-Event $\ast$}]{event}
+\end{DoxyParamCaption}
+)}}\label{class_g_sort_ae7183314fea0d5a3d9a302004d0614a7}
+
+
+\-Handles context menu event (typically on right click) 
+
+
+\begin{DoxyParams}{\-Parameters}
+{\em \-Q\-Graphics\-Scene\-Context\-Menu\-Event} & the event to be handled \\
+\hline
+\end{DoxyParams}
+\hypertarget{class_g_sort_ad843ded0ec50cef488015b82661991ed}{\index{\-G\-Sort@{\-G\-Sort}!get\-Cluster@{get\-Cluster}}
+\index{get\-Cluster@{get\-Cluster}!GSort@{\-G\-Sort}}
+\subsubsection[{get\-Cluster}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-G\-V\-Cluster} {\bf \-G\-Sort\-::get\-Cluster} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_g_sort_ad843ded0ec50cef488015b82661991ed}
+
+
+gets the related \hyperlink{struct_g_v_cluster}{\-G\-V\-Cluster} which stores \hyperlink{class_g_sort}{\-G\-Sort} absolute coordinates 
+
+\begin{DoxyReturn}{\-Returns}
+\hyperlink{struct_g_v_cluster}{\-G\-V\-Cluster} the related \hyperlink{struct_g_v_cluster}{\-G\-V\-Cluster} 
+\end{DoxyReturn}
+\hypertarget{class_g_sort_a69520d78ab078c083b8090f9190424b0}{\index{\-G\-Sort@{\-G\-Sort}!get\-Sort@{get\-Sort}}
+\index{get\-Sort@{get\-Sort}!GSort@{\-G\-Sort}}
+\subsubsection[{get\-Sort}]{\setlength{\rightskip}{0pt plus 5cm}\-Sort\-Ptr {\bf \-G\-Sort\-::get\-Sort} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_g_sort_a69520d78ab078c083b8090f9190424b0}
+
+
+gets the related \hyperlink{class_sort}{\-Sort} object 
+
+\begin{DoxyReturn}{\-Returns}
+\-Sort\-Ptr a pointer to the related \hyperlink{class_sort}{\-Sort} object 
+\end{DoxyReturn}
+\hypertarget{class_g_sort_a03da0205abd58bad6c4a58419cb40568}{\index{\-G\-Sort@{\-G\-Sort}!make\-Color@{make\-Color}}
+\index{make\-Color@{make\-Color}!GSort@{\-G\-Sort}}
+\subsubsection[{make\-Color}]{\setlength{\rightskip}{0pt plus 5cm}static \-Q\-Color$\ast$ {\bf \-G\-Sort\-::make\-Color} (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}static, protected\mbox{]}}}}\label{class_g_sort_a03da0205abd58bad6c4a58419cb40568}
+
+
+gets a new color in the palette 
+
+\begin{DoxyReturn}{\-Returns}
+\-Q\-Color$\ast$ the color retrieved in the palette 
+\end{DoxyReturn}
+\hypertarget{class_g_sort_aad29bd2ba170cd9b89ca80edf3439367}{\index{\-G\-Sort@{\-G\-Sort}!mouse\-Move\-Event@{mouse\-Move\-Event}}
+\index{mouse\-Move\-Event@{mouse\-Move\-Event}!GSort@{\-G\-Sort}}
+\subsubsection[{mouse\-Move\-Event}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-G\-Sort\-::mouse\-Move\-Event} (
+\begin{DoxyParamCaption}
+\item[{\-Q\-Graphics\-Scene\-Mouse\-Event $\ast$}]{event}
+\end{DoxyParamCaption}
+)}}\label{class_g_sort_aad29bd2ba170cd9b89ca80edf3439367}
+
+
+\-Handles mouse move event (handles drag) 
+
+
+\begin{DoxyParams}{\-Parameters}
+{\em \-Q\-Graphics\-Scene\-Mouse\-Event} & the event to be handled \\
+\hline
+\end{DoxyParams}
+\hypertarget{class_g_sort_ac3cbef2a811660668cff937f56ca37fe}{\index{\-G\-Sort@{\-G\-Sort}!mouse\-Press\-Event@{mouse\-Press\-Event}}
+\index{mouse\-Press\-Event@{mouse\-Press\-Event}!GSort@{\-G\-Sort}}
+\subsubsection[{mouse\-Press\-Event}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-G\-Sort\-::mouse\-Press\-Event} (
+\begin{DoxyParamCaption}
+\item[{\-Q\-Graphics\-Scene\-Mouse\-Event $\ast$}]{event}
+\end{DoxyParamCaption}
+)}}\label{class_g_sort_ac3cbef2a811660668cff937f56ca37fe}
+
+
+\-Handles mouse press event (handles drag start) 
+
+
+\begin{DoxyParams}{\-Parameters}
+{\em \-Q\-Graphics\-Scene\-Mouse\-Event} & the event to be handled \\
+\hline
+\end{DoxyParams}
+\hypertarget{class_g_sort_a340c92716c90ad010232fdd972902ff0}{\index{\-G\-Sort@{\-G\-Sort}!mouse\-Release\-Event@{mouse\-Release\-Event}}
+\index{mouse\-Release\-Event@{mouse\-Release\-Event}!GSort@{\-G\-Sort}}
+\subsubsection[{mouse\-Release\-Event}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-G\-Sort\-::mouse\-Release\-Event} (
+\begin{DoxyParamCaption}
+\item[{\-Q\-Graphics\-Scene\-Mouse\-Event $\ast$}]{event}
+\end{DoxyParamCaption}
+)}}\label{class_g_sort_a340c92716c90ad010232fdd972902ff0}
+
+
+\-Handles mouse release event (handles drop) 
+
+
+\begin{DoxyParams}{\-Parameters}
+{\em \-Q\-Graphics\-Scene\-Mouse\-Event} & the event to be handled \\
+\hline
+\end{DoxyParams}
+
+
+\-The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+headers/\hyperlink{_g_sort_8h}{\-G\-Sort.\-h}\end{DoxyCompactItemize}

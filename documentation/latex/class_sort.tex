@@ -1,0 +1,167 @@
+\hypertarget{class_sort}{\section{\-Sort \-Class \-Reference}
+\label{class_sort}\index{\-Sort@{\-Sort}}
+}
+
+
+represents a sort of the process hitting  
+
+
+
+
+{\ttfamily \#include $<$\-Sort.\-h$>$}
+
+\subsection*{\-Public \-Member \-Functions}
+\begin{DoxyCompactItemize}
+\item 
+\-Process\-Ptr \hyperlink{class_sort_a5b30c6e6f75987a8a10bef36762aace6}{get\-Process} (const uint \&)
+\begin{DoxyCompactList}\small\item\em gets a \hyperlink{class_process}{\-Process} by its index \end{DoxyCompactList}\item 
+\hypertarget{class_sort_a1b76cf03a033bdee33ddd783e6e61f29}{vector$<$ \-Process\-Ptr $>$ \hyperlink{class_sort_a1b76cf03a033bdee33ddd783e6e61f29}{get\-Processes} (void)}\label{class_sort_a1b76cf03a033bdee33ddd783e6e61f29}
+
+\begin{DoxyCompactList}\small\item\em gets processes vector \end{DoxyCompactList}\item 
+\hypertarget{class_sort_ad77072a25565d843de3ea6a7b47ffbdd}{\-Process\-Ptr \hyperlink{class_sort_ad77072a25565d843de3ea6a7b47ffbdd}{get\-Active\-Process} (void)}\label{class_sort_ad77072a25565d843de3ea6a7b47ffbdd}
+
+\begin{DoxyCompactList}\small\item\em gets the active process \end{DoxyCompactList}\item 
+\hypertarget{class_sort_afb60d6f4e0b2d2984faf33fe16ad29b2}{void \hyperlink{class_sort_afb60d6f4e0b2d2984faf33fe16ad29b2}{set\-Active\-Process} (const int \&)}\label{class_sort_afb60d6f4e0b2d2984faf33fe16ad29b2}
+
+\begin{DoxyCompactList}\small\item\em sets the active process \end{DoxyCompactList}\item 
+int \hyperlink{class_sort_a1f91b39f9d5d05ffbf59a1480102e85c}{count\-Processes} (void)
+\begin{DoxyCompactList}\small\item\em counts the number of processes \end{DoxyCompactList}\item 
+\hypertarget{class_sort_aae171b005c3dada51b7a302230ff501a}{string \hyperlink{class_sort_aae171b005c3dada51b7a302230ff501a}{get\-Name} (void)}\label{class_sort_aae171b005c3dada51b7a302230ff501a}
+
+\begin{DoxyCompactList}\small\item\em gets the name of the \hyperlink{class_sort}{\-Sort} \end{DoxyCompactList}\item 
+string \hyperlink{class_sort_ae160613fb2d5c7fd9818a5c7d4be992a}{to\-String} (void)
+\begin{DoxyCompactList}\small\item\em gives a text representation of the process hitting (as it would be in a .ph file) \end{DoxyCompactList}\item 
+string \hyperlink{class_sort_a9bb67cd444d217dd477c896a31d869a0}{to\-Dot\-String} (void)
+\begin{DoxyCompactList}\small\item\em gives a text representation of the process hitting (in .dot format, used in \-Graphviz) \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{\-Static \-Public \-Member \-Functions}
+\begin{DoxyCompactItemize}
+\item 
+static \-Sort\-Ptr \hyperlink{class_sort_a9c3fa1c3b71839c425d99a7fa86a9cc2}{make} (const string \&, const int \&)
+\begin{DoxyCompactList}\small\item\em creates a pointer to the \hyperlink{class_sort}{\-Sort} which name is given as parameter \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{\-Protected \-Member \-Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{class_sort_ab9d3cb2bb873e058d0129e793c947d45}{\hyperlink{class_sort_ab9d3cb2bb873e058d0129e793c947d45}{\-Sort} (const string \&)}\label{class_sort_ab9d3cb2bb873e058d0129e793c947d45}
+
+\begin{DoxyCompactList}\small\item\em constructor \end{DoxyCompactList}\item 
+void \hyperlink{class_sort_a63bd04693623b2a269e76b9d5269e880}{add\-Process} (\-Process\-Ptr p)
+\begin{DoxyCompactList}\small\item\em adds a \hyperlink{class_process}{\-Process} \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{\-Protected \-Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{class_sort_a047fd7c62ee90060e2e9374f6dc9ceca}{string \hyperlink{class_sort_a047fd7c62ee90060e2e9374f6dc9ceca}{name}}\label{class_sort_a047fd7c62ee90060e2e9374f6dc9ceca}
+
+\begin{DoxyCompactList}\small\item\em name of the \hyperlink{class_sort}{\-Sort} \end{DoxyCompactList}\item 
+\hypertarget{class_sort_abd772622b6c5b12de38d3a646258cc0a}{vector$<$ \-Process\-Ptr $>$ \hyperlink{class_sort_abd772622b6c5b12de38d3a646258cc0a}{processes}}\label{class_sort_abd772622b6c5b12de38d3a646258cc0a}
+
+\begin{DoxyCompactList}\small\item\em \-Processes of the \hyperlink{class_sort}{\-Sort}. \end{DoxyCompactList}\item 
+\hypertarget{class_sort_a941e734fb42ff8042ba0d4e82f22a9d8}{\-Process\-Ptr \hyperlink{class_sort_a941e734fb42ff8042ba0d4e82f22a9d8}{active\-Process}}\label{class_sort_a941e734fb42ff8042ba0d4e82f22a9d8}
+
+\begin{DoxyCompactList}\small\item\em active \hyperlink{class_process}{\-Process} in the \hyperlink{class_sort}{\-Sort} \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+represents a sort of the process hitting 
+
+\subsection{\-Member \-Function \-Documentation}
+\hypertarget{class_sort_a63bd04693623b2a269e76b9d5269e880}{\index{\-Sort@{\-Sort}!add\-Process@{add\-Process}}
+\index{add\-Process@{add\-Process}!Sort@{\-Sort}}
+\subsubsection[{add\-Process}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-Sort\-::add\-Process} (
+\begin{DoxyParamCaption}
+\item[{\-Process\-Ptr}]{p}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}\label{class_sort_a63bd04693623b2a269e76b9d5269e880}
+
+
+adds a \hyperlink{class_process}{\-Process} 
+
+
+\begin{DoxyParams}{\-Parameters}
+{\em \-Process\-Ptr} & pointer to the \hyperlink{class_process}{\-Process} to add \\
+\hline
+\end{DoxyParams}
+\hypertarget{class_sort_a1f91b39f9d5d05ffbf59a1480102e85c}{\index{\-Sort@{\-Sort}!count\-Processes@{count\-Processes}}
+\index{count\-Processes@{count\-Processes}!Sort@{\-Sort}}
+\subsubsection[{count\-Processes}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf \-Sort\-::count\-Processes} (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{class_sort_a1f91b39f9d5d05ffbf59a1480102e85c}
+
+
+counts the number of processes 
+
+\begin{DoxyReturn}{\-Returns}
+int the number of processes 
+\end{DoxyReturn}
+\hypertarget{class_sort_a5b30c6e6f75987a8a10bef36762aace6}{\index{\-Sort@{\-Sort}!get\-Process@{get\-Process}}
+\index{get\-Process@{get\-Process}!Sort@{\-Sort}}
+\subsubsection[{get\-Process}]{\setlength{\rightskip}{0pt plus 5cm}\-Process\-Ptr {\bf \-Sort\-::get\-Process} (
+\begin{DoxyParamCaption}
+\item[{const uint \&}]{}
+\end{DoxyParamCaption}
+)}}\label{class_sort_a5b30c6e6f75987a8a10bef36762aace6}
+
+
+gets a \hyperlink{class_process}{\-Process} by its index 
+
+
+\begin{DoxyParams}{\-Parameters}
+{\em uint} & the index of the \hyperlink{class_process}{\-Process} in processes vector \\
+\hline
+\end{DoxyParams}
+\hypertarget{class_sort_a9c3fa1c3b71839c425d99a7fa86a9cc2}{\index{\-Sort@{\-Sort}!make@{make}}
+\index{make@{make}!Sort@{\-Sort}}
+\subsubsection[{make}]{\setlength{\rightskip}{0pt plus 5cm}static \-Sort\-Ptr {\bf \-Sort\-::make} (
+\begin{DoxyParamCaption}
+\item[{const string \&}]{, }
+\item[{const int \&}]{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}static\mbox{]}}}}\label{class_sort_a9c3fa1c3b71839c425d99a7fa86a9cc2}
+
+
+creates a pointer to the \hyperlink{class_sort}{\-Sort} which name is given as parameter 
+
+
+\begin{DoxyParams}{\-Parameters}
+{\em string} & name of the \hyperlink{class_sort}{\-Sort} to created \\
+\hline
+{\em int} & number of processes in the \hyperlink{class_sort}{\-Sort} \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+\-Sort\-Ptr the pointer to the created \hyperlink{class_sort}{\-Sort} 
+\end{DoxyReturn}
+\hypertarget{class_sort_a9bb67cd444d217dd477c896a31d869a0}{\index{\-Sort@{\-Sort}!to\-Dot\-String@{to\-Dot\-String}}
+\index{to\-Dot\-String@{to\-Dot\-String}!Sort@{\-Sort}}
+\subsubsection[{to\-Dot\-String}]{\setlength{\rightskip}{0pt plus 5cm}string {\bf \-Sort\-::to\-Dot\-String} (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{class_sort_a9bb67cd444d217dd477c896a31d869a0}
+
+
+gives a text representation of the process hitting (in .dot format, used in \-Graphviz) 
+
+\begin{DoxyReturn}{\-Returns}
+string the text representation of the process hitting in \-D\-O\-T format 
+\end{DoxyReturn}
+\hypertarget{class_sort_ae160613fb2d5c7fd9818a5c7d4be992a}{\index{\-Sort@{\-Sort}!to\-String@{to\-String}}
+\index{to\-String@{to\-String}!Sort@{\-Sort}}
+\subsubsection[{to\-String}]{\setlength{\rightskip}{0pt plus 5cm}string {\bf \-Sort\-::to\-String} (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{class_sort_ae160613fb2d5c7fd9818a5c7d4be992a}
+
+
+gives a text representation of the process hitting (as it would be in a .ph file) 
+
+\begin{DoxyReturn}{\-Returns}
+string the text representation of the process hitting in \hyperlink{class_p_h}{\-P\-H} format 
+\end{DoxyReturn}
+
+
+\-The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+headers/\hyperlink{_sort_8h}{\-Sort.\-h}\end{DoxyCompactItemize}
