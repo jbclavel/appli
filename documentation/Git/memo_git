@@ -22,7 +22,7 @@ git commit
 git push -u APPLI master
 
 cloner mon dossier a partir de git.
-git clone https://github.com/jbclavel/APPLI.git
+git clone https://github.com/jbclavel/appli.git
 
 rappel de la méthode de travail :
 1. modifier le code source ;
