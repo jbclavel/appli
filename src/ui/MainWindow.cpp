@@ -345,7 +345,8 @@ void MainWindow::save() {
         std::string path =	fichier.toStdString();
 
         // need the PHPtr which is associated with the subwindow
-        PHPtr ph= ((MyArea*) subWindow->widget())->getPHPtr();
+        //PHPtr ph= ((MyArea*) subWindow->widget())->getPHPtr();
+        PHPtr ph= ((Area*) subWindow->widget())->myArea->getPHPtr();
 
         // save file
         PHIO::writeToFile (path, ph);
