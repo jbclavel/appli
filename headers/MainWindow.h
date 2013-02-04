@@ -1,6 +1,7 @@
 #pragma once
 #include <QMainWindow>
 #include "MyArea.h"
+#include <qthread.h>
 
 /**
   * @file MainWindow.h
@@ -16,7 +17,7 @@
   * extends QMainWindow
   *
   */
-class MainWindow : public QMainWindow {
+class MainWindow : public QMainWindow{
 
     Q_OBJECT
 

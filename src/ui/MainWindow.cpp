@@ -6,9 +6,10 @@
 #include "Exceptions.h"
 #include "Area.h"
 #include <stdio.h>
+#include <qthread.h>
 
 
-MainWindow::MainWindow() {
+MainWindow::MainWindow(){
 
     // title
     setWindowTitle("gPH");
@@ -218,7 +219,6 @@ MyArea* MainWindow::openTab() {
         // TODO refactor using early returns
         if(file!=NULL) {
 
-
             QFileInfo pathInfo(file);
             std::vector<QString> allPath = this->getAllPaths();
             int size = allPath.size();
@@ -234,33 +234,18 @@ MyArea* MainWindow::openTab() {
 
             if(!alreadyOpen) {
 
-                //filedialog->setLabelText(QFileDialog::LookIn, "Please Wait");
+                //Affichage de la fenêtre de chargement
 
                 QDialog* mb = new QDialog(filedialog);
                 QLabel* dialogue = new QLabel(mb);
                 mb->setWindowTitle("Please wait...");
-                QMovie* gif = new QMovie("loading.gif");
-                dialogue->setMovie(gif);
+                QMovie* gif = new QMovie("loading_gif.gif");
                 gif->start();
+                dialogue->setMovie(gif);
                 dialogue->show();
                 mb->open();
 
-                /*QTimer* timer = new QTimer();
-                timer->setInterval(1000);
-                connect(timer, SIGNAL(timeout()), this, SLOT(QDialog::finished));*/
-
-
-              /*  if (pathInfo.size()>1000){
-
-                    QProgressBar* progressBar = new QProgressBar(mb);
-                    progressBar->setMaximumHeight(16);
-                    progressBar->setMaximumWidth(200);
-                    progressBar->setTextVisible(false);
-                    progressBar->setRange(0,0);
-                    progressBar->setValue(1);
-                    mb->setModal(false);
-                    mb->open();
-                }*/
+               // sleep(5);
 
                 //need a std::string instead of a QString
                 std::string path =	file.toStdString();                
@@ -302,12 +287,11 @@ MyArea* MainWindow::openTab() {
                     QMdiSubWindow *theNewTab = this->getCentraleArea()->addSubWindow(area);
                     QString fileName(pathInfo.fileName());
                     theNewTab->setWindowTitle(fileName);
-                    this->enableMenu();
+                    this->enableMenu();                    
+
                     mb->close();
 
                     return area->myArea;
-
-
 
                 } catch(exception_base& argh) {
                     QMessageBox::critical(this, "Error", "Extension not recognized. Only ph files are accepted.");
