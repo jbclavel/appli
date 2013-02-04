@@ -215,7 +215,6 @@ MyArea* MainWindow::openTab() {
         QFileDialog* filedialog = new QFileDialog(this);
         QString file = filedialog->getOpenFileName(this, "Open...");
 
-
         // TODO refactor using early returns
         if(file!=NULL) {
 
@@ -235,7 +234,35 @@ MyArea* MainWindow::openTab() {
 
             if(!alreadyOpen) {
 
+                //filedialog->setLabelText(QFileDialog::LookIn, "Please Wait");
 
+                QDialog* mb = new QDialog(filedialog);
+                QLabel* dialogue = new QLabel(mb);
+                mb->setWindowTitle("Please wait...");
+                QMovie* gif = new QMovie("loading.gif");
+                dialogue->setMovie(gif);
+                gif->start();
+                dialogue->show();
+                mb->open();
+
+
+                /*QTimer* timer = new QTimer();
+                timer->setInterval(1000);
+                connect(timer, SIGNAL(timeout()), this, SLOT());*/
+
+
+
+              /*  if (pathInfo.size()>1000){
+
+                    QProgressBar* progressBar = new QProgressBar(mb);
+                    progressBar->setMaximumHeight(16);
+                    progressBar->setMaximumWidth(200);
+                    progressBar->setTextVisible(false);
+                    progressBar->setRange(0,0);
+                    progressBar->setValue(1);
+                    mb->setModal(false);
+                    mb->open();
+                }*/
 
                 //need a std::string instead of a QString
                 std::string path =	file.toStdString();                
@@ -246,20 +273,6 @@ MyArea* MainWindow::openTab() {
 
 
                 try {
-
-                    filedialog->setLabelText(QFileDialog::LookIn, "Please Wait");
-
-                    /*if (pathInfo.size()>1000){
-                        QDialog* mb = new QDialog(this);
-                        QProgressBar* progressBar = new QProgressBar(mb);
-                        progressBar->setMaximumHeight(16);
-                        progressBar->setMaximumWidth(200);
-                        progressBar->setTextVisible(false);
-                        progressBar->setRange(0,0);
-                        progressBar->setValue(1);
-                        mb->setModal(false);
-                        mb->open();
-                    }*/
 
                     // render graph
                     PHPtr myPHPtr = PHIO::parseFile(path);
@@ -292,7 +305,7 @@ MyArea* MainWindow::openTab() {
                     QString fileName(pathInfo.fileName());
                     theNewTab->setWindowTitle(fileName);
                     this->enableMenu();
-
+                    mb->close();
 
                     return area->myArea;
 
