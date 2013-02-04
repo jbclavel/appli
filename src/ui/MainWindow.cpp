@@ -245,11 +245,9 @@ MyArea* MainWindow::openTab() {
                 dialogue->show();
                 mb->open();
 
-
                 /*QTimer* timer = new QTimer();
                 timer->setInterval(1000);
-                connect(timer, SIGNAL(timeout()), this, SLOT());*/
-
+                connect(timer, SIGNAL(timeout()), this, SLOT(QDialog::finished));*/
 
 
               /*  if (pathInfo.size()>1000){
