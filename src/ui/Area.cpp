@@ -71,6 +71,7 @@ Area::Area(QWidget *parent, QString path) :
     QObject::connect(this->rightExpandButton, SIGNAL(clicked()), this, SLOT(expandOrReduceText()));
     QObject::connect(this->editTextArea, SIGNAL(clicked()), this, SLOT(editText()));
     QObject::connect(this->cancelTextEdit, SIGNAL(clicked()), this, SLOT(cancelEdit()));
+    connect(this->textArea, SIGNAL(textChanged()), this, SLOT(onTextEdit()));
 
 }
 
@@ -192,14 +193,27 @@ void Area::editText(){
     this->editTextArea->setVisible(false);
     this->saveTextEdit->setVisible(true);
     this->cancelTextEdit->setVisible(true);
+
+    this->nberEdit = 0;
 }
 
 void Area::cancelEdit(){
+
+    this->textArea->setUndoRedoEnabled(true);
+
+    for(int i = 0; i < this->nberEdit; i++){
+
+        this->textArea->undo();
+    }
 
     this->textArea->setReadOnly(true);
     this->editTextArea->setVisible(true);
     this->saveTextEdit->setVisible(false);
     this->cancelTextEdit->setVisible(false);
-    this->textArea->setUndoRedoEnabled(true);
-    connect(cancelTextEdit,SIGNAL(clicked()),textArea,SLOT(undo()));
+
+}
+
+void Area::onTextEdit(){
+
+    this->nberEdit++;
 }

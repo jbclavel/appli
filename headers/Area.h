@@ -132,6 +132,10 @@ public:
 
     QPushButton* cancelTextEdit;
 
+private :
+
+    int nberEdit;
+
 signals:
 
 public slots:
@@ -167,6 +171,8 @@ public slots:
       *
       */
     void cancelEdit();
+
+    void onTextEdit();
 
 };
 
