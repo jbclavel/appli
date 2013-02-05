@@ -27,9 +27,31 @@ public:
       */
     void changeBackgroundColor(QColor);
 
+    /**
+      * @brief getter of nberEdit attribut
+      *
+      */
+    int getNberEdit();
+
+    /**
+      * @brief setter of nberEdit attribut
+      *
+      */
+    void setNberEdit();
+
+private :
+
+    int nberEdit;
+
 signals:
 
 public slots:
+
+    /**
+      * @brief method to count change of the text area
+      *
+      */
+    void onTextEdit();
 
 };
 

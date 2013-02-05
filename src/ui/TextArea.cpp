@@ -22,3 +22,18 @@ void TextArea::changeBackgroundColor(QColor color){
     // set the palette to the textArea
     this->setPalette(p);
 }
+
+void TextArea::onTextEdit(){
+
+    this->nberEdit++;
+}
+
+int TextArea::getNberEdit(){
+
+    return this->nberEdit;
+}
+
+void TextArea::setNberEdit(){
+
+    this->nberEdit = 0;
+}

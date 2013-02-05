@@ -1,5 +1,6 @@
 #include "Area.h"
 #include "QHBoxLayout"
+#include "PHIO.h"
 
 Area::Area(QWidget *parent, QString path) :
     QWidget(parent)
@@ -42,14 +43,14 @@ Area::Area(QWidget *parent, QString path) :
     this->textButtonArea->setLayout(layoutRight);
 
     this->editTextArea = new QPushButton("Edit text",this);
-    this->editTextArea->setFixedSize(QSize(100,30));
+    this->editTextArea->setFixedSize(QSize(200,30));
 
     this->saveTextEdit = new QPushButton("Save",this);
-    this->saveTextEdit->setFixedSize(QSize(50,30));
+    this->saveTextEdit->setFixedSize(QSize(80,30));
     this->saveTextEdit->setVisible(false);
 
     this->cancelTextEdit = new QPushButton("Cancel",this);
-    this->cancelTextEdit->setFixedSize(QSize(50,30));
+    this->cancelTextEdit->setFixedSize(QSize(80,30));
     this->cancelTextEdit->setVisible(false);
 
     // set the global layout
@@ -57,13 +58,23 @@ Area::Area(QWidget *parent, QString path) :
     layout->addWidget(this->treeArea);
     layout->addWidget(this->treeButtonArea);
     layout->addWidget(this->myArea);
-    layout->addWidget(this->textButtonArea);
-    layout->addWidget(this->textArea);
-    layout->addWidget(this->editTextArea);
-    layout->addWidget(this->saveTextEdit);
-    layout->addWidget(this->cancelTextEdit);
+    layout->addWidget(this->textButtonArea);    
 
-    this->setLayout(layout);
+    QVBoxLayout *VLayout = new QVBoxLayout;
+    VLayout->addWidget(this->textArea);
+    VLayout->addWidget(this->editTextArea,0x0004);
+
+    QHBoxLayout *options = new QHBoxLayout;
+    options->addWidget(this->saveTextEdit);
+    options->addWidget(this->cancelTextEdit);
+
+    VLayout->addLayout(options);
+
+    QHBoxLayout *global = new QHBoxLayout;
+    global->addLayout(layout);
+    global->addLayout(VLayout);
+
+    this->setLayout(global);
 
     // connect
     QObject::connect(this->leftButton, SIGNAL(clicked()), this, SLOT(hideOrShowTree()));
@@ -71,7 +82,8 @@ Area::Area(QWidget *parent, QString path) :
     QObject::connect(this->rightExpandButton, SIGNAL(clicked()), this, SLOT(expandOrReduceText()));
     QObject::connect(this->editTextArea, SIGNAL(clicked()), this, SLOT(editText()));
     QObject::connect(this->cancelTextEdit, SIGNAL(clicked()), this, SLOT(cancelEdit()));
-    connect(this->textArea, SIGNAL(textChanged()), this, SLOT(onTextEdit()));
+    QObject::connect(this->textArea, SIGNAL(textChanged()), this->textArea, SLOT(onTextEdit()));
+    QObject::connect(this->saveTextEdit, SIGNAL(clicked()), this, SLOT(saveEdit()));
 
 }
 
@@ -194,17 +206,19 @@ void Area::editText(){
     this->saveTextEdit->setVisible(true);
     this->cancelTextEdit->setVisible(true);
 
-    this->nberEdit = 0;
+    this->textArea->setNberEdit();
 }
 
 void Area::cancelEdit(){
 
     this->textArea->setUndoRedoEnabled(true);
 
-    for(int i = 0; i < this->nberEdit; i++){
+    for(int i = 0; i < this->textArea->getNberEdit(); i++){
 
         this->textArea->undo();
     }
+
+    this->textArea->setNberEdit();
 
     this->textArea->setReadOnly(true);
     this->editTextArea->setVisible(true);
@@ -213,7 +227,20 @@ void Area::cancelEdit(){
 
 }
 
-void Area::onTextEdit(){
+void Area::saveEdit(){
 
-    this->nberEdit++;
+    this->textArea->setReadOnly(true);
+    this->editTextArea->setVisible(true);
+    this->saveTextEdit->setVisible(false);
+    this->cancelTextEdit->setVisible(false);
+
+    QMdiSubWindow *subWindow = this->mainWindow->getCentraleArea()->currentSubWindow();
+
+    std::string path =	this->path.toStdString();
+    PHPtr ph= ((Area*) subWindow->widget())->myArea->getPHPtr();
+
+    // save file
+    PHIO::writeToFile (path, ph);
+
+
 }

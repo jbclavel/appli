@@ -132,10 +132,6 @@ public:
 
     QPushButton* cancelTextEdit;
 
-private :
-
-    int nberEdit;
-
 signals:
 
 public slots:
@@ -167,12 +163,16 @@ public slots:
     void editText();
 
     /**
-      * @brief method to cancel edit text area clicking on the button
+      * @brief method to cancel text change clicking on the button
       *
       */
     void cancelEdit();
 
-    void onTextEdit();
+    /**
+      * @brief method to save text change clicking on the button
+      *
+      */
+    void saveEdit();
 
 };
 
