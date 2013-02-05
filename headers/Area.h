@@ -111,6 +111,27 @@ public:
       */
     QPushButton* rightExpandButton;
 
+    /**
+      * @brief pointer to edit/readOnly textArea button
+      *
+      */
+
+    QPushButton* editTextArea;
+
+    /**
+      * @brief pointer to save edit text button
+      *
+      */
+
+    QPushButton* saveTextEdit;
+
+    /**
+      * @brief pointer to cancel edit text button
+      *
+      */
+
+    QPushButton* cancelTextEdit;
+
 signals:
 
 public slots:
@@ -134,6 +155,18 @@ public slots:
       *
       */
     void hideOrShowTree();
+
+    /**
+      * @brief method to edit text area clicking on the button
+      *
+      */
+    void editText();
+
+    /**
+      * @brief method to cancel edit text area clicking on the button
+      *
+      */
+    void cancelEdit();
 
 };
 

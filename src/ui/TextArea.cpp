@@ -3,15 +3,15 @@
 TextArea::TextArea(QWidget *parent) :
     QTextEdit(parent)
 {
- this->setMinimumWidth(200);
- this->setMaximumWidth(200);
+    this->setMinimumWidth(200);
+    this->setMaximumWidth(200);
+    this->setFixedHeight(600);
 
     QPalette p = this->palette();
     p.setColor(QPalette::Base, QColor(10, 10, 10));
     this->setPalette(p);
     this->setCurrentFont(QFont("TypeWriter", 10));
     this->setTextColor(QColor("white"));
-
 }
 
 void TextArea::changeBackgroundColor(QColor color){

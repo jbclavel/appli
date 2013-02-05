@@ -41,6 +41,17 @@ Area::Area(QWidget *parent, QString path) :
     layoutRight->setContentsMargins(0,0,0,0);
     this->textButtonArea->setLayout(layoutRight);
 
+    this->editTextArea = new QPushButton("Edit text",this);
+    this->editTextArea->setFixedSize(QSize(100,30));
+
+    this->saveTextEdit = new QPushButton("Save",this);
+    this->saveTextEdit->setFixedSize(QSize(50,30));
+    this->saveTextEdit->setVisible(false);
+
+    this->cancelTextEdit = new QPushButton("Cancel",this);
+    this->cancelTextEdit->setFixedSize(QSize(50,30));
+    this->cancelTextEdit->setVisible(false);
+
     // set the global layout
     QHBoxLayout *layout = new QHBoxLayout;
     layout->addWidget(this->treeArea);
@@ -48,12 +59,19 @@ Area::Area(QWidget *parent, QString path) :
     layout->addWidget(this->myArea);
     layout->addWidget(this->textButtonArea);
     layout->addWidget(this->textArea);
+    layout->addWidget(this->editTextArea);
+    layout->addWidget(this->saveTextEdit);
+    layout->addWidget(this->cancelTextEdit);
+
     this->setLayout(layout);
 
     // connect
     QObject::connect(this->leftButton, SIGNAL(clicked()), this, SLOT(hideOrShowTree()));
     QObject::connect(this->rightButton, SIGNAL(clicked()), this, SLOT(hideOrShowText()));
     QObject::connect(this->rightExpandButton, SIGNAL(clicked()), this, SLOT(expandOrReduceText()));
+    QObject::connect(this->editTextArea, SIGNAL(clicked()), this, SLOT(editText()));
+    QObject::connect(this->cancelTextEdit, SIGNAL(clicked()), this, SLOT(cancelEdit()));
+
 }
 
 void Area::hideText(){
@@ -166,4 +184,20 @@ void Area::expandOrReduceText(){
             ((Area*)a->widget())->rightExpandButton->setText("<");
         }
     }
+}
+
+void Area::editText(){
+
+    this->textArea->setReadOnly(false);
+    this->editTextArea->setVisible(false);
+    this->saveTextEdit->setVisible(true);
+    this->cancelTextEdit->setVisible(true);
+}
+
+void Area::cancelEdit(){
+
+    this->textArea->setReadOnly(true);
+    this->editTextArea->setVisible(true);
+    this->saveTextEdit->setVisible(false);
+    this->cancelTextEdit->setVisible(false);
 }
