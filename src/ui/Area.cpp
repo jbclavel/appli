@@ -200,4 +200,6 @@ void Area::cancelEdit(){
     this->editTextArea->setVisible(true);
     this->saveTextEdit->setVisible(false);
     this->cancelTextEdit->setVisible(false);
+    this->textArea->setUndoRedoEnabled(true);
+    connect(cancelTextEdit,SIGNAL(clicked()),textArea,SLOT(undo()));
 }
