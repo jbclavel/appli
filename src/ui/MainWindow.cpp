@@ -49,7 +49,7 @@ MainWindow::MainWindow(){
 
     // disable what does not work well
     actionNew->setEnabled(false);
-    actionForimport->setEnabled(false);
+    //actionForimport->setEnabled(false);
 
 
     // shortcuts for the menu File
@@ -188,6 +188,7 @@ MainWindow::MainWindow(){
         this->actionFindFixpoints->setEnabled(false);
         this->actionRunStochasticSimulation->setEnabled(false);
         this->actionStatistics->setEnabled(false);
+        this->actionForimport->setEnabled(false);
     }
 
 }
@@ -813,6 +814,7 @@ void MainWindow::disableMenu(QMdiSubWindow* subwindow){
         this->actionComputeReachability->setEnabled(false);
         this->actionRunStochasticSimulation->setEnabled(false);
         this->actionStatistics->setEnabled(false);
+        this->actionForimport->setEnabled(false);
     }
 }
 
@@ -840,6 +842,7 @@ void MainWindow::enableMenu(){
         this->actionComputeReachability->setEnabled(true);
         this->actionRunStochasticSimulation->setEnabled(true);
         this->actionStatistics->setEnabled(true);
+        this->actionForimport->setEnabled(true);
     }
 }
 
