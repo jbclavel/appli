@@ -206,7 +206,8 @@ void Area::editText(){
     this->saveTextEdit->setVisible(true);
     this->cancelTextEdit->setVisible(true);
 
-    this->textArea->setNberEdit();
+    this->textArea->setNberEdit(0);
+    //this->textArea->insertHtml("<p style='color:green;position:absolute;top:0px;'>Edit...</p><br/><br/>");
 }
 
 void Area::cancelEdit(){
@@ -218,7 +219,7 @@ void Area::cancelEdit(){
         this->textArea->undo();
     }
 
-    this->textArea->setNberEdit();
+    this->textArea->setNberEdit(0);
 
     this->textArea->setReadOnly(true);
     this->editTextArea->setVisible(true);
@@ -229,18 +230,20 @@ void Area::cancelEdit(){
 
 void Area::saveEdit(){
 
+    this->textArea->setUndoRedoEnabled(false);
     this->textArea->setReadOnly(true);
     this->editTextArea->setVisible(true);
     this->saveTextEdit->setVisible(false);
     this->cancelTextEdit->setVisible(false);
+    this->textArea->setNberEdit(0);
 
-    QMdiSubWindow *subWindow = this->mainWindow->getCentraleArea()->currentSubWindow();
+   // QMdiSubWindow *subWindow = this->mainWindow->getCentraleArea()->currentSubWindow();
 
-    std::string path =	this->path.toStdString();
-    PHPtr ph= ((Area*) subWindow->widget())->myArea->getPHPtr();
+    //std::string path =	this->path.toStdString();
+    //std::string ph = textArea->toPlainText();
+    //PHPtr ph = ((Area*) subWindow->widget())->myArea->getPHPtr();
 
     // save file
-    PHIO::writeToFile (path, ph);
-
+//    IO::writeToFile(path, ph);
 
 }

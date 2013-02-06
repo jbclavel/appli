@@ -37,7 +37,7 @@ public:
       * @brief setter of nberEdit attribut
       *
       */
-    void setNberEdit();
+    void setNberEdit(int);
 
 private :
 

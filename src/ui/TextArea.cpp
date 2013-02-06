@@ -33,7 +33,7 @@ int TextArea::getNberEdit(){
     return this->nberEdit;
 }
 
-void TextArea::setNberEdit(){
+void TextArea::setNberEdit(int a){
 
-    this->nberEdit = 0;
+    this->nberEdit = a;
 }
