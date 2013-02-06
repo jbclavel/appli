@@ -91,6 +91,8 @@ protected:
     QAction *actionPng;
     QAction *actionDot;
     QAction *actionExportXMLData;
+    QMenu   *menuImport;
+    QAction *actionForimport;
     QAction *actionClose;
     QAction *actionQuit;
 

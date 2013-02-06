@@ -41,18 +41,24 @@ MainWindow::MainWindow(){
     actionPng = menuExport->addAction("PNG graph");
     actionDot = menuExport->addAction("DOT graph");
     actionExportXMLData = menuExport->addAction("Style and Layout");
+    menuImport = menuFile->addMenu("Import");
+    actionForimport = menuImport->addAction("Au travail Remi !");
     menuFile->addSeparator();
     actionClose = menuFile->addAction("Close");
     actionQuit = menuFile->addAction("Quit");
 
     // disable what does not work well
     actionNew->setEnabled(false);
+    actionForimport->setEnabled(false);
+
 
     // shortcuts for the menu File
     actionNew->setShortcut(     QKeySequence(Qt::CTRL + Qt::Key_N));
     actionOpen->setShortcut(    QKeySequence(Qt::CTRL + Qt::Key_O));
     actionSaveas->setShortcut(  QKeySequence(Qt::CTRL + Qt::Key_S));
     actionQuit->setShortcut(    QKeySequence(Qt::CTRL + Qt::Key_Q));
+    actionForimport->setShortcut(    QKeySequence(Qt::CTRL + Qt::Key_I));
+
 
     // connect the menu File
     QObject::connect(actionQuit,    SIGNAL(triggered()), qApp, SLOT(quit()));
@@ -62,6 +68,7 @@ MainWindow::MainWindow(){
     QObject::connect(actionClose,   SIGNAL(triggered()), this, SLOT(closeTab()));
     QObject::connect(actionExportXMLData, SIGNAL(triggered()), this, SLOT(exportXMLMetadata()));
     QObject::connect(actionDot, SIGNAL(triggered()), this, SLOT(exportDot()));
+    QObject::connect(actionForimport, SIGNAL(triggered()), this, SLOT(openTab()));
 
     // actions for the menu Edit
     actionUndo = menuEdit->addAction("Undo");
