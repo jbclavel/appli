@@ -7,6 +7,7 @@
 #include "TreeArea.h"
 #include "MyArea.h"
 #include "MainWindow.h"
+#include "ColorerSequences.h"
 
 
 /**
@@ -131,6 +132,13 @@ public:
       */
 
     QPushButton* cancelTextEdit;
+
+    /**
+      * @brief pointer to color text in the textArea
+      *
+      */
+
+    ColorerSequences *colorerSequences;
 
 signals:
 

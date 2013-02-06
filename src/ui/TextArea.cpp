@@ -14,6 +14,7 @@ TextArea::TextArea(QWidget *parent) :
     this->setTextColor(QColor("white"));
 }
 
+
 void TextArea::changeBackgroundColor(QColor color){
     // get the current palette of the textArea
     QPalette p = this->palette();
