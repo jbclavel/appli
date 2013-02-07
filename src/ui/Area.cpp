@@ -14,6 +14,9 @@ Area::Area(QWidget *parent, QString path) :
     this->myArea = new MyArea(this, this->path);
     this->treeArea = new TreeArea(this);
 
+    //Ajoute la coloration au text (lie le TextArea)
+    colorerSequences = new ColorerSequences(textArea->document());
+
     // treeArea: create widgets containing the buttons
     this->treeButtonArea = new QWidget(this);
     this->treeButtonArea->setMinimumWidth(12);

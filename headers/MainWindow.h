@@ -134,7 +134,6 @@ protected:
     // action for the menu Help
     QAction *actionHelp;
 
-
 signals:
 
 
