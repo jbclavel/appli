@@ -270,7 +270,7 @@ void Area::saveEdit(){
 
     QFile newph(this->path);
 
-    newph.open(QIODevice::WriteOnly | QIODevice::Text);
+    newph.open(QIODevice::WriteOnly | QIODevice::Truncate);
     QTextStream flux(&newph);
     flux.setCodec("UTF-8");
 
@@ -279,6 +279,8 @@ void Area::saveEdit(){
         //Save new text into new file
 
         flux << this->textArea->toPlainText() << endl;
+
+        newph.close();
 
         QString *file = new QString(this->path);
 
@@ -309,9 +311,13 @@ void Area::saveEdit(){
     }
     catch(exception_base& argh){
 
+        newph.open(QIODevice::WriteOnly | QIODevice::Truncate);
+
         flux << this->oldText << endl;
 
-        QMessageBox::warning(this, "Warning !", "Syntax error !");
+        newph.close();
+
+        QMessageBox::warning(this, "Syntax error !", "One or more of your expressions are wrong !");
         //return NULL;
     }
 }
