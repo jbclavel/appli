@@ -9,7 +9,7 @@ ColorerSequences::ColorerSequences(QTextDocument *parent): QSyntaxHighlighter(pa
 
 void ColorerSequences::highlightBlock(const QString &text)
 {
-    int nbMotEnValeur=6;
+    int nbMotEnValeur=20;
 
     std::vector<QTextCharFormat> tabClassFormat(nbMotEnValeur);
     std::vector<QString> tabPattern(nbMotEnValeur);
@@ -17,11 +17,25 @@ void ColorerSequences::highlightBlock(const QString &text)
     std::vector<int> tabIndex(nbMotEnValeur);
 
     tabPattern[0]= "process";
-    tabPattern[1]= "->";
+    tabPattern[1]= "-";
     tabPattern[2]= "directive";
-    tabPattern[3]= "initial_state";
+    tabPattern[3]= " in ";
     tabPattern[4]= "@";
     tabPattern[5]= "~";
+    tabPattern[6]= "COOPERATIVITY";
+    tabPattern[7]= "\\(";
+    tabPattern[8]= "\\)";
+    tabPattern[9]= "\\[";
+    tabPattern[10]= "\\]";
+    tabPattern[11]= ";";
+    tabPattern[12]= "initial_state";
+    tabPattern[13]= "and ";
+    tabPattern[14]= "not ";
+    tabPattern[15]= "\\+";
+    tabPattern[16]= "->";
+    tabPattern[17]= "GRN";
+    tabPattern[18]= "\\(\\*.*\\*\\)";
+    tabPattern[19]= ",";
 
     tabClassFormat[0].setForeground(Qt::darkMagenta);
     tabClassFormat[1].setForeground(Qt::green);
@@ -29,6 +43,20 @@ void ColorerSequences::highlightBlock(const QString &text)
     tabClassFormat[3].setForeground(Qt::blue);
     tabClassFormat[4].setForeground(Qt::yellow);
     tabClassFormat[5].setForeground(Qt::cyan);
+    tabClassFormat[6].setForeground(Qt::cyan);
+    tabClassFormat[7].setForeground(Qt::cyan);
+    tabClassFormat[8].setForeground(Qt::cyan);
+    tabClassFormat[9].setForeground(Qt::cyan);
+    tabClassFormat[10].setForeground(Qt::cyan);
+    tabClassFormat[11].setForeground(Qt::cyan);
+    tabClassFormat[12].setForeground(Qt::cyan);
+    tabClassFormat[13].setForeground(Qt::cyan);
+    tabClassFormat[14].setForeground(Qt::cyan);
+    tabClassFormat[15].setForeground(Qt::cyan);
+    tabClassFormat[16].setForeground(Qt::cyan);
+    tabClassFormat[17].setForeground(Qt::cyan);
+    tabClassFormat[18].setForeground(Qt::cyan);
+    tabClassFormat[19].setForeground(Qt::cyan);
 
     for (int i=0 ; i<nbMotEnValeur ; i++)
     {
@@ -42,21 +70,7 @@ void ColorerSequences::highlightBlock(const QString &text)
        }
     }
 
-  /*
-    int index = text.indexOf(tabExpression[0]);
-    while (index >= 0) {
-        int length = tabExpression[0].matchedLength();
-        setFormat(index, length, tabClassFormat[0]);
-        index = text.indexOf(tabExpression[0], index + length);
-    }
 
-   int index2 = text.indexOf(tabExpression[1]);
-    while (index2 >= 0) {
-        int length = tabExpression[1].matchedLength();
-        setFormat(index2, length, tabClassFormat[1]);
-        index2 = text.indexOf(tabExpression[1], index2 + length);
-    }
-*/
 //a garder pour Jb (cplmt info)
 /*
     for(int i = 0; i<text.size(); i++)
