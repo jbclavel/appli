@@ -39,6 +39,12 @@ public:
     MyArea *myArea;
 
     /**
+      * @brief pointer to the indicatorEdit
+      *
+      */
+    TextArea *indicatorEdit;
+
+    /**
       * @brief pointer to the TextArea;
       *
       */

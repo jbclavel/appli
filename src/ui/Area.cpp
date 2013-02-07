@@ -2,6 +2,7 @@
 #include "QHBoxLayout"
 #include "PHIO.h"
 #include "IO.h"
+#include "Exceptions.h"
 
 Area::Area(QWidget *parent, QString path) :
     QWidget(parent)
@@ -13,6 +14,7 @@ Area::Area(QWidget *parent, QString path) :
     this->textArea->setReadOnly(true);
     this->myArea = new MyArea(this, this->path);
     this->treeArea = new TreeArea(this);
+    this->indicatorEdit = new TextArea(this);
 
     //Ajoute la coloration au text (lie le TextArea)
     colorerSequences = new ColorerSequences(textArea->document());
@@ -57,6 +59,17 @@ Area::Area(QWidget *parent, QString path) :
     this->cancelTextEdit->setFixedSize(QSize(80,30));
     this->cancelTextEdit->setVisible(false);
 
+    //indicatorEdit preferences
+
+    this->indicatorEdit->setVisible(false);
+    this->indicatorEdit->setReadOnly(true);
+    this->indicatorEdit->changeBackgroundColor(QColor(255,48,48));
+    this->indicatorEdit->setFixedSize(QSize(184,27));
+    this->indicatorEdit->setPlainText("Edition...");
+    this->indicatorEdit->setCurrentFont(QFont("TypeWriter", 10));
+    this->indicatorEdit->setTextColor(QColor("Black"));
+   // this->indicatorEdit->setStyle(QStyle::);
+
     // set the global layout
     QHBoxLayout *layout = new QHBoxLayout;
     layout->addWidget(this->treeArea);
@@ -65,6 +78,7 @@ Area::Area(QWidget *parent, QString path) :
     layout->addWidget(this->textButtonArea);    
 
     QVBoxLayout *VLayout = new QVBoxLayout;
+    VLayout->addWidget(this->indicatorEdit);
     VLayout->addWidget(this->textArea);
     VLayout->addWidget(this->editTextArea);
 
@@ -96,14 +110,16 @@ void Area::hideText(){
     QList<QMdiSubWindow*> tabs = this->mainWindow->getCentraleArea()->subWindowList();
     // hide all the textAreas of those subwindows
     for (QMdiSubWindow* &a: tabs){
-        ((Area*)a->widget())->textArea->hide();
 
         if(!this->editTextArea->isVisible()){
 
-            this->cancelEdit();
+            QMessageBox::warning(this, "Warning...", "Please save or cancel edition !");
         }
+        else{
 
-        ((Area*)a->widget())->editTextArea->hide();
+            ((Area*)a->widget())->textArea->hide();
+            ((Area*)a->widget())->editTextArea->hide();
+        }
     }
 }
 
@@ -165,10 +181,13 @@ void Area::hideOrShowText(){
         for (QMdiSubWindow* &a: tabs){
             // hide all the textAreas
             ((Area*)a->widget())->hideText();
-            // change the button
-            ((Area*)a->widget())->rightButton->setText("<");
-            // hide the button to expand
-            ((Area*)a->widget())->rightExpandButton->hide();
+            if(this->textArea->isHidden())
+            {
+                // change the button
+                ((Area*)a->widget())->rightButton->setText("<");
+                // hide the button to expand
+                ((Area*)a->widget())->rightExpandButton->hide();
+            }
         }
     }
     else {
@@ -213,6 +232,7 @@ void Area::expandOrReduceText(){
 
 void Area::editText(){
 
+    this->indicatorEdit->setVisible(true);
     this->textArea->setReadOnly(false);
     this->editTextArea->setVisible(false);
     this->saveTextEdit->setVisible(true);
@@ -224,6 +244,7 @@ void Area::editText(){
 
 void Area::cancelEdit(){
 
+    this->indicatorEdit->setVisible(false);
     this->textArea->setUndoRedoEnabled(true);
 
     for(int i = 0; i < this->textArea->getNberEdit(); i++){
@@ -242,20 +263,52 @@ void Area::cancelEdit(){
 
 void Area::saveEdit(){
 
-    this->textArea->setUndoRedoEnabled(false);
-    this->textArea->setReadOnly(true);
-    this->editTextArea->setVisible(true);
-    this->saveTextEdit->setVisible(false);
-    this->cancelTextEdit->setVisible(false);
+    try{
 
-    //this->textArea->setNberEdit(0);
+        //New file with same path
 
-    QFile newph(this->path);
+        QFile newph(this->path);
 
-    newph.open(QIODevice::WriteOnly | QIODevice::Text);
-    QTextStream flux(&newph);
-    flux.setCodec("UTF-8");
+        newph.open(QIODevice::WriteOnly | QIODevice::Text);
+        QTextStream flux(&newph);
+        flux.setCodec("UTF-8");
 
-    flux << this->textArea->toPlainText() << endl;
+        //Save new text into new file
 
+        flux << this->textArea->toPlainText() << endl;
+
+        QString *file = new QString(this->path);
+
+        std::string phFile = file->toStdString();
+
+        // render graph
+        PHPtr myPHPtr = PHIO::parseFile(phFile);
+        this->myArea->setPHPtr(myPHPtr);
+        myPHPtr->render();
+        PHScenePtr scene = myPHPtr->getGraphicsScene();
+        this->myArea->setScene(&*scene);
+
+        // set the pointer of the treeArea
+        this->treeArea->myPHPtr = myPHPtr;
+        //set the pointer of the treeArea
+        this->treeArea->myArea = this->myArea;
+        // build the tree in the treeArea
+        this->treeArea->build();
+
+        this->indicatorEdit->setVisible(false);
+        this->textArea->setUndoRedoEnabled(false);
+        this->textArea->setReadOnly(true);
+        this->editTextArea->setVisible(true);
+        this->saveTextEdit->setVisible(false);
+        this->cancelTextEdit->setVisible(false);
+        this->textArea->setNberEdit(0);
+
+    }
+    catch(exception_base& argh){
+
+        QMessageBox::critical(this, "Warning !", "Syntax error !");
+        //return NULL;
+    }
 }
+
+
