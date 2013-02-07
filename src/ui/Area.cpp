@@ -1,6 +1,7 @@
 #include "Area.h"
 #include "QHBoxLayout"
 #include "PHIO.h"
+#include "IO.h"
 
 Area::Area(QWidget *parent, QString path) :
     QWidget(parent)
@@ -62,7 +63,7 @@ Area::Area(QWidget *parent, QString path) :
 
     QVBoxLayout *VLayout = new QVBoxLayout;
     VLayout->addWidget(this->textArea);
-    VLayout->addWidget(this->editTextArea,0x0004);
+    VLayout->addWidget(this->editTextArea);
 
     QHBoxLayout *options = new QHBoxLayout;
     options->addWidget(this->saveTextEdit);
@@ -93,6 +94,13 @@ void Area::hideText(){
     // hide all the textAreas of those subwindows
     for (QMdiSubWindow* &a: tabs){
         ((Area*)a->widget())->textArea->hide();
+
+        if(!this->editTextArea->isVisible()){
+
+            this->cancelEdit();
+        }
+
+        ((Area*)a->widget())->editTextArea->hide();
     }
 }
 
@@ -102,6 +110,7 @@ void Area::showText(){
     // show all the textAreas of those subwindows
     for (QMdiSubWindow* &a: tabs){
         ((Area*)a->widget())->textArea->show();
+        ((Area*)a->widget())->editTextArea->show();
     }
 }
 
@@ -235,15 +244,15 @@ void Area::saveEdit(){
     this->editTextArea->setVisible(true);
     this->saveTextEdit->setVisible(false);
     this->cancelTextEdit->setVisible(false);
-    this->textArea->setNberEdit(0);
 
-   // QMdiSubWindow *subWindow = this->mainWindow->getCentraleArea()->currentSubWindow();
+    //this->textArea->setNberEdit(0);
 
-    //std::string path =	this->path.toStdString();
-    //std::string ph = textArea->toPlainText();
-    //PHPtr ph = ((Area*) subWindow->widget())->myArea->getPHPtr();
+    QFile newph(this->path);
 
-    // save file
-//    IO::writeToFile(path, ph);
+    newph.open(QIODevice::WriteOnly | QIODevice::Text);
+    QTextStream flux(&newph);
+    flux.setCodec("UTF-8");
+
+    flux << this->textArea->toPlainText() << endl;
 
 }
