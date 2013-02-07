@@ -223,7 +223,7 @@ MyArea* MainWindow::openTab() {
         // OpenFile dialog
         QFileDialog* filedialog = new QFileDialog(this);
         QString file = filedialog->getOpenFileName(this, "Open...");
-
+        QDialog* mb = new QDialog(filedialog);
         // TODO refactor using early returns
         if(file!=NULL) {
 
@@ -244,7 +244,6 @@ MyArea* MainWindow::openTab() {
 
                 //Affichage de la fenêtre de chargement
 
-                QDialog* mb = new QDialog(filedialog);
                 QLabel* dialogue = new QLabel(mb);
                 mb->setWindowTitle("Please wait...");
                 QMovie* gif = new QMovie("loading_gif.gif");
@@ -302,6 +301,7 @@ MyArea* MainWindow::openTab() {
                     return area->myArea;
 
                 } catch(exception_base& argh) {
+                    mb->close();
                     QMessageBox::critical(this, "Error", "Extension not recognized. Only ph files are accepted.");
                     return NULL;
                 }
@@ -309,6 +309,7 @@ MyArea* MainWindow::openTab() {
 
 
             else {
+                mb->close();
                 QMessageBox::critical(this, "Error", "This file is already opened!");
                 return NULL;
             }
@@ -316,8 +317,11 @@ MyArea* MainWindow::openTab() {
 
 
         } else {
+            mb->close();
             return NULL;
         }
+
+
 }
 
 
