@@ -36,6 +36,9 @@ public:
       * @brief pointer to the MyArea
       *
       */
+
+    QString oldText;
+
     MyArea *myArea;
 
     /**

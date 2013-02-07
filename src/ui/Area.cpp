@@ -102,6 +102,7 @@ Area::Area(QWidget *parent, QString path) :
     QObject::connect(this->cancelTextEdit, SIGNAL(clicked()), this, SLOT(cancelEdit()));
     QObject::connect(this->textArea, SIGNAL(textChanged()), this->textArea, SLOT(onTextEdit()));
     QObject::connect(this->saveTextEdit, SIGNAL(clicked()), this, SLOT(saveEdit()));
+    QObject::connect(this->textArea, SIGNAL(QMouseEvent::MouseButtonDblClick), this, SLOT(editText()));
 
 }
 
@@ -239,7 +240,8 @@ void Area::editText(){
     this->cancelTextEdit->setVisible(true);
 
     this->textArea->setNberEdit(0);
-    //this->textArea->insertHtml("<p style='color:green;position:absolute;top:0px;'>Edit...</p><br/><br/>");
+
+    this->oldText = this->textArea->toPlainText();
 }
 
 void Area::cancelEdit(){
@@ -247,10 +249,11 @@ void Area::cancelEdit(){
     this->indicatorEdit->setVisible(false);
     this->textArea->setUndoRedoEnabled(true);
 
-    for(int i = 0; i < this->textArea->getNberEdit(); i++){
+    //for(int i = 0; i < this->textArea->getNberEdit(); i++){
 
-        this->textArea->undo();
-    }
+      //  this->textArea->undo();
+    //}
+    this->textArea->setPlainText(this->oldText);
 
     this->textArea->setNberEdit(0);
 
@@ -263,15 +266,15 @@ void Area::cancelEdit(){
 
 void Area::saveEdit(){
 
-    try{
+    //New file with same path
 
-        //New file with same path
+    QFile newph(this->path);
 
-        QFile newph(this->path);
+    newph.open(QIODevice::WriteOnly | QIODevice::Text);
+    QTextStream flux(&newph);
+    flux.setCodec("UTF-8");
 
-        newph.open(QIODevice::WriteOnly | QIODevice::Text);
-        QTextStream flux(&newph);
-        flux.setCodec("UTF-8");
+    try{        
 
         //Save new text into new file
 
@@ -301,12 +304,14 @@ void Area::saveEdit(){
         this->editTextArea->setVisible(true);
         this->saveTextEdit->setVisible(false);
         this->cancelTextEdit->setVisible(false);
-        this->textArea->setNberEdit(0);
+        //this->textArea->setNberEdit(0);
 
     }
     catch(exception_base& argh){
 
-        QMessageBox::critical(this, "Warning !", "Syntax error !");
+        flux << this->oldText << endl;
+
+        QMessageBox::warning(this, "Warning !", "Syntax error !");
         //return NULL;
     }
 }
