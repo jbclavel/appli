@@ -155,7 +155,7 @@ MainWindow::MainWindow(){
     QObject::connect(actionStatistics, SIGNAL(triggered()), this, SLOT(statistics()));
 
     // action for the menu Help
-    actionHelp = menuHelp->addAction("Helpz !");
+    actionHelp = menuHelp->addAction("Help !");
 
     // disable what does not work well
     actionHelp->setEnabled(false);
@@ -642,6 +642,9 @@ void MainWindow::compute(QString program, QStringList arguments, QString fileNam
 
     // start process
     QProcess *myProcess = new QProcess();
+
+
+
     myProcess->start(program, arguments);
 
     if (!myProcess->waitForStarted())
@@ -657,8 +660,6 @@ void MainWindow::compute(QString program, QStringList arguments, QString fileNam
     err += myProcess->readAllStandardError();
     out += myProcess->readAllStandardOutput();
     delete myProcess;
-
-
 
     // pop up for the errors
     if(!err.isEmpty()){
@@ -679,18 +680,10 @@ void MainWindow::compute(QString program, QStringList arguments, QString fileNam
     //pop up for the output
     if(!out.isEmpty()){
 
-
         QMessageBox::information(this, program+".output", out);
 
-        //ici
-        QString out1 = QString::fromUtf8(out.data());
-        QString err1 = QString::fromUtf8(err.data());
-        QMessageBox::information(this, "test out", out1);
-        QMessageBox::information(this, "test err", err1);
-        //a  la
-
-
     }
+
 
 }
 
@@ -717,8 +710,6 @@ void MainWindow::findFixpoints() {
 }
 
 
-// DOES NOT WORK for an unknown reason
-// TODO make it work
 void MainWindow::computeReachability() {
 
     QString program = "ph-reach";
@@ -739,7 +730,8 @@ void MainWindow::computeReachability() {
 
     if (ok && !state.isEmpty()) {
         // give the arguments
-        arguments << "--no-debug" << "-i" << fileName << state;
+        arguments << "--no-debug" << "-i" << fileName << state.at(0) << state.at(1) ;
+
         //call MainWindow::compute
         this->compute(program, arguments);
     }
@@ -760,6 +752,33 @@ void MainWindow::runStochasticSimulation() {
         fileName = "";
     }
 
+    /*//ici
+    QString out1 = QString::fromUtf8(out.data());
+    QString err1 = QString::fromUtf8(err.data());
+    QMessageBox::information(this, "program", program);
+    //for (int i = 0; i < arguments.size(); ++i){
+    //QMessageBox::information(this, "test err", arguments.at(i));
+    //}
+    QMessageBox::information(this, "out", out1);
+    QMessageBox::information(this, "err", err1);
+    //QMessageBox::information(this, "state", state);
+    /*QString az;
+    QString ae ;
+    if (ok== false){
+         az = "false";
+    }else{
+        az= "true";
+    }
+    if (!state.isEmpty()== false){
+         ae = "false";
+    }else{
+        ae= "true";
+    }
+    QMessageBox::information(this, "ok", az);//ok =true && !state.isEmpty()
+    QMessageBox::information(this, "!state.isEmpty()", ae);//ok =true && !state.isEmpty()
+*/
+
+    //a  la
     //ask the user for duration and output directory
     bool ok1 = false;
     QString duration = QInputDialog::getText(this, "stochastic simulation", "Give a duration", QLineEdit::Normal, QString(), &ok1);
@@ -804,7 +823,8 @@ void MainWindow::statistics(){
     }
 
     // give the arguments
-    arguments << "--no-debug" << "-i" << fileName;
+    arguments << "--help" ;
+   // arguments << "--no-debug" << "-i" << fileName;
 
     // call MainWindow::compute
     this->compute(program, arguments);
