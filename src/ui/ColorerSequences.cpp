@@ -9,8 +9,12 @@ ColorerSequences::ColorerSequences(QTextDocument *parent): QSyntaxHighlighter(pa
 
 void ColorerSequences::highlightBlock(const QString &text)
 {
+    //number of words to be highlighted
     int nbMotEnValeur=25;
 
+    //initialisation of the vectors
+    //tabPattern : vector of the patterns
+    //tabClassFormat : vector of the fonts (bold and color here)
     std::vector<QTextCharFormat> tabClassFormat(nbMotEnValeur);
     std::vector<QString> tabPattern(nbMotEnValeur);
     std::vector<QRegExp> tabExpression(nbMotEnValeur);
@@ -80,25 +84,6 @@ void ColorerSequences::highlightBlock(const QString &text)
        }
     }
 
-
-//a garder pour Jb (cplmt info)
-/*
-    for(int i = 0; i<text.size(); i++)
-    {
-        if(text.at(i) == QChar('p'))
-        {
-            setFormat(i, 1, Qt::green);
-        }
-        else if(text.at(i) == QChar('C'))
-        {
-            setFormat(i, 1, Qt::blue);
-        }
-        else if(text.at(i) == QChar('T'))
-        {
-            setFormat(i, 1, Qt::red);
-        }
-    }
-*/
 }
 
 ColorerSequences::~ColorerSequences()
