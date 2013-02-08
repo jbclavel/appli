@@ -51,7 +51,7 @@ Area::Area(QWidget *parent, QString path) :
     this->editTextArea = new QPushButton("Edit text",this);
     this->editTextArea->setFixedSize(QSize(200,30));
 
-    this->saveTextEdit = new QPushButton("Save",this);
+    this->saveTextEdit = new QPushButton("Update",this);
     this->saveTextEdit->setFixedSize(QSize(80,30));
     this->saveTextEdit->setVisible(false);
 
@@ -101,7 +101,7 @@ Area::Area(QWidget *parent, QString path) :
     QObject::connect(this->editTextArea, SIGNAL(clicked()), this, SLOT(editText()));
     QObject::connect(this->cancelTextEdit, SIGNAL(clicked()), this, SLOT(cancelEdit()));
     QObject::connect(this->textArea, SIGNAL(textChanged()), this->textArea, SLOT(onTextEdit()));
-    QObject::connect(this->saveTextEdit, SIGNAL(clicked()), this, SLOT(confirmEdit()));
+    QObject::connect(this->saveTextEdit, SIGNAL(clicked()), this, SLOT(saveEdit()));
     //QObject::connect(this->textArea, SIGNAL(QMouseEvent::MouseButtonDblClick), this, SLOT(editText()));
 
 }
@@ -266,15 +266,22 @@ void Area::cancelEdit(){
 
 void Area::saveEdit(){
 
-    //New file with same path
+    //temporary file for the text edition
 
-    QFile newph(this->path);
+    //QFile newph(this->path);
+    QFile newph("temp.h");
 
     newph.open(QIODevice::WriteOnly | QIODevice::Truncate);
     QTextStream flux(&newph);
     flux.setCodec("UTF-8");
 
-    try{        
+    try{
+
+        /*  mettre seulement à jour le graphe pas le document = pas de sauvegarde !
+        suppression en cascade.
+        identifier ligne erreur
+        Faire la différence entre une erreur de syntax et de suppression
+        Cacher le texte par défaut  */
 
         //Save new text into new file
 
@@ -282,7 +289,7 @@ void Area::saveEdit(){
 
         newph.close();
 
-        QString *file = new QString(this->path);
+        QString *file = new QString("temp.h");
 
         std::string phFile = file->toStdString();
 
@@ -309,15 +316,16 @@ void Area::saveEdit(){
         this->saveTextEdit->setVisible(false);
         this->cancelTextEdit->setVisible(false);
         //this->textArea->setNberEdit(0);
+        newph.remove();
 
     }
     catch(exception_base& argh){
 
-        newph.open(QIODevice::WriteOnly | QIODevice::Truncate);
+        //newph.open(QIODevice::WriteOnly | QIODevice::Truncate);
+        //flux << this->oldText << endl;
+        //newph.close();
 
-        flux << this->oldText << endl;
-
-        newph.close();
+        newph.remove();
 
         QMessageBox::critical(this, "Syntax error !", "One or more of your expressions are wrong !");
         //return NULL;

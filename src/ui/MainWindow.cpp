@@ -358,6 +358,8 @@ void MainWindow::save() {
 
         // save file
         PHIO::writeToFile (path, ph);
+        //this->newph.remove();
+
     } else {
         QMessageBox::critical(this, "Error", "No file opened!");
     }

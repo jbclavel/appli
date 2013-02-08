@@ -97,7 +97,6 @@ public:
       * @brief verfication of the text which is going to be save
       *
       */
-    void saveEdit();
 
 
 
@@ -198,6 +197,9 @@ public slots:
       *
       */
     void confirmEdit();
+
+
+    void saveEdit();
 
 };
 
