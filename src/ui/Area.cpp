@@ -102,7 +102,7 @@ Area::Area(QWidget *parent, QString path) :
     QObject::connect(this->cancelTextEdit, SIGNAL(clicked()), this, SLOT(cancelEdit()));
     QObject::connect(this->textArea, SIGNAL(textChanged()), this->textArea, SLOT(onTextEdit()));
     QObject::connect(this->saveTextEdit, SIGNAL(clicked()), this, SLOT(saveEdit()));
-    QObject::connect(this->textArea, SIGNAL(QMouseEvent::MouseButtonDblClick), this, SLOT(editText()));
+    //QObject::connect(this->textArea, SIGNAL(QMouseEvent::MouseButtonDblClick), this, SLOT(editText()));
 
 }
 
@@ -293,6 +293,7 @@ void Area::saveEdit(){
         PHScenePtr scene = myPHPtr->getGraphicsScene();
         this->myArea->setScene(&*scene);
 
+        this->treeArea->sortsTree->clear();
         // set the pointer of the treeArea
         this->treeArea->myPHPtr = myPHPtr;
         //set the pointer of the treeArea
@@ -317,7 +318,7 @@ void Area::saveEdit(){
 
         newph.close();
 
-        QMessageBox::warning(this, "Syntax error !", "One or more of your expressions are wrong !");
+        QMessageBox::critical(this, "Syntax error !", "One or more of your expressions are wrong !");
         //return NULL;
     }
 }

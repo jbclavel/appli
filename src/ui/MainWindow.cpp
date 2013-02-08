@@ -224,6 +224,8 @@ MyArea* MainWindow::openTab() {
         QFileDialog* filedialog = new QFileDialog(this);
         QString file = filedialog->getOpenFileName(this, "Open...");
         QDialog* mb = new QDialog(filedialog);
+        mb->setWindowFlags(Qt::Window | Qt::WindowTitleHint | Qt::CustomizeWindowHint);
+
         // TODO refactor using early returns
         if(file!=NULL) {
 
@@ -297,6 +299,7 @@ MyArea* MainWindow::openTab() {
                     this->enableMenu();                    
 
                     mb->close();
+                    this->setWindowState(Qt::WindowMaximized);
 
                     return area->myArea;
 
@@ -320,8 +323,6 @@ MyArea* MainWindow::openTab() {
             mb->close();
             return NULL;
         }
-
-
 }
 
 
