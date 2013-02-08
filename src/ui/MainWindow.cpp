@@ -750,6 +750,33 @@ void MainWindow::runStochasticSimulation() {
         fileName = "";
     }
 
+    /*//ici
+    QString out1 = QString::fromUtf8(out.data());
+    QString err1 = QString::fromUtf8(err.data());
+    QMessageBox::information(this, "program", program);
+    //for (int i = 0; i < arguments.size(); ++i){
+    //QMessageBox::information(this, "test err", arguments.at(i));
+    //}
+    QMessageBox::information(this, "out", out1);
+    QMessageBox::information(this, "err", err1);
+    //QMessageBox::information(this, "state", state);
+    /*QString az;
+    QString ae ;
+    if (ok== false){
+         az = "false";
+    }else{
+        az= "true";
+    }
+    if (!state.isEmpty()== false){
+         ae = "false";
+    }else{
+        ae= "true";
+    }
+    QMessageBox::information(this, "ok", az);//ok =true && !state.isEmpty()
+    QMessageBox::information(this, "!state.isEmpty()", ae);//ok =true && !state.isEmpty()
+*/
+
+    //a  la
     //ask the user for duration and output directory
     bool ok1 = false;
     QString duration = QInputDialog::getText(this, "stochastic simulation", "Give a duration", QLineEdit::Normal, QString(), &ok1);
