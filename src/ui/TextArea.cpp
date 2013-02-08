@@ -6,6 +6,7 @@ TextArea::TextArea(QWidget *parent) :
     this->setMinimumWidth(200);
     this->setMaximumWidth(200);
     this->setFixedHeight(600);
+    this->nberEdit = -1;
 
     QPalette p = this->palette();
     p.setColor(QPalette::Base, QColor(10, 10, 10));

@@ -157,6 +157,8 @@ public:
       */
 
     ColorerSequences *colorerSequences;
+    void editText();
+
 
 signals:
 
@@ -184,7 +186,6 @@ public slots:
       * @brief method to edit text area clicking on the button
       *
       */
-    void editText();
 
     /**
       * @brief method to cancel text change clicking on the button
@@ -200,6 +201,8 @@ public slots:
 
 
     void saveEdit();
+
+    void onTextEdit();
 
 };
 
