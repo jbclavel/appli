@@ -7,7 +7,7 @@
 #include "Area.h"
 #include <stdio.h>
 #include <qthread.h>
-
+#include <iostream>
 
 MainWindow::MainWindow(){
 
@@ -655,6 +655,8 @@ void MainWindow::compute(QString program, QStringList arguments, QString fileNam
     out += myProcess->readAllStandardOutput();
     delete myProcess;
 
+
+
     // pop up for the errors
     if(!err.isEmpty()){
 
@@ -673,7 +675,18 @@ void MainWindow::compute(QString program, QStringList arguments, QString fileNam
 
     //pop up for the output
     if(!out.isEmpty()){
+
+
         QMessageBox::information(this, program+".output", out);
+
+        //ici
+        QString out1 = QString::fromUtf8(out.data());
+        QString err1 = QString::fromUtf8(err.data());
+        QMessageBox::information(this, "test out", out1);
+        QMessageBox::information(this, "test err", err1);
+        //a  la
+
+
     }
 
 }
