@@ -293,6 +293,7 @@ void Area::saveEdit(){
         PHScenePtr scene = myPHPtr->getGraphicsScene();
         this->myArea->setScene(&*scene);
 
+        // delete the current sortsTree
         this->treeArea->sortsTree->clear();
         // set the pointer of the treeArea
         this->treeArea->myPHPtr = myPHPtr;
