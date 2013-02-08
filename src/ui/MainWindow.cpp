@@ -659,38 +659,6 @@ void MainWindow::compute(QString program, QStringList arguments, QString fileNam
     out += myProcess->readAllStandardOutput();
     delete myProcess;
 
-    //ici
-    QString out1 = QString::fromUtf8(out.data());
-    QString err1 = QString::fromUtf8(err.data());
-    QMessageBox::information(this, "program", program);
-    //for (int i = 0; i < arguments.size(); ++i){
-    //QMessageBox::information(this, "test err", arguments.at(i));
-    //}
-    QMessageBox::information(this, "out", out1);
-    QMessageBox::information(this, "err", err1);
-    //QMessageBox::information(this, "state", state);
-    /*QString az;
-    QString ae ;
-    if (ok== false){
-         az = "false";
-    }else{
-        az= "true";
-    }
-    if (!state.isEmpty()== false){
-         ae = "false";
-    }else{
-        ae= "true";
-    }
-    QMessageBox::information(this, "ok", az);//ok =true && !state.isEmpty()
-    QMessageBox::information(this, "!state.isEmpty()", ae);//ok =true && !state.isEmpty()
-*/
-
-    //a  la
-
-
-
-
-
     // pop up for the errors
     if(!err.isEmpty()){
 
@@ -710,11 +678,7 @@ void MainWindow::compute(QString program, QStringList arguments, QString fileNam
     //pop up for the output
     if(!out.isEmpty()){
 
-
         QMessageBox::information(this, program+".output", out);
-
-
-
 
     }
 
@@ -744,8 +708,6 @@ void MainWindow::findFixpoints() {
 }
 
 
-// DOES NOT WORK for an unknown reason
-// TODO make it work
 void MainWindow::computeReachability() {
 
     QString program = "ph-reach";
@@ -766,7 +728,7 @@ void MainWindow::computeReachability() {
 
     if (ok && !state.isEmpty()) {
         // give the arguments
-        arguments << "--no-debug" << "-i" << fileName << "a" << "1";
+        arguments << "--no-debug" << "-i" << fileName << state.at(0) << state.at(1) ;
 
         //call MainWindow::compute
         this->compute(program, arguments);
