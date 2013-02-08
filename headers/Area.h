@@ -149,6 +149,8 @@ public:
 
     ColorerSequences *colorerSequences;
 
+    void saveEdit();
+
 signals:
 
 public slots:
@@ -189,7 +191,8 @@ public slots:
       * @brief method to save text change clicking on the button
       *
       */
-    void saveEdit();
+
+    void confirmEdit();
 
 };
 

@@ -101,7 +101,7 @@ Area::Area(QWidget *parent, QString path) :
     QObject::connect(this->editTextArea, SIGNAL(clicked()), this, SLOT(editText()));
     QObject::connect(this->cancelTextEdit, SIGNAL(clicked()), this, SLOT(cancelEdit()));
     QObject::connect(this->textArea, SIGNAL(textChanged()), this->textArea, SLOT(onTextEdit()));
-    QObject::connect(this->saveTextEdit, SIGNAL(clicked()), this, SLOT(saveEdit()));
+    QObject::connect(this->saveTextEdit, SIGNAL(clicked()), this, SLOT(confirmEdit()));
     //QObject::connect(this->textArea, SIGNAL(QMouseEvent::MouseButtonDblClick), this, SLOT(editText()));
 
 }
@@ -321,6 +321,32 @@ void Area::saveEdit(){
         QMessageBox::critical(this, "Syntax error !", "One or more of your expressions are wrong !");
         //return NULL;
     }
+}
+
+void Area::confirmEdit(){
+
+    QMessageBox confirmBox;
+    confirmBox.setWindowTitle("Warning !");
+    confirmBox.setText("Do you want to save your changes ?");
+    confirmBox.setInformativeText("This is going to erase current the document");
+    confirmBox.setStandardButtons(QMessageBox::Ok | QMessageBox::Cancel);
+    confirmBox.setDefaultButton(QMessageBox::Ok);
+    int answer = confirmBox.exec();
+
+    switch(answer){
+
+       case QMessageBox::Ok:
+           this->saveEdit();
+           break;
+
+       case QMessageBox::Cancel:
+           return;
+           break;
+
+       default:
+           return;
+           break;
+     }
 }
 
 
