@@ -33,12 +33,15 @@ public:
     QString path;
 
     /**
+      * @brief Text before edition
+      *
+      */
+    QString oldText;
+
+    /**
       * @brief pointer to the MyArea
       *
       */
-
-    QString oldText;
-
     MyArea *myArea;
 
     /**
@@ -88,6 +91,13 @@ public:
       *
       */
     void showTree();
+
+
+    /**
+      * @brief verfication of the text which is going to be save
+      *
+      */
+    void saveEdit();
 
 
 
@@ -153,8 +163,6 @@ signals:
 
 public slots:
 
-
-
     /**
       * @brief method to hide or show the text area clicking on the button
       *
@@ -189,7 +197,7 @@ public slots:
       * @brief method to save text change clicking on the button
       *
       */
-    void saveEdit();
+    void confirmEdit();
 
 };
 
