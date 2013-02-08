@@ -9,33 +9,39 @@ ColorerSequences::ColorerSequences(QTextDocument *parent): QSyntaxHighlighter(pa
 
 void ColorerSequences::highlightBlock(const QString &text)
 {
-    int nbMotEnValeur=20;
+    int nbMotEnValeur=26;
 
     std::vector<QTextCharFormat> tabClassFormat(nbMotEnValeur);
     std::vector<QString> tabPattern(nbMotEnValeur);
     std::vector<QRegExp> tabExpression(nbMotEnValeur);
     std::vector<int> tabIndex(nbMotEnValeur);
 
-    tabPattern[0]= "process";
-    tabPattern[1]= "-";
-    tabPattern[2]= "directive";
-    tabPattern[3]= " in ";
+    tabPattern[0]= "\\}";
+    tabPattern[1]= "\\{";
+    tabPattern[2]= ",";
+    tabPattern[3]= "-";
     tabPattern[4]= "@";
     tabPattern[5]= "~";
-    tabPattern[6]= "COOPERATIVITY";
+    tabPattern[6]= "\\+";
     tabPattern[7]= "\\(";
     tabPattern[8]= "\\)";
     tabPattern[9]= "\\[";
     tabPattern[10]= "\\]";
     tabPattern[11]= ";";
-    tabPattern[12]= "initial_state";
+    tabPattern[12]= "in ";
     tabPattern[13]= "and ";
     tabPattern[14]= "not ";
-    tabPattern[15]= "\\+";
-    tabPattern[16]= "->";
+    tabPattern[15]= "->";
+    tabPattern[16]= "RM";
     tabPattern[17]= "GRN";
-    tabPattern[18]= "\\(\\*.*\\*\\)";
-    tabPattern[19]= ",";
+    tabPattern[18]= "initial_state";
+    tabPattern[19]= "directive";
+    tabPattern[20]= "COOPERATIVITY";
+    tabPattern[21]= "process";
+    tabPattern[22]= "KNOCKDOWN";
+    tabPattern[23]= "default_rate";
+    tabPattern[24]= "stochasticity_absorption";
+    tabPattern[25]= "\\(\\*.*\\*\\)";
 
     tabClassFormat[0].setForeground(Qt::darkMagenta);
     tabClassFormat[1].setForeground(Qt::green);
@@ -57,6 +63,12 @@ void ColorerSequences::highlightBlock(const QString &text)
     tabClassFormat[17].setForeground(Qt::cyan);
     tabClassFormat[18].setForeground(Qt::cyan);
     tabClassFormat[19].setForeground(Qt::cyan);
+    tabClassFormat[20].setForeground(Qt::cyan);
+    tabClassFormat[21].setForeground(Qt::cyan);
+    tabClassFormat[22].setForeground(Qt::cyan);
+    tabClassFormat[23].setForeground(Qt::cyan);
+    tabClassFormat[24].setForeground(Qt::cyan);
+    tabClassFormat[25].setForeground(Qt::cyan);
 
     for (int i=0 ; i<nbMotEnValeur ; i++)
     {
