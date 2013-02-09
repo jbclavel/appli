@@ -25,7 +25,8 @@ HEADERS 	= 	headers/Action.h 		\
     headers/Area.h \
     headers/TextArea.h \
     headers/TreeArea.h \
-    headers/ColorerSequences.h
+    headers/ColorerSequences.h \
+    Connection.h
 				
 INCLUDEPATH = headers headers/axe headers/test
 
@@ -46,7 +47,8 @@ SOURCES			= 	src/gfx/GProcess.cpp	\
     src/ui/TextArea.cpp \
     src/ui/TreeArea.cpp \
     src/ui/Area.cpp \
-    src/ui/ColorerSequences.cpp
+    src/ui/ColorerSequences.cpp \
+    src/ui/Connection.cpp
 
 #So 2013 (needed for Axe)
 QMAKE_CXXFLAGS += -std=c++0x

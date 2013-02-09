@@ -12,7 +12,7 @@ void ColorerSequences::highlightBlock(const QString &text)
     //number of words to be highlighted
     int nbMotEnValeur=25;
 
-    //initialisation of the vectors
+    //initialise the vectors
     //tabPattern : vector of the patterns
     //tabClassFormat : vector of the fonts (bold and color here)
     std::vector<QTextCharFormat> tabClassFormat(nbMotEnValeur);
@@ -20,6 +20,7 @@ void ColorerSequences::highlightBlock(const QString &text)
     std::vector<QRegExp> tabExpression(nbMotEnValeur);
     std::vector<int> tabIndex(nbMotEnValeur);
 
+    //define the patterns
     tabPattern[0]= "\\}";
     tabPattern[1]= "\\{";
     tabPattern[2]= ",";
@@ -46,6 +47,7 @@ void ColorerSequences::highlightBlock(const QString &text)
     tabPattern[23]= "stochasticity_absorption";
     tabPattern[24]= "\\(\\*.*\\*\\)";
 
+    //define the colors for each pattern
     tabClassFormat[0].setForeground(Qt::blue);
     tabClassFormat[1].setForeground(Qt::blue);
     tabClassFormat[2].setForeground(Qt::blue);
@@ -72,6 +74,7 @@ void ColorerSequences::highlightBlock(const QString &text)
     tabClassFormat[23].setForeground(Qt::red);
     tabClassFormat[24].setForeground(Qt::green);
 
+    //match color to pattern
     for (int i=0 ; i<nbMotEnValeur ; i++)
     {
        tabClassFormat[i].setFontWeight(QFont::Bold);

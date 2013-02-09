@@ -130,6 +130,7 @@ protected:
     QAction *actionRunStochasticSimulation;
     QAction *actionCheckModelType;
     QAction *actionStatistics;
+    QAction *actionConnection;
 
     // action for the menu Help
     QAction *actionHelp;

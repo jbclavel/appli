@@ -142,6 +142,8 @@ MainWindow::MainWindow(){
     actionRunStochasticSimulation = menuComputation->addAction("Run stochastic simulation...");
     actionCheckModelType = menuComputation->addAction("Check model type (binary or multivalued)");
     actionStatistics = menuComputation->addAction("Statistics...");
+    menuComputation->addSeparator();
+    actionConnection = menuComputation->addAction("New Connection");
 
     // disable what does not work well
     actionComputeReachability->setEnabled(false);
@@ -153,6 +155,8 @@ MainWindow::MainWindow(){
     QObject::connect(actionRunStochasticSimulation, SIGNAL(triggered()), this, SLOT(runStochasticSimulation()));
     QObject::connect(actionCheckModelType, SIGNAL(triggered()), this, SLOT(checkModelType()));
     QObject::connect(actionStatistics, SIGNAL(triggered()), this, SLOT(statistics()));
+    //QObject::connect(actionConnection, SIGNAL(triggered()), Connection, SLOT(statistics()));
+
 
     // action for the menu Help
     actionHelp = menuHelp->addAction("Help !");
@@ -418,6 +422,13 @@ void MainWindow::exportDot() {
 
 }
 
+/*
+void MainWindow::openConnection() {
+
+
+}
+*/
+
 // method to export style and layout data to XML format
 void MainWindow::exportXMLMetadata(){
 
@@ -635,13 +646,38 @@ void MainWindow::hideShowTree(){
     view->hideOrShowTree();
 }
 
+
+typedef struct
+   {
+    QString argType;
+    bool facultatif;
+    } argument;
+
+typedef struct
+   {
+   QString nameFunction;
+   QString program;
+   std::vector<argument> arguments;
+   } function ;
+//argument p1,p2;
+//p1.argType;
+
+
+
+/*
+//connection engine
+void MainWindow::createConnection(){
+
+    QString a =
+
+}
+*/
+
 // main method for the computation menu
 void MainWindow::compute(QString program, QStringList arguments, QString fileName) {
 
     // start process
     QProcess *myProcess = new QProcess();
-
-
 
     myProcess->start(program, arguments);
 
@@ -760,7 +796,7 @@ void MainWindow::runStochasticSimulation() {
     QMessageBox::information(this, "out", out1);
     QMessageBox::information(this, "err", err1);
     //QMessageBox::information(this, "state", state);
-    /*QString az;
+    QString az;
     QString ae ;
     if (ok== false){
          az = "false";
@@ -777,6 +813,7 @@ void MainWindow::runStochasticSimulation() {
 */
 
     //a  la
+
     //ask the user for duration and output directory
     bool ok1 = false;
     QString duration = QInputDialog::getText(this, "stochastic simulation", "Give a duration", QLineEdit::Normal, QString(), &ok1);
