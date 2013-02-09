@@ -860,8 +860,7 @@ void MainWindow::statistics(){
     }
 
     // give the arguments
-    arguments << "--help" ;
-   // arguments << "--no-debug" << "-i" << fileName;
+    arguments << "--no-debug" << "-i" << fileName;
 
     // call MainWindow::compute
     this->compute(program, arguments);
