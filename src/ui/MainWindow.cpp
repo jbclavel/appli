@@ -8,6 +8,7 @@
 #include <stdio.h>
 #include <qthread.h>
 #include <iostream>
+#include "ConnectionSettings.h"
 
 MainWindow::MainWindow(){
 
@@ -155,7 +156,7 @@ MainWindow::MainWindow(){
     QObject::connect(actionRunStochasticSimulation, SIGNAL(triggered()), this, SLOT(runStochasticSimulation()));
     QObject::connect(actionCheckModelType, SIGNAL(triggered()), this, SLOT(checkModelType()));
     QObject::connect(actionStatistics, SIGNAL(triggered()), this, SLOT(statistics()));
-    //QObject::connect(actionConnection, SIGNAL(triggered()), Connection, SLOT(statistics()));
+    QObject::connect(actionConnection, SIGNAL(triggered()), this, SLOT(openConnection()));
 
 
     // action for the menu Help
@@ -178,6 +179,7 @@ MainWindow::MainWindow(){
         this->actionPng->setEnabled(false);
         this->actionDot->setEnabled(false);
         this->actionExportXMLData->setEnabled(false);
+        this->actionForimport->setEnabled(false);
         this->actionAdjust->setEnabled(false);
         this->actionZoomOut->setEnabled(false);
         this->actionZoomIn->setEnabled(false);
@@ -192,7 +194,6 @@ MainWindow::MainWindow(){
         this->actionFindFixpoints->setEnabled(false);
         this->actionRunStochasticSimulation->setEnabled(false);
         this->actionStatistics->setEnabled(false);
-        this->actionForimport->setEnabled(false);
     }
 
 }
@@ -423,13 +424,6 @@ void MainWindow::exportDot() {
     } else QMessageBox::critical(this, "Error", "No file opened!");
 
 }
-
-/*
-void MainWindow::openConnection() {
-
-
-}
-*/
 
 // method to export style and layout data to XML format
 void MainWindow::exportXMLMetadata(){
@@ -867,6 +861,14 @@ void MainWindow::statistics(){
 }
 
 
+//open connection settings window
+void MainWindow::openConnection(){
+    //this->ConnectionSettingsWindow = new ConnectionSettings(this);
+    //setCentralWidget(ConnectionSettingsWindow);
+    //ConnectionSettingsWindow->setViewMode(QMdiArea::TabbedView);
+
+}
+
 // disable menus when no open, active tabs
 void MainWindow::disableMenu(QMdiSubWindow* subwindow){
     if(subwindow==0&&this->getCentraleArea()->subWindowList().isEmpty()) {
@@ -875,6 +877,7 @@ void MainWindow::disableMenu(QMdiSubWindow* subwindow){
         this->actionPng->setEnabled(false);
         this->actionDot->setEnabled(false);
         this->actionExportXMLData->setEnabled(false);
+        this->actionForimport->setEnabled(false);
         this->actionAdjust->setEnabled(false);
         this->actionZoomIn->setEnabled(false);
         this->actionZoomOut->setEnabled(false);
@@ -890,7 +893,6 @@ void MainWindow::disableMenu(QMdiSubWindow* subwindow){
         this->actionComputeReachability->setEnabled(false);
         this->actionRunStochasticSimulation->setEnabled(false);
         this->actionStatistics->setEnabled(false);
-        this->actionForimport->setEnabled(false);
     }
 }
 
@@ -903,6 +905,7 @@ void MainWindow::enableMenu(){
         this->actionPng->setEnabled(true);
         this->actionDot->setEnabled(true);
         this->actionExportXMLData->setEnabled(true);
+        this->actionForimport->setEnabled(true);
         this->actionAdjust->setEnabled(true);
         this->actionZoomIn->setEnabled(true);
         this->actionZoomOut->setEnabled(true);
@@ -918,7 +921,6 @@ void MainWindow::enableMenu(){
         this->actionComputeReachability->setEnabled(true);
         this->actionRunStochasticSimulation->setEnabled(true);
         this->actionStatistics->setEnabled(true);
-        this->actionForimport->setEnabled(true);
     }
 }
 

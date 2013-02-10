@@ -2,6 +2,7 @@
 #include <QMainWindow>
 #include "MyArea.h"
 #include <qthread.h>
+#include "ConnectionSettings.h"
 
 /**
   * @file MainWindow.h
@@ -73,6 +74,7 @@ protected:
       *
       */
     QMdiArea* centraleArea;
+    ConnectionSettings* ConnectionSettingsWindow;
 
     // QMenu
     QMenu *menuFile;
@@ -295,4 +297,13 @@ public slots:
       *
       */
     void searchSort();
+
+    /**
+      * @brief open connection settings window
+      * to implement a new function
+      *
+      */
+
+    void openConnection();
+
 };
