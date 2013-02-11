@@ -160,7 +160,7 @@ PHPtr PHIO::parseFile (string const& path) {
     // parse dump
     if (!stderr.isEmpty())
         throw pint_phc_crash() << parse_info(QString(stderr).toStdString());
-
+      //  std::cout << parse_info(QString(stderr).toStdString()) << std::endl;
     return parse(QString(stdout).toStdString());
 }
 

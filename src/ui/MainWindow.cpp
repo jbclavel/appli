@@ -9,6 +9,7 @@
 #include <qthread.h>
 #include <iostream>
 #include "ConnectionSettings.h"
+#include "IO.h"
 
 MainWindow::MainWindow(){
 
@@ -347,9 +348,17 @@ void MainWindow::closeTab() {
 // save a graph
 void MainWindow::save() {
 
+    /*  Modification de la fonction de sauvegarde car l'ancienne écrivait mal le fichier ph.
+     *  Ne pas modifier les commentaires pour l'instant, on garde encore en commentaire l'ancien système on sait
+     *  jamais !!
+     */
+
     if(!this->getCentraleArea()->subWindowList().isEmpty()){
+
         // get the current subwindow
         QMdiSubWindow *subWindow = this->getCentraleArea()->currentSubWindow();
+
+        if(!((Area*) subWindow->widget())->indicatorEdit->isVisible()){
 
         // SaveFile dialog
         QString fichier = QFileDialog::getSaveFileName(this, "Save file");
@@ -359,13 +368,27 @@ void MainWindow::save() {
 
         // need the PHPtr which is associated with the subwindow
         //PHPtr ph= ((MyArea*) subWindow->widget())->getPHPtr();
-        PHPtr ph= ((Area*) subWindow->widget())->myArea->getPHPtr();
+       // PHPtr ph= ((Area*) subWindow->widget())->myArea->getPHPtr();
+
+        //QFile newph(fichier);
+
+        //newph.open(QIODevice::WriteOnly | QIODevice::Truncate);
+        //QTextStream flux(&newph);
+        //flux.setCodec("UTF-8");
+
+       // flux << ((Area*) subWindow->widget())->textArea->toPlainText() << endl;
+        std::string ph = ((Area*) subWindow->widget())->textArea->toPlainText().toStdString();
 
         // save file
-        PHIO::writeToFile (path, ph);
-        //this->newph.remove();
+       // PHIO::writeToFile (path, ph);
+         IO::writeFile (path, ph);
+       //this->newph.remove();
 
-    } else {
+        }else{
+            QMessageBox::critical(this, "Error", "Please save or cancel edition !");
+        }
+
+    }else{
         QMessageBox::critical(this, "Error", "No file opened!");
     }
 }

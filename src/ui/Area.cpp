@@ -267,11 +267,11 @@ void Area::cancelEdit(){
     this->indicatorEdit->setVisible(false);
     this->textArea->setUndoRedoEnabled(true);
 
-    //for(int i = 0; i < this->textArea->getNberEdit(); i++){
+    /*for(int i = 0; i < this->textArea->getNberEdit(); i++){
 
-      //  this->textArea->undo();
-    //}
-
+        this->textArea->undo();
+    }
+*/
     if(this->textArea->getNberEdit() != 0){
 
         this->textArea->setPlainText(this->oldText);
@@ -305,7 +305,7 @@ void Area::saveEdit(){
         /*  suppression en cascade.
         identifier ligne erreur
         Faire la différence entre une erreur de syntax et de suppression
-        Cacher le texte par défaut  */
+        */
 
         //Save new text into new file
 
@@ -342,7 +342,12 @@ void Area::saveEdit(){
         //this->saveTextEdit->setVisible(false);
         //this->cancelTextEdit->setVisible(false);
         //this->textArea->setNberEdit(0);
+
+        //delete temporary file
         newph.remove();
+
+        //put new oldText
+        this->oldText = this->textArea->toPlainText();
 
     }
     catch(exception_base& argh){
