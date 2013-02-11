@@ -298,12 +298,14 @@ void Area::saveEdit(){
 
     newph.open(QIODevice::WriteOnly | QIODevice::Truncate);
     QTextStream flux(&newph);
-    flux.setCodec("UTF-8");
+    flux.setCodec("UTF-8");    
+
+    QString *file = new QString("temp.h");
+    std::string phFile = file->toStdString();
 
     try{
 
         /*  suppression en cascade.
-        identifier ligne erreur
         Faire la différence entre une erreur de syntax et de suppression
         */
 
@@ -312,10 +314,6 @@ void Area::saveEdit(){
         flux << this->textArea->toPlainText() << endl;
 
         newph.close();
-
-        QString *file = new QString("temp.h");
-
-        std::string phFile = file->toStdString();
 
         // render graph
         PHPtr myPHPtr = PHIO::parseFile(phFile);
@@ -352,13 +350,32 @@ void Area::saveEdit(){
     }
     catch(exception_base& argh){
 
-        //newph.open(QIODevice::WriteOnly | QIODevice::Truncate);
-        //flux << this->oldText << endl;
-        //newph.close();
+        QString phc = "phc";
+        QStringList args;
+        args << "-l" << "dump" << "-i" << QString::fromUtf8(phFile.c_str()) << "--no-debug";
+        QProcess *phcProcess = new QProcess();
+        phcProcess->start(phc, args);
+        if (!phcProcess->waitForStarted())
+            throw pint_program_not_found() << file_info("phc");
 
+        // read result
+        QByteArray stderr;
+        QByteArray stdout;
+        while (!phcProcess->waitForFinished()) {
+            stderr += phcProcess->readAllStandardError();
+            stdout += phcProcess->readAllStandardOutput();
+        }
+        stderr += phcProcess->readAllStandardError();
+        stdout += phcProcess->readAllStandardOutput();
+        delete phcProcess;
+
+        QStringList list = QString(stderr).split('"');
+        QStringList list2 = list[1].split(":");
+        QStringList list3 = list2[0].split(" ");
+
+        //One or more of your expressions are wrong !
         newph.remove();
-
-        QMessageBox::critical(this, "Syntax error !", "One or more of your expressions are wrong !");
+        QMessageBox::critical(this, "Syntax error !", "One or more of your expressions are wrong !\nPlease check "+list3[0]+" "+list3[1]);
         //return NULL;
     }
 }
@@ -402,7 +419,7 @@ void Area::onTextEdit(){
         this->indicatorEdit->setVisible(true);
     }
 
-    std::cout << this->textArea->getNberEdit() << std::endl;
+    //std::cout << this->textArea->getNberEdit() << std::endl;
     //this->indicatorEdit->setVisible(true);
     //this->saveTextEdit->setDefault(true);
 }
