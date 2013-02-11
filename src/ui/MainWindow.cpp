@@ -863,6 +863,10 @@ void MainWindow::statistics(){
 
 //open connection settings window
 void MainWindow::openConnection(){
+
+    ConnectionSettingsWindow = new ConnectionSettings();
+    ConnectionSettingsWindow->show();
+    //return ConnectionSettingsWindow;
     //this->ConnectionSettingsWindow = new ConnectionSettings(this);
     //setCentralWidget(ConnectionSettingsWindow);
     //ConnectionSettingsWindow->setViewMode(QMdiArea::TabbedView);

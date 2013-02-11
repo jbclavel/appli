@@ -1,11 +1,11 @@
 #include "ConnectionSettings.h"
 #include <vector>
 
-//ConnectionSettings::ConnectionSettings(QWidget *parent):
-//QWidget(parent)
 
-ConnectionSettings::ConnectionSettings()
+ConnectionSettings::ConnectionSettings():
+    QWidget()
 {
+
 
     // First group : Define the new function
     name = new QLineEdit;
