@@ -1,5 +1,7 @@
 #include "ConnectionSettings.h"
 #include <vector>
+#include "FuncFrame.h"
+#include "ArgumentFrame.h"
 
 
 ConnectionSettings::ConnectionSettings():
@@ -9,12 +11,10 @@ ConnectionSettings::ConnectionSettings():
     name = new QLineEdit;
     program = new QLineEdit;
     nbArg = new QSpinBox;
-    QMessageBox::information(this, "nbArg", nbArg->text());
+    nbArg->findChild<QLineEdit*>()->setReadOnly(true);
 
     nbArg->setValue(0);
     nbArgPrcdt = nbArg->text().toInt();
-    QMessageBox::information(this, "nbArg", nbArg->text());
-    QMessageBox::information(this, "nbArg", QString::number(nbArgPrcdt));
 
     definitionLayout = new QFormLayout;
     definitionLayout->addRow("Function &name to be displayed", name);
@@ -27,10 +27,10 @@ ConnectionSettings::ConnectionSettings():
     //Second group : Specify argument
     gridTable = new QGridLayout;
 
-    //combo box's list(argument types)
+        //combo box's list(argument types)
     argTypeList= QStringList() << "Text" << "Process";
 
-    //call the function which build the table
+        //call the function which build the table
     ConnectionSettings::buildTable();
 
     tableLayout = new QVBoxLayout;
@@ -57,8 +57,9 @@ ConnectionSettings::ConnectionSettings():
     boutonsLayout->addWidget(Save);
     boutonsLayout->addWidget(Cancel);
 
-    // Connexions des signaux et des slots
+        // Connexions des signaux et des slots
     connect(Cancel, SIGNAL(clicked()), this, SLOT(quit()));
+    connect(Save, SIGNAL(clicked()), this, SLOT(exportXMLSettings()));
     connect(nbArg, SIGNAL(valueChanged(int)), this, SLOT(buildTable()));
 
 
@@ -74,6 +75,7 @@ ConnectionSettings::ConnectionSettings():
 
 }
 
+//build the tabel
 void ConnectionSettings::buildTable(){
 
         if(nbArg->text().toInt()>nbArgPrcdt){
@@ -111,17 +113,17 @@ void ConnectionSettings::buildTable(){
             }
      }
 
-        //SLOT : close the window
-        void ConnectionSettings::quit(){
 
-            this->~ConnectionSettings();
+//SLOT : close the window
+void ConnectionSettings::quit(){
 
-        }
+    this->~ConnectionSettings();
+}
 
-        ConnectionSettings::~ConnectionSettings(){
+//Detroyer
+ConnectionSettings::~ConnectionSettings(){
 
-            QMessageBox::information(this, "nbArg", nbArg->text());
-
+            //remove the table
             if(nbArg->text().toInt()!=0){
 
                 for(int i = nbArg->text().toInt()-1 ; i >= 0 ; i--){
@@ -134,19 +136,13 @@ void ConnectionSettings::buildTable(){
                     tabArgType.pop_back();
                     tabArgSuf.pop_back();
                     tabArgfacul.pop_back();
-                    QMessageBox::information(this, "nbArg", QString::number(i));
                 }
             }
-QMessageBox::information(this, "nbArg", nbArg->text());
-           // nbArg->setValue(0);
-         QMessageBox::information(this, "nbArg", nbArg->text());
-          //  nbArgPrcdt = nbArg->text().toInt();
 
-            QMessageBox::information(this, "nbArg", nbArg->text());
+            //remove the definition group
             name->~QLineEdit();
             program->~QLineEdit();
             nbArg->~QSpinBox();
-            //QMessageBox::information(this, "nbArg", nbArg->text());
 
             definitionLayout->~QFormLayout();
             groupDefinition->~QGroupBox();
@@ -170,8 +166,158 @@ QMessageBox::information(this, "nbArg", nbArg->text());
             //Remove : general layout
             globalLayout->~QVBoxLayout();
 
+}
+
+
+
+
+
+void ConnectionSettings::exportXMLSettings(){
+
+    QFile output("xmlConnectionSettings.xml");
+
+    if (!output.open(QIODevice::WriteOnly)){
+        QMessageBox::critical(this, "Error", "Sorry, unable to open file.");
+        output.errorString();
+        return;
+    } else {
+
+        QXmlStreamWriter writerStream(&output);
+
+        writerStream.setAutoFormatting(true);
+        writerStream.writeStartDocument();
+
+        writerStream.writeStartElement("FunctionSettings");
+
+        writerStream.writeStartElement("Definition");
+            writerStream.writeTextElement("name", name->text());
+            writerStream.writeTextElement("program", program->text());
+            writerStream.writeTextElement("nbArgument", nbArg->text());
+        writerStream.writeEndElement();
+
+        for (int i = 0; i < nbArg->text().toInt(); i++){
+
+            writerStream.writeStartElement("ArgumentsDefinition");
+                writerStream.writeTextElement("ArgNumber", tabArgNumber[i]->text());
+                writerStream.writeTextElement("ArgType", tabArgType[i]->currentText());
+                writerStream.writeTextElement("ArgSuf", tabArgSuf[i]->text());
+                writerStream.writeTextElement("ArgFacul", QString::number(tabArgfacul[i]->isChecked()));
+            writerStream.writeEndElement();
         }
-               /*
+
+        writerStream.writeEndElement();
+        writerStream.writeEndDocument();
+
+        output.close();
+
+    }
+}
+
+
+void ConnectionSettings::importXMLSettings(){
+
+    //function a;
+
+
+    //tabFunction.push_back(new FuncFrame());
+    //tabArgument.push_back(new ArgumentFrame());
+
+
+    //tabFunction[0]->nameFunction ="1" ;
+
+    }
+
+//nameFunction;
+      //  QString program;
+        //std::vector<ArgumentFrame> arguments;
+
+    /*
+    QFile input("xmlConnectionSettings.xml");
+
+    QXmlStreamReader readerStream;
+
+    input.open(QFile::ReadOnly | QFile::Text);
+    readerStream.setDevice(&input);
+
+    //Le but de cette boucle est de parcourir le
+    //fichier et de vérifier si l'on est au début d'un élément.
+    readerStream.readNext();
+    while (!readerStream.atEnd())
+    {
+        if (readerStream.isStartElement())
+        {
+            if (readerStream.name() == "FunctionSettings")
+            {
+                readerStream.readNext(); // On va au prochain token
+                // Tant que celui-ci n'est pas un élément de départ on avance au token suivant
+                while(readerStream.isStartElement()==false)
+                    readerStream.readNext();
+
+                if(readerStream.name() == "Definition")
+                {
+                    readerStream.readNext();
+                    while(readerStream.isStartElement()==false)
+                    readerStream.readNext();
+                    if(readerStream.name() == "name")
+                    {
+                        QString name = readerStream.readElementText();
+                        readerStream.readNext();
+                        while(readerStream.isStartElement()==false)
+                        readerStream.readNext();
+                    }
+                    if(readerStream.name() == "url")
+                    {
+                        QString strUrl = readerStream.readElementText();
+                    }
+
+                }
+            }
+
+            if(readerStream.name() == "contributeur")
+            {
+                readerStream.readNext();
+                while(readerStream.isStartElement()==false)
+                    readerStream.readNext();
+                if(readerStream.name() == "nom")
+                {
+                    QString attrFAQ = readerStream.attributes().value("faq").toString();
+                    QString strNameContrib = readerStream.readElementText();
+                }
+            }
+        }
+        readerStream.readNext(); // On va au prochain token
+    }
+    file.close();
+
+
+}
+
+*/
+
+/*
+void ConnectionSettings::exportXMLSettings(){
+
+    if(!this->getCentraleArea()->subWindowList().isEmpty()){
+
+        // SaveFile dialog
+        QString xmlFile = QFileDialog::getSaveFileName(this, "Export Settings", QString(), "*.xml");
+
+        // open file if possible and write XML tree into it
+        QFile output(xmlFile);
+        if (!output.open(QIODevice::WriteOnly)){
+            QMessageBox::critical(this, "Error", "Sorry, unable to open file.");
+            output.errorString();
+            return;
+        } else {
+            PHIO::exportXMLMetadata(this, output);
+        }
+
+    } else QMessageBox::critical(this, "Error", "No file opened!");
+
+}
+*/
+
+/*
                 tabArgNumber.push_back(new QLabel("Arg " + nbArg->text() + " :" , this));
 
                 tabArgType.push_back(new QComboBox(this));

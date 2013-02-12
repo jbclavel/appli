@@ -4,6 +4,7 @@
 #include <qthread.h>
 #include "ConnectionSettings.h"
 
+
 /**
   * @file MainWindow.h
   * @brief header for the MainWindow class

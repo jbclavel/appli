@@ -2,6 +2,9 @@
 #define HEADER_CONNECTIONSETTINGS
 
 #include <QtGui>
+#include "ArgumentFrame.h"
+#include "FuncFrame.h"
+
 
 class ConnectionSettings : public QWidget
 {
@@ -17,9 +20,16 @@ class ConnectionSettings : public QWidget
         std::vector<QCheckBox*> tabArgfacul;
         int nbArgPrcdt;
 
+        static std::vector<FuncFrame*> tabFunction;
+        static std::vector<ArgumentFrame*> tabArgument;
+
+
     private slots:
         void buildTable();
         void quit();
+        void exportXMLSettings();
+        void importXMLSettings();
+
 
     private:
         //Groupe : définition
