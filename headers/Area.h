@@ -157,7 +157,17 @@ public:
       */
 
     ColorerSequences *colorerSequences;
+
+    QString syntaxError;
+
+    /**
+      * @brief Temporary save of the textArea called by the signal of rightButton
+      *
+      */
+
     void editText();
+
+
 
 
 signals:
