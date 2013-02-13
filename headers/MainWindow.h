@@ -4,6 +4,7 @@
 #include <qthread.h>
 #include "ConnectionSettings.h"
 
+
 /**
   * @file MainWindow.h
   * @brief header for the MainWindow class
@@ -49,7 +50,7 @@ public:
 
     //method for the menu computation
     /**
-      * @brief calls the pint program with the given arguments
+      * @brief calls the pint prConnectionSettings()ogram with the given arguments
       *
       * @param Qstring the program to execute
       * @param QStringList the arguments to give to the program
@@ -65,7 +66,6 @@ public:
       *
       */
     void enableMenu();
-
 
 protected:
 

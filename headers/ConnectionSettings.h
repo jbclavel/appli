@@ -2,6 +2,9 @@
 #define HEADER_CONNECTIONSETTINGS
 
 #include <QtGui>
+#include "ArgumentFrame.h"
+#include "FuncFrame.h"
+
 
 class ConnectionSettings : public QWidget
 {
@@ -10,41 +13,53 @@ class ConnectionSettings : public QWidget
 
     public:
         ConnectionSettings();
+        ~ConnectionSettings();
         std::vector<QLabel*> tabArgNumber;
         std::vector<QComboBox*> tabArgType ;
         std::vector<QLineEdit*> tabArgSuf;
         std::vector<QCheckBox*> tabArgfacul;
         int nbArgPrcdt;
 
+        std::vector<FuncFrame*> tabFunction;
+        std::vector< std::vector<ArgumentFrame*>* > tabArgument;
+        //std::vector<ArgumentFrame*> tabArgFunct;
+
+
     private slots:
-        void buildDynamicPage();
-        //void genererCode();
+        void buildTable();
+        void quit();
+        void exportXMLSettings();
+        void importXMLSettings();
+
 
     private:
+        //Groupe : définition
         QLineEdit *name;
         QLineEdit *program;
         QSpinBox *nbArg;
-
-        //QValidator *validator;
-
-        QStringList argTypeList;
-        QComboBox *argType ;
-
-
-        QGridLayout *gridTable;
-        QCheckBox *facultatif;
+        QFormLayout *definitionLayout;
         QGroupBox *groupDefinition;
 
-        QPushButton *Save;
-        QPushButton *Cancel;
+        //Groupe : Table
+        QGridLayout *gridTable;
+            //en-tête
+        QLabel *enTeteArgNum ;
+        QLabel *enTeteArgTyp ;
+        QLabel *enTeteArgSuf ;
+        QLabel *enTeteArgFac ;
+            //Argument types list
+        QStringList argTypeList;
 
         QVBoxLayout *tableLayout;
         QGroupBox *groupTable;
-        QFormLayout *definitionLayout;
+
+        //button
+        QPushButton *Save;
+        QPushButton *Cancel;
         QHBoxLayout *boutonsLayout;
+
+        //Mise en page générale
         QVBoxLayout *globalLayout;
 
-
 };
-
 #endif

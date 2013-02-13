@@ -156,13 +156,13 @@ PHPtr PHIO::parseFile (string const& path) {
     }
     stderr += phcProcess->readAllStandardError();
     stdout += phcProcess->readAllStandardOutput();
-    delete phcProcess;
+    delete phcProcess;    
 
     // parse dump
     if (!stderr.isEmpty())
         throw pint_phc_crash() << parse_info(QString(stderr).toStdString());
-
     return parse(QString(stdout).toStdString());
+
 }
 
 
