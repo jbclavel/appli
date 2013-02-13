@@ -27,8 +27,8 @@ PH::PH () {
 
 // trigger the rendering in the Scene
 void PH::render () {
-	if (scene.use_count() == 0) scene = make_shared<PHScene>(this);
-	scene->doRender();
+    if (scene.use_count() == 0) scene = make_shared<PHScene>(this);
+    scene->doRender();
 }
 
 // get graphics scene for display
@@ -141,7 +141,7 @@ GVGraphPtr PH::toGVGraph(void) {
 	}
 	
     // let graphviz calculate an appropriate layout
-	res->applyLayout();
+    res->applyLayout();
 
 	return res;
 }
@@ -189,6 +189,7 @@ string PH::toDotString (void) {
 	string res;
 	res += "digraph G {\n";
 	res += "node [style=filled,color=lightgrey]\n";
+   // res += "edge [samehead]\n";
 
     // output Sorts
 	res += "\n\n";

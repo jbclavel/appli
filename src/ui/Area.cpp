@@ -51,6 +51,7 @@ Area::Area(QWidget *parent, QString path) :
     this->editTextArea = new QPushButton("Edit text",this);
     this->editTextArea->setFixedSize(QSize(200,30));
     this->editTextArea->setVisible(false);
+    this->textArea->setUndoRedoEnabled(true);
 
     this->saveTextEdit = new QPushButton("Update",this);
     this->saveTextEdit->setFixedSize(QSize(80,30));
@@ -105,7 +106,6 @@ Area::Area(QWidget *parent, QString path) :
     QObject::connect(this->saveTextEdit, SIGNAL(clicked()), this, SLOT(saveEdit()));
     //QObject::connect(this->textArea, SIGNAL(QMouseEvent::MouseButtonDblClick), this, SLOT(editText()));
     QObject::connect(this->textArea, SIGNAL(textChanged()), this, SLOT(onTextEdit()));
-
 
     // initialization
     this->textArea->setHidden(true);
@@ -265,22 +265,23 @@ void Area::editText(){
 void Area::cancelEdit(){
 
     this->indicatorEdit->setVisible(false);
-    this->textArea->setUndoRedoEnabled(true);
+    //this->textArea->setUndoRedoEnabled(true);
 
-    /*for(int i = 0; i < this->textArea->getNberEdit(); i++){
+    //for(int i = 0; i < this->textArea->getNberEdit(); i++){
 
-        this->textArea->undo();
-    }
-*/
-    if(this->textArea->getNberEdit() != 0){
+      //  this->textArea->undo();
+    //}
 
-        this->textArea->setPlainText(this->oldText);
-    }
+    //if(this->textArea->getNberEdit() != 0){
+
+    this->textArea->setPlainText(this->oldText);
+    this->saveEdit();
+   // }
 
     this->textArea->setNberEdit(0);
-    this->saveTextEdit->setDefault(false);
+    //this->saveTextEdit->setDefault(false);
     this->cancelTextEdit->setDefault(false);
-    this->indicatorEdit->setVisible(false);
+    //this->indicatorEdit->setVisible(false);
 
     //this->textArea->setReadOnly(true);
     //this->editTextArea->setVisible(true);
@@ -294,13 +295,13 @@ void Area::saveEdit(){
     //temporary file for the text edition
 
     //QFile newph(this->path);
-    QFile newph("temp.h");
+    QFile newph("temp.ph");
 
     newph.open(QIODevice::WriteOnly | QIODevice::Truncate);
     QTextStream flux(&newph);
     flux.setCodec("UTF-8");    
 
-    QString *file = new QString("temp.h");
+    QString *file = new QString("temp.ph");
     std::string phFile = file->toStdString();
 
     try{
@@ -332,23 +333,24 @@ void Area::saveEdit(){
         this->treeArea->build();
 
         this->indicatorEdit->setVisible(false);
-        this->textArea->setUndoRedoEnabled(false);
+        //this->textArea->setUndoRedoEnabled(false);
         this->saveTextEdit->setDefault(false);
-        this->textArea->setNberEdit(0);
+        this->textArea->setNberEdit(-1);
         //this->textArea->setReadOnly(true);
         //this->editTextArea->setVisible(true);
         //this->saveTextEdit->setVisible(false);
         //this->cancelTextEdit->setVisible(false);
-        //this->textArea->setNberEdit(0);
+
+        //put new oldText
+        //this->oldText = this->textArea->toPlainText();
 
         //delete temporary file
         newph.remove();
 
-        //put new oldText
-        this->oldText = this->textArea->toPlainText();
-
     }
     catch(exception_base& argh){
+
+        //Put the exception into a QMessageBox critical
 
         QString phc = "phc";
         QStringList args;
@@ -369,17 +371,29 @@ void Area::saveEdit(){
         stdout += phcProcess->readAllStandardOutput();
         delete phcProcess;
 
+        //Use split function to keep only the line number
+
         QStringList list = QString(stderr).split('"');
         QStringList list2 = list[1].split(":");
         QStringList list3 = list2[0].split(" ");
+        //QTextStream stream(&newph);
+        //QString line = stream.readLine(20);
+
+        //PROBLEME
 
         //One or more of your expressions are wrong !
         newph.remove();
         QMessageBox::critical(this, "Syntax error !", "One or more of your expressions are wrong !\nPlease check "+list3[0]+" "+list3[1]);
         //return NULL;
     }
+    //catch(){
+
+      //  QMessageBox::critical(this, "Error !", "jj");
+    //}
 }
 
+
+//not use for the moment
 void Area::confirmEdit(){
 
     QMessageBox confirmBox;
@@ -412,6 +426,13 @@ void Area::onTextEdit(){
 
         this->saveTextEdit->setDefault(false);
         this->indicatorEdit->setVisible(false);
+        this->oldText = this->textArea->toPlainText();
+    }
+    else if(this->textArea->getNberEdit() == 1){
+
+        //this->oldText = this->textArea->toPlainText();
+        this->saveTextEdit->setDefault(true);
+        this->indicatorEdit->setVisible(true);
     }
     else{
 

@@ -66,7 +66,6 @@ public:
       */
     void enableMenu();
 
-
 protected:
 
     /**

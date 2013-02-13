@@ -260,7 +260,7 @@ MyArea* MainWindow::openTab() {
                 dialogue->show();
                 mb->open();
 
-               // sleep(5);
+                //sleep(5);
 
                 //need a std::string instead of a QString
                 std::string path =	file.toStdString();                
@@ -275,7 +275,7 @@ MyArea* MainWindow::openTab() {
                     // render graph
                     PHPtr myPHPtr = PHIO::parseFile(path);
                     area->myArea->setPHPtr(myPHPtr);
-					myPHPtr->render();
+                    myPHPtr->render();
                     PHScenePtr scene = myPHPtr->getGraphicsScene();
                     area->myArea->setScene(&*scene);
 
@@ -315,8 +315,6 @@ MyArea* MainWindow::openTab() {
                     return NULL;
                 }
             }
-
-
             else {
                 mb->close();
                 QMessageBox::critical(this, "Error", "This file is already opened!");
