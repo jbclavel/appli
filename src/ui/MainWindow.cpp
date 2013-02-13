@@ -364,6 +364,24 @@ void MainWindow::save() {
         // need a std::string instead of a QString
         std::string path =	fichier.toStdString();
 
+        QStringList items;
+        items << tr("text") << tr("dump");
+        bool ok;
+        QString typeFile = QInputDialog::getItem(this,"Select output format","Format : ", items, 0, false, &ok);
+
+        //QMessageBox::information(this, "ii", typeFile);
+        if(typeFile == "dump"){
+
+            PHPtr ph= ((Area*) subWindow->widget())->myArea->getPHPtr();
+            PHIO::writeToFile (path, ph);
+        }
+        else if(typeFile == "text"){
+
+            std::string ph = ((Area*) subWindow->widget())->textArea->toPlainText().toStdString();
+            IO::writeFile (path, ph);
+        }
+
+        //if(ok && items.
         // need the PHPtr which is associated with the subwindow
         //PHPtr ph= ((MyArea*) subWindow->widget())->getPHPtr();
        // PHPtr ph= ((Area*) subWindow->widget())->myArea->getPHPtr();
@@ -375,11 +393,11 @@ void MainWindow::save() {
         //flux.setCodec("UTF-8");
 
        // flux << ((Area*) subWindow->widget())->textArea->toPlainText() << endl;
-        std::string ph = ((Area*) subWindow->widget())->textArea->toPlainText().toStdString();
+       ///// std::string ph = ((Area*) subWindow->widget())->textArea->toPlainText().toStdString();
 
         // save file
        // PHIO::writeToFile (path, ph);
-         IO::writeFile (path, ph);
+         /////IO::writeFile (path, ph);
        //this->newph.remove();
 
         }else{
