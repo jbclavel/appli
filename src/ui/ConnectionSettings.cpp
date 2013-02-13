@@ -59,7 +59,7 @@ ConnectionSettings::ConnectionSettings():
     boutonsLayout->addWidget(Cancel);
 
         // Connexions des signaux et des slots
-    connect(Cancel, SIGNAL(clicked()), this, SLOT(quit()));
+    connect(Cancel, SIGNAL(clicked()), this, SLOT(exportXMLSettings()));
     connect(Save, SIGNAL(clicked()), this, SLOT(importXMLSettings()));
     connect(nbArg, SIGNAL(valueChanged(int)), this, SLOT(buildTable()));
 
@@ -169,12 +169,9 @@ ConnectionSettings::~ConnectionSettings(){
 
 }
 
-
-
-
-
 void ConnectionSettings::exportXMLSettings(){
 
+    this->importXMLSettings();
     QFile output("xmlConnectionSettings.xml");
 
     if (!output.open(QIODevice::WriteOnly)){
@@ -187,9 +184,33 @@ void ConnectionSettings::exportXMLSettings(){
 
         writerStream.setAutoFormatting(true);
         writerStream.writeStartDocument();
-
         writerStream.writeStartElement("FunctionSettings");
 
+       int i;
+       int j;
+       for(i=0; i<tabFunction.size(); i++){
+           writerStream.writeStartElement("Function");
+
+           writerStream.writeStartElement("Definition");
+           writerStream.writeTextElement("name", tabFunction[i]->getNameFunction());
+           writerStream.writeTextElement("program", tabFunction[i]->getProgram());
+               writerStream.writeTextElement("nbArgument", tabFunction[i]->getNbArgument());
+           writerStream.writeEndElement();
+
+          for ( j = 0; j < tabArgument[i]->size(); j++){
+
+               writerStream.writeStartElement("ArgumentsDefinition");
+               writerStream.writeTextElement("ArgNumber", tabArgument[i]->at(j)->getArgNumber());
+                   writerStream.writeTextElement("ArgType", tabArgument[i]->at(j)->getArgType());
+                   writerStream.writeTextElement("ArgSuf", tabArgument[i]->at(j)->getArgSuf());
+                   writerStream.writeTextElement("ArgFacul", tabArgument[i]->at(j)->getArgFac());
+               writerStream.writeEndElement();
+           }
+
+           writerStream.writeEndElement();
+           }
+
+//fonction courante
         writerStream.writeStartElement("Function");
 
         writerStream.writeStartElement("Definition");
@@ -198,13 +219,22 @@ void ConnectionSettings::exportXMLSettings(){
             writerStream.writeTextElement("nbArgument", nbArg->text());
         writerStream.writeEndElement();
 
-        for (int i = 0; i < nbArg->text().toInt(); i++){
+        for (int k = 0; k < nbArg->text().toInt(); k++){
 
             writerStream.writeStartElement("ArgumentsDefinition");
-                writerStream.writeTextElement("ArgNumber", tabArgNumber[i]->text());
-                writerStream.writeTextElement("ArgType", tabArgType[i]->currentText());
-                writerStream.writeTextElement("ArgSuf", tabArgSuf[i]->text());
-                writerStream.writeTextElement("ArgFacul", QString::number(tabArgfacul[i]->isChecked()));
+                writerStream.writeTextElement("ArgNumber", tabArgNumber[k]->text());
+                writerStream.writeTextElement("ArgType", tabArgType[k]->currentText());
+                writerStream.writeTextElement("ArgSuf", tabArgSuf[k]->text());
+                writerStream.writeTextElement("ArgFacul", QString::number(tabArgfacul[k]->isChecked()));
+            writerStream.writeEndElement();
+        }
+
+        if( nbArg->text().toInt()==0){
+            writerStream.writeStartElement("ArgumentsDefinition");
+                writerStream.writeTextElement("ArgNumber", "Sans Argument");
+                writerStream.writeTextElement("ArgType", "Sans Argument");
+                writerStream.writeTextElement("ArgSuf", "Sans Argument");
+                writerStream.writeTextElement("ArgFacul", "Sans Argument");
             writerStream.writeEndElement();
         }
 
@@ -325,7 +355,7 @@ void ConnectionSettings::importXMLSettings(){
     for (int i=0; i <tabFunction.size(); i++){
         tabFunction[i]->setArguments(*(tabArgument[i]));
     }
-
+/*
     QMessageBox::information(this, "err",
         QString::number(tabFunction.size())         +  "\n" +
         QString::number(tabArgument.size())         +  "\n" +
@@ -356,13 +386,13 @@ void ConnectionSettings::importXMLSettings(){
             tabArgument[1]->at(0)->getArgType()         +  "\n" +
             tabArgument[1]->at(0)->getArgSuf()          +  "\n" +
             tabArgument[1]->at(0)->getArgFac()          +  "\n"
-/*
+
             tabArgument[1]->at(1)->getArgNumber()       +  "\n" +
             tabArgument[1]->at(1)->getArgType()         +  "\n" +
             tabArgument[1]->at(1)->getArgSuf()          +  "\n" +
             tabArgument[1]->at(1)->getArgFac()          +  "\n"
-*/
+
 );
 //QMessageBox::critical(this, "Error", "No file opened!");
-
+*/
 }
