@@ -22,10 +22,18 @@ void FuncFrame::setProgram(QString newProgram){
     program = newProgram;
 }
 
-std::vector<ArgumentFrame> FuncFrame::getArguments(){
+QString FuncFrame::getNbArgument(){
+    return nbArgument;
+}
+
+void FuncFrame::setNbArgument(QString newNbArgument){
+    nbArgument = newNbArgument;
+}
+
+std::vector<ArgumentFrame*> FuncFrame::getArguments(){
     return arguments;
 }
 
-void FuncFrame::setArguments(std::vector<ArgumentFrame> newArguments){
+void FuncFrame::setArguments(std::vector<ArgumentFrame*> newArguments){
     arguments = newArguments;
 }

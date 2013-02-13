@@ -7,18 +7,25 @@ class ArgumentFrame
 {
 public:
     ArgumentFrame();
+
+    QString getArgNumber();
+    void setArgNumber(QString newArgNumber);
+
     QString getArgSuf();
     void setArgSuf(QString newArgSuf);
+
     QString getArgType();
     void setArgType(QString newArgType);
-    bool getArgFac();
-    void setArgFac(bool newArgFac);
+
+    QString getArgFac();
+    void setArgFac(QString newArgFac);
 
 
 private :
+    QString argNumber;
     QString argSuf;
     QString argType;
-    bool argFac;
+    QString argFac;
 };
 
 #endif

@@ -4,6 +4,7 @@
 #include "ArgumentFrame.h"
 
 
+
 ConnectionSettings::ConnectionSettings():
     QWidget()
 {
@@ -59,7 +60,7 @@ ConnectionSettings::ConnectionSettings():
 
         // Connexions des signaux et des slots
     connect(Cancel, SIGNAL(clicked()), this, SLOT(quit()));
-    connect(Save, SIGNAL(clicked()), this, SLOT(exportXMLSettings()));
+    connect(Save, SIGNAL(clicked()), this, SLOT(importXMLSettings()));
     connect(nbArg, SIGNAL(valueChanged(int)), this, SLOT(buildTable()));
 
 
@@ -189,6 +190,8 @@ void ConnectionSettings::exportXMLSettings(){
 
         writerStream.writeStartElement("FunctionSettings");
 
+        writerStream.writeStartElement("Function");
+
         writerStream.writeStartElement("Definition");
             writerStream.writeTextElement("name", name->text());
             writerStream.writeTextElement("program", program->text());
@@ -206,6 +209,7 @@ void ConnectionSettings::exportXMLSettings(){
         }
 
         writerStream.writeEndElement();
+        writerStream.writeEndElement();
         writerStream.writeEndDocument();
 
         output.close();
@@ -216,26 +220,27 @@ void ConnectionSettings::exportXMLSettings(){
 
 void ConnectionSettings::importXMLSettings(){
 
-    //function a;
+    int functCpt = 0;
+    int argCpt = 0;
+    tabArgument.push_back(new std::vector<ArgumentFrame*>());
+
+    tabArgument[tabArgument.size()-1]->push_back(new ArgumentFrame());
+    tabArgument[0]->at(0)->getArgNumber();
+        tabArgument[tabArgument.size()-1]->at(tabArgument[tabArgument.size()-1]->size()-1)->setArgNumber("1");
+        tabArgument[tabArgument.size()-1]->at(tabArgument[tabArgument.size()-1]->size()-1)->setArgType("1");
+        tabArgument[tabArgument.size()-1]->at(tabArgument[tabArgument.size()-1]->size()-1)->setArgSuf("1");
+        tabArgument[tabArgument.size()-1]->at(tabArgument[tabArgument.size()-1]->size()-1)->setArgFac("0");
 
 
-    //tabFunction.push_back(new FuncFrame());
-    //tabArgument.push_back(new ArgumentFrame());
+    tabFunction.push_back(new FuncFrame());
+        tabFunction[tabFunction.size()-1]->setNameFunction("1") ;
+        tabFunction[tabFunction.size()-1]->setProgram("1") ;
+        tabFunction[tabFunction.size()-1]->setNbArgument("1") ;
+        tabFunction[tabFunction.size()-1]->setArguments(tabArgFunct);
+        QMessageBox::information(this, "err", tabFunction[tabFunction.size()-1]->getNameFunction());
 
-
-    //tabFunction[0]->nameFunction ="1" ;
-
-    }
-
-//nameFunction;
-      //  QString program;
-        //std::vector<ArgumentFrame> arguments;
-
-    /*
     QFile input("xmlConnectionSettings.xml");
-
     QXmlStreamReader readerStream;
-
     input.open(QFile::ReadOnly | QFile::Text);
     readerStream.setDevice(&input);
 
@@ -244,55 +249,154 @@ void ConnectionSettings::importXMLSettings(){
     readerStream.readNext();
     while (!readerStream.atEnd())
     {
-        if (readerStream.isStartElement())
-        {
-            if (readerStream.name() == "FunctionSettings")
-            {
-                readerStream.readNext(); // On va au prochain token
-                // Tant que celui-ci n'est pas un élément de départ on avance au token suivant
-                while(readerStream.isStartElement()==false)
-                    readerStream.readNext();
+        QMessageBox::information(this, "err", "celui la");
 
-                if(readerStream.name() == "Definition")
+                while (readerStream.name() == "Function")
                 {
-                    readerStream.readNext();
+                    QMessageBox::information(this, "err", "apres function ");
+
+                    readerStream.readNext(); // On va au prochain token
+                    // Tant que celui-ci n'est pas un élément de départ on avance au token suivant
                     while(readerStream.isStartElement()==false)
                     readerStream.readNext();
-                    if(readerStream.name() == "name")
+QMessageBox::information(this, "err", "apres function dans while ");
+
+                    if(readerStream.name() == "Definition")
                     {
-                        QString name = readerStream.readElementText();
                         readerStream.readNext();
                         while(readerStream.isStartElement()==false)
                         readerStream.readNext();
+                        if(readerStream.name() == "name")
+                        {
+                            tabFunction[tabFunction.size()-1]->setNameFunction(readerStream.readElementText());
+                            readerStream.readNext();
+                            QMessageBox::information(this, "err", tabFunction[tabFunction.size()-1]->getNameFunction());
+
+                            while(readerStream.isStartElement()==false)
+                            readerStream.readNext();
+                        }
+                        if(readerStream.name() == "program")
+                        {
+                            tabFunction[tabFunction.size()-1]->setProgram(readerStream.readElementText()) ;
+                            readerStream.readNext();
+                            QMessageBox::information(this, "err", tabFunction[tabFunction.size()-1]->getProgram());
+
+                            while(readerStream.isStartElement()==false)
+                            readerStream.readNext();
+                        }
+                        if(readerStream.name() == "nbArgument")
+                        {
+                            tabFunction[tabFunction.size()-1]->setNbArgument(readerStream.readElementText()) ;
+                            QMessageBox::information(this, "err", tabFunction[tabFunction.size()-1]->getNbArgument());
+
+                            functCpt+=1;
+                            QMessageBox::information(this, "functCpt", QString::number(functCpt));
+                            while(readerStream.isStartElement()==false)
+                            readerStream.readNext();
+
+                        }
+
                     }
-                    if(readerStream.name() == "url")
+
+      QMessageBox::information(this, "err", "avant argument setting");
+
+                    while(readerStream.name() == "ArgumentsDefinition")
                     {
-                        QString strUrl = readerStream.readElementText();
+                        readerStream.readNext();
+                        while(readerStream.isStartElement()==false)
+                            readerStream.readNext();
+                        if(readerStream.name() == "ArgNumber")
+                        {
+                            tabArgument[tabArgument.size()-1]->at(tabArgument[tabArgument.size()-1]->size()-1)->setArgNumber(readerStream.readElementText());
+                            readerStream.readNext();
+                            QMessageBox::information(this, "err", tabArgument[tabArgument.size()-1]->at(tabArgument[tabArgument.size()-1]->size()-1)->getArgNumber());
+
+                            while(readerStream.isStartElement()==false)
+                            readerStream.readNext();
+                        }
+                        if(readerStream.name() == "ArgType")
+                        {
+
+                            tabArgument[tabArgument.size()-1]->at(tabArgument[tabArgument.size()-1]->size()-1)->setArgType(readerStream.readElementText());
+                            readerStream.readNext();
+                            QMessageBox::information(this, "err", tabArgument[tabArgument.size()-1]->at(tabArgument[tabArgument.size()-1]->size()-1)->getArgType());
+
+                            while(readerStream.isStartElement()==false)
+                            readerStream.readNext();
+                        }
+                        if(readerStream.name() == "ArgSuf")
+                        {
+                            tabArgument[tabArgument.size()-1]->at(tabArgument[tabArgument.size()-1]->size()-1)->setArgSuf(readerStream.readElementText());
+                            readerStream.readNext();
+                            QMessageBox::information(this, "err", tabArgument[tabArgument.size()-1]->at(tabArgument[tabArgument.size()-1]->size()-1)->getArgSuf());
+
+                            while(readerStream.isStartElement()==false)
+                            readerStream.readNext();
+                        }
+                        if(readerStream.name() == "ArgFacul")
+                        {
+                            tabArgument[tabArgument.size()-1]->at(tabArgument[tabArgument.size()-1]->size()-1)->setArgFac(readerStream.readElementText());
+                            QMessageBox::information(this, "err", tabArgument[tabArgument.size()-1]->at(tabArgument[tabArgument.size()-1]->size()-1)->getArgFac());
+
+                          /*  if(readerStream.isEndElement()==true ){
+                                readerStream.readNext();
+                                if(readerStream.isEndElement()==true){
+                                    readerStream.readNext();
+                                     if(readerStream.isEndElement()==true){
+                                         input.close();
+                                         QMessageBox::information(this, "err", "closing");
+                                     }
+                                }
+                            }
+                            //else{
+*/
+                            argCpt+=1;
+                            QMessageBox::information(this, "argCpt", QString::number(argCpt));
+
+                            while(readerStream.isStartElement()==false) //&& readerStream.atEnd()==false)
+                                if(readerStream.atEnd()==true){
+                                    QMessageBox::information(this, "err", "just break");
+
+                                 //input.close();
+                                    break;
+
+                                }else{
+                                readerStream.readNext();
+
+                                }
+
+
+                        }
+                        QMessageBox::information(this, "err", "viens d'etre ajouté");
+                        //while(readerStream.isStartElement()==false)
+                        //readerStream.readNext();
+
                     }
-
-                }
-            }
-
-            if(readerStream.name() == "contributeur")
-            {
-                readerStream.readNext();
-                while(readerStream.isStartElement()==false)
+                    while(readerStream.isStartElement()==false)
+                        if(readerStream.atEnd()==true){
+                            QMessageBox::information(this, "err", "just break 2");
+                            //input.close();
+                            break;
+                            }else{
                     readerStream.readNext();
-                if(readerStream.name() == "nom")
-                {
-                    QString attrFAQ = readerStream.attributes().value("faq").toString();
-                    QString strNameContrib = readerStream.readElementText();
+                    QMessageBox::information(this, "err", "apres function dans while 2");
+                        }
+
+
                 }
-            }
-        }
+
+
+
         readerStream.readNext(); // On va au prochain token
+        QMessageBox::information(this, "err", "pose un souci?");
     }
-    file.close();
+    QMessageBox::information(this, "err", "closing");
+
+    input.close();
 
 
 }
 
-*/
 
 /*
 void ConnectionSettings::exportXMLSettings(){

@@ -20,8 +20,9 @@ class ConnectionSettings : public QWidget
         std::vector<QCheckBox*> tabArgfacul;
         int nbArgPrcdt;
 
-        static std::vector<FuncFrame*> tabFunction;
-        static std::vector<ArgumentFrame*> tabArgument;
+        std::vector<FuncFrame*> tabFunction;
+        std::vector< std::vector<ArgumentFrame*>* > tabArgument;
+        std::vector<ArgumentFrame*> tabArgFunct;
 
 
     private slots:
