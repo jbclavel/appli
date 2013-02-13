@@ -220,329 +220,149 @@ void ConnectionSettings::exportXMLSettings(){
 
 void ConnectionSettings::importXMLSettings(){
 
-    int functCpt = 0;
-    int argCpt = 0;
-
     QFile input("xmlConnectionSettings.xml");
     QXmlStreamReader readerStream;
     input.open(QFile::ReadOnly | QFile::Text);
     readerStream.setDevice(&input);
 
-    //Le but de cette boucle est de parcourir le
-    //fichier et de vérifier si l'on est au début d'un élément.
     readerStream.readNext();
     while (!readerStream.atEnd())
     {
-        QMessageBox::information(this, "err", "celui la");
+        while (readerStream.name() == "Function")
+        {
+            readerStream.readNext();
+            while(readerStream.isStartElement()==false)
+            readerStream.readNext();
 
-                while (readerStream.name() == "Function")
+                if(readerStream.name() == "Definition")
                 {
-                    QMessageBox::information(this, "err", "apres function ");
-
-                    readerStream.readNext(); // On va au prochain token
-                    // Tant que celui-ci n'est pas un élément de départ on avance au token suivant
+                    readerStream.readNext();
                     while(readerStream.isStartElement()==false)
                     readerStream.readNext();
-QMessageBox::information(this, "err", "apres function dans while ");
-
-                    if(readerStream.name() == "Definition")
+                    if(readerStream.name() == "name")
                     {
-                        readerStream.readNext();
+                        tabFunction.push_back(new FuncFrame());
+                        tabArgument.push_back(new std::vector<ArgumentFrame*>());
+                        tabFunction[tabFunction.size()-1]->setNameFunction(readerStream.readElementText());
+
                         while(readerStream.isStartElement()==false)
                         readerStream.readNext();
-                        if(readerStream.name() == "name")
-                        {
-                            QMessageBox::information(this, "taille tabfunct avant push", QString::number(tabFunction.size()));
-                            QMessageBox::information(this, "taille tabarg avant push", QString::number(tabArgument.size()));
-                            tabFunction.push_back(new FuncFrame());
-                            tabArgument.push_back(new std::vector<ArgumentFrame*>());
-                            QMessageBox::information(this, "taille après push", QString::number(tabFunction.size()));
-                            QMessageBox::information(this, "taille tabarg apres push", QString::number(tabArgument.size()));
-
-                            tabFunction[tabFunction.size()-1]->setNameFunction(readerStream.readElementText());
-                            //readerStream.readNext();
-                            QMessageBox::information(this, "err", tabFunction[tabFunction.size()-1]->getNameFunction());
-
-
-                            while(readerStream.isStartElement()==false)
-                            readerStream.readNext();
-                        }
-                        if(readerStream.name() == "program")
-                        {
-                            tabFunction[tabFunction.size()-1]->setProgram(readerStream.readElementText()) ;
-                            readerStream.readNext();
-                            QMessageBox::information(this, "err", tabFunction[tabFunction.size()-1]->getProgram());
-
-                            while(readerStream.isStartElement()==false)
-                            readerStream.readNext();
-                        }
-                        if(readerStream.name() == "nbArgument")
-                        {
-                            tabFunction[tabFunction.size()-1]->setNbArgument(readerStream.readElementText()) ;
-                            QMessageBox::information(this, "err", tabFunction[tabFunction.size()-1]->getNbArgument());
-
-                            functCpt+=1;
-                            QMessageBox::information(this, "functCpt", QString::number(functCpt));
-                            while(readerStream.isStartElement()==false)
-                            readerStream.readNext();
-
-                        }
-
                     }
-
-      QMessageBox::information(this, "err", "avant argument setting");
-
-                    while(readerStream.name() == "ArgumentsDefinition")
+                    if(readerStream.name() == "program")
                     {
+                        tabFunction[tabFunction.size()-1]->setProgram(readerStream.readElementText()) ;
                         readerStream.readNext();
+
                         while(readerStream.isStartElement()==false)
-                            readerStream.readNext();
-                        if(readerStream.name() == "ArgNumber")
-                        {
-                            tabArgument[tabArgument.size()-1]->push_back(new ArgumentFrame());
+                        readerStream.readNext();
+                    }
+                    if(readerStream.name() == "nbArgument")
+                    {
+                        tabFunction[tabFunction.size()-1]->setNbArgument(readerStream.readElementText()) ;
 
-                            tabArgument[tabArgument.size()-1]->at(tabArgument[tabArgument.size()-1]->size()-1)->setArgNumber(readerStream.readElementText());
-                            readerStream.readNext();
-                            QMessageBox::information(this, "err", tabArgument[tabArgument.size()-1]->at(tabArgument[tabArgument.size()-1]->size()-1)->getArgNumber());
-
-                            while(readerStream.isStartElement()==false)
-                            readerStream.readNext();
-                        }
-                        if(readerStream.name() == "ArgType")
-                        {
-
-                            tabArgument[tabArgument.size()-1]->at(tabArgument[tabArgument.size()-1]->size()-1)->setArgType(readerStream.readElementText());
-                            readerStream.readNext();
-                            QMessageBox::information(this, "err", tabArgument[tabArgument.size()-1]->at(tabArgument[tabArgument.size()-1]->size()-1)->getArgType());
-
-                            while(readerStream.isStartElement()==false)
-                            readerStream.readNext();
-                        }
-                        if(readerStream.name() == "ArgSuf")
-                        {
-                            tabArgument[tabArgument.size()-1]->at(tabArgument[tabArgument.size()-1]->size()-1)->setArgSuf(readerStream.readElementText());
-                            readerStream.readNext();
-                            QMessageBox::information(this, "err", tabArgument[tabArgument.size()-1]->at(tabArgument[tabArgument.size()-1]->size()-1)->getArgSuf());
-
-                            while(readerStream.isStartElement()==false)
-                            readerStream.readNext();
-                        }
-                        if(readerStream.name() == "ArgFacul")
-                        {
-                            tabArgument[tabArgument.size()-1]->at(tabArgument[tabArgument.size()-1]->size()-1)->setArgFac(readerStream.readElementText());
-                            QMessageBox::information(this, "err", tabArgument[tabArgument.size()-1]->at(tabArgument[tabArgument.size()-1]->size()-1)->getArgFac());
-
-                          /*  if(readerStream.isEndElement()==true ){
-                                readerStream.readNext();
-                                if(readerStream.isEndElement()==true){
-                                    readerStream.readNext();
-                                     if(readerStream.isEndElement()==true){
-                                         input.close();
-                                         QMessageBox::information(this, "err", "closing");
-                                     }
-                                }
-                            }
-                            //else{
-*/
-                            argCpt+=1;
-                            QMessageBox::information(this, "argCpt", QString::number(argCpt));
-
-                            while(readerStream.isStartElement()==false) //&& readerStream.atEnd()==false)
-                                if(readerStream.atEnd()==true){
-                                    QMessageBox::information(this, "err", "just break");
-
-                                 //input.close();
-                                    break;
-
-                                }else{
-                                readerStream.readNext();
-
-                                }
-
-
-                        }
-                        QMessageBox::information(this, "err", "viens d'etre ajouté");
-                        //while(readerStream.isStartElement()==false)
-                        //readerStream.readNext();
+                        while(readerStream.isStartElement()==false)
+                        readerStream.readNext();
 
                     }
-                    while(readerStream.isStartElement()==false)
-                        if(readerStream.atEnd()==true){
-                            QMessageBox::information(this, "err", "just break 2");
-                            //input.close();
-                            break;
-                            }else{
-                    readerStream.readNext();
-                    QMessageBox::information(this, "err", "apres function dans while 2");
-                        }
-
 
                 }
 
+                while(readerStream.name() == "ArgumentsDefinition")
+                {
+                    readerStream.readNext();
+                    while(readerStream.isStartElement()==false)
+                    readerStream.readNext();
 
+                    if(readerStream.name() == "ArgNumber")
+                    {
+                        tabArgument[tabArgument.size()-1]->push_back(new ArgumentFrame());
+                        tabArgument[tabArgument.size()-1]->at(tabArgument[tabArgument.size()-1]->size()-1)->setArgNumber(readerStream.readElementText());
+                        readerStream.readNext();
 
-        readerStream.readNext(); // On va au prochain token
-        QMessageBox::information(this, "err", "pose un souci?");
+                        while(readerStream.isStartElement()==false)
+                        readerStream.readNext();
+                    }
+                    if(readerStream.name() == "ArgType")
+                    {
+                        tabArgument[tabArgument.size()-1]->at(tabArgument[tabArgument.size()-1]->size()-1)->setArgType(readerStream.readElementText());
+                        readerStream.readNext();
+
+                        while(readerStream.isStartElement()==false)
+                        readerStream.readNext();
+                    }
+                    if(readerStream.name() == "ArgSuf")
+                    {
+                        tabArgument[tabArgument.size()-1]->at(tabArgument[tabArgument.size()-1]->size()-1)->setArgSuf(readerStream.readElementText());
+                        readerStream.readNext();
+
+                        while(readerStream.isStartElement()==false)
+                        readerStream.readNext();
+                    }
+                    if(readerStream.name() == "ArgFacul")
+                    {
+                        tabArgument[tabArgument.size()-1]->at(tabArgument[tabArgument.size()-1]->size()-1)->setArgFac(readerStream.readElementText());
+
+                        while(readerStream.isStartElement()==false)
+                            if(readerStream.atEnd()==true){
+                                    break;
+                            }else{
+                            readerStream.readNext();
+                            }
+                    }
+
+                }
+                while(readerStream.isStartElement()==false)
+                    if(readerStream.atEnd()==true){
+                        break;
+                        }else{
+                readerStream.readNext();
+                    }
+            }
+    readerStream.readNext();
     }
-    QMessageBox::information(this, "err", "closing");
-
     input.close();
 
     for (int i=0; i <tabFunction.size(); i++){
-        tabFunction[i]->setArguments((tabArgument[i])*);
+        tabFunction[i]->setArguments(*(tabArgument[i]));
     }
 
-    //tabFunction[tabFunction.size()-1]->setArguments(tabArgument[tabFunction.size()-1]);
+    QMessageBox::information(this, "err",
+        QString::number(tabFunction.size())         +  "\n" +
+        QString::number(tabArgument.size())         +  "\n" +
+        QString::number(tabArgument[0]->size())     +  "\n" +
+        QString::number(tabArgument[1]->size())     +  "\n" +
 
-    /*[0]->at(0)->getArgNumber();
-    tabArgument[0]->at(0)->getArgNumber();
-    tabArgument[0]->at(0)->getArgNumber();
-    tabArgument[0]->at(0)->getArgNumber();
-        tabArgument[tabArgument.size()-1]->at(tabArgument[tabArgument.size()-1]->size()-1)->setArgNumber("1");
-        tabArgument[tabArgument.size()-1]->at(tabArgument[tabArgument.size()-1]->size()-1)->setArgType("1");
-        tabArgument[tabArgument.size()-1]->at(tabArgument[tabArgument.size()-1]->size()-1)->setArgSuf("1");
-        tabArgument[tabArgument.size()-1]->at(tabArgument[tabArgument.size()-1]->size()-1)->setArgFac("0");
+        tabFunction[0]->getNameFunction()           +  "\n" +
+        tabFunction[0]->getProgram()                +  "\n" +
+        tabFunction[0]->getNbArgument()             +  "\n" +
+        tabFunction[0]->getArguments().at(0)->getArgNumber()    +  "\n" +
+
+            tabArgument[0]->at(0)->getArgNumber()       +  "\n" +
+            tabArgument[0]->at(0)->getArgType()         +  "\n" +
+            tabArgument[0]->at(0)->getArgSuf()          +  "\n" +
+            tabArgument[0]->at(0)->getArgFac()          +  "\n" +
+
+            tabArgument[0]->at(1)->getArgNumber()       +  "\n" +
+            tabArgument[0]->at(1)->getArgType()         +  "\n" +
+            tabArgument[0]->at(1)->getArgSuf()          +  "\n" +
+            tabArgument[0]->at(1)->getArgFac()          +  "\n" +
+
+        tabFunction[1]->getNameFunction()           +  "\n" +
+        tabFunction[1]->getProgram()                +  "\n" +
+        tabFunction[1]->getNbArgument()             +  "\n" +
+        tabFunction[1]->getArguments().at(0)->getArgNumber()    +  "\n" +
+
+            tabArgument[1]->at(0)->getArgNumber()       +  "\n" +
+            tabArgument[1]->at(0)->getArgType()         +  "\n" +
+            tabArgument[1]->at(0)->getArgSuf()          +  "\n" +
+            tabArgument[1]->at(0)->getArgFac()          +  "\n"
+/*
+            tabArgument[1]->at(1)->getArgNumber()       +  "\n" +
+            tabArgument[1]->at(1)->getArgType()         +  "\n" +
+            tabArgument[1]->at(1)->getArgSuf()          +  "\n" +
+            tabArgument[1]->at(1)->getArgFac()          +  "\n"
 */
-    QMessageBox::information(this, "err", QString::number(tabFunction.size()) +  "\n" +
-                                QString::number(tabArgument.size()) +  "\n" +
-        QString::number(tabArgument[0]->size())+  "\n" +
-        QString::number(tabArgument[1]->size())+  "\n" +
-
-
-
-        tabFunction[0]->getNameFunction() +  "\n" +
-        tabFunction[0]->getProgram() +  "\n" +
-        tabFunction[0]->getNbArgument() +  "\n" +
-        tabFunction[0]->getArguments()-> at(0)->getArgNumber() +  "\n" +
-
-                             tabArgument[0]->at(0)->getArgNumber()+  "\n" +
-                                 tabArgument[0]->at(0)->getArgType()+  "\n" +
-                                     tabArgument[0]->at(0)->getArgSuf()+  "\n" +
-                                         tabArgument[0]->at(0)->getArgFac()+  "\n" +
-
-                             tabArgument[0]->at(1)->getArgNumber()+  "\n" +
-                                 tabArgument[0]->at(1)->getArgType()+  "\n" +
-                                     tabArgument[0]->at(1)->getArgSuf()+  "\n" +
-                                         tabArgument[0]->at(1)->getArgFac()+  "\n" +
-
-
-                tabFunction[1]->getNameFunction() +  "\n" +
-                tabFunction[1]->getProgram() +  "\n" +
-                tabFunction[1]->getNbArgument() +  "\n" +
-                tabFunction[1]->getArguments()-> at(0)->getArgNumber() +  "\n" +
-
-                             tabArgument[1]->at(0)->getArgNumber()+  "\n" +
-                                 tabArgument[1]->at(0)->getArgType()+  "\n" +
-                                     tabArgument[1]->at(0)->getArgSuf()+  "\n" +
-                                         tabArgument[1]->at(0)->getArgFac()+  "\n" +
-
-                             tabArgument[1]->at(1)->getArgNumber()+  "\n" +
-                                 tabArgument[1]->at(1)->getArgType()+  "\n" +
-                                     tabArgument[1]->at(1)->getArgSuf()+  "\n" +
-                                         tabArgument[1]->at(1)->getArgFac()+  "\n"
-
-                             );
-
-       // QMessageBox::information(this, "err", tabFunction[tabFunction.size()-1]->getNameFunction());
-
-
-
+);
+//QMessageBox::critical(this, "Error", "No file opened!");
 
 }
-
-
-/*
-void ConnectionSettings::exportXMLSettings(){
-
-    if(!this->getCentraleArea()->subWindowList().isEmpty()){
-
-        // SaveFile dialog
-        QString xmlFile = QFileDialog::getSaveFileName(this, "Export Settings", QString(), "*.xml");
-
-        // open file if possible and write XML tree into it
-        QFile output(xmlFile);
-        if (!output.open(QIODevice::WriteOnly)){
-            QMessageBox::critical(this, "Error", "Sorry, unable to open file.");
-            output.errorString();
-            return;
-        } else {
-            PHIO::exportXMLMetadata(this, output);
-        }
-
-    } else QMessageBox::critical(this, "Error", "No file opened!");
-
-}
-*/
-
-/*
-                tabArgNumber.push_back(new QLabel("Arg " + nbArg->text() + " :" , this));
-
-                tabArgType.push_back(new QComboBox(this));
-                tabArgType[tabArgType.size()-1]->addItems(argTypeList);
-
-                tabArgSuf.push_back(new QLineEdit( this));
-
-                tabArgfacul.push_back(new QCheckBox("Yes"));
-
-                gridTable->addWidget(tabArgNumber[tabArgNumber.size()-1], nbArg->text().toInt(), 0);
-                gridTable->addWidget(tabArgType[tabArgType.size()-1], nbArg->text().toInt(), 1);
-                gridTable->addWidget(tabArgSuf[tabArgSuf.size()-1], nbArg->text().toInt(), 2);
-                gridTable->addWidget(tabArgfacul[tabArgfacul.size()-1],nbArg->text().toInt(),3);
-
-                nbArgPrcdt = nbArg->text().toInt();
-
-            }else if(nbArg->text().toInt()<nbArgPrcdt){
-
-                        tabArgNumber[tabArgNumber.size()-1]->~QLabel();
-                        tabArgType[tabArgType.size()-1]->~QComboBox();
-                        tabArgSuf[tabArgSuf.size()-1]->~QLineEdit();
-
-                        tabArgfacul[tabArgfacul.size()-1]->~QCheckBox();
-
-                        tabArgNumber.pop_back();
-                        tabArgType.pop_back();
-                        tabArgSuf.pop_back();
-                        tabArgfacul.pop_back();
-
-                        nbArgPrcdt = nbArg->text().toInt();
-                }*/
-
-
-
-        //std::vector<QLabel*> tabArgNumber;
-        //std::vector<QComboBox*> tabArgType ;
-        //std::vector<QLineEdit*> tabArgSuf;
-        //std::vector<QCheckBox*> tabArgfacul;
-        //int nbArgPrcdt;
-
-
-        /*
-            QGridLayout *Gridlayout = new QGridLayout;
-            Gridlayout->addWidget(groupDefinition, 0, 0);
-            Gridlayout->addWidget(label, 0, 1);
-            Gridlayout->addWidget(table, 0, 2);
-            Gridlayout->addWidget(boutonsLayout, 0, 3);
-        */
-
-            //validator = new QRegExpValidator(this);
-            //nbArg->setValidator(validator);
-            //boutonsLayout->setAlignment(Qt::AlignRight);
-
-            //QLabel *label = new QLabel("Specify argument(s) :", this);
-            //label->setFont(QFont("Comic Sans MS", 10, QFont::Bold, false));
-
-
-        //QLabel *argNumber = new QLabel("Argument 1 :", this);
-        //argNumber->setFont(QFont("Comic Sans MS", 10, QFont::Bold, false));
-
-        //argType = new QComboBox(this);
-        //argType->addItems(argTypeList);
-
-        //facultatif = new QCheckBox("Facultatif ?");
-
-        //gridTable->addWidget(tabArgNumber[1], 0, 0);
-        //gridTable->addWidget(tabArgType[1], 0, 1);
-        //gridTable->addWidget(tabArgfacul[1],0,3);
-
-
-
