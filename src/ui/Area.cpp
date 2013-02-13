@@ -15,6 +15,7 @@ Area::Area(QWidget *parent, QString path) :
     this->myArea = new MyArea(this, this->path);
     this->treeArea = new TreeArea(this);
     this->indicatorEdit = new TextArea(this);
+    this->listOldText = new QStringList();
 
     //Ajoute la coloration au text (lie le TextArea)
     colorerSequences = new ColorerSequences(textArea->document());
@@ -51,7 +52,6 @@ Area::Area(QWidget *parent, QString path) :
     this->editTextArea = new QPushButton("Edit text",this);
     this->editTextArea->setFixedSize(QSize(200,30));
     this->editTextArea->setVisible(false);
-    this->textArea->setUndoRedoEnabled(true);
 
     this->saveTextEdit = new QPushButton("Update",this);
     this->saveTextEdit->setFixedSize(QSize(80,30));
@@ -106,6 +106,7 @@ Area::Area(QWidget *parent, QString path) :
     QObject::connect(this->saveTextEdit, SIGNAL(clicked()), this, SLOT(saveEdit()));
     //QObject::connect(this->textArea, SIGNAL(QMouseEvent::MouseButtonDblClick), this, SLOT(editText()));
     QObject::connect(this->textArea, SIGNAL(textChanged()), this, SLOT(onTextEdit()));
+    //QObject::connect(this->textArea, SIGNAL(cursorPositionChanged()), this, SLOT(setOldText()));
 
     // initialization
     this->textArea->setHidden(true);
@@ -258,7 +259,8 @@ void Area::editText(){
 
         this->textArea->setNberEdit(0);
 
-        this->oldText = this->textArea->toPlainText();
+        //this->oldText = this->textArea->toPlainText();
+    this->setOldText();
 
 }
 
@@ -267,18 +269,20 @@ void Area::cancelEdit(){
     this->indicatorEdit->setVisible(false);
     //this->textArea->setUndoRedoEnabled(true);
 
-    //for(int i = 0; i < this->textArea->getNberEdit(); i++){
+    /*for(int i = 0; i < this->textArea->getNberTextChange(); i++){
 
-      //  this->textArea->undo();
-    //}
+        this->textArea->undo();
+    }*/
 
     //if(this->textArea->getNberEdit() != 0){
 
-    this->textArea->setPlainText(this->oldText);
+    int a = this->listOldText->size()-2;
+    //std::cout << a << std::endl;
+    this->textArea->setPlainText(this->listOldText->at(a));
     this->saveEdit();
    // }
 
-    this->textArea->setNberEdit(0);
+    //this->textArea->setNberEdit(0);
     //this->saveTextEdit->setDefault(false);
     this->cancelTextEdit->setDefault(false);
     //this->indicatorEdit->setVisible(false);
@@ -292,6 +296,7 @@ void Area::cancelEdit(){
 
 void Area::saveEdit(){
 
+    this->textArea->setNberEdit(-1);
     //temporary file for the text edition
 
     //QFile newph(this->path);
@@ -335,7 +340,6 @@ void Area::saveEdit(){
         this->indicatorEdit->setVisible(false);
         //this->textArea->setUndoRedoEnabled(false);
         this->saveTextEdit->setDefault(false);
-        this->textArea->setNberEdit(-1);
         //this->textArea->setReadOnly(true);
         //this->editTextArea->setVisible(true);
         //this->saveTextEdit->setVisible(false);
@@ -345,7 +349,11 @@ void Area::saveEdit(){
         //this->oldText = this->textArea->toPlainText();
 
         //delete temporary file
+        //this->hideOrShowText();
         newph.remove();
+        //int a = this->textArea->getNberTextChange() + 1;
+        this->textArea->incrementeNberTextChange();
+        this->setOldText();
 
     }
     catch(exception_base& argh){
@@ -422,25 +430,35 @@ void Area::confirmEdit(){
 
 void Area::onTextEdit(){
 
+    this->textArea->setUndoRedoEnabled(true);
+
     if(this->textArea->getNberEdit() == 0){
 
         this->saveTextEdit->setDefault(false);
         this->indicatorEdit->setVisible(false);
-        this->oldText = this->textArea->toPlainText();
+        //this->oldText = this->textArea->toPlainText();
     }
     else if(this->textArea->getNberEdit() == 1){
-
+        //this->textArea->setNberTextChange(0);
         //this->oldText = this->textArea->toPlainText();
         this->saveTextEdit->setDefault(true);
         this->indicatorEdit->setVisible(true);
     }
     else{
-
+        //this->textArea->incrementeNberTextChange();
         this->saveTextEdit->setDefault(true);
         this->indicatorEdit->setVisible(true);
     }
 
-    //std::cout << this->textArea->getNberEdit() << std::endl;
+    //std::cout << "nberEdit : " << this->textArea->getNberEdit() << std::endl;
+    //std::cout << "nberText : " << this->textArea->getNberTextChange() << std::endl;
     //this->indicatorEdit->setVisible(true);
     //this->saveTextEdit->setDefault(true);
+}
+
+void Area::setOldText(){
+
+    //this->oldText = this->textArea->toPlainText();
+    //std::cout << "nberText : " << this->textArea->getNberTextChange() << std::endl;
+    this->listOldText->insert(this->textArea->getNberTextChange(), this->textArea->toPlainText());
 }

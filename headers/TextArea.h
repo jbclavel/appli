@@ -39,11 +39,32 @@ public:
       */
     void setNberEdit(int);
 
+    /**
+      * @brief getter of nberTextChange attribut
+      *
+      */
+    int getNberTextChange();
+
+    /**
+      * @brief setter of nberTextChange attribut
+      *
+      */
+    void setNberTextChange(int);
+
+    void incrementeNberTextChange();
+
+    void decNberTextChange();
+
 private :
 
     int nberEdit;
 
+    int nberTextChange;
+
 signals:
+
+    void editing();
+
 
 public slots:
 

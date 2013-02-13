@@ -7,6 +7,7 @@ TextArea::TextArea(QWidget *parent) :
     this->setMaximumWidth(200);
     this->setFixedHeight(600);
     this->nberEdit = -1;
+    this->nberTextChange = 0;
 
     QPalette p = this->palette();
     p.setColor(QPalette::Base, QColor(10, 10, 10));
@@ -30,6 +31,11 @@ void TextArea::onTextEdit(){
     this->nberEdit++;
 }
 
+void TextArea::decNberTextChange(){
+
+    this->nberTextChange--;
+}
+
 int TextArea::getNberEdit(){
 
     return this->nberEdit;
@@ -38,4 +44,25 @@ int TextArea::getNberEdit(){
 void TextArea::setNberEdit(int a){
 
     this->nberEdit = a;
+
+    if(a == -1){
+
+        emit editing();
+    }
 }
+
+int TextArea::getNberTextChange(){
+
+    return this->nberTextChange;
+}
+
+void TextArea::setNberTextChange(int a){
+
+    this->nberTextChange = a;
+}
+
+void TextArea::incrementeNberTextChange(){
+
+    this->nberTextChange++;
+}
+

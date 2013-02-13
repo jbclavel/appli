@@ -364,12 +364,14 @@ void MainWindow::save() {
         // need a std::string instead of a QString
         std::string path =	fichier.toStdString();
 
+        //Selection of output format
+
         QStringList items;
         items << tr("text") << tr("dump");
         bool ok;
         QString typeFile = QInputDialog::getItem(this,"Select output format","Format : ", items, 0, false, &ok);
 
-        //QMessageBox::information(this, "ii", typeFile);
+        //save as
         if(typeFile == "dump"){
 
             PHPtr ph= ((Area*) subWindow->widget())->myArea->getPHPtr();

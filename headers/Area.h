@@ -167,6 +167,7 @@ public:
 
     void editText();
 
+    QStringList* listOldText;
 
 
 
@@ -213,6 +214,8 @@ public slots:
     void saveEdit();
 
     void onTextEdit();
+
+    void setOldText();
 
 };
 
