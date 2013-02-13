@@ -222,22 +222,6 @@ void ConnectionSettings::importXMLSettings(){
 
     int functCpt = 0;
     int argCpt = 0;
-    tabArgument.push_back(new std::vector<ArgumentFrame*>());
-
-    tabArgument[tabArgument.size()-1]->push_back(new ArgumentFrame());
-    tabArgument[0]->at(0)->getArgNumber();
-        tabArgument[tabArgument.size()-1]->at(tabArgument[tabArgument.size()-1]->size()-1)->setArgNumber("1");
-        tabArgument[tabArgument.size()-1]->at(tabArgument[tabArgument.size()-1]->size()-1)->setArgType("1");
-        tabArgument[tabArgument.size()-1]->at(tabArgument[tabArgument.size()-1]->size()-1)->setArgSuf("1");
-        tabArgument[tabArgument.size()-1]->at(tabArgument[tabArgument.size()-1]->size()-1)->setArgFac("0");
-
-
-    tabFunction.push_back(new FuncFrame());
-        tabFunction[tabFunction.size()-1]->setNameFunction("1") ;
-        tabFunction[tabFunction.size()-1]->setProgram("1") ;
-        tabFunction[tabFunction.size()-1]->setNbArgument("1") ;
-        tabFunction[tabFunction.size()-1]->setArguments(tabArgFunct);
-        QMessageBox::information(this, "err", tabFunction[tabFunction.size()-1]->getNameFunction());
 
     QFile input("xmlConnectionSettings.xml");
     QXmlStreamReader readerStream;
@@ -268,9 +252,17 @@ QMessageBox::information(this, "err", "apres function dans while ");
                         readerStream.readNext();
                         if(readerStream.name() == "name")
                         {
+                            QMessageBox::information(this, "taille tabfunct avant push", QString::number(tabFunction.size()));
+                            QMessageBox::information(this, "taille tabarg avant push", QString::number(tabArgument.size()));
+                            tabFunction.push_back(new FuncFrame());
+                            tabArgument.push_back(new std::vector<ArgumentFrame*>());
+                            QMessageBox::information(this, "taille après push", QString::number(tabFunction.size()));
+                            QMessageBox::information(this, "taille tabarg apres push", QString::number(tabArgument.size()));
+
                             tabFunction[tabFunction.size()-1]->setNameFunction(readerStream.readElementText());
-                            readerStream.readNext();
+                            //readerStream.readNext();
                             QMessageBox::information(this, "err", tabFunction[tabFunction.size()-1]->getNameFunction());
+
 
                             while(readerStream.isStartElement()==false)
                             readerStream.readNext();
@@ -307,6 +299,8 @@ QMessageBox::information(this, "err", "apres function dans while ");
                             readerStream.readNext();
                         if(readerStream.name() == "ArgNumber")
                         {
+                            tabArgument[tabArgument.size()-1]->push_back(new ArgumentFrame());
+
                             tabArgument[tabArgument.size()-1]->at(tabArgument[tabArgument.size()-1]->size()-1)->setArgNumber(readerStream.readElementText());
                             readerStream.readNext();
                             QMessageBox::information(this, "err", tabArgument[tabArgument.size()-1]->at(tabArgument[tabArgument.size()-1]->size()-1)->getArgNumber());
@@ -393,6 +387,65 @@ QMessageBox::information(this, "err", "apres function dans while ");
     QMessageBox::information(this, "err", "closing");
 
     input.close();
+
+    for (int i=0; i <tabFunction.size(); i++){
+        tabFunction[i]->setArguments((tabArgument[i])*);
+    }
+
+    //tabFunction[tabFunction.size()-1]->setArguments(tabArgument[tabFunction.size()-1]);
+
+    /*[0]->at(0)->getArgNumber();
+    tabArgument[0]->at(0)->getArgNumber();
+    tabArgument[0]->at(0)->getArgNumber();
+    tabArgument[0]->at(0)->getArgNumber();
+        tabArgument[tabArgument.size()-1]->at(tabArgument[tabArgument.size()-1]->size()-1)->setArgNumber("1");
+        tabArgument[tabArgument.size()-1]->at(tabArgument[tabArgument.size()-1]->size()-1)->setArgType("1");
+        tabArgument[tabArgument.size()-1]->at(tabArgument[tabArgument.size()-1]->size()-1)->setArgSuf("1");
+        tabArgument[tabArgument.size()-1]->at(tabArgument[tabArgument.size()-1]->size()-1)->setArgFac("0");
+*/
+    QMessageBox::information(this, "err", QString::number(tabFunction.size()) +  "\n" +
+                                QString::number(tabArgument.size()) +  "\n" +
+        QString::number(tabArgument[0]->size())+  "\n" +
+        QString::number(tabArgument[1]->size())+  "\n" +
+
+
+
+        tabFunction[0]->getNameFunction() +  "\n" +
+        tabFunction[0]->getProgram() +  "\n" +
+        tabFunction[0]->getNbArgument() +  "\n" +
+        tabFunction[0]->getArguments()-> at(0)->getArgNumber() +  "\n" +
+
+                             tabArgument[0]->at(0)->getArgNumber()+  "\n" +
+                                 tabArgument[0]->at(0)->getArgType()+  "\n" +
+                                     tabArgument[0]->at(0)->getArgSuf()+  "\n" +
+                                         tabArgument[0]->at(0)->getArgFac()+  "\n" +
+
+                             tabArgument[0]->at(1)->getArgNumber()+  "\n" +
+                                 tabArgument[0]->at(1)->getArgType()+  "\n" +
+                                     tabArgument[0]->at(1)->getArgSuf()+  "\n" +
+                                         tabArgument[0]->at(1)->getArgFac()+  "\n" +
+
+
+                tabFunction[1]->getNameFunction() +  "\n" +
+                tabFunction[1]->getProgram() +  "\n" +
+                tabFunction[1]->getNbArgument() +  "\n" +
+                tabFunction[1]->getArguments()-> at(0)->getArgNumber() +  "\n" +
+
+                             tabArgument[1]->at(0)->getArgNumber()+  "\n" +
+                                 tabArgument[1]->at(0)->getArgType()+  "\n" +
+                                     tabArgument[1]->at(0)->getArgSuf()+  "\n" +
+                                         tabArgument[1]->at(0)->getArgFac()+  "\n" +
+
+                             tabArgument[1]->at(1)->getArgNumber()+  "\n" +
+                                 tabArgument[1]->at(1)->getArgType()+  "\n" +
+                                     tabArgument[1]->at(1)->getArgSuf()+  "\n" +
+                                         tabArgument[1]->at(1)->getArgFac()+  "\n"
+
+                             );
+
+       // QMessageBox::information(this, "err", tabFunction[tabFunction.size()-1]->getNameFunction());
+
+
 
 
 }

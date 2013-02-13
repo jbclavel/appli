@@ -37,3 +37,4 @@ std::vector<ArgumentFrame*> FuncFrame::getArguments(){
 void FuncFrame::setArguments(std::vector<ArgumentFrame*> newArguments){
     arguments = newArguments;
 }
+
