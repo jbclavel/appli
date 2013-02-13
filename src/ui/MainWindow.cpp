@@ -51,7 +51,7 @@ MainWindow::MainWindow(){
 
     // disable what does not work well
     actionNew->setEnabled(false);
-    //actionForimport->setEnabled(false);
+    actionForimport->setEnabled(false);
 
 
     // shortcuts for the menu File
@@ -682,31 +682,7 @@ void MainWindow::hideShowTree(){
 }
 
 
-typedef struct
-   {
-    QString argType;
-    bool facultatif;
-    } argument;
 
-typedef struct
-   {
-   QString nameFunction;
-   QString program;
-   std::vector<argument> arguments;
-   } function ;
-//argument p1,p2;
-//p1.argType;
-
-
-
-/*
-//connection engine
-void MainWindow::createConnection(){
-
-    QString a =
-
-}
-*/
 
 // main method for the computation menu
 void MainWindow::compute(QString program, QStringList arguments, QString fileName) {
@@ -905,11 +881,6 @@ void MainWindow::openConnection(){
 
     ConnectionSettingsWindow = new ConnectionSettings();
     ConnectionSettingsWindow->show();
-    //return ConnectionSettingsWindow;
-    //this->ConnectionSettingsWindow = new ConnectionSettings(this);
-    //setCentralWidget(ConnectionSettingsWindow);
-    //ConnectionSettingsWindow->setViewMode(QMdiArea::TabbedView);
-
 }
 
 // disable menus when no open, active tabs
@@ -966,4 +937,3 @@ void MainWindow::enableMenu(){
         this->actionStatistics->setEnabled(true);
     }
 }
-

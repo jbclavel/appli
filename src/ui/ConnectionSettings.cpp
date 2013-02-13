@@ -1,5 +1,8 @@
 #include "ConnectionSettings.h"
 #include <vector>
+#include "FuncFrame.h"
+#include "ArgumentFrame.h"
+
 
 
 ConnectionSettings::ConnectionSettings():
@@ -9,12 +12,10 @@ ConnectionSettings::ConnectionSettings():
     name = new QLineEdit;
     program = new QLineEdit;
     nbArg = new QSpinBox;
-    QMessageBox::information(this, "nbArg", nbArg->text());
+    nbArg->findChild<QLineEdit*>()->setReadOnly(true);
 
     nbArg->setValue(0);
     nbArgPrcdt = nbArg->text().toInt();
-    QMessageBox::information(this, "nbArg", nbArg->text());
-    QMessageBox::information(this, "nbArg", QString::number(nbArgPrcdt));
 
     definitionLayout = new QFormLayout;
     definitionLayout->addRow("Function &name to be displayed", name);
@@ -27,10 +28,10 @@ ConnectionSettings::ConnectionSettings():
     //Second group : Specify argument
     gridTable = new QGridLayout;
 
-    //combo box's list(argument types)
+        //combo box's list(argument types)
     argTypeList= QStringList() << "Text" << "Process";
 
-    //call the function which build the table
+        //call the function which build the table
     ConnectionSettings::buildTable();
 
     tableLayout = new QVBoxLayout;
@@ -57,8 +58,9 @@ ConnectionSettings::ConnectionSettings():
     boutonsLayout->addWidget(Save);
     boutonsLayout->addWidget(Cancel);
 
-    // Connexions des signaux et des slots
-    connect(Cancel, SIGNAL(clicked()), this, SLOT(quit()));
+        // Connexions des signaux et des slots
+    connect(Cancel, SIGNAL(clicked()), this, SLOT(exportXMLSettings()));
+    connect(Save, SIGNAL(clicked()), this, SLOT(importXMLSettings()));
     connect(nbArg, SIGNAL(valueChanged(int)), this, SLOT(buildTable()));
 
 
@@ -74,6 +76,7 @@ ConnectionSettings::ConnectionSettings():
 
 }
 
+//build the tabel
 void ConnectionSettings::buildTable(){
 
         if(nbArg->text().toInt()>nbArgPrcdt){
@@ -111,17 +114,17 @@ void ConnectionSettings::buildTable(){
             }
      }
 
-        //SLOT : close the window
-        void ConnectionSettings::quit(){
 
-            this->~ConnectionSettings();
+//SLOT : close the window
+void ConnectionSettings::quit(){
 
-        }
+    this->~ConnectionSettings();
+}
 
-        ConnectionSettings::~ConnectionSettings(){
+//Detroyer
+ConnectionSettings::~ConnectionSettings(){
 
-            QMessageBox::information(this, "nbArg", nbArg->text());
-
+            //remove the table
             if(nbArg->text().toInt()!=0){
 
                 for(int i = nbArg->text().toInt()-1 ; i >= 0 ; i--){
@@ -134,19 +137,13 @@ void ConnectionSettings::buildTable(){
                     tabArgType.pop_back();
                     tabArgSuf.pop_back();
                     tabArgfacul.pop_back();
-                    QMessageBox::information(this, "nbArg", QString::number(i));
                 }
             }
-QMessageBox::information(this, "nbArg", nbArg->text());
-           // nbArg->setValue(0);
-         QMessageBox::information(this, "nbArg", nbArg->text());
-          //  nbArgPrcdt = nbArg->text().toInt();
 
-            QMessageBox::information(this, "nbArg", nbArg->text());
+            //remove the definition group
             name->~QLineEdit();
             program->~QLineEdit();
             nbArg->~QSpinBox();
-            //QMessageBox::information(this, "nbArg", nbArg->text());
 
             definitionLayout->~QFormLayout();
             groupDefinition->~QGroupBox();
@@ -170,76 +167,232 @@ QMessageBox::information(this, "nbArg", nbArg->text());
             //Remove : general layout
             globalLayout->~QVBoxLayout();
 
+}
+
+void ConnectionSettings::exportXMLSettings(){
+
+    this->importXMLSettings();
+    QFile output("xmlConnectionSettings.xml");
+
+    if (!output.open(QIODevice::WriteOnly)){
+        QMessageBox::critical(this, "Error", "Sorry, unable to open file.");
+        output.errorString();
+        return;
+    } else {
+
+        QXmlStreamWriter writerStream(&output);
+
+        writerStream.setAutoFormatting(true);
+        writerStream.writeStartDocument();
+        writerStream.writeStartElement("FunctionSettings");
+
+       int i;
+       int j;
+       for(i=0; i<tabFunction.size(); i++){
+           writerStream.writeStartElement("Function");
+
+           writerStream.writeStartElement("Definition");
+           writerStream.writeTextElement("name", tabFunction[i]->getNameFunction());
+           writerStream.writeTextElement("program", tabFunction[i]->getProgram());
+               writerStream.writeTextElement("nbArgument", tabFunction[i]->getNbArgument());
+           writerStream.writeEndElement();
+
+          for ( j = 0; j < tabArgument[i]->size(); j++){
+
+               writerStream.writeStartElement("ArgumentsDefinition");
+               writerStream.writeTextElement("ArgNumber", tabArgument[i]->at(j)->getArgNumber());
+                   writerStream.writeTextElement("ArgType", tabArgument[i]->at(j)->getArgType());
+                   writerStream.writeTextElement("ArgSuf", tabArgument[i]->at(j)->getArgSuf());
+                   writerStream.writeTextElement("ArgFacul", tabArgument[i]->at(j)->getArgFac());
+               writerStream.writeEndElement();
+           }
+
+           writerStream.writeEndElement();
+           }
+
+//fonction courante
+        writerStream.writeStartElement("Function");
+
+        writerStream.writeStartElement("Definition");
+            writerStream.writeTextElement("name", name->text());
+            writerStream.writeTextElement("program", program->text());
+            writerStream.writeTextElement("nbArgument", nbArg->text());
+        writerStream.writeEndElement();
+
+        for (int k = 0; k < nbArg->text().toInt(); k++){
+
+            writerStream.writeStartElement("ArgumentsDefinition");
+                writerStream.writeTextElement("ArgNumber", tabArgNumber[k]->text());
+                writerStream.writeTextElement("ArgType", tabArgType[k]->currentText());
+                writerStream.writeTextElement("ArgSuf", tabArgSuf[k]->text());
+                writerStream.writeTextElement("ArgFacul", QString::number(tabArgfacul[k]->isChecked()));
+            writerStream.writeEndElement();
         }
-               /*
-                tabArgNumber.push_back(new QLabel("Arg " + nbArg->text() + " :" , this));
 
-                tabArgType.push_back(new QComboBox(this));
-                tabArgType[tabArgType.size()-1]->addItems(argTypeList);
+        if( nbArg->text().toInt()==0){
+            writerStream.writeStartElement("ArgumentsDefinition");
+                writerStream.writeTextElement("ArgNumber", "Sans Argument");
+                writerStream.writeTextElement("ArgType", "Sans Argument");
+                writerStream.writeTextElement("ArgSuf", "Sans Argument");
+                writerStream.writeTextElement("ArgFacul", "Sans Argument");
+            writerStream.writeEndElement();
+        }
 
-                tabArgSuf.push_back(new QLineEdit( this));
+        writerStream.writeEndElement();
+        writerStream.writeEndElement();
+        writerStream.writeEndDocument();
 
-                tabArgfacul.push_back(new QCheckBox("Yes"));
+        output.close();
 
-                gridTable->addWidget(tabArgNumber[tabArgNumber.size()-1], nbArg->text().toInt(), 0);
-                gridTable->addWidget(tabArgType[tabArgType.size()-1], nbArg->text().toInt(), 1);
-                gridTable->addWidget(tabArgSuf[tabArgSuf.size()-1], nbArg->text().toInt(), 2);
-                gridTable->addWidget(tabArgfacul[tabArgfacul.size()-1],nbArg->text().toInt(),3);
-
-                nbArgPrcdt = nbArg->text().toInt();
-
-            }else if(nbArg->text().toInt()<nbArgPrcdt){
-
-                        tabArgNumber[tabArgNumber.size()-1]->~QLabel();
-                        tabArgType[tabArgType.size()-1]->~QComboBox();
-                        tabArgSuf[tabArgSuf.size()-1]->~QLineEdit();
-
-                        tabArgfacul[tabArgfacul.size()-1]->~QCheckBox();
-
-                        tabArgNumber.pop_back();
-                        tabArgType.pop_back();
-                        tabArgSuf.pop_back();
-                        tabArgfacul.pop_back();
-
-                        nbArgPrcdt = nbArg->text().toInt();
-                }*/
+    }
+}
 
 
+void ConnectionSettings::importXMLSettings(){
 
-        //std::vector<QLabel*> tabArgNumber;
-        //std::vector<QComboBox*> tabArgType ;
-        //std::vector<QLineEdit*> tabArgSuf;
-        //std::vector<QCheckBox*> tabArgfacul;
-        //int nbArgPrcdt;
+    QFile input("xmlConnectionSettings.xml");
+    QXmlStreamReader readerStream;
+    input.open(QFile::ReadOnly | QFile::Text);
+    readerStream.setDevice(&input);
 
+    readerStream.readNext();
+    while (!readerStream.atEnd())
+    {
+        while (readerStream.name() == "Function")
+        {
+            readerStream.readNext();
+            while(readerStream.isStartElement()==false)
+            readerStream.readNext();
 
-        /*
-            QGridLayout *Gridlayout = new QGridLayout;
-            Gridlayout->addWidget(groupDefinition, 0, 0);
-            Gridlayout->addWidget(label, 0, 1);
-            Gridlayout->addWidget(table, 0, 2);
-            Gridlayout->addWidget(boutonsLayout, 0, 3);
-        */
+                if(readerStream.name() == "Definition")
+                {
+                    readerStream.readNext();
+                    while(readerStream.isStartElement()==false)
+                    readerStream.readNext();
+                    if(readerStream.name() == "name")
+                    {
+                        tabFunction.push_back(new FuncFrame());
+                        tabArgument.push_back(new std::vector<ArgumentFrame*>());
+                        tabFunction[tabFunction.size()-1]->setNameFunction(readerStream.readElementText());
 
-            //validator = new QRegExpValidator(this);
-            //nbArg->setValidator(validator);
-            //boutonsLayout->setAlignment(Qt::AlignRight);
+                        while(readerStream.isStartElement()==false)
+                        readerStream.readNext();
+                    }
+                    if(readerStream.name() == "program")
+                    {
+                        tabFunction[tabFunction.size()-1]->setProgram(readerStream.readElementText()) ;
+                        readerStream.readNext();
 
-            //QLabel *label = new QLabel("Specify argument(s) :", this);
-            //label->setFont(QFont("Comic Sans MS", 10, QFont::Bold, false));
+                        while(readerStream.isStartElement()==false)
+                        readerStream.readNext();
+                    }
+                    if(readerStream.name() == "nbArgument")
+                    {
+                        tabFunction[tabFunction.size()-1]->setNbArgument(readerStream.readElementText()) ;
 
+                        while(readerStream.isStartElement()==false)
+                        readerStream.readNext();
 
-        //QLabel *argNumber = new QLabel("Argument 1 :", this);
-        //argNumber->setFont(QFont("Comic Sans MS", 10, QFont::Bold, false));
+                    }
 
-        //argType = new QComboBox(this);
-        //argType->addItems(argTypeList);
+                }
 
-        //facultatif = new QCheckBox("Facultatif ?");
+                while(readerStream.name() == "ArgumentsDefinition")
+                {
+                    readerStream.readNext();
+                    while(readerStream.isStartElement()==false)
+                    readerStream.readNext();
 
-        //gridTable->addWidget(tabArgNumber[1], 0, 0);
-        //gridTable->addWidget(tabArgType[1], 0, 1);
-        //gridTable->addWidget(tabArgfacul[1],0,3);
+                    if(readerStream.name() == "ArgNumber")
+                    {
+                        tabArgument[tabArgument.size()-1]->push_back(new ArgumentFrame());
+                        tabArgument[tabArgument.size()-1]->at(tabArgument[tabArgument.size()-1]->size()-1)->setArgNumber(readerStream.readElementText());
+                        readerStream.readNext();
 
+                        while(readerStream.isStartElement()==false)
+                        readerStream.readNext();
+                    }
+                    if(readerStream.name() == "ArgType")
+                    {
+                        tabArgument[tabArgument.size()-1]->at(tabArgument[tabArgument.size()-1]->size()-1)->setArgType(readerStream.readElementText());
+                        readerStream.readNext();
 
+                        while(readerStream.isStartElement()==false)
+                        readerStream.readNext();
+                    }
+                    if(readerStream.name() == "ArgSuf")
+                    {
+                        tabArgument[tabArgument.size()-1]->at(tabArgument[tabArgument.size()-1]->size()-1)->setArgSuf(readerStream.readElementText());
+                        readerStream.readNext();
 
+                        while(readerStream.isStartElement()==false)
+                        readerStream.readNext();
+                    }
+                    if(readerStream.name() == "ArgFacul")
+                    {
+                        tabArgument[tabArgument.size()-1]->at(tabArgument[tabArgument.size()-1]->size()-1)->setArgFac(readerStream.readElementText());
+
+                        while(readerStream.isStartElement()==false)
+                            if(readerStream.atEnd()==true){
+                                    break;
+                            }else{
+                            readerStream.readNext();
+                            }
+                    }
+
+                }
+                while(readerStream.isStartElement()==false)
+                    if(readerStream.atEnd()==true){
+                        break;
+                        }else{
+                readerStream.readNext();
+                    }
+            }
+    readerStream.readNext();
+    }
+    input.close();
+
+    for (int i=0; i <tabFunction.size(); i++){
+        tabFunction[i]->setArguments(*(tabArgument[i]));
+    }
+/*
+    QMessageBox::information(this, "err",
+        QString::number(tabFunction.size())         +  "\n" +
+        QString::number(tabArgument.size())         +  "\n" +
+        QString::number(tabArgument[0]->size())     +  "\n" +
+        QString::number(tabArgument[1]->size())     +  "\n" +
+
+        tabFunction[0]->getNameFunction()           +  "\n" +
+        tabFunction[0]->getProgram()                +  "\n" +
+        tabFunction[0]->getNbArgument()             +  "\n" +
+        tabFunction[0]->getArguments().at(0)->getArgNumber()    +  "\n" +
+
+            tabArgument[0]->at(0)->getArgNumber()       +  "\n" +
+            tabArgument[0]->at(0)->getArgType()         +  "\n" +
+            tabArgument[0]->at(0)->getArgSuf()          +  "\n" +
+            tabArgument[0]->at(0)->getArgFac()          +  "\n" +
+
+            tabArgument[0]->at(1)->getArgNumber()       +  "\n" +
+            tabArgument[0]->at(1)->getArgType()         +  "\n" +
+            tabArgument[0]->at(1)->getArgSuf()          +  "\n" +
+            tabArgument[0]->at(1)->getArgFac()          +  "\n" +
+
+        tabFunction[1]->getNameFunction()           +  "\n" +
+        tabFunction[1]->getProgram()                +  "\n" +
+        tabFunction[1]->getNbArgument()             +  "\n" +
+        tabFunction[1]->getArguments().at(0)->getArgNumber()    +  "\n" +
+
+            tabArgument[1]->at(0)->getArgNumber()       +  "\n" +
+            tabArgument[1]->at(0)->getArgType()         +  "\n" +
+            tabArgument[1]->at(0)->getArgSuf()          +  "\n" +
+            tabArgument[1]->at(0)->getArgFac()          +  "\n"
+
+            tabArgument[1]->at(1)->getArgNumber()       +  "\n" +
+            tabArgument[1]->at(1)->getArgType()         +  "\n" +
+            tabArgument[1]->at(1)->getArgSuf()          +  "\n" +
+            tabArgument[1]->at(1)->getArgFac()          +  "\n"
+
+);
+//QMessageBox::critical(this, "Error", "No file opened!");
+*/
+}
