@@ -56,10 +56,12 @@ Area::Area(QWidget *parent, QString path) :
     this->saveTextEdit = new QPushButton("Update",this);
     this->saveTextEdit->setFixedSize(QSize(80,30));
     this->saveTextEdit->setVisible(false);
+    this->saveTextEdit->setEnabled(false);
 
     this->cancelTextEdit = new QPushButton("Cancel",this);
     this->cancelTextEdit->setFixedSize(QSize(80,30));
     this->cancelTextEdit->setVisible(false);
+    this->cancelTextEdit->setEnabled(false);
 
     //indicatorEdit preferences
 
@@ -291,6 +293,7 @@ void Area::cancelEdit(){
     this->saveEdit();
 
     this->cancelTextEdit->setDefault(false);
+    this->cancelTextEdit->setEnabled(false);
 
     //this->textArea->setUndoRedoEnabled(true);
 
@@ -377,6 +380,7 @@ void Area::saveEdit(){
         this->textArea->incrementeNberTextChange();
         this->setOldText();
         this->typeOfCancel = 0;
+        this->saveTextEdit->setEnabled(false);
 
     }
     catch(exception_base& argh){
@@ -459,19 +463,25 @@ void Area::onTextEdit(){
     if(this->textArea->getNberEdit() == 0){
 
         this->saveTextEdit->setDefault(false);
-        this->indicatorEdit->setVisible(false);
+        this->indicatorEdit->setVisible(false);        
+        this->saveTextEdit->setEnabled(false);
+        this->cancelTextEdit->setEnabled(false);
         //this->oldText = this->textArea->toPlainText();
     }
     else if(this->textArea->getNberEdit() == 1){
         //this->textArea->setNberTextChange(0);
         //this->oldText = this->textArea->toPlainText();
         this->saveTextEdit->setDefault(true);
-        this->indicatorEdit->setVisible(true);
+        this->indicatorEdit->setVisible(true);        
+        this->saveTextEdit->setEnabled(true);
+        this->cancelTextEdit->setEnabled(true);
     }
     else{
         //this->textArea->incrementeNberTextChange();
         this->saveTextEdit->setDefault(true);
-        this->indicatorEdit->setVisible(true);
+        this->indicatorEdit->setVisible(true);        
+        this->saveTextEdit->setEnabled(true);
+        this->cancelTextEdit->setEnabled(true);
     }
 
     //std::cout << "nberEdit : " << this->textArea->getNberEdit() << std::endl;
