@@ -66,13 +66,15 @@ Area::Area(QWidget *parent, QString path) :
     //indicatorEdit preferences
 
     this->indicatorEdit->setReadOnly(true);
-    this->indicatorEdit->changeBackgroundColor(QColor(255,48,48));
+    this->indicatorEdit->changeBackgroundColor(QColor("#F1F1F1"));
     this->indicatorEdit->setFixedSize(QSize(200,27));
+    this->indicatorEdit->setTextColor(QColor(228,26,4));
+    this->indicatorEdit->setCurrentFont(QFont("TypeWriter",10));
+    this->indicatorEdit->setFontWeight(5);
+    this->indicatorEdit->setFrameShape(QTextEdit::NoFrame);
+    this->indicatorEdit->setFrameShadow(QTextEdit::Plain);
     this->indicatorEdit->setPlainText("Edition...");
-    this->indicatorEdit->setCurrentFont(QFont("TypeWriter", 10));
-    this->indicatorEdit->setTextColor(QColor("Black"));
     this->indicatorEdit->setVisible(false);
-   // this->indicatorEdit->setStyle(QStyle::);
 
     // set the global layout
     QHBoxLayout *layout = new QHBoxLayout;
@@ -321,7 +323,6 @@ void Area::cancelEdit(){
 
 void Area::saveEdit(){
 
-    this->textArea->setNberEdit(-1);
     //temporary file for the text edition
 
     //QFile newph(this->path);
@@ -380,7 +381,8 @@ void Area::saveEdit(){
         this->textArea->incrementeNberTextChange();
         this->setOldText();
         this->typeOfCancel = 0;
-        this->saveTextEdit->setEnabled(false);
+        this->saveTextEdit->setEnabled(false);        
+        this->textArea->setNberEdit(0);
 
     }
     catch(exception_base& argh){
@@ -484,7 +486,7 @@ void Area::onTextEdit(){
         this->cancelTextEdit->setEnabled(true);
     }
 
-    //std::cout << "nberEdit : " << this->textArea->getNberEdit() << std::endl;
+    std::cout << "nberEdit : " << this->textArea->getNberEdit() << std::endl;
     //std::cout << "nberText : " << this->textArea->getNberTextChange() << std::endl;
     //this->indicatorEdit->setVisible(true);
     //this->saveTextEdit->setDefault(true);
