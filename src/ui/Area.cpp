@@ -267,6 +267,31 @@ void Area::editText(){
 void Area::cancelEdit(){
 
     this->indicatorEdit->setVisible(false);
+    int i;
+
+    switch(this->typeOfCancel){
+
+        case 0:
+            i = 2;
+            break;
+
+        case 1:
+            i = 1;
+            break;
+
+        default:
+            return;
+
+    }
+
+    int a = this->listOldText->size()-i;
+
+    this->textArea->setPlainText(this->listOldText->at(a));
+
+    this->saveEdit();
+
+    this->cancelTextEdit->setDefault(false);
+
     //this->textArea->setUndoRedoEnabled(true);
 
     /*for(int i = 0; i < this->textArea->getNberTextChange(); i++){
@@ -276,15 +301,12 @@ void Area::cancelEdit(){
 
     //if(this->textArea->getNberEdit() != 0){
 
-    int a = this->listOldText->size()-2;
-    //std::cout << a << std::endl;
-    this->textArea->setPlainText(this->listOldText->at(a));
-    this->saveEdit();
+
    // }
 
     //this->textArea->setNberEdit(0);
     //this->saveTextEdit->setDefault(false);
-    this->cancelTextEdit->setDefault(false);
+
     //this->indicatorEdit->setVisible(false);
 
     //this->textArea->setReadOnly(true);
@@ -354,6 +376,7 @@ void Area::saveEdit(){
         //int a = this->textArea->getNberTextChange() + 1;
         this->textArea->incrementeNberTextChange();
         this->setOldText();
+        this->typeOfCancel = 0;
 
     }
     catch(exception_base& argh){
@@ -431,6 +454,7 @@ void Area::confirmEdit(){
 void Area::onTextEdit(){
 
     this->textArea->setUndoRedoEnabled(true);
+    this->typeOfCancel = 1;
 
     if(this->textArea->getNberEdit() == 0){
 

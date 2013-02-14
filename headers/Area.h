@@ -169,6 +169,7 @@ public:
 
     QStringList* listOldText;
 
+    int typeOfCancel;
 
 
 signals:
