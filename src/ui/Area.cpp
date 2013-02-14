@@ -486,7 +486,7 @@ void Area::onTextEdit(){
         this->cancelTextEdit->setEnabled(true);
     }
 
-    std::cout << "nberEdit : " << this->textArea->getNberEdit() << std::endl;
+    //std::cout << "nberEdit : " << this->textArea->getNberEdit() << std::endl;
     //std::cout << "nberText : " << this->textArea->getNberTextChange() << std::endl;
     //this->indicatorEdit->setVisible(true);
     //this->saveTextEdit->setDefault(true);
