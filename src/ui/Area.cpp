@@ -49,10 +49,6 @@ Area::Area(QWidget *parent, QString path) :
     layoutRight->setContentsMargins(0,0,0,0);
     this->textButtonArea->setLayout(layoutRight);
 
-    this->editTextArea = new QPushButton("Edit text",this);
-    this->editTextArea->setFixedSize(QSize(200,30));
-    this->editTextArea->setVisible(false);
-
     this->saveTextEdit = new QPushButton("Update",this);
     this->saveTextEdit->setFixedSize(QSize(80,30));
     this->saveTextEdit->setVisible(false);
@@ -86,7 +82,6 @@ Area::Area(QWidget *parent, QString path) :
     QVBoxLayout *VLayout = new QVBoxLayout;
     VLayout->addWidget(this->indicatorEdit);
     VLayout->addWidget(this->textArea);
-    VLayout->addWidget(this->editTextArea);
 
     QHBoxLayout *options = new QHBoxLayout;
     options->addWidget(this->saveTextEdit);
@@ -130,7 +125,6 @@ void Area::hideText(){
         else{
 
             ((Area*)a->widget())->textArea->hide();
-           // ((Area*)a->widget())->editTextArea->hide();
         }
     }
 }
@@ -141,7 +135,6 @@ void Area::showText(){
     // show all the textAreas of those subwindows
     for (QMdiSubWindow* &a: tabs){
         ((Area*)a->widget())->textArea->show();
-      //  ((Area*)a->widget())->editTextArea->show();
     }
 }
 

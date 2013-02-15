@@ -28,7 +28,7 @@ MainWindow::MainWindow(){
     menuEdit =          menuBar()->addMenu("&Edit");
     menuView =          menuBar()->addMenu("&View");
     menuStyles =        menuBar()->addMenu("&Styles");
-    menuWindow =     menuBar()->addMenu("&Window");
+    menuWindow =        menuBar()->addMenu("&Window");
     menuComputation =   menuBar()->addMenu("&Computation");
     menuHelp =          menuBar()->addMenu("&Help");
 
@@ -159,7 +159,6 @@ MainWindow::MainWindow(){
     QObject::connect(actionStatistics, SIGNAL(triggered()), this, SLOT(statistics()));
     QObject::connect(actionConnection, SIGNAL(triggered()), this, SLOT(openConnection()));
 
-
     // action for the menu Help
     actionHelp = menuHelp->addAction("Help !");
 
@@ -228,9 +227,11 @@ MyArea* MainWindow::openTab() {
 
         // OpenFile dialog
         QFileDialog* filedialog = new QFileDialog(this);
-        QString file = filedialog->getOpenFileName(this, "Open...");
+
         QDialog* mb = new QDialog(filedialog);
         mb->setWindowFlags(Qt::Window | Qt::WindowTitleHint | Qt::CustomizeWindowHint);
+
+        QString file = filedialog->getOpenFileName(this, "Open...");
 
         // TODO refactor using early returns
         if(file!=NULL) {
@@ -250,11 +251,13 @@ MyArea* MainWindow::openTab() {
 
             if(!alreadyOpen) {
 
-                //Affichage de la fenêtre de chargement
+                //Display loading window
 
                 QLabel* dialogue = new QLabel(mb);
                 mb->setWindowTitle("Please wait...");
-                QMovie* gif = new QMovie("loading_gif.gif");
+                //mb->setFixedSize(300,150);
+                QMovie* gif = new QMovie("loading.gif");
+               // gif->setScaledSize(QSize(300,150));
                 gif->start();
                 dialogue->setMovie(gif);
                 dialogue->show();
@@ -268,7 +271,6 @@ MyArea* MainWindow::openTab() {
                 // parse file
                 Area *area = new Area(this, QString::fromStdString(path));
                 area->mainWindow = this;
-
 
                 try {
 

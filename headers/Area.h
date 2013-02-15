@@ -92,14 +92,6 @@ public:
       */
     void showTree();
 
-
-    /**
-      * @brief verfication of the text which is going to be save
-      *
-      */
-
-
-
     /**
       * @brief pointer to the widget containing the hide / show text buttons
       *
@@ -129,13 +121,6 @@ public:
       *
       */
     QPushButton* rightExpandButton;
-
-    /**
-      * @brief pointer to edit/readOnly textArea button
-      *
-      */
-
-    QPushButton* editTextArea;
 
     /**
       * @brief pointer to save edit text button
@@ -184,6 +169,7 @@ public:
 
 
 signals:
+
 
 public slots:
 
