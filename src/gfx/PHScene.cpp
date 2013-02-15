@@ -34,6 +34,10 @@ void PHScene::doRender(void) {
                     processes.push_back(gp);
                     p.get()->setGProcess(gp);
                 }
+               // else{
+
+                 //   throw process_not_found();
+                //}
 			}
         }
 	}
@@ -58,7 +62,7 @@ void PHScene::draw(void) {
     clear();
     for (auto &s : sorts)
         addItem(s.second.get());
-	for (GActionPtr &a : actions)
+    for (GActionPtr &a : actions)
 		addItem(a->getDisplayItem());
 
 }

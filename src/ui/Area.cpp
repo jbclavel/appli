@@ -104,13 +104,10 @@ Area::Area(QWidget *parent, QString path) :
     QObject::connect(this->leftButton, SIGNAL(clicked()), this, SLOT(hideOrShowTree()));
     QObject::connect(this->rightButton, SIGNAL(clicked()), this, SLOT(hideOrShowText()));
     QObject::connect(this->rightExpandButton, SIGNAL(clicked()), this, SLOT(expandOrReduceText()));
-    //QObject::connect(this->rightButton, SIGNAL(clicked()), this, SLOT(editText()));
     QObject::connect(this->cancelTextEdit, SIGNAL(clicked()), this, SLOT(cancelEdit()));
     QObject::connect(this->textArea, SIGNAL(textChanged()), this->textArea, SLOT(onTextEdit()));
     QObject::connect(this->saveTextEdit, SIGNAL(clicked()), this, SLOT(saveEdit()));
-    //QObject::connect(this->textArea, SIGNAL(QMouseEvent::MouseButtonDblClick), this, SLOT(editText()));
     QObject::connect(this->textArea, SIGNAL(textChanged()), this, SLOT(onTextEdit()));
-    //QObject::connect(this->textArea, SIGNAL(cursorPositionChanged()), this, SLOT(setOldText()));
 
     // initialization
     this->textArea->setHidden(true);
@@ -325,7 +322,6 @@ void Area::saveEdit(){
 
     //temporary file for the text edition
 
-    //QFile newph(this->path);
     QFile newph("temp.ph");
 
     newph.open(QIODevice::WriteOnly | QIODevice::Truncate);
@@ -349,6 +345,16 @@ void Area::saveEdit(){
 
         // render graph
         PHPtr myPHPtr = PHIO::parseFile(phFile);
+       /* list<ProcessPtr> listProcess = myPHPtr->getProcesses();
+        list<Action> allActions = myPHPtr->getActions();
+        list<GSortPtr> target;
+        list<GSortPtr> source;
+
+        for(ActionPtr &a : allActions){
+
+
+        }*/
+
         this->myArea->setPHPtr(myPHPtr);
         myPHPtr->render();
         PHScenePtr scene = myPHPtr->getGraphicsScene();
@@ -385,7 +391,7 @@ void Area::saveEdit(){
         this->textArea->setNberEdit(0);
 
     }
-    catch(exception_base& argh){
+    catch(ph_parse_error & argh){
 
         //Put the exception into a QMessageBox critical
 
@@ -408,7 +414,7 @@ void Area::saveEdit(){
         stdout += phcProcess->readAllStandardOutput();
         delete phcProcess;
 
-        //Use split function to keep only the line number
+        //Use split function to only keep the line number
 
         QStringList list = QString(stderr).split('"');
         QStringList list2 = list[1].split(":");
@@ -423,10 +429,11 @@ void Area::saveEdit(){
         QMessageBox::critical(this, "Syntax error !", "One or more of your expressions are wrong !\nPlease check "+list3[0]+" "+list3[1]);
         //return NULL;
     }
-    //catch(){
+    catch(sort_not_found& chaine){
 
-      //  QMessageBox::critical(this, "Error !", "jj");
-    //}
+        QMessageBox::critical(this, "Error !", "Delete the associated actions before the process !");
+        this->cancelEdit();
+    }
 }
 
 

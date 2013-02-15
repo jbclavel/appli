@@ -367,17 +367,17 @@ void MainWindow::save() {
         //Selection of output format
 
         QStringList items;
-        items << tr("text") << tr("dump");
+        items << tr("Text") << tr("Dump");
         bool ok;
         QString typeFile = QInputDialog::getItem(this,"Select output format","Format : ", items, 0, false, &ok);
 
         //save as
-        if(ok && typeFile == "dump"){
+        if(ok && typeFile == "Dump"){
 
             PHPtr ph= ((Area*) subWindow->widget())->myArea->getPHPtr();
             PHIO::writeToFile (path, ph);
         }
-        else if(ok && typeFile == "text"){
+        else if(ok && typeFile == "Text"){
 
             std::string ph = ((Area*) subWindow->widget())->textArea->toPlainText().toStdString();
             IO::writeFile (path, ph);
