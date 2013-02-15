@@ -5,7 +5,7 @@ TextArea::TextArea(QWidget *parent) :
 {
     this->setMinimumWidth(200);
     this->setMaximumWidth(200);
-    this->setFixedHeight(600);
+    //this->setMaximumHeight(600);
     this->nberEdit = -1;
     this->nberTextChange = 0;
 
@@ -44,11 +44,6 @@ int TextArea::getNberEdit(){
 void TextArea::setNberEdit(int a){
 
     this->nberEdit = a;
-
-    if(a == -1){
-
-        emit editing();
-    }
 }
 
 int TextArea::getNberTextChange(){

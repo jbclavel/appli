@@ -49,10 +49,6 @@ Area::Area(QWidget *parent, QString path) :
     layoutRight->setContentsMargins(0,0,0,0);
     this->textButtonArea->setLayout(layoutRight);
 
-    this->editTextArea = new QPushButton("Edit text",this);
-    this->editTextArea->setFixedSize(QSize(200,30));
-    this->editTextArea->setVisible(false);
-
     this->saveTextEdit = new QPushButton("Update",this);
     this->saveTextEdit->setFixedSize(QSize(80,30));
     this->saveTextEdit->setVisible(false);
@@ -66,13 +62,15 @@ Area::Area(QWidget *parent, QString path) :
     //indicatorEdit preferences
 
     this->indicatorEdit->setReadOnly(true);
-    this->indicatorEdit->changeBackgroundColor(QColor(255,48,48));
+    this->indicatorEdit->changeBackgroundColor(QColor("#F1F1F1"));
     this->indicatorEdit->setFixedSize(QSize(200,27));
+    this->indicatorEdit->setTextColor(QColor(228,26,4));
+    this->indicatorEdit->setCurrentFont(QFont("TypeWriter",10));
+    this->indicatorEdit->setFontWeight(5);
+    this->indicatorEdit->setFrameShape(QTextEdit::NoFrame);
+    this->indicatorEdit->setFrameShadow(QTextEdit::Plain);
     this->indicatorEdit->setPlainText("Edition...");
-    this->indicatorEdit->setCurrentFont(QFont("TypeWriter", 10));
-    this->indicatorEdit->setTextColor(QColor("Black"));
     this->indicatorEdit->setVisible(false);
-   // this->indicatorEdit->setStyle(QStyle::);
 
     // set the global layout
     QHBoxLayout *layout = new QHBoxLayout;
@@ -84,7 +82,6 @@ Area::Area(QWidget *parent, QString path) :
     QVBoxLayout *VLayout = new QVBoxLayout;
     VLayout->addWidget(this->indicatorEdit);
     VLayout->addWidget(this->textArea);
-    VLayout->addWidget(this->editTextArea);
 
     QHBoxLayout *options = new QHBoxLayout;
     options->addWidget(this->saveTextEdit);
@@ -102,13 +99,10 @@ Area::Area(QWidget *parent, QString path) :
     QObject::connect(this->leftButton, SIGNAL(clicked()), this, SLOT(hideOrShowTree()));
     QObject::connect(this->rightButton, SIGNAL(clicked()), this, SLOT(hideOrShowText()));
     QObject::connect(this->rightExpandButton, SIGNAL(clicked()), this, SLOT(expandOrReduceText()));
-    //QObject::connect(this->rightButton, SIGNAL(clicked()), this, SLOT(editText()));
     QObject::connect(this->cancelTextEdit, SIGNAL(clicked()), this, SLOT(cancelEdit()));
     QObject::connect(this->textArea, SIGNAL(textChanged()), this->textArea, SLOT(onTextEdit()));
     QObject::connect(this->saveTextEdit, SIGNAL(clicked()), this, SLOT(saveEdit()));
-    //QObject::connect(this->textArea, SIGNAL(QMouseEvent::MouseButtonDblClick), this, SLOT(editText()));
     QObject::connect(this->textArea, SIGNAL(textChanged()), this, SLOT(onTextEdit()));
-    //QObject::connect(this->textArea, SIGNAL(cursorPositionChanged()), this, SLOT(setOldText()));
 
     // initialization
     this->textArea->setHidden(true);
@@ -131,7 +125,6 @@ void Area::hideText(){
         else{
 
             ((Area*)a->widget())->textArea->hide();
-           // ((Area*)a->widget())->editTextArea->hide();
         }
     }
 }
@@ -142,7 +135,6 @@ void Area::showText(){
     // show all the textAreas of those subwindows
     for (QMdiSubWindow* &a: tabs){
         ((Area*)a->widget())->textArea->show();
-      //  ((Area*)a->widget())->editTextArea->show();
     }
 }
 
@@ -253,17 +245,8 @@ void Area::expandOrReduceText(){
 
 void Area::editText(){
 
-        //this->indicatorEdit->setVisible(true);
-        //this->textArea->setReadOnly(false);
-        //this->editTextArea->setVisible(false);
-        //this->saveTextEdit->setVisible(true);
-        //this->cancelTextEdit->setVisible(true);
-
         this->textArea->setNberEdit(0);
-
-        //this->oldText = this->textArea->toPlainText();
-    this->setOldText();
-
+        this->setOldText();
 }
 
 void Area::cancelEdit(){
@@ -288,6 +271,7 @@ void Area::cancelEdit(){
 
     int a = this->listOldText->size()-i;
 
+    //Put the last update into the textArea
     this->textArea->setPlainText(this->listOldText->at(a));
 
     this->saveEdit();
@@ -295,36 +279,12 @@ void Area::cancelEdit(){
     this->cancelTextEdit->setDefault(false);
     this->cancelTextEdit->setEnabled(false);
 
-    //this->textArea->setUndoRedoEnabled(true);
-
-    /*for(int i = 0; i < this->textArea->getNberTextChange(); i++){
-
-        this->textArea->undo();
-    }*/
-
-    //if(this->textArea->getNberEdit() != 0){
-
-
-   // }
-
-    //this->textArea->setNberEdit(0);
-    //this->saveTextEdit->setDefault(false);
-
-    //this->indicatorEdit->setVisible(false);
-
-    //this->textArea->setReadOnly(true);
-    //this->editTextArea->setVisible(true);
-    //this->saveTextEdit->setVisible(false);
-    //this->cancelTextEdit->setVisible(false);
-
 }
 
 void Area::saveEdit(){
 
-    this->textArea->setNberEdit(-1);
     //temporary file for the text edition
 
-    //QFile newph(this->path);
     QFile newph("temp.ph");
 
     newph.open(QIODevice::WriteOnly | QIODevice::Truncate);
@@ -335,10 +295,6 @@ void Area::saveEdit(){
     std::string phFile = file->toStdString();
 
     try{
-
-        /*  suppression en cascade.
-        Faire la différence entre une erreur de syntax et de suppression
-        */
 
         //Save new text into new file
 
@@ -362,29 +318,20 @@ void Area::saveEdit(){
         // build the tree in the treeArea
         this->treeArea->build();
 
-        this->indicatorEdit->setVisible(false);
-        //this->textArea->setUndoRedoEnabled(false);
+        this->indicatorEdit->setVisible(false);       
         this->saveTextEdit->setDefault(false);
-        //this->textArea->setReadOnly(true);
-        //this->editTextArea->setVisible(true);
-        //this->saveTextEdit->setVisible(false);
-        //this->cancelTextEdit->setVisible(false);
-
-        //put new oldText
-        //this->oldText = this->textArea->toPlainText();
-
-        //delete temporary file
-        //this->hideOrShowText();
-        newph.remove();
-        //int a = this->textArea->getNberTextChange() + 1;
-        this->textArea->incrementeNberTextChange();
-        this->setOldText();
+        this->textArea->incrementeNberTextChange();        
         this->typeOfCancel = 0;
-        this->saveTextEdit->setEnabled(false);
+        this->saveTextEdit->setEnabled(false);        
+        this->textArea->setNberEdit(0);
 
+        this->setOldText();
+
+        newph.remove();
     }
-    catch(exception_base& argh){
+    catch(ph_parse_error & argh){
 
+        //Catch a parsing error !
         //Put the exception into a QMessageBox critical
 
         QString phc = "phc";
@@ -406,53 +353,25 @@ void Area::saveEdit(){
         stdout += phcProcess->readAllStandardOutput();
         delete phcProcess;
 
-        //Use split function to keep only the line number
+        //Use split function to only keep the line number
 
         QStringList list = QString(stderr).split('"');
         QStringList list2 = list[1].split(":");
         QStringList list3 = list2[0].split(" ");
-        //QTextStream stream(&newph);
-        //QString line = stream.readLine(20);
-
-        //PROBLEME
 
         //One or more of your expressions are wrong !
         newph.remove();
         QMessageBox::critical(this, "Syntax error !", "One or more of your expressions are wrong !\nPlease check "+list3[0]+" "+list3[1]);
         //return NULL;
     }
-    //catch(){
+    catch(sort_not_found& sort){
 
-      //  QMessageBox::critical(this, "Error !", "jj");
-    //}
-}
+        //Catch a error if the user delete a sort before associated actions !
 
-
-//not use for the moment
-void Area::confirmEdit(){
-
-    QMessageBox confirmBox;
-    confirmBox.setWindowTitle("Warning !");
-    confirmBox.setText("Do you want to save your changes ?");
-    confirmBox.setInformativeText("This is going to erase current the document");
-    confirmBox.setStandardButtons(QMessageBox::Ok | QMessageBox::Cancel);
-    confirmBox.setDefaultButton(QMessageBox::Ok);
-    int answer = confirmBox.exec();
-
-    switch(answer){
-
-       case QMessageBox::Ok:
-           this->saveEdit();
-           break;
-
-       case QMessageBox::Cancel:
-           return;
-           break;
-
-       default:
-           return;
-           break;
-     }
+        QMessageBox::critical(this, "Error !", "Delete the associated actions before the process !");
+        //this->textArea->undo();
+        this->cancelEdit();
+    }
 }
 
 void Area::onTextEdit(){
@@ -466,33 +385,17 @@ void Area::onTextEdit(){
         this->indicatorEdit->setVisible(false);        
         this->saveTextEdit->setEnabled(false);
         this->cancelTextEdit->setEnabled(false);
-        //this->oldText = this->textArea->toPlainText();
-    }
-    else if(this->textArea->getNberEdit() == 1){
-        //this->textArea->setNberTextChange(0);
-        //this->oldText = this->textArea->toPlainText();
-        this->saveTextEdit->setDefault(true);
-        this->indicatorEdit->setVisible(true);        
-        this->saveTextEdit->setEnabled(true);
-        this->cancelTextEdit->setEnabled(true);
     }
     else{
-        //this->textArea->incrementeNberTextChange();
+
         this->saveTextEdit->setDefault(true);
         this->indicatorEdit->setVisible(true);        
         this->saveTextEdit->setEnabled(true);
         this->cancelTextEdit->setEnabled(true);
     }
-
-    //std::cout << "nberEdit : " << this->textArea->getNberEdit() << std::endl;
-    //std::cout << "nberText : " << this->textArea->getNberTextChange() << std::endl;
-    //this->indicatorEdit->setVisible(true);
-    //this->saveTextEdit->setDefault(true);
 }
 
 void Area::setOldText(){
 
-    //this->oldText = this->textArea->toPlainText();
-    //std::cout << "nberText : " << this->textArea->getNberTextChange() << std::endl;
     this->listOldText->insert(this->textArea->getNberTextChange(), this->textArea->toPlainText());
 }

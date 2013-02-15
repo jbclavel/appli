@@ -51,20 +51,33 @@ public:
       */
     void setNberTextChange(int);
 
+    /**
+      * @brief incrementation of NberTextChange
+      *
+      */
     void incrementeNberTextChange();
 
+    /**
+      * @brief decrementation of NberTextChange
+      *
+      */
     void decNberTextChange();
 
 private :
 
+    /**
+      * @brief Number of text change in the textArea
+      *
+      */
     int nberEdit;
 
+    /**
+      * @brief Number of update of the textArea
+      *
+      */
     int nberTextChange;
 
 signals:
-
-    void editing();
-
 
 public slots:
 
