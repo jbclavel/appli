@@ -44,11 +44,6 @@ int TextArea::getNberEdit(){
 void TextArea::setNberEdit(int a){
 
     this->nberEdit = a;
-
-    if(a == -1){
-
-        emit editing();
-    }
 }
 
 int TextArea::getNberTextChange(){

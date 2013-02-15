@@ -167,7 +167,18 @@ public:
 
     void editText();
 
+    /**
+      * @brief QStringList containing all the text change
+      *
+      */
+
     QStringList* listOldText;
+
+
+    /**
+      * @brief int indicating the moment when the user click on Cancel ( 1 : after update, 0 : during edition )
+      *
+      */
 
     int typeOfCancel;
 
@@ -195,11 +206,6 @@ public slots:
     void hideOrShowTree();
 
     /**
-      * @brief method to edit text area clicking on the button
-      *
-      */
-
-    /**
       * @brief method to cancel text change clicking on the button
       *
       */
@@ -209,13 +215,18 @@ public slots:
       * @brief method to save text change clicking on the button
       *
       */
-    void confirmEdit();
-
-
     void saveEdit();
 
+    /**
+      * @brief method call by the signal textChanged()
+      *
+      */
     void onTextEdit();
 
+    /**
+      * @brief method to save all the new textArea into the QStringList
+      *
+      */
     void setOldText();
 
 };

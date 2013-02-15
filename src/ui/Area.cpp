@@ -252,17 +252,8 @@ void Area::expandOrReduceText(){
 
 void Area::editText(){
 
-        //this->indicatorEdit->setVisible(true);
-        //this->textArea->setReadOnly(false);
-        //this->editTextArea->setVisible(false);
-        //this->saveTextEdit->setVisible(true);
-        //this->cancelTextEdit->setVisible(true);
-
         this->textArea->setNberEdit(0);
-
-        //this->oldText = this->textArea->toPlainText();
-    this->setOldText();
-
+        this->setOldText();
 }
 
 void Area::cancelEdit(){
@@ -287,34 +278,13 @@ void Area::cancelEdit(){
 
     int a = this->listOldText->size()-i;
 
+    //Put the last update into the textArea
     this->textArea->setPlainText(this->listOldText->at(a));
 
     this->saveEdit();
 
     this->cancelTextEdit->setDefault(false);
     this->cancelTextEdit->setEnabled(false);
-
-    //this->textArea->setUndoRedoEnabled(true);
-
-    /*for(int i = 0; i < this->textArea->getNberTextChange(); i++){
-
-        this->textArea->undo();
-    }*/
-
-    //if(this->textArea->getNberEdit() != 0){
-
-
-   // }
-
-    //this->textArea->setNberEdit(0);
-    //this->saveTextEdit->setDefault(false);
-
-    //this->indicatorEdit->setVisible(false);
-
-    //this->textArea->setReadOnly(true);
-    //this->editTextArea->setVisible(true);
-    //this->saveTextEdit->setVisible(false);
-    //this->cancelTextEdit->setVisible(false);
 
 }
 
@@ -333,10 +303,6 @@ void Area::saveEdit(){
 
     try{
 
-        /*  suppression en cascade.
-        Faire la différence entre une erreur de syntax et de suppression
-        */
-
         //Save new text into new file
 
         flux << this->textArea->toPlainText() << endl;
@@ -345,16 +311,6 @@ void Area::saveEdit(){
 
         // render graph
         PHPtr myPHPtr = PHIO::parseFile(phFile);
-       /* list<ProcessPtr> listProcess = myPHPtr->getProcesses();
-        list<Action> allActions = myPHPtr->getActions();
-        list<GSortPtr> target;
-        list<GSortPtr> source;
-
-        for(ActionPtr &a : allActions){
-
-
-        }*/
-
         this->myArea->setPHPtr(myPHPtr);
         myPHPtr->render();
         PHScenePtr scene = myPHPtr->getGraphicsScene();
@@ -369,30 +325,20 @@ void Area::saveEdit(){
         // build the tree in the treeArea
         this->treeArea->build();
 
-        this->indicatorEdit->setVisible(false);
-        //this->textArea->setUndoRedoEnabled(false);
+        this->indicatorEdit->setVisible(false);       
         this->saveTextEdit->setDefault(false);
-        //this->textArea->setReadOnly(true);
-        //this->editTextArea->setVisible(true);
-        //this->saveTextEdit->setVisible(false);
-        //this->cancelTextEdit->setVisible(false);
-
-        //put new oldText
-        //this->oldText = this->textArea->toPlainText();
-
-        //delete temporary file
-        //this->hideOrShowText();
-        newph.remove();
-        //int a = this->textArea->getNberTextChange() + 1;
-        this->textArea->incrementeNberTextChange();
-        this->setOldText();
+        this->textArea->incrementeNberTextChange();        
         this->typeOfCancel = 0;
         this->saveTextEdit->setEnabled(false);        
         this->textArea->setNberEdit(0);
 
+        this->setOldText();
+
+        newph.remove();
     }
     catch(ph_parse_error & argh){
 
+        //Catch a parsing error !
         //Put the exception into a QMessageBox critical
 
         QString phc = "phc";
@@ -419,49 +365,20 @@ void Area::saveEdit(){
         QStringList list = QString(stderr).split('"');
         QStringList list2 = list[1].split(":");
         QStringList list3 = list2[0].split(" ");
-        //QTextStream stream(&newph);
-        //QString line = stream.readLine(20);
-
-        //PROBLEME
 
         //One or more of your expressions are wrong !
         newph.remove();
         QMessageBox::critical(this, "Syntax error !", "One or more of your expressions are wrong !\nPlease check "+list3[0]+" "+list3[1]);
         //return NULL;
     }
-    catch(sort_not_found& chaine){
+    catch(sort_not_found& sort){
+
+        //Catch a error if the user delete a sort before associated actions !
 
         QMessageBox::critical(this, "Error !", "Delete the associated actions before the process !");
-        this->cancelEdit();
+        //this->textArea->undo();
+        //this->cancelEdit();
     }
-}
-
-
-//not use for the moment
-void Area::confirmEdit(){
-
-    QMessageBox confirmBox;
-    confirmBox.setWindowTitle("Warning !");
-    confirmBox.setText("Do you want to save your changes ?");
-    confirmBox.setInformativeText("This is going to erase current the document");
-    confirmBox.setStandardButtons(QMessageBox::Ok | QMessageBox::Cancel);
-    confirmBox.setDefaultButton(QMessageBox::Ok);
-    int answer = confirmBox.exec();
-
-    switch(answer){
-
-       case QMessageBox::Ok:
-           this->saveEdit();
-           break;
-
-       case QMessageBox::Cancel:
-           return;
-           break;
-
-       default:
-           return;
-           break;
-     }
 }
 
 void Area::onTextEdit(){
@@ -475,33 +392,17 @@ void Area::onTextEdit(){
         this->indicatorEdit->setVisible(false);        
         this->saveTextEdit->setEnabled(false);
         this->cancelTextEdit->setEnabled(false);
-        //this->oldText = this->textArea->toPlainText();
-    }
-    else if(this->textArea->getNberEdit() == 1){
-        //this->textArea->setNberTextChange(0);
-        //this->oldText = this->textArea->toPlainText();
-        this->saveTextEdit->setDefault(true);
-        this->indicatorEdit->setVisible(true);        
-        this->saveTextEdit->setEnabled(true);
-        this->cancelTextEdit->setEnabled(true);
     }
     else{
-        //this->textArea->incrementeNberTextChange();
+
         this->saveTextEdit->setDefault(true);
         this->indicatorEdit->setVisible(true);        
         this->saveTextEdit->setEnabled(true);
         this->cancelTextEdit->setEnabled(true);
     }
-
-    //std::cout << "nberEdit : " << this->textArea->getNberEdit() << std::endl;
-    //std::cout << "nberText : " << this->textArea->getNberTextChange() << std::endl;
-    //this->indicatorEdit->setVisible(true);
-    //this->saveTextEdit->setDefault(true);
 }
 
 void Area::setOldText(){
 
-    //this->oldText = this->textArea->toPlainText();
-    //std::cout << "nberText : " << this->textArea->getNberTextChange() << std::endl;
     this->listOldText->insert(this->textArea->getNberTextChange(), this->textArea->toPlainText());
 }
