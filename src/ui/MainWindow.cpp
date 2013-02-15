@@ -11,7 +11,12 @@
 #include "ConnectionSettings.h"
 #include "IO.h"
 
+
+
 MainWindow::MainWindow(){
+
+
+    ConnectionSettings::importXMLSettings();
 
     // title
     setWindowTitle("gPH");
@@ -145,9 +150,51 @@ MainWindow::MainWindow(){
     actionCheckModelType = menuComputation->addAction("Check model type (binary or multivalued)");
     actionStatistics = menuComputation->addAction("Statistics...");
     menuComputation->addSeparator();
-    actionConnection = menuComputation->addAction("New Connection");
+    menuConnection = menuComputation->addMenu("Added Connections");
 
-    // disable what does not work well
+    action1 = menuConnection->addAction("Fct 1");
+    action2 = menuConnection->addAction("Fct 2");
+    action3 = menuConnection->addAction("Fct 3");
+    action4 = menuConnection->addAction("Fct 4");
+    action5 = menuConnection->addAction("Fct 5");
+    action6 = menuConnection->addAction("Fct 6");
+    action7 = menuConnection->addAction("Fct 7");
+    action8 = menuConnection->addAction("Fct 8");
+    action9 = menuConnection->addAction("Fct 9");
+    action10 = menuConnection->addAction("Fct 10");
+
+    menuComputation->addSeparator();
+    actionNewConnection = menuComputation->addAction("New Connection");
+
+    //
+    action1->setVisible(false);
+    action2->setVisible(false);
+    action3->setVisible(false);
+    action4->setVisible(false);
+    action5->setVisible(false);
+    action6->setVisible(false);
+    action7->setVisible(false);
+    action8->setVisible(false);
+    action9->setVisible(false);
+    action10->setVisible(false);
+
+    action1->setVisible(true);
+    action1->setText(ConnectionSettings::tabFunction[0]->getNameFunction());
+
+    /*
+            action1
+            action2
+            action3
+            action4
+            action5
+            action6
+            action7
+            action8
+            action9
+            action10
+      */
+
+            // disable what does not work well
     actionComputeReachability->setEnabled(false);
     actionCheckModelType->setEnabled(false);
 
@@ -157,7 +204,7 @@ MainWindow::MainWindow(){
     QObject::connect(actionRunStochasticSimulation, SIGNAL(triggered()), this, SLOT(runStochasticSimulation()));
     QObject::connect(actionCheckModelType, SIGNAL(triggered()), this, SLOT(checkModelType()));
     QObject::connect(actionStatistics, SIGNAL(triggered()), this, SLOT(statistics()));
-    QObject::connect(actionConnection, SIGNAL(triggered()), this, SLOT(openConnection()));
+    QObject::connect(actionNewConnection, SIGNAL(triggered()), this, SLOT(openConnection()));
 
 
     // action for the menu Help
@@ -884,6 +931,7 @@ void MainWindow::openConnection(){
     ConnectionSettingsWindow = new ConnectionSettings();
     ConnectionSettingsWindow->show();
 }
+
 
 // disable menus when no open, active tabs
 void MainWindow::disableMenu(QMdiSubWindow* subwindow){

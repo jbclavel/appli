@@ -20,16 +20,16 @@ class ConnectionSettings : public QWidget
         std::vector<QCheckBox*> tabArgfacul;
         int nbArgPrcdt;
 
-        std::vector<FuncFrame*> tabFunction;
-        std::vector< std::vector<ArgumentFrame*>* > tabArgument;
-        //std::vector<ArgumentFrame*> tabArgFunct;
+        static std::vector<FuncFrame*> tabFunction;
+        static std::vector< std::vector<ArgumentFrame*>* > tabArgument;
+        static void importXMLSettings();
+
 
 
     private slots:
         void buildTable();
         void quit();
         void exportXMLSettings();
-        void importXMLSettings();
 
 
     private:
