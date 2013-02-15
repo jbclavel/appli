@@ -377,7 +377,7 @@ void Area::saveEdit(){
 
         QMessageBox::critical(this, "Error !", "Delete the associated actions before the process !");
         //this->textArea->undo();
-        //this->cancelEdit();
+        this->cancelEdit();
     }
 }
 
