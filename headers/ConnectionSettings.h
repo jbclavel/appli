@@ -20,6 +20,7 @@ class ConnectionSettings : public QWidget
         std::vector<QComboBox*> tabArgType ;
         std::vector<QLineEdit*> tabArgSuf;
         std::vector<QCheckBox*> tabArgfacul;
+        std::vector<QLineEdit*> tabArgOutline;
         int nbArgPrcdt;
 
         static std::vector<FuncFrame*> tabFunction;
@@ -51,6 +52,7 @@ class ConnectionSettings : public QWidget
         QLabel *enTeteArgTyp ;
         QLabel *enTeteArgSuf ;
         QLabel *enTeteArgFac ;
+        QLabel *enTeteArgOutline;
             //Argument types list
 
         QVBoxLayout *tableLayout;

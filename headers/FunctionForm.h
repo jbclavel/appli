@@ -26,6 +26,9 @@ class FunctionForm : public QWidget
         //void validationConnectionSettings();
         void openConnectionForm();
         void quit();
+        void fctBack();
+        void launchCompute();
+
 
     private:
         QComboBox *choix;
@@ -34,10 +37,17 @@ class FunctionForm : public QWidget
         QHBoxLayout *buttonLayout;
         QVBoxLayout *totalLayout;
 
-        QComboBox *choixa;
-        QPushButton *Yesa;
-        QPushButton *Cancela;
-        QVBoxLayout *totalLayouta;
+        QString functionChosen;
+        int indexFctChosen;
+        std::vector<QGroupBox*> tabGroupBox;
+        std::vector<QFormLayout*> tabQFormLayout;
+        std::vector<QWidget*> tabLineEdit;
+        std::vector<QString*> tabNomLine;
+
+
+        QPushButton *Ok;
+        QPushButton *back;
+        QHBoxLayout *buttonLayout2;
 
 
 

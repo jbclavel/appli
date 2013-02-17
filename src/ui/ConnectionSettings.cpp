@@ -39,11 +39,13 @@ ConnectionSettings::ConnectionSettings():
     enTeteArgTyp = new QLabel("Type", this);
     enTeteArgSuf = new QLabel("Suffix", this);
     enTeteArgFac = new QLabel("Facultatif ", this);
+    enTeteArgOutline = new QLabel("Outline ", this);
 
     gridTable->addWidget(enTeteArgNum,0, 0);
     gridTable->addWidget(enTeteArgTyp,0, 1);
     gridTable->addWidget(enTeteArgSuf,0, 2);
     gridTable->addWidget(enTeteArgFac,0, 3);
+    gridTable->addWidget(enTeteArgOutline,0, 4);
 
     groupTable = new QGroupBox("Specify argument(s) :");
     groupTable->setLayout(tableLayout);
@@ -86,10 +88,13 @@ void ConnectionSettings::buildTable(){
 
             tabArgfacul.push_back(new QCheckBox("Yes"));
 
+            tabArgOutline.push_back(new QLineEdit( this));
+
             gridTable->addWidget(tabArgNumber[tabArgNumber.size()-1], nbArg->text().toInt(), 0);
             gridTable->addWidget(tabArgType[tabArgType.size()-1], nbArg->text().toInt(), 1);
             gridTable->addWidget(tabArgSuf[tabArgSuf.size()-1], nbArg->text().toInt(), 2);
             gridTable->addWidget(tabArgfacul[tabArgfacul.size()-1],nbArg->text().toInt(),3);
+            gridTable->addWidget(tabArgOutline[tabArgOutline.size()-1],nbArg->text().toInt(),4);
 
             nbArgPrcdt = nbArg->text().toInt();
 
@@ -98,13 +103,14 @@ void ConnectionSettings::buildTable(){
                     tabArgNumber[tabArgNumber.size()-1]->~QLabel();
                     tabArgType[tabArgType.size()-1]->~QComboBox();
                     tabArgSuf[tabArgSuf.size()-1]->~QLineEdit();
-
                     tabArgfacul[tabArgfacul.size()-1]->~QCheckBox();
+                    tabArgOutline[tabArgOutline.size()-1]->~QLineEdit();
 
                     tabArgNumber.pop_back();
                     tabArgType.pop_back();
                     tabArgSuf.pop_back();
                     tabArgfacul.pop_back();
+                    tabArgOutline.pop_back();
 
                     nbArgPrcdt = nbArg->text().toInt();
             }
@@ -128,11 +134,14 @@ ConnectionSettings::~ConnectionSettings(){
                     tabArgType[i]->~QComboBox();
                     tabArgSuf[i]->~QLineEdit();
                     tabArgfacul[i]->~QCheckBox();
+                    tabArgOutline[i]->~QLineEdit();
 
                     tabArgNumber.pop_back();
                     tabArgType.pop_back();
                     tabArgSuf.pop_back();
                     tabArgfacul.pop_back();
+                    tabArgOutline.pop_back();
+
                 }
             }
 
@@ -151,6 +160,7 @@ ConnectionSettings::~ConnectionSettings(){
             enTeteArgTyp->~QLabel();
             enTeteArgSuf->~QLabel();
             enTeteArgFac->~QLabel();
+            enTeteArgOutline->~QLabel();
 
             tableLayout->~QVBoxLayout();
             groupTable->~QGroupBox();
@@ -202,6 +212,7 @@ void ConnectionSettings::exportXMLSettings(){
                    writerStream.writeTextElement("ArgType", ConnectionSettings::tabArgument[i]->at(j)->getArgType());
                    writerStream.writeTextElement("ArgSuf", ConnectionSettings::tabArgument[i]->at(j)->getArgSuf());
                    writerStream.writeTextElement("ArgFacul", ConnectionSettings::tabArgument[i]->at(j)->getArgFac());
+                   writerStream.writeTextElement("ArgOutline", ConnectionSettings::tabArgument[i]->at(j)->getArgOutline());
                writerStream.writeEndElement();
            }
 
@@ -224,6 +235,7 @@ void ConnectionSettings::exportXMLSettings(){
                 writerStream.writeTextElement("ArgType", tabArgType[k]->currentText());
                 writerStream.writeTextElement("ArgSuf", tabArgSuf[k]->text());
                 writerStream.writeTextElement("ArgFacul", QString::number(tabArgfacul[k]->isChecked()));
+                writerStream.writeTextElement("ArgOutline", tabArgOutline[k]->text());
             writerStream.writeEndElement();
         }
 
@@ -233,6 +245,7 @@ void ConnectionSettings::exportXMLSettings(){
                 writerStream.writeTextElement("ArgType", "Sans Argument");
                 writerStream.writeTextElement("ArgSuf", "Sans Argument");
                 writerStream.writeTextElement("ArgFacul", "Sans Argument");
+                writerStream.writeTextElement("ArgOutline", "Sans Argument");
             writerStream.writeEndElement();
         }
 
@@ -329,6 +342,14 @@ void ConnectionSettings::importXMLSettings(){
                     if(readerStream.name() == "ArgFacul")
                     {
                         ConnectionSettings::tabArgument[ConnectionSettings::tabArgument.size()-1]->at(ConnectionSettings::tabArgument[ConnectionSettings::tabArgument.size()-1]->size()-1)->setArgFac(readerStream.readElementText());
+                        readerStream.readNext();
+
+                        while(readerStream.isStartElement()==false)
+                        readerStream.readNext();
+                    }
+                    if(readerStream.name() == "ArgOutline")
+                    {
+                        ConnectionSettings::tabArgument[ConnectionSettings::tabArgument.size()-1]->at(ConnectionSettings::tabArgument[ConnectionSettings::tabArgument.size()-1]->size()-1)->setArgOutline(readerStream.readElementText());
 
                         while(readerStream.isStartElement()==false)
                             if(readerStream.atEnd()==true){

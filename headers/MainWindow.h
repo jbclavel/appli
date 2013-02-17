@@ -27,6 +27,7 @@ class MainWindow : public QMainWindow{
 
 public:
 
+
     /**
       * @brief constructor: creates the window, the menus and initializes the characteristics
       *
@@ -322,4 +323,5 @@ public slots:
     void openConnection();
 
     void openConnectionForm();
-};
+
+    };

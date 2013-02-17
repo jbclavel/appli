@@ -1,10 +1,8 @@
 #include "FunctionForm.h"
 #include <vector>
 #include "ConnectionSettings.h"
+#include "MainWindow.h"
 
-//#include "MainWindow.h"
-//#include "FuncFrame.h"
-//#include "ArgumentFrame.h"
 
 std::vector<FuncFrame*> ConnectionSettings::tabFunction;
 std::vector< std::vector<ArgumentFrame*>* > ConnectionSettings::tabArgument;
@@ -39,22 +37,21 @@ FunctionForm::FunctionForm():
 
 void FunctionForm::quit(){
 
-    this->~FunctionForm();
-}
-
-FunctionForm::~FunctionForm(){
-    //~QWidget(this);
     choix->~QComboBox();
     Yes->~QPushButton();
     Cancel->~QPushButton();
     buttonLayout->~QHBoxLayout();
-    //totalLayout->~QVBoxLayout();
+    this->~FunctionForm();
+
 }
+
+FunctionForm::~FunctionForm(){
+    }
+
 
 void FunctionForm::openConnectionForm(){
 
-    QString functionChosen = choix->currentText();
-    int indexFctChosen;
+    functionChosen = choix->currentText();
     choix->~QComboBox();
     Yes->~QPushButton();
     Cancel->~QPushButton();
@@ -63,97 +60,134 @@ void FunctionForm::openConnectionForm(){
     for (int i=0; i< ConnectionSettings::tabFunction.size() ; i++ ){
         if(functionChosen == ConnectionSettings::tabFunction[i]->getNameFunction()){
             indexFctChosen = i;
+
         }
     }
 
+
     for(int i=0 ; i< ConnectionSettings::tabFunction[indexFctChosen]->getNbArgument().toInt() ; i++){
-
-
 
         switch(ConnectionSettings::argTypeList.indexOf(ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgType()))
             {
             case 0 :   //text
-                {QLineEdit* a = new QLineEdit();
-                totalLayout->addWidget(a);
-                break;}
-            case 1:   //process
-                {QLineEdit* b = new QLineEdit;
-                totalLayout->addWidget(b);
-                break;}
+                {
+            tabLineEdit.push_back(new QLineEdit);
+            tabNomLine.push_back(new QString(ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgNumber()));
+            tabQFormLayout.push_back(new QFormLayout);
+            tabQFormLayout[i]->addRow(*(tabNomLine[i]) +" (Suffixe : "+
+                                      ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgSuf()
+                                      +")", tabLineEdit[i]);
 
+            tabGroupBox.push_back(new QGroupBox("Specify the "+
+                                      ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgType()
+                                          +" argument : "+
+                                      ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgOutline()));
+
+            tabGroupBox[i]->setLayout(tabQFormLayout[i]);
+
+            break;}
+            case 1:   //process
+                {
+            tabLineEdit.push_back(new QLineEdit);
+            tabNomLine.push_back(new QString(ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgNumber()));
+            tabQFormLayout.push_back(new QFormLayout);
+            tabQFormLayout[i]->addRow(*(tabNomLine[i]) +" (Suffixe : "+
+                                      ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgSuf()
+                                      +")", tabLineEdit[i]);
+
+            tabGroupBox.push_back(new QGroupBox("Specify the "+
+                                      ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgType()
+                                          +" argument : "+
+                                      ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgOutline()));
+
+            tabGroupBox[i]->setLayout(tabQFormLayout[i]);
+
+            break;}
             }
 
-       }
+        totalLayout->addWidget(tabGroupBox[i]);
+        }
 
+    Ok = new QPushButton("&Ok");
+    back = new QPushButton("&Back");
+    buttonLayout2 = new QHBoxLayout;
+    buttonLayout2->addWidget(Ok);
+    buttonLayout2->addWidget(back);
 
-    //setLayout(totalLayouta);
+    totalLayout->addLayout(buttonLayout2);
 
+    connect(Ok, SIGNAL(clicked()), this, SLOT(launchCompute()));
+    connect(back, SIGNAL(clicked()), this, SLOT(fctBack()));
 }
-    /*
-    program = new QLineEdit;
-    nbArg = new QSpinBox;
-    nbArg->findChild<QLineEdit*>()->setReadOnly(true);
 
-    nbArg->setValue(0);
-    nbArgPrcdt = nbArg->text().toInt();
+void FunctionForm::fctBack(){
 
-    definitionLayout = new QFormLayout;
-    definitionLayout->addRow("Function &name to be displayed", name);
-    definitionLayout->addRow("&Program", program);
-    definitionLayout->addRow("Number of &argument :", nbArg);
+    for(int i=tabGroupBox.size(); i>0; i--){
+        tabLineEdit[i-1]->~QWidget();
+        tabQFormLayout[i-1]->~QFormLayout();
+        tabGroupBox[i-1]->~QGroupBox();
+        tabNomLine[i-1]->~QString();
 
-    groupDefinition = new QGroupBox("Define the new function :");
-    groupDefinition->setLayout(definitionLayout);
+        tabLineEdit.pop_back();
+        tabQFormLayout.pop_back();
+        tabGroupBox.pop_back();
+        tabNomLine.pop_back();
+    }
 
-    //Second group : Specify argument
-    gridTable = new QGridLayout;
+        Ok->~QPushButton();
+        back->~QPushButton();
+        buttonLayout2->~QHBoxLayout();
+        totalLayout->~QVBoxLayout();
 
-        //combo box's list(argument types)
-    argTypeList= QStringList() << "Text" << "Process";
+        //re-build the former window
+        choix = new QComboBox;
 
-        //call the function which build the table
-    ConnectionSettings::buildTable();
+        for (int i=0; i<ConnectionSettings::tabFunction.size();i++ ){
+            choix->addItem(ConnectionSettings::tabFunction[i]->getNameFunction());
+        }
 
-    tableLayout = new QVBoxLayout;
-    tableLayout->addLayout(gridTable);
+        Yes = new QPushButton("&Yes");
+        Cancel = new QPushButton("&Cancel");
+        buttonLayout = new QHBoxLayout;
+        buttonLayout->addWidget(Yes);
+        buttonLayout->addWidget(Cancel);
 
-    enTeteArgNum = new QLabel("", this);
-    enTeteArgTyp = new QLabel("Type", this);
-    enTeteArgSuf = new QLabel("Suffix", this);
-    enTeteArgFac = new QLabel("Facultatif ", this);
+        totalLayout = new QVBoxLayout;
+        totalLayout->addWidget(choix);
+        totalLayout->addLayout(buttonLayout);
 
-    gridTable->addWidget(enTeteArgNum,0, 0);
-    gridTable->addWidget(enTeteArgTyp,0, 1);
-    gridTable->addWidget(enTeteArgSuf,0, 2);
-    gridTable->addWidget(enTeteArgFac,0, 3);
+        connect(Yes, SIGNAL(clicked()), this, SLOT(openConnectionForm()));
+        connect(Cancel, SIGNAL(clicked()), this, SLOT(quit()));
 
-    groupTable = new QGroupBox("Specify argument(s) :");
-    groupTable->setLayout(tableLayout);
-
-    //Button Save and Cancel
-    Save = new QPushButton("&Save");
-    Cancel = new QPushButton("&Cancel");
-    boutonsLayout = new QHBoxLayout;
-    boutonsLayout->addWidget(Save);
-    boutonsLayout->addWidget(Cancel);
-
-        // Connexions des signaux et des slots
-    connect(nbArg, SIGNAL(valueChanged(int)), this, SLOT(buildTable()));
-    connect(Save, SIGNAL(clicked()), this, SLOT(validationConnectionSettings()));
-    connect(Cancel, SIGNAL(clicked()), this, SLOT(quit()));
-
-    //Mise en page générale
-    globalLayout = new QVBoxLayout;
-    globalLayout->addWidget(groupDefinition);
-    globalLayout->addWidget(groupTable);
-    globalLayout->addLayout(boutonsLayout);
-
-    setLayout(globalLayout);
-    setWindowTitle("Connection Settings");
-    resize(400, 450);
+        setLayout(totalLayout);
 
 }
 
+void FunctionForm::launchCompute(){
+    /*//void MainWindow::compute(QString program, QStringList arguments, QString fileName)
+
+    QString program ="ph-reach";
+   // QString program = ConnectionSettings::tabFunction[indexFctChosen]->getProgram();
+    QStringList arguments;
+
+    // get the filename associated with the current subWindow
+    QString fileName;
+    if(this->getCentraleArea()->currentSubWindow() != 0) {
+        QMdiSubWindow *subWindow = this->getCentraleArea()->currentSubWindow();
+        fileName = ((Area*) subWindow->widget())->path;
+    } else {
+        fileName = "";
+    }
+
+    arguments << "--no-debug" << "-i" << fileName << "a" << "1" ;
+
+    //call MainWindow::compute
+    MainWindow::compute(program, arguments);
+*/// a utiliser : parentWidget +changer le constructeur de main windows et FunctionForm
+
+}
+
+/*
 //build the tabel
 void ConnectionSettings::buildTable(){
 
@@ -192,58 +226,6 @@ void ConnectionSettings::buildTable(){
             }
      }
 
-
-//SLOT : close the window
-void ConnectionSettings::quit(){
-
-    this->~ConnectionSettings();
-}
-
-//Detroyer
-ConnectionSettings::~ConnectionSettings(){
-
-            //remove the table
-            if(nbArg->text().toInt()!=0){
-
-                for(int i = nbArg->text().toInt()-1 ; i >= 0 ; i--){
-                    tabArgNumber[i]->~QLabel();
-                    tabArgType[i]->~QComboBox();
-                    tabArgSuf[i]->~QLineEdit();
-                    tabArgfacul[i]->~QCheckBox();
-
-                    tabArgNumber.pop_back();
-                    tabArgType.pop_back();
-                    tabArgSuf.pop_back();
-                    tabArgfacul.pop_back();
-                }
-            }
-
-            //remove the definition group
-            name->~QLineEdit();
-            program->~QLineEdit();
-            nbArg->~QSpinBox();
-
-            definitionLayout->~QFormLayout();
-            groupDefinition->~QGroupBox();
-
-            //Remove : Groupe : Table
-            gridTable->~QGridLayout();
-                //Remove : en-tête
-            enTeteArgNum->~QLabel();
-            enTeteArgTyp->~QLabel();
-            enTeteArgSuf->~QLabel();
-            enTeteArgFac->~QLabel();
-
-            tableLayout->~QVBoxLayout();
-            groupTable->~QGroupBox();
-
-            //Remove : button
-            Save->~QPushButton();
-            Cancel->~QPushButton();
-            boutonsLayout->~QHBoxLayout();
-
-            //Remove : general layout
-            globalLayout->~QVBoxLayout();
 
 }
 

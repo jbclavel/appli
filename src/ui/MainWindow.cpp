@@ -18,6 +18,7 @@ MainWindow::MainWindow(){
     //arguments type list of new function
     ConnectionSettings::argTypeList= QStringList() << "Text" << "Process";
 
+    //MainWindow::returnFct()
     //import of the setting included in the xml file
     ConnectionSettings::importXMLSettings();
 
@@ -246,6 +247,7 @@ MainWindow::MainWindow(){
         this->actionChangeTextBackgroundColor->setEnabled(false);
         this->actionHideShowTree->setEnabled(false);
         this->actionFindFixpoints->setEnabled(false);
+        this->actionComputeReachability->setEnabled(false);
         this->actionRunStochasticSimulation->setEnabled(false);
         this->actionStatistics->setEnabled(false);
     }
