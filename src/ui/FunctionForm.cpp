@@ -67,21 +67,24 @@ void FunctionForm::openConnectionForm(){
     }
 
     for(int i=0 ; i< ConnectionSettings::tabFunction[indexFctChosen]->getNbArgument().toInt() ; i++){
-       switch(ConnectionSettings::argTypeList.indexOf(ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgType()))
+
+
+
+        switch(ConnectionSettings::argTypeList.indexOf(ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgType()))
             {
             case 0 :   //text
-                QMessageBox::critical(this, "Error", "No file opened!");
-                break;
+                {QLineEdit* a = new QLineEdit();
+                totalLayout->addWidget(a);
+                break;}
             case 1:   //process
-                QMessageBox::critical(this, "Error", "No file process");
-                break;
+                {QLineEdit* b = new QLineEdit;
+                totalLayout->addWidget(b);
+                break;}
 
             }
 
        }
 
-//    totalLayouta = new QVBoxLayout;
-  //  totalLayouta->addWidget(choix);
 
     //setLayout(totalLayouta);
 
