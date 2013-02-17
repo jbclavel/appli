@@ -10,12 +10,15 @@
 #include <iostream>
 #include "ConnectionSettings.h"
 #include "IO.h"
-
+#include "FunctionForm.h"
 
 
 MainWindow::MainWindow(){
 
+    //arguments type list of new function
+    ConnectionSettings::argTypeList= QStringList() << "Text" << "Process";
 
+    //import of the setting included in the xml file
     ConnectionSettings::importXMLSettings();
 
     // title
@@ -150,8 +153,10 @@ MainWindow::MainWindow(){
     actionCheckModelType = menuComputation->addAction("Check model type (binary or multivalued)");
     actionStatistics = menuComputation->addAction("Statistics...");
     menuComputation->addSeparator();
-    menuConnection = menuComputation->addMenu("Added Connections");
+    actionConnection = menuComputation->addAction("Launch a function...");
+    actionNewConnection = menuComputation->addAction("Create a new connection...");
 
+    /*
     action1 = menuConnection->addAction("Fct 1");
     action2 = menuConnection->addAction("Fct 2");
     action3 = menuConnection->addAction("Fct 3");
@@ -195,7 +200,6 @@ MainWindow::MainWindow(){
       */
 
             // disable what does not work well
-    actionComputeReachability->setEnabled(false);
     actionCheckModelType->setEnabled(false);
 
     // connect the menu Computation
@@ -204,7 +208,10 @@ MainWindow::MainWindow(){
     QObject::connect(actionRunStochasticSimulation, SIGNAL(triggered()), this, SLOT(runStochasticSimulation()));
     QObject::connect(actionCheckModelType, SIGNAL(triggered()), this, SLOT(checkModelType()));
     QObject::connect(actionStatistics, SIGNAL(triggered()), this, SLOT(statistics()));
+    QObject::connect(actionConnection, SIGNAL(triggered()), this, SLOT(openConnectionForm()));
     QObject::connect(actionNewConnection, SIGNAL(triggered()), this, SLOT(openConnection()));
+
+    actionConnection->setShortcut(    QKeySequence(Qt::CTRL + Qt::Key_C));
 
     // action for the menu Help
     actionHelp = menuHelp->addAction("Help !");
@@ -932,6 +939,12 @@ void MainWindow::openConnection(){
 
     ConnectionSettingsWindow = new ConnectionSettings();
     ConnectionSettingsWindow->show();
+}
+
+void MainWindow::openConnectionForm(){
+
+    FunctionFormWindow = new FunctionForm();
+    FunctionFormWindow->show();
 }
 
 

@@ -32,7 +32,8 @@ HEADERS 	= 	headers/Action.h 		\
     src/ui/ConnectionSettings.h \
     headers/ConnectionSettings.h \
     headers/ArgumentFrame.h \
-    headers/FuncFrame.h
+    headers/FuncFrame.h \
+    headers/FunctionForm.h
 				
 INCLUDEPATH = headers headers/axe headers/test
 
@@ -56,7 +57,8 @@ SOURCES			= 	src/gfx/GProcess.cpp	\
     src/ui/ColorerSequences.cpp \
     src/ui/ConnectionSettings.cpp \
     src/ui/ArgumentFrame.cpp \
-    src/ui/FuncFrame.cpp
+    src/ui/FuncFrame.cpp \
+    src/ui/FunctionForm.cpp
 
 #So 2013 (needed for Axe)
 QMAKE_CXXFLAGS += -std=c++0x

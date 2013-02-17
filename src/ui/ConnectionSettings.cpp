@@ -4,8 +4,6 @@
 #include "FuncFrame.h"
 #include "ArgumentFrame.h"
 
-std::vector<FuncFrame*> ConnectionSettings::tabFunction;
-std::vector< std::vector<ArgumentFrame*>* > ConnectionSettings::tabArgument;
 
 
 ConnectionSettings::ConnectionSettings():
@@ -31,9 +29,6 @@ ConnectionSettings::ConnectionSettings():
     //Second group : Specify argument
     gridTable = new QGridLayout;
 
-        //combo box's list(argument types)
-    argTypeList= QStringList() << "Text" << "Process";
-
         //call the function which build the table
     ConnectionSettings::buildTable();
 
@@ -53,7 +48,6 @@ ConnectionSettings::ConnectionSettings():
     groupTable = new QGroupBox("Specify argument(s) :");
     groupTable->setLayout(tableLayout);
 
-
     //Button Save and Cancel
     Save = new QPushButton("&Save");
     Cancel = new QPushButton("&Cancel");
@@ -62,10 +56,9 @@ ConnectionSettings::ConnectionSettings():
     boutonsLayout->addWidget(Cancel);
 
         // Connexions des signaux et des slots
-    connect(Cancel, SIGNAL(clicked()), this, SLOT(quit()));
-    connect(Save, SIGNAL(clicked()), this, SLOT(exportXMLSettings()));
     connect(nbArg, SIGNAL(valueChanged(int)), this, SLOT(buildTable()));
-
+    connect(Save, SIGNAL(clicked()), this, SLOT(validationConnectionSettings()));
+    connect(Cancel, SIGNAL(clicked()), this, SLOT(quit()));
 
     //Mise en page générale
     globalLayout = new QVBoxLayout;
@@ -87,7 +80,7 @@ void ConnectionSettings::buildTable(){
             tabArgNumber.push_back(new QLabel("Arg " + nbArg->text() + " :" , this));
 
             tabArgType.push_back(new QComboBox(this));
-            tabArgType[tabArgType.size()-1]->addItems(argTypeList);
+            tabArgType[tabArgType.size()-1]->addItems(ConnectionSettings::argTypeList);
 
             tabArgSuf.push_back(new QLineEdit( this));
 
@@ -172,6 +165,7 @@ ConnectionSettings::~ConnectionSettings(){
 
 }
 
+//export function
 void ConnectionSettings::exportXMLSettings(){
 
     //this->importXMLSettings();
@@ -189,6 +183,7 @@ void ConnectionSettings::exportXMLSettings(){
         writerStream.writeStartDocument();
         writerStream.writeStartElement("FunctionSettings");
 
+//paste previous functions
        int i;
        int j;
        for(i=0; i< ConnectionSettings::tabFunction.size(); i++){
@@ -213,7 +208,7 @@ void ConnectionSettings::exportXMLSettings(){
            writerStream.writeEndElement();
            }
 
-//fonction courante
+//add new function
         writerStream.writeStartElement("Function");
 
         writerStream.writeStartElement("Definition");
@@ -250,7 +245,7 @@ void ConnectionSettings::exportXMLSettings(){
     }
 }
 
-
+//import function called when the application boots
 void ConnectionSettings::importXMLSettings(){
 
     QFile input("xmlConnectionSettings.xml");
@@ -360,7 +355,19 @@ void ConnectionSettings::importXMLSettings(){
     }
 }
 
+//slot called when the save button is triggered
+void ConnectionSettings::validationConnectionSettings(){
 
+    int reponse = QMessageBox::question(this, "Connection Settings validation", "Do you really want to save these settings ?",
+                            QMessageBox::No | QMessageBox::Yes);
+
+    if (reponse == QMessageBox::Yes)
+        {
+            exportXMLSettings();
+            QMessageBox::information(this, "Connection Setting Validated", "Export done");
+            this->quit();
+        }
+}
 /*
     QMessageBox::information(this, "err",
         QString::number(MainWindow::ConnectionSettings::tabFunction.size())         +  "\n" +
