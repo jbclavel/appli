@@ -177,48 +177,6 @@ void FunctionForm::launchCompute(){
 }
 
 /*
-//build the tabel
-void ConnectionSettings::buildTable(){
-
-        if(nbArg->text().toInt()>nbArgPrcdt){
-
-            tabArgNumber.push_back(new QLabel("Arg " + nbArg->text() + " :" , this));
-
-            tabArgType.push_back(new QComboBox(this));
-            tabArgType[tabArgType.size()-1]->addItems(argTypeList);
-
-            tabArgSuf.push_back(new QLineEdit( this));
-
-            tabArgfacul.push_back(new QCheckBox("Yes"));
-
-            gridTable->addWidget(tabArgNumber[tabArgNumber.size()-1], nbArg->text().toInt(), 0);
-            gridTable->addWidget(tabArgType[tabArgType.size()-1], nbArg->text().toInt(), 1);
-            gridTable->addWidget(tabArgSuf[tabArgSuf.size()-1], nbArg->text().toInt(), 2);
-            gridTable->addWidget(tabArgfacul[tabArgfacul.size()-1],nbArg->text().toInt(),3);
-
-            nbArgPrcdt = nbArg->text().toInt();
-
-        }else if(nbArg->text().toInt()<nbArgPrcdt){
-
-                    tabArgNumber[tabArgNumber.size()-1]->~QLabel();
-                    tabArgType[tabArgType.size()-1]->~QComboBox();
-                    tabArgSuf[tabArgSuf.size()-1]->~QLineEdit();
-
-                    tabArgfacul[tabArgfacul.size()-1]->~QCheckBox();
-
-                    tabArgNumber.pop_back();
-                    tabArgType.pop_back();
-                    tabArgSuf.pop_back();
-                    tabArgfacul.pop_back();
-
-                    nbArgPrcdt = nbArg->text().toInt();
-            }
-     }
-
-
-}
-
-
 //slot called when the save button is triggered
 void ConnectionSettings::validationConnectionSettings(){
 

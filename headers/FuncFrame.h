@@ -24,7 +24,6 @@ private :
     QString nameFunction;
     QString program;
     QString nbArgument;
-    std::vector<ArgumentFrame*> arguments;
 };
 #endif
 

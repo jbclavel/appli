@@ -16,9 +16,8 @@ QString MainWindow::fileName;
 
 MainWindow::MainWindow()
 {
-
     //arguments type list of new function
-    ConnectionSettings::argTypeList= QStringList() << "Text" << "Process";
+    ConnectionSettings::argTypeList = QStringList() << "Text" << "Process";
 
     //MainWindow::returnFct()
     //import of the setting included in the xml file
@@ -26,6 +25,7 @@ MainWindow::MainWindow()
 
     // title
     setWindowTitle("gPH");
+
 
     // icon
     setWindowIcon(QIcon("gph.png"));
@@ -189,7 +189,7 @@ MainWindow::MainWindow()
     action1->setVisible(true);
     action1->setText(ConnectionSettings::tabFunction[0]->getNameFunction());
 
-    /*
+
             action1
             action2
             action3
@@ -1087,7 +1087,6 @@ void MainWindow::openConnection(){
 
 void MainWindow::openConnectionForm(){
 
-    MainWindow::fileName;
     if(this->getCentraleArea()->currentSubWindow() != 0) {
 
         QMdiSubWindow *subWindow = this->getCentraleArea()->currentSubWindow();
