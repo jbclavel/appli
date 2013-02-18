@@ -299,12 +299,10 @@ MyArea* MainWindow::openTab() {
             if(!alreadyOpen) {
 
                 //Display loading window
-
                 QLabel* dialogue = new QLabel(mb);
                 mb->setWindowTitle("Please wait...");
-                //mb->setFixedSize(300,150);
                 QMovie* gif = new QMovie("loading.gif");
-               // gif->setScaledSize(QSize(300,150));
+                gif->setScaledSize(QSize(300,150));
                 gif->start();
                 dialogue->setMovie(gif);
                 dialogue->show();
