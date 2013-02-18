@@ -118,6 +118,13 @@ class GSort : public QGraphicsRectItem {
           */
         bool isVisible();
 
+        /**
+          * @brief gets the point used to record mouse press event position
+          *
+          */
+        QPoint geteventPressPoint();
+
+
 		
 	protected:
 

@@ -6,6 +6,8 @@
 #include "FuncFrame.h"
 
 
+
+
 class ConnectionSettings : public QWidget
 {
     Q_OBJECT
@@ -18,18 +20,21 @@ class ConnectionSettings : public QWidget
         std::vector<QComboBox*> tabArgType ;
         std::vector<QLineEdit*> tabArgSuf;
         std::vector<QCheckBox*> tabArgfacul;
+        std::vector<QLineEdit*> tabArgOutline;
         int nbArgPrcdt;
 
-        std::vector<FuncFrame*> tabFunction;
-        std::vector< std::vector<ArgumentFrame*>* > tabArgument;
-        //std::vector<ArgumentFrame*> tabArgFunct;
+        static std::vector<FuncFrame*> tabFunction;
+        static std::vector< std::vector<ArgumentFrame*>* > tabArgument;
+        static void importXMLSettings();
+        static QStringList argTypeList;
+
 
 
     private slots:
         void buildTable();
         void quit();
-        void exportXMLSettings();
-        void importXMLSettings();
+        void exportXMLSettings();  
+        void validationConnectionSettings();
 
 
     private:
@@ -47,8 +52,8 @@ class ConnectionSettings : public QWidget
         QLabel *enTeteArgTyp ;
         QLabel *enTeteArgSuf ;
         QLabel *enTeteArgFac ;
+        QLabel *enTeteArgOutline;
             //Argument types list
-        QStringList argTypeList;
 
         QVBoxLayout *tableLayout;
         QGroupBox *groupTable;

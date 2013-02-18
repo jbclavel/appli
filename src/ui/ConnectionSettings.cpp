@@ -1,5 +1,6 @@
 #include "ConnectionSettings.h"
 #include <vector>
+#include "MainWindow.h"
 #include "FuncFrame.h"
 #include "ArgumentFrame.h"
 
@@ -28,9 +29,6 @@ ConnectionSettings::ConnectionSettings():
     //Second group : Specify argument
     gridTable = new QGridLayout;
 
-        //combo box's list(argument types)
-    argTypeList= QStringList() << "Text" << "Process";
-
         //call the function which build the table
     ConnectionSettings::buildTable();
 
@@ -41,15 +39,16 @@ ConnectionSettings::ConnectionSettings():
     enTeteArgTyp = new QLabel("Type", this);
     enTeteArgSuf = new QLabel("Suffix", this);
     enTeteArgFac = new QLabel("Facultatif ", this);
+    enTeteArgOutline = new QLabel("Outline ", this);
 
     gridTable->addWidget(enTeteArgNum,0, 0);
     gridTable->addWidget(enTeteArgTyp,0, 1);
     gridTable->addWidget(enTeteArgSuf,0, 2);
     gridTable->addWidget(enTeteArgFac,0, 3);
+    gridTable->addWidget(enTeteArgOutline,0, 4);
 
     groupTable = new QGroupBox("Specify argument(s) :");
     groupTable->setLayout(tableLayout);
-
 
     //Button Save and Cancel
     Save = new QPushButton("&Save");
@@ -59,10 +58,9 @@ ConnectionSettings::ConnectionSettings():
     boutonsLayout->addWidget(Cancel);
 
         // Connexions des signaux et des slots
-    connect(Cancel, SIGNAL(clicked()), this, SLOT(exportXMLSettings()));
-    connect(Save, SIGNAL(clicked()), this, SLOT(importXMLSettings()));
     connect(nbArg, SIGNAL(valueChanged(int)), this, SLOT(buildTable()));
-
+    connect(Save, SIGNAL(clicked()), this, SLOT(validationConnectionSettings()));
+    connect(Cancel, SIGNAL(clicked()), this, SLOT(quit()));
 
     //Mise en page générale
     globalLayout = new QVBoxLayout;
@@ -84,16 +82,19 @@ void ConnectionSettings::buildTable(){
             tabArgNumber.push_back(new QLabel("Arg " + nbArg->text() + " :" , this));
 
             tabArgType.push_back(new QComboBox(this));
-            tabArgType[tabArgType.size()-1]->addItems(argTypeList);
+            tabArgType[tabArgType.size()-1]->addItems(ConnectionSettings::argTypeList);
 
             tabArgSuf.push_back(new QLineEdit( this));
 
             tabArgfacul.push_back(new QCheckBox("Yes"));
 
+            tabArgOutline.push_back(new QLineEdit( this));
+
             gridTable->addWidget(tabArgNumber[tabArgNumber.size()-1], nbArg->text().toInt(), 0);
             gridTable->addWidget(tabArgType[tabArgType.size()-1], nbArg->text().toInt(), 1);
             gridTable->addWidget(tabArgSuf[tabArgSuf.size()-1], nbArg->text().toInt(), 2);
             gridTable->addWidget(tabArgfacul[tabArgfacul.size()-1],nbArg->text().toInt(),3);
+            gridTable->addWidget(tabArgOutline[tabArgOutline.size()-1],nbArg->text().toInt(),4);
 
             nbArgPrcdt = nbArg->text().toInt();
 
@@ -102,13 +103,14 @@ void ConnectionSettings::buildTable(){
                     tabArgNumber[tabArgNumber.size()-1]->~QLabel();
                     tabArgType[tabArgType.size()-1]->~QComboBox();
                     tabArgSuf[tabArgSuf.size()-1]->~QLineEdit();
-
                     tabArgfacul[tabArgfacul.size()-1]->~QCheckBox();
+                    tabArgOutline[tabArgOutline.size()-1]->~QLineEdit();
 
                     tabArgNumber.pop_back();
                     tabArgType.pop_back();
                     tabArgSuf.pop_back();
                     tabArgfacul.pop_back();
+                    tabArgOutline.pop_back();
 
                     nbArgPrcdt = nbArg->text().toInt();
             }
@@ -132,11 +134,14 @@ ConnectionSettings::~ConnectionSettings(){
                     tabArgType[i]->~QComboBox();
                     tabArgSuf[i]->~QLineEdit();
                     tabArgfacul[i]->~QCheckBox();
+                    tabArgOutline[i]->~QLineEdit();
 
                     tabArgNumber.pop_back();
                     tabArgType.pop_back();
                     tabArgSuf.pop_back();
                     tabArgfacul.pop_back();
+                    tabArgOutline.pop_back();
+
                 }
             }
 
@@ -155,6 +160,7 @@ ConnectionSettings::~ConnectionSettings(){
             enTeteArgTyp->~QLabel();
             enTeteArgSuf->~QLabel();
             enTeteArgFac->~QLabel();
+            enTeteArgOutline->~QLabel();
 
             tableLayout->~QVBoxLayout();
             groupTable->~QGroupBox();
@@ -169,9 +175,10 @@ ConnectionSettings::~ConnectionSettings(){
 
 }
 
+//export function
 void ConnectionSettings::exportXMLSettings(){
 
-    this->importXMLSettings();
+    //this->importXMLSettings();
     QFile output("xmlConnectionSettings.xml");
 
     if (!output.open(QIODevice::WriteOnly)){
@@ -186,31 +193,33 @@ void ConnectionSettings::exportXMLSettings(){
         writerStream.writeStartDocument();
         writerStream.writeStartElement("FunctionSettings");
 
+//paste previous functions
        int i;
        int j;
-       for(i=0; i<tabFunction.size(); i++){
+       for(i=0; i< ConnectionSettings::tabFunction.size(); i++){
            writerStream.writeStartElement("Function");
 
            writerStream.writeStartElement("Definition");
-           writerStream.writeTextElement("name", tabFunction[i]->getNameFunction());
-           writerStream.writeTextElement("program", tabFunction[i]->getProgram());
-               writerStream.writeTextElement("nbArgument", tabFunction[i]->getNbArgument());
+           writerStream.writeTextElement("name", ConnectionSettings::tabFunction[i]->getNameFunction());
+           writerStream.writeTextElement("program", ConnectionSettings::tabFunction[i]->getProgram());
+               writerStream.writeTextElement("nbArgument", ConnectionSettings::tabFunction[i]->getNbArgument());
            writerStream.writeEndElement();
 
-          for ( j = 0; j < tabArgument[i]->size(); j++){
+          for ( j = 0; j < ConnectionSettings::tabArgument[i]->size(); j++){
 
                writerStream.writeStartElement("ArgumentsDefinition");
-               writerStream.writeTextElement("ArgNumber", tabArgument[i]->at(j)->getArgNumber());
-                   writerStream.writeTextElement("ArgType", tabArgument[i]->at(j)->getArgType());
-                   writerStream.writeTextElement("ArgSuf", tabArgument[i]->at(j)->getArgSuf());
-                   writerStream.writeTextElement("ArgFacul", tabArgument[i]->at(j)->getArgFac());
+               writerStream.writeTextElement("ArgNumber", ConnectionSettings::tabArgument[i]->at(j)->getArgNumber());
+                   writerStream.writeTextElement("ArgType", ConnectionSettings::tabArgument[i]->at(j)->getArgType());
+                   writerStream.writeTextElement("ArgSuf", ConnectionSettings::tabArgument[i]->at(j)->getArgSuf());
+                   writerStream.writeTextElement("ArgFacul", ConnectionSettings::tabArgument[i]->at(j)->getArgFac());
+                   writerStream.writeTextElement("ArgOutline", ConnectionSettings::tabArgument[i]->at(j)->getArgOutline());
                writerStream.writeEndElement();
            }
 
            writerStream.writeEndElement();
            }
 
-//fonction courante
+//add new function
         writerStream.writeStartElement("Function");
 
         writerStream.writeStartElement("Definition");
@@ -226,6 +235,7 @@ void ConnectionSettings::exportXMLSettings(){
                 writerStream.writeTextElement("ArgType", tabArgType[k]->currentText());
                 writerStream.writeTextElement("ArgSuf", tabArgSuf[k]->text());
                 writerStream.writeTextElement("ArgFacul", QString::number(tabArgfacul[k]->isChecked()));
+                writerStream.writeTextElement("ArgOutline", tabArgOutline[k]->text());
             writerStream.writeEndElement();
         }
 
@@ -235,6 +245,7 @@ void ConnectionSettings::exportXMLSettings(){
                 writerStream.writeTextElement("ArgType", "Sans Argument");
                 writerStream.writeTextElement("ArgSuf", "Sans Argument");
                 writerStream.writeTextElement("ArgFacul", "Sans Argument");
+                writerStream.writeTextElement("ArgOutline", "Sans Argument");
             writerStream.writeEndElement();
         }
 
@@ -247,7 +258,7 @@ void ConnectionSettings::exportXMLSettings(){
     }
 }
 
-
+//import function called when the application boots
 void ConnectionSettings::importXMLSettings(){
 
     QFile input("xmlConnectionSettings.xml");
@@ -258,6 +269,7 @@ void ConnectionSettings::importXMLSettings(){
     readerStream.readNext();
     while (!readerStream.atEnd())
     {
+
         while (readerStream.name() == "Function")
         {
             readerStream.readNext();
@@ -271,16 +283,16 @@ void ConnectionSettings::importXMLSettings(){
                     readerStream.readNext();
                     if(readerStream.name() == "name")
                     {
-                        tabFunction.push_back(new FuncFrame());
-                        tabArgument.push_back(new std::vector<ArgumentFrame*>());
-                        tabFunction[tabFunction.size()-1]->setNameFunction(readerStream.readElementText());
+                        ConnectionSettings::tabFunction.push_back(new FuncFrame());
+                        ConnectionSettings::tabArgument.push_back(new std::vector<ArgumentFrame*>());
+                        ConnectionSettings::tabFunction[ConnectionSettings::tabFunction.size()-1]->setNameFunction(readerStream.readElementText());
 
                         while(readerStream.isStartElement()==false)
                         readerStream.readNext();
                     }
                     if(readerStream.name() == "program")
                     {
-                        tabFunction[tabFunction.size()-1]->setProgram(readerStream.readElementText()) ;
+                        ConnectionSettings::tabFunction[ConnectionSettings::tabFunction.size()-1]->setProgram(readerStream.readElementText()) ;
                         readerStream.readNext();
 
                         while(readerStream.isStartElement()==false)
@@ -288,7 +300,7 @@ void ConnectionSettings::importXMLSettings(){
                     }
                     if(readerStream.name() == "nbArgument")
                     {
-                        tabFunction[tabFunction.size()-1]->setNbArgument(readerStream.readElementText()) ;
+                        ConnectionSettings::tabFunction[ConnectionSettings::tabFunction.size()-1]->setNbArgument(readerStream.readElementText()) ;
 
                         while(readerStream.isStartElement()==false)
                         readerStream.readNext();
@@ -305,8 +317,8 @@ void ConnectionSettings::importXMLSettings(){
 
                     if(readerStream.name() == "ArgNumber")
                     {
-                        tabArgument[tabArgument.size()-1]->push_back(new ArgumentFrame());
-                        tabArgument[tabArgument.size()-1]->at(tabArgument[tabArgument.size()-1]->size()-1)->setArgNumber(readerStream.readElementText());
+                        ConnectionSettings::tabArgument[ConnectionSettings::tabArgument.size()-1]->push_back(new ArgumentFrame());
+                        ConnectionSettings::tabArgument[ConnectionSettings::tabArgument.size()-1]->at(ConnectionSettings::tabArgument[ConnectionSettings::tabArgument.size()-1]->size()-1)->setArgNumber(readerStream.readElementText());
                         readerStream.readNext();
 
                         while(readerStream.isStartElement()==false)
@@ -314,7 +326,7 @@ void ConnectionSettings::importXMLSettings(){
                     }
                     if(readerStream.name() == "ArgType")
                     {
-                        tabArgument[tabArgument.size()-1]->at(tabArgument[tabArgument.size()-1]->size()-1)->setArgType(readerStream.readElementText());
+                        ConnectionSettings::tabArgument[ConnectionSettings::tabArgument.size()-1]->at(ConnectionSettings::tabArgument[ConnectionSettings::tabArgument.size()-1]->size()-1)->setArgType(readerStream.readElementText());
                         readerStream.readNext();
 
                         while(readerStream.isStartElement()==false)
@@ -322,7 +334,7 @@ void ConnectionSettings::importXMLSettings(){
                     }
                     if(readerStream.name() == "ArgSuf")
                     {
-                        tabArgument[tabArgument.size()-1]->at(tabArgument[tabArgument.size()-1]->size()-1)->setArgSuf(readerStream.readElementText());
+                        ConnectionSettings::tabArgument[ConnectionSettings::tabArgument.size()-1]->at(ConnectionSettings::tabArgument[ConnectionSettings::tabArgument.size()-1]->size()-1)->setArgSuf(readerStream.readElementText());
                         readerStream.readNext();
 
                         while(readerStream.isStartElement()==false)
@@ -330,7 +342,15 @@ void ConnectionSettings::importXMLSettings(){
                     }
                     if(readerStream.name() == "ArgFacul")
                     {
-                        tabArgument[tabArgument.size()-1]->at(tabArgument[tabArgument.size()-1]->size()-1)->setArgFac(readerStream.readElementText());
+                        ConnectionSettings::tabArgument[ConnectionSettings::tabArgument.size()-1]->at(ConnectionSettings::tabArgument[ConnectionSettings::tabArgument.size()-1]->size()-1)->setArgFac(readerStream.readElementText());
+                        readerStream.readNext();
+
+                        while(readerStream.isStartElement()==false)
+                        readerStream.readNext();
+                    }
+                    if(readerStream.name() == "ArgOutline")
+                    {
+                        ConnectionSettings::tabArgument[ConnectionSettings::tabArgument.size()-1]->at(ConnectionSettings::tabArgument[ConnectionSettings::tabArgument.size()-1]->size()-1)->setArgOutline(readerStream.readElementText());
 
                         while(readerStream.isStartElement()==false)
                             if(readerStream.atEnd()==true){
@@ -352,47 +372,62 @@ void ConnectionSettings::importXMLSettings(){
     }
     input.close();
 
-    for (int i=0; i <tabFunction.size(); i++){
-        tabFunction[i]->setArguments(*(tabArgument[i]));
+    for (int i=0; i <ConnectionSettings::tabFunction.size(); i++){
+        ConnectionSettings::tabFunction[i]->setArguments(*(ConnectionSettings::tabArgument[i]));
     }
+}
+
+//slot called when the save button is triggered
+void ConnectionSettings::validationConnectionSettings(){
+
+    int reponse = QMessageBox::question(this, "Connection Settings validation", "Do you really want to save these settings ?",
+                            QMessageBox::No | QMessageBox::Yes);
+
+    if (reponse == QMessageBox::Yes)
+        {
+            exportXMLSettings();
+            QMessageBox::information(this, "Connection Setting Validated", "Export done");
+            this->quit();
+        }
+}
 /*
     QMessageBox::information(this, "err",
-        QString::number(tabFunction.size())         +  "\n" +
-        QString::number(tabArgument.size())         +  "\n" +
-        QString::number(tabArgument[0]->size())     +  "\n" +
-        QString::number(tabArgument[1]->size())     +  "\n" +
+        QString::number(MainWindow::ConnectionSettings::tabFunction.size())         +  "\n" +
+        QString::number(MainWindow::ConnectionSettings::tabArgument.size())         +  "\n" +
+        QString::number(MainWindow::ConnectionSettings::tabArgument[0]->size())     +  "\n" +
+        QString::number(MainWindow::ConnectionSettings::tabArgument[1]->size())     +  "\n" +
 
-        tabFunction[0]->getNameFunction()           +  "\n" +
-        tabFunction[0]->getProgram()                +  "\n" +
-        tabFunction[0]->getNbArgument()             +  "\n" +
-        tabFunction[0]->getArguments().at(0)->getArgNumber()    +  "\n" +
+        MainWindow::ConnectionSettings::tabFunction[0]->getNameFunction()           +  "\n" +
+        MainWindow::ConnectionSettings::tabFunction[0]->getProgram()                +  "\n" +
+        MainWindow::ConnectionSettings::tabFunction[0]->getNbArgument()             +  "\n" +
+        MainWindow::ConnectionSettings::tabFunction[0]->getArguments().at(0)->getArgNumber()    +  "\n" +
 
-            tabArgument[0]->at(0)->getArgNumber()       +  "\n" +
-            tabArgument[0]->at(0)->getArgType()         +  "\n" +
-            tabArgument[0]->at(0)->getArgSuf()          +  "\n" +
-            tabArgument[0]->at(0)->getArgFac()          +  "\n" +
+            MainWindow::ConnectionSettings::tabArgument[0]->at(0)->getArgNumber()       +  "\n" +
+            MainWindow::ConnectionSettings::tabArgument[0]->at(0)->getArgType()         +  "\n" +
+            MainWindow::ConnectionSettings::tabArgument[0]->at(0)->getArgSuf()          +  "\n" +
+            MainWindow::ConnectionSettings::tabArgument[0]->at(0)->getArgFac()          +  "\n" +
 
-            tabArgument[0]->at(1)->getArgNumber()       +  "\n" +
-            tabArgument[0]->at(1)->getArgType()         +  "\n" +
-            tabArgument[0]->at(1)->getArgSuf()          +  "\n" +
-            tabArgument[0]->at(1)->getArgFac()          +  "\n" +
+            MainWindow::ConnectionSettings::tabArgument[0]->at(1)->getArgNumber()       +  "\n" +
+            MainWindow::ConnectionSettings::tabArgument[0]->at(1)->getArgType()         +  "\n" +
+            MainWindow::ConnectionSettings::tabArgument[0]->at(1)->getArgSuf()          +  "\n" +
+            MainWindow::ConnectionSettings::tabArgument[0]->at(1)->getArgFac()          +  "\n" +
 
-        tabFunction[1]->getNameFunction()           +  "\n" +
-        tabFunction[1]->getProgram()                +  "\n" +
-        tabFunction[1]->getNbArgument()             +  "\n" +
-        tabFunction[1]->getArguments().at(0)->getArgNumber()    +  "\n" +
+        MainWindow::ConnectionSettings::tabFunction[1]->getNameFunction()           +  "\n" +
+        MainWindow::ConnectionSettings::tabFunction[1]->getProgram()                +  "\n" +
+        MainWindow::ConnectionSettings::tabFunction[1]->getNbArgument()             +  "\n" +
+        MainWindow::ConnectionSettings::tabFunction[1]->getArguments().at(0)->getArgNumber()    +  "\n" +
 
-            tabArgument[1]->at(0)->getArgNumber()       +  "\n" +
-            tabArgument[1]->at(0)->getArgType()         +  "\n" +
-            tabArgument[1]->at(0)->getArgSuf()          +  "\n" +
-            tabArgument[1]->at(0)->getArgFac()          +  "\n"
+            MainWindow::ConnectionSettings::tabArgument[1]->at(0)->getArgNumber()       +  "\n" +
+            MainWindow::ConnectionSettings::tabArgument[1]->at(0)->getArgType()         +  "\n" +
+            MainWindow::ConnectionSettings::tabArgument[1]->at(0)->getArgSuf()          +  "\n" +
+            MainWindow::ConnectionSettings::tabArgument[1]->at(0)->getArgFac()          +  "\n"
 
-            tabArgument[1]->at(1)->getArgNumber()       +  "\n" +
-            tabArgument[1]->at(1)->getArgType()         +  "\n" +
-            tabArgument[1]->at(1)->getArgSuf()          +  "\n" +
-            tabArgument[1]->at(1)->getArgFac()          +  "\n"
+            MainWindow::ConnectionSettings::tabArgument[1]->at(1)->getArgNumber()       +  "\n" +
+            MainWindow::ConnectionSettings::tabArgument[1]->at(1)->getArgType()         +  "\n" +
+            MainWindow::ConnectionSettings::tabArgument[1]->at(1)->getArgSuf()          +  "\n" +
+            MainWindow::ConnectionSettings::tabArgument[1]->at(1)->getArgFac()          +  "\n"
 
 );
 //QMessageBox::critical(this, "Error", "No file opened!");
 */
-}
+

@@ -188,6 +188,9 @@ GVCluster GSort::getCluster() { return this->cluster; }
 
 QGraphicsTextItem* GSort::getText() { return this->text; }
 
+QPoint GSort::geteventPressPoint() { return this->eventPressPoint; }
+
+
 
 void GSort::updatePosition() {
 
