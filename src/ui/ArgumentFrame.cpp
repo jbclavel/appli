@@ -1,10 +1,11 @@
 #include "ArgumentFrame.h"
 
 
-ArgumentFrame::ArgumentFrame()
-    {
-
+ArgumentFrame::ArgumentFrame(){
 }
+ArgumentFrame::~ArgumentFrame(){
+}
+
 
 QString ArgumentFrame::getArgNumber(){
     return argNumber;

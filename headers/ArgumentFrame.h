@@ -7,6 +7,7 @@ class ArgumentFrame
 {
 public:
     ArgumentFrame();
+    ~ArgumentFrame();
 
     QString getArgNumber();
     void setArgNumber(QString newArgNumber);

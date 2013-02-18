@@ -138,17 +138,6 @@ protected:
     QAction *actionStatistics;
     QMenu *menuConnection;
     QAction *actionConnection;
-    /*    QAction *action1;
-    QAction *action2;
-    QAction *action3;
-    QAction *action4;
-    QAction *action5;
-    QAction *action6;
-    QAction *action7;
-    QAction *action8;
-    QAction *action9;
-    QAction *action10;
-*/
     QAction *actionNewConnection;
 
     // action for the menu Help
