@@ -20,12 +20,17 @@ public:
     QString getArgFac();
     void setArgFac(QString newArgFac);
 
+    QString getArgOutline();
+    void setArgOutline(QString newArgOutline);
+
 
 private :
     QString argNumber;
     QString argSuf;
     QString argType;
     QString argFac;
+    QString argOutline;
+
 };
 
 #endif

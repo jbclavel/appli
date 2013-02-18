@@ -10,8 +10,17 @@
 #include <iostream>
 #include "ConnectionSettings.h"
 #include "IO.h"
+#include "FunctionForm.h"
+
 
 MainWindow::MainWindow(){
+
+    //arguments type list of new function
+    ConnectionSettings::argTypeList= QStringList() << "Text" << "Process";
+
+    //MainWindow::returnFct()
+    //import of the setting included in the xml file
+    ConnectionSettings::importXMLSettings();
 
     // title
     setWindowTitle("gPH");
@@ -28,7 +37,7 @@ MainWindow::MainWindow(){
     menuEdit =          menuBar()->addMenu("&Edit");
     menuView =          menuBar()->addMenu("&View");
     menuStyles =        menuBar()->addMenu("&Styles");
-    menuWindow =     menuBar()->addMenu("&Window");
+    menuWindow =        menuBar()->addMenu("&Window");
     menuComputation =   menuBar()->addMenu("&Computation");
     menuHelp =          menuBar()->addMenu("&Help");
 
@@ -145,10 +154,53 @@ MainWindow::MainWindow(){
     actionCheckModelType = menuComputation->addAction("Check model type (binary or multivalued)");
     actionStatistics = menuComputation->addAction("Statistics...");
     menuComputation->addSeparator();
-    actionConnection = menuComputation->addAction("New Connection");
+    actionConnection = menuComputation->addAction("Launch a function...");
+    actionNewConnection = menuComputation->addAction("Create a new connection...");
 
-    // disable what does not work well
-    actionComputeReachability->setEnabled(false);
+    /*
+    action1 = menuConnection->addAction("Fct 1");
+    action2 = menuConnection->addAction("Fct 2");
+    action3 = menuConnection->addAction("Fct 3");
+    action4 = menuConnection->addAction("Fct 4");
+    action5 = menuConnection->addAction("Fct 5");
+    action6 = menuConnection->addAction("Fct 6");
+    action7 = menuConnection->addAction("Fct 7");
+    action8 = menuConnection->addAction("Fct 8");
+    action9 = menuConnection->addAction("Fct 9");
+    action10 = menuConnection->addAction("Fct 10");
+
+    menuComputation->addSeparator();
+    actionNewConnection = menuComputation->addAction("New Connection");
+
+    //
+    action1->setVisible(false);
+    action2->setVisible(false);
+    action3->setVisible(false);
+    action4->setVisible(false);
+    action5->setVisible(false);
+    action6->setVisible(false);
+    action7->setVisible(false);
+    action8->setVisible(false);
+    action9->setVisible(false);
+    action10->setVisible(false);
+
+    action1->setVisible(true);
+    action1->setText(ConnectionSettings::tabFunction[0]->getNameFunction());
+
+    /*
+            action1
+            action2
+            action3
+            action4
+            action5
+            action6
+            action7
+            action8
+            action9
+            action10
+      */
+
+            // disable what does not work well
     actionCheckModelType->setEnabled(false);
 
     // connect the menu Computation
@@ -157,8 +209,10 @@ MainWindow::MainWindow(){
     QObject::connect(actionRunStochasticSimulation, SIGNAL(triggered()), this, SLOT(runStochasticSimulation()));
     QObject::connect(actionCheckModelType, SIGNAL(triggered()), this, SLOT(checkModelType()));
     QObject::connect(actionStatistics, SIGNAL(triggered()), this, SLOT(statistics()));
-    QObject::connect(actionConnection, SIGNAL(triggered()), this, SLOT(openConnection()));
+    QObject::connect(actionConnection, SIGNAL(triggered()), this, SLOT(openConnectionForm()));
+    QObject::connect(actionNewConnection, SIGNAL(triggered()), this, SLOT(openConnection()));
 
+    actionConnection->setShortcut(    QKeySequence(Qt::CTRL + Qt::Key_C));
 
     // action for the menu Help
     actionHelp = menuHelp->addAction("Help !");
@@ -193,6 +247,7 @@ MainWindow::MainWindow(){
         this->actionChangeTextBackgroundColor->setEnabled(false);
         this->actionHideShowTree->setEnabled(false);
         this->actionFindFixpoints->setEnabled(false);
+        this->actionComputeReachability->setEnabled(false);
         this->actionRunStochasticSimulation->setEnabled(false);
         this->actionStatistics->setEnabled(false);
     }
@@ -228,9 +283,11 @@ MyArea* MainWindow::openTab() {
 
         // OpenFile dialog
         QFileDialog* filedialog = new QFileDialog(this);
-        QString file = filedialog->getOpenFileName(this, "Open...");
+
         QDialog* mb = new QDialog(filedialog);
         mb->setWindowFlags(Qt::Window | Qt::WindowTitleHint | Qt::CustomizeWindowHint);
+
+        QString file = filedialog->getOpenFileName(this, "Open...");
 
         // TODO refactor using early returns
         if(file!=NULL) {
@@ -250,11 +307,13 @@ MyArea* MainWindow::openTab() {
 
             if(!alreadyOpen) {
 
-                //Affichage de la fenêtre de chargement
+                //Display loading window
 
                 QLabel* dialogue = new QLabel(mb);
                 mb->setWindowTitle("Please wait...");
-                QMovie* gif = new QMovie("loading_gif.gif");
+                //mb->setFixedSize(300,150);
+                QMovie* gif = new QMovie("loading.gif");
+               // gif->setScaledSize(QSize(300,150));
                 gif->start();
                 dialogue->setMovie(gif);
                 dialogue->show();
@@ -268,7 +327,6 @@ MyArea* MainWindow::openTab() {
                 // parse file
                 Area *area = new Area(this, QString::fromStdString(path));
                 area->mainWindow = this;
-
 
                 try {
 
@@ -364,6 +422,26 @@ void MainWindow::save() {
         // need a std::string instead of a QString
         std::string path =	fichier.toStdString();
 
+        //Selection of output format
+
+        QStringList items;
+        items << tr("Text") << tr("Dump");
+        bool ok;
+        QString typeFile = QInputDialog::getItem(this,"Select output format","Format : ", items, 0, false, &ok);
+
+        //save as
+        if(ok && typeFile == "Dump"){
+
+            PHPtr ph= ((Area*) subWindow->widget())->myArea->getPHPtr();
+            PHIO::writeToFile (path, ph);
+        }
+        else if(ok && typeFile == "Text"){
+
+            std::string ph = ((Area*) subWindow->widget())->textArea->toPlainText().toStdString();
+            IO::writeFile (path, ph);
+        }
+
+        //if(ok && items.
         // need the PHPtr which is associated with the subwindow
         //PHPtr ph= ((MyArea*) subWindow->widget())->getPHPtr();
        // PHPtr ph= ((Area*) subWindow->widget())->myArea->getPHPtr();
@@ -375,11 +453,11 @@ void MainWindow::save() {
         //flux.setCodec("UTF-8");
 
        // flux << ((Area*) subWindow->widget())->textArea->toPlainText() << endl;
-        std::string ph = ((Area*) subWindow->widget())->textArea->toPlainText().toStdString();
+       ///// std::string ph = ((Area*) subWindow->widget())->textArea->toPlainText().toStdString();
 
         // save file
        // PHIO::writeToFile (path, ph);
-         IO::writeFile (path, ph);
+         /////IO::writeFile (path, ph);
        //this->newph.remove();
 
         }else{
@@ -1004,6 +1082,13 @@ void MainWindow::openConnection(){
     ConnectionSettingsWindow = new ConnectionSettings();
     ConnectionSettingsWindow->show();
 }
+
+void MainWindow::openConnectionForm(){
+
+    FunctionFormWindow = new FunctionForm();
+    FunctionFormWindow->show();
+}
+
 
 // disable menus when no open, active tabs
 void MainWindow::disableMenu(QMdiSubWindow* subwindow){

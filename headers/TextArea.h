@@ -39,9 +39,43 @@ public:
       */
     void setNberEdit(int);
 
+    /**
+      * @brief getter of nberTextChange attribut
+      *
+      */
+    int getNberTextChange();
+
+    /**
+      * @brief setter of nberTextChange attribut
+      *
+      */
+    void setNberTextChange(int);
+
+    /**
+      * @brief incrementation of NberTextChange
+      *
+      */
+    void incrementeNberTextChange();
+
+    /**
+      * @brief decrementation of NberTextChange
+      *
+      */
+    void decNberTextChange();
+
 private :
 
+    /**
+      * @brief Number of text change in the textArea
+      *
+      */
     int nberEdit;
+
+    /**
+      * @brief Number of update of the textArea
+      *
+      */
+    int nberTextChange;
 
 signals:
 

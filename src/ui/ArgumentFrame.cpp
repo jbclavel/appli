@@ -38,6 +38,15 @@ void ArgumentFrame::setArgFac(QString newArgFac){
     argFac = newArgFac;
 }
 
+QString ArgumentFrame::getArgOutline(){
+    return argOutline;
+}
+
+void ArgumentFrame::setArgOutline(QString newArgOutline){
+    argOutline = newArgOutline;
+}
+
+
 
 
 
