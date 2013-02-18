@@ -278,6 +278,7 @@ void ConnectionSettings::importXMLSettings(){
     readerStream.readNext();
     while (!readerStream.atEnd())
     {
+
         while (readerStream.name() == "Function")
         {
             readerStream.readNext();

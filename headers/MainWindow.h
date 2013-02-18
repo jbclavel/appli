@@ -199,6 +199,12 @@ public slots:
       */
     void exportXMLMetadata();
 
+    /**
+      * @brief imports style and layout data from XML format
+      *
+      */
+    void importXMLMetadata();
+
     // menu view
 
     /**

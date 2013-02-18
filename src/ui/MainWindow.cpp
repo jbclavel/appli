@@ -55,7 +55,7 @@ MainWindow::MainWindow()
     actionDot = menuExport->addAction("DOT graph");
     actionExportXMLData = menuExport->addAction("Style and Layout");
     menuImport = menuFile->addMenu("Import");
-    actionForimport = menuImport->addAction("Au travail Remi !");
+    actionForimport = menuImport->addAction("Style and Layout");
     menuFile->addSeparator();
     actionClose = menuFile->addAction("Close");
     actionQuit = menuFile->addAction("Quit");
@@ -81,7 +81,7 @@ MainWindow::MainWindow()
     QObject::connect(actionClose,   SIGNAL(triggered()), this, SLOT(closeTab()));
     QObject::connect(actionExportXMLData, SIGNAL(triggered()), this, SLOT(exportXMLMetadata()));
     QObject::connect(actionDot, SIGNAL(triggered()), this, SLOT(exportDot()));
-    QObject::connect(actionForimport, SIGNAL(triggered()), this, SLOT(openTab()));
+    QObject::connect(actionForimport, SIGNAL(triggered()), this, SLOT(importXMLMetadata()));
 
     // actions for the menu Edit
     actionUndo = menuEdit->addAction("Undo");
@@ -311,12 +311,10 @@ MyArea* MainWindow::openTab() {
             if(!alreadyOpen) {
 
                 //Display loading window
-
                 QLabel* dialogue = new QLabel(mb);
                 mb->setWindowTitle("Please wait...");
-                //mb->setFixedSize(300,150);
                 QMovie* gif = new QMovie("loading.gif");
-               // gif->setScaledSize(QSize(300,150));
+                gif->setScaledSize(QSize(300,150));
                 gif->start();
                 dialogue->setMovie(gif);
                 dialogue->show();
@@ -552,6 +550,146 @@ void MainWindow::exportXMLMetadata(){
 
     } else QMessageBox::critical(this, "Error", "No file opened!");
 
+}
+
+// method to import style and layout from XML format
+void MainWindow::importXMLMetadata(){
+    if(!this->getCentraleArea()->subWindowList().isEmpty()){
+
+        // OpenFile dialog
+        QString xmlfile = QFileDialog::getOpenFileName(this, "Import preferences", QString(),"*.xml");
+
+        QFile input(xmlfile);
+
+
+        QXmlStreamReader stream(&input) ;
+        Area* area = (Area*)this->getCentraleArea()->currentSubWindow()->widget();
+        MyArea* myarea = ((Area*)this->getCentraleArea()->currentSubWindow()->widget())->myArea;
+        //QMessageBox::information(this,"zero allo?", "zero allo?");
+        input.open(QFile::ReadOnly | QFile::Text);
+
+        stream.readNext();
+        //QMessageBox::information(this,"premier allo?", "premier allo?");
+
+        while (!stream.atEnd())
+        {
+            //QMessageBox::information(this,"deuxième allo?", "Je suis en dehors de global");
+            while (stream.name()=="global")
+            {
+                stream.readNext();
+                //QMessageBox::information(this,"allo?", "Je suis dans global");
+                while (stream.isStartElement()==false)
+                {
+                    stream.readNext();
+                }
+
+                //QMessageBox::information(this,"allo0?", "Je suis toujours dans global");
+                if (stream.name() == "ph_file")
+                {
+                  //QMessageBox::information(this,"Je suis dans ph file", "Je suis dans ph file");
+                  stream.readNext();
+                  while (stream.isStartElement()==false)
+                  {
+                      stream.readNext();
+                  }
+
+                  if (stream.name()=="name")
+                  {
+                      QMessageBox::information(this,"Info", "Vous allez importer un fichier de preference pour le modele "+stream.readElementText());
+                      stream.readNext();
+                      while (stream.isStartElement()==false)
+                      {
+                          stream.readNext();
+                      }
+                  }
+
+                  if (stream.name() == "path")
+                  {
+                                   //QMessageBox::information(this,"allo0?", "Je suis dans le path");
+                                   QString PATH = stream.readElementText();
+                                   if (PATH!=area->path)
+                                   {
+                                       QMessageBox::critical(this,"Error","Preferences file does not refer to the current opened file");
+                                       break;
+                                   }
+                                   stream.readNext();
+                                   while (stream.isStartElement()==false)
+                                   {
+                                       stream.readNext();
+                                   }
+                               }
+
+
+                 }
+
+                 if (stream.name()=="styles")
+                 {
+                               //QMessageBox::information(this,"allo2?", "Je suis dans styles");
+                               stream.readNext();
+                               while (stream.isStartElement()==false)
+                               {
+                                   stream.readNext();
+                               }
+                               if(stream.name() == "bg_color")
+                               {
+                                       QString color = stream.readElementText();
+                                       myarea->getPHPtr()->getGraphicsScene()->setBackgroundBrush(QBrush(QColor(color)));
+                                       //QMessageBox::information(this,"Salut","Je suis dans bg color");
+                                       stream.readNext();
+                                       while (stream.isStartElement()==false)
+                                       {
+                                           stream.readNext();
+                                       }
+                               }
+                               if(stream.name() == "sort_color")
+                               {
+                                        QString color = stream.readElementText();
+                                        // get the map of all the gsorts in the myArea, related to the name of the sorts
+                                        map<string, GSortPtr> sortList = myarea->getPHPtr()->getGraphicsScene()->getGSorts();
+                                        map<string, GSortPtr>::iterator it;
+                                        if (!QColor(color).isValid()) {
+                                            return ;
+                                        } else {
+                                                for(it=sortList.begin(); it!=sortList.end(); it++) {
+                                                // for all the GSort in the map, set the brush
+                                                it->second->getRect()->setBrush(QBrush(QColor(color)));
+                                                QMessageBox::information(this,"ça va ?", "Je suis sur le point de changer la couleur des sortes");
+                                            }
+                                        }
+                                        QMessageBox::information(this,"ça va ?", "Je suis dans sort color");
+                                        stream.readNext();
+                                        while (stream.isStartElement()==false)
+                                        {
+                                            stream.readNext();
+                                        }
+                                }
+                                stream.readNext();
+
+                                while (stream.isStartElement()==false)
+                                {
+                                        stream.readNext();
+                                }
+
+                  }
+                  while(stream.isStartElement()==false)
+                       if(stream.atEnd()==true){
+                           break;
+                           }else{
+                   stream.readNext();
+                       }
+
+
+                 }
+            stream.readNext();
+
+           }
+
+
+
+
+    } else {
+     QMessageBox::critical(this,"Error","No file opened");
+    }
 }
 
 // method to adjust the view
