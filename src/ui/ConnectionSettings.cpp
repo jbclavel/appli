@@ -256,10 +256,19 @@ void ConnectionSettings::exportXMLSettings(){
         output.close();
 
     }
+    ConnectionSettings::importXMLSettings();
 }
 
 //import function called when the application boots
 void ConnectionSettings::importXMLSettings(){
+
+    if(ConnectionSettings::tabFunction.size()!=0){
+        for(int i=0; i<ConnectionSettings::tabFunction.size(); i++){
+            tabFunction[i]->~FuncFrame();
+        }
+        //QMessageBox::critical(this, "Error", QString::number(ConnectionSettings::tabFunction.size()));
+    }
+    //ConnectionSettings::tabArgument
 
     QFile input("xmlConnectionSettings.xml");
     QXmlStreamReader readerStream;
@@ -371,9 +380,6 @@ void ConnectionSettings::importXMLSettings(){
     }
     input.close();
 
-    for (int i=0; i <ConnectionSettings::tabFunction.size(); i++){
-        ConnectionSettings::tabFunction[i]->setArguments(*(ConnectionSettings::tabArgument[i]));
-    }
 }
 
 //slot called when the save button is triggered

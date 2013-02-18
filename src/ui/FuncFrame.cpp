@@ -1,9 +1,10 @@
 #include "FuncFrame.h"
 
 
-FuncFrame::FuncFrame()
-    {
+FuncFrame::FuncFrame(){
+}
 
+FuncFrame::~FuncFrame(){
 }
 
 QString FuncFrame::getNameFunction(){
@@ -28,13 +29,5 @@ QString FuncFrame::getNbArgument(){
 
 void FuncFrame::setNbArgument(QString newNbArgument){
     nbArgument = newNbArgument;
-}
-
-std::vector<ArgumentFrame*> FuncFrame::getArguments(){
-    return arguments;
-}
-
-void FuncFrame::setArguments(std::vector<ArgumentFrame*> newArguments){
-    arguments = newArguments;
 }
 

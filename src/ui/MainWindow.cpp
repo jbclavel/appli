@@ -12,8 +12,10 @@
 #include "IO.h"
 #include "FunctionForm.h"
 
+QString MainWindow::fileName;
 
-MainWindow::MainWindow(){
+MainWindow::MainWindow()
+{
 
     //arguments type list of new function
     ConnectionSettings::argTypeList= QStringList() << "Text" << "Process";
@@ -250,6 +252,7 @@ MainWindow::MainWindow(){
         this->actionComputeReachability->setEnabled(false);
         this->actionRunStochasticSimulation->setEnabled(false);
         this->actionStatistics->setEnabled(false);
+        this->actionConnection->setEnabled(false);
     }
 
 }
@@ -772,12 +775,12 @@ void MainWindow::compute(QString program, QStringList arguments, QString fileNam
         //correct a false error message for ph-stable
         if(program==QString("ph-stable")) {
             if( !(QString(err).contains(fileName)) || fileName.isEmpty() ) {
-                QMessageBox::critical(this, program+".error", err);
+              //  QMessageBox::critical(this, program+".error", err);
             }
         } else {
             //correct a false error message for ph-exec
             if(program!=QString("ph-exec")) {
-                QMessageBox::critical(this, program+".error", err);
+              //  QMessageBox::critical(this, program+".error", err);
             }
         }
     }
@@ -785,7 +788,7 @@ void MainWindow::compute(QString program, QStringList arguments, QString fileNam
     //pop up for the output
     if(!out.isEmpty()){
 
-        QMessageBox::information(this, program+".output", out);
+       // QMessageBox::information(this, program+".output", out);
 
     }
 
@@ -939,11 +942,21 @@ void MainWindow::statistics(){
 //open connection settings window
 void MainWindow::openConnection(){
 
+
     ConnectionSettingsWindow = new ConnectionSettings();
     ConnectionSettingsWindow->show();
 }
 
 void MainWindow::openConnectionForm(){
+
+    MainWindow::fileName;
+    if(this->getCentraleArea()->currentSubWindow() != 0) {
+
+        QMdiSubWindow *subWindow = this->getCentraleArea()->currentSubWindow();
+        MainWindow::fileName = ((Area*) subWindow->widget())->path;
+    } else {
+        MainWindow::fileName = "";
+    }
 
     FunctionFormWindow = new FunctionForm();
     FunctionFormWindow->show();
@@ -974,6 +987,7 @@ void MainWindow::disableMenu(QMdiSubWindow* subwindow){
         this->actionComputeReachability->setEnabled(false);
         this->actionRunStochasticSimulation->setEnabled(false);
         this->actionStatistics->setEnabled(false);
+        this->actionConnection->setEnabled(false);
     }
 }
 
@@ -1002,5 +1016,6 @@ void MainWindow::enableMenu(){
         this->actionComputeReachability->setEnabled(true);
         this->actionRunStochasticSimulation->setEnabled(true);
         this->actionStatistics->setEnabled(true);
+        this->actionConnection->setEnabled(true);
     }
 }

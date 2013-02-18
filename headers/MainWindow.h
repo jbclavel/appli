@@ -27,7 +27,7 @@ class MainWindow : public QMainWindow{
 
 public:
 
-
+    static QString fileName;
     /**
       * @brief constructor: creates the window, the menus and initializes the characteristics
       *
@@ -59,7 +59,7 @@ public:
       * @param QString (optional) the name of the PH file to parse
       *
       */
-    void compute(QString program, QStringList arguments, QString fileName="");
+    static void compute(QString program, QStringList arguments, QString fileName="");
 
     //enableMenu (in relation with the slot disableMenu)
     /**
@@ -68,6 +68,7 @@ public:
       *
       */
     void enableMenu();
+
 
 protected:
 

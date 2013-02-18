@@ -164,26 +164,15 @@ void FunctionForm::fctBack(){
 }
 
 void FunctionForm::launchCompute(){
-    /*//void MainWindow::compute(QString program, QStringList arguments, QString fileName)
 
     QString program ="ph-reach";
-   // QString program = ConnectionSettings::tabFunction[indexFctChosen]->getProgram();
     QStringList arguments;
 
-    // get the filename associated with the current subWindow
-    QString fileName;
-    if(this->getCentraleArea()->currentSubWindow() != 0) {
-        QMdiSubWindow *subWindow = this->getCentraleArea()->currentSubWindow();
-        fileName = ((Area*) subWindow->widget())->path;
-    } else {
-        fileName = "";
-    }
+    arguments << "--no-debug" << "-i" << MainWindow::fileName << "a" << "1" ;
 
-    arguments << "--no-debug" << "-i" << fileName << "a" << "1" ;
 
-    //call MainWindow::compute
-    MainWindow::compute(program, arguments);
-*/// a utiliser : parentWidget +changer le constructeur de main windows et FunctionForm
+
+    MainWindow::compute(program, arguments, MainWindow::fileName);
 
 }
 
