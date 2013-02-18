@@ -1087,7 +1087,6 @@ void MainWindow::openConnection(){
 
 void MainWindow::openConnectionForm(){
 
-    MainWindow::fileName;
     if(this->getCentraleArea()->currentSubWindow() != 0) {
 
         QMdiSubWindow *subWindow = this->getCentraleArea()->currentSubWindow();

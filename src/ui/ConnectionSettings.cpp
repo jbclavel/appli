@@ -264,9 +264,8 @@ void ConnectionSettings::importXMLSettings(){
 
     if(ConnectionSettings::tabFunction.size()!=0){
         for(int i=0; i<ConnectionSettings::tabFunction.size(); i++){
-            tabFunction[i]->~FuncFrame();
+            ConnectionSettings::tabFunction[i]->~FuncFrame();
         }
-        //QMessageBox::critical(this, "Error", QString::number(ConnectionSettings::tabFunction.size()));
     }
     //ConnectionSettings::tabArgument
 
