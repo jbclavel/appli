@@ -9,6 +9,8 @@ class FuncFrame
 
 public:
     FuncFrame();
+    ~FuncFrame();
+
     QString getNameFunction();
     void setNameFunction(QString newNameFunction);
 
@@ -17,11 +19,6 @@ public:
 
     QString getNbArgument();
     void setNbArgument(QString newNbArgument);
-
-    std::vector<ArgumentFrame*> getArguments();
-    void setArguments(std::vector<ArgumentFrame*> newArguments);
-
-
 
 private :
     QString nameFunction;
