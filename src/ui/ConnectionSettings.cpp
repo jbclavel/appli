@@ -4,8 +4,6 @@
 #include "FuncFrame.h"
 #include "ArgumentFrame.h"
 
-std::vector<FuncFrame*> ConnectionSettings::tabFunction;
-std::vector< std::vector<ArgumentFrame*>* > ConnectionSettings::tabArgument;
 
 
 ConnectionSettings::ConnectionSettings():
@@ -31,9 +29,6 @@ ConnectionSettings::ConnectionSettings():
     //Second group : Specify argument
     gridTable = new QGridLayout;
 
-        //combo box's list(argument types)
-    argTypeList= QStringList() << "Text" << "Process";
-
         //call the function which build the table
     ConnectionSettings::buildTable();
 
@@ -44,15 +39,16 @@ ConnectionSettings::ConnectionSettings():
     enTeteArgTyp = new QLabel("Type", this);
     enTeteArgSuf = new QLabel("Suffix", this);
     enTeteArgFac = new QLabel("Facultatif ", this);
+    enTeteArgOutline = new QLabel("Outline ", this);
 
     gridTable->addWidget(enTeteArgNum,0, 0);
     gridTable->addWidget(enTeteArgTyp,0, 1);
     gridTable->addWidget(enTeteArgSuf,0, 2);
     gridTable->addWidget(enTeteArgFac,0, 3);
+    gridTable->addWidget(enTeteArgOutline,0, 4);
 
     groupTable = new QGroupBox("Specify argument(s) :");
     groupTable->setLayout(tableLayout);
-
 
     //Button Save and Cancel
     Save = new QPushButton("&Save");
@@ -62,10 +58,9 @@ ConnectionSettings::ConnectionSettings():
     boutonsLayout->addWidget(Cancel);
 
         // Connexions des signaux et des slots
-    connect(Cancel, SIGNAL(clicked()), this, SLOT(quit()));
-    connect(Save, SIGNAL(clicked()), this, SLOT(exportXMLSettings()));
     connect(nbArg, SIGNAL(valueChanged(int)), this, SLOT(buildTable()));
-
+    connect(Save, SIGNAL(clicked()), this, SLOT(validationConnectionSettings()));
+    connect(Cancel, SIGNAL(clicked()), this, SLOT(quit()));
 
     //Mise en page générale
     globalLayout = new QVBoxLayout;
@@ -87,16 +82,19 @@ void ConnectionSettings::buildTable(){
             tabArgNumber.push_back(new QLabel("Arg " + nbArg->text() + " :" , this));
 
             tabArgType.push_back(new QComboBox(this));
-            tabArgType[tabArgType.size()-1]->addItems(argTypeList);
+            tabArgType[tabArgType.size()-1]->addItems(ConnectionSettings::argTypeList);
 
             tabArgSuf.push_back(new QLineEdit( this));
 
             tabArgfacul.push_back(new QCheckBox("Yes"));
 
+            tabArgOutline.push_back(new QLineEdit( this));
+
             gridTable->addWidget(tabArgNumber[tabArgNumber.size()-1], nbArg->text().toInt(), 0);
             gridTable->addWidget(tabArgType[tabArgType.size()-1], nbArg->text().toInt(), 1);
             gridTable->addWidget(tabArgSuf[tabArgSuf.size()-1], nbArg->text().toInt(), 2);
             gridTable->addWidget(tabArgfacul[tabArgfacul.size()-1],nbArg->text().toInt(),3);
+            gridTable->addWidget(tabArgOutline[tabArgOutline.size()-1],nbArg->text().toInt(),4);
 
             nbArgPrcdt = nbArg->text().toInt();
 
@@ -105,13 +103,14 @@ void ConnectionSettings::buildTable(){
                     tabArgNumber[tabArgNumber.size()-1]->~QLabel();
                     tabArgType[tabArgType.size()-1]->~QComboBox();
                     tabArgSuf[tabArgSuf.size()-1]->~QLineEdit();
-
                     tabArgfacul[tabArgfacul.size()-1]->~QCheckBox();
+                    tabArgOutline[tabArgOutline.size()-1]->~QLineEdit();
 
                     tabArgNumber.pop_back();
                     tabArgType.pop_back();
                     tabArgSuf.pop_back();
                     tabArgfacul.pop_back();
+                    tabArgOutline.pop_back();
 
                     nbArgPrcdt = nbArg->text().toInt();
             }
@@ -135,11 +134,14 @@ ConnectionSettings::~ConnectionSettings(){
                     tabArgType[i]->~QComboBox();
                     tabArgSuf[i]->~QLineEdit();
                     tabArgfacul[i]->~QCheckBox();
+                    tabArgOutline[i]->~QLineEdit();
 
                     tabArgNumber.pop_back();
                     tabArgType.pop_back();
                     tabArgSuf.pop_back();
                     tabArgfacul.pop_back();
+                    tabArgOutline.pop_back();
+
                 }
             }
 
@@ -158,6 +160,7 @@ ConnectionSettings::~ConnectionSettings(){
             enTeteArgTyp->~QLabel();
             enTeteArgSuf->~QLabel();
             enTeteArgFac->~QLabel();
+            enTeteArgOutline->~QLabel();
 
             tableLayout->~QVBoxLayout();
             groupTable->~QGroupBox();
@@ -172,6 +175,7 @@ ConnectionSettings::~ConnectionSettings(){
 
 }
 
+//export function
 void ConnectionSettings::exportXMLSettings(){
 
     //this->importXMLSettings();
@@ -189,6 +193,7 @@ void ConnectionSettings::exportXMLSettings(){
         writerStream.writeStartDocument();
         writerStream.writeStartElement("FunctionSettings");
 
+//paste previous functions
        int i;
        int j;
        for(i=0; i< ConnectionSettings::tabFunction.size(); i++){
@@ -207,13 +212,14 @@ void ConnectionSettings::exportXMLSettings(){
                    writerStream.writeTextElement("ArgType", ConnectionSettings::tabArgument[i]->at(j)->getArgType());
                    writerStream.writeTextElement("ArgSuf", ConnectionSettings::tabArgument[i]->at(j)->getArgSuf());
                    writerStream.writeTextElement("ArgFacul", ConnectionSettings::tabArgument[i]->at(j)->getArgFac());
+                   writerStream.writeTextElement("ArgOutline", ConnectionSettings::tabArgument[i]->at(j)->getArgOutline());
                writerStream.writeEndElement();
            }
 
            writerStream.writeEndElement();
            }
 
-//fonction courante
+//add new function
         writerStream.writeStartElement("Function");
 
         writerStream.writeStartElement("Definition");
@@ -229,6 +235,7 @@ void ConnectionSettings::exportXMLSettings(){
                 writerStream.writeTextElement("ArgType", tabArgType[k]->currentText());
                 writerStream.writeTextElement("ArgSuf", tabArgSuf[k]->text());
                 writerStream.writeTextElement("ArgFacul", QString::number(tabArgfacul[k]->isChecked()));
+                writerStream.writeTextElement("ArgOutline", tabArgOutline[k]->text());
             writerStream.writeEndElement();
         }
 
@@ -238,6 +245,7 @@ void ConnectionSettings::exportXMLSettings(){
                 writerStream.writeTextElement("ArgType", "Sans Argument");
                 writerStream.writeTextElement("ArgSuf", "Sans Argument");
                 writerStream.writeTextElement("ArgFacul", "Sans Argument");
+                writerStream.writeTextElement("ArgOutline", "Sans Argument");
             writerStream.writeEndElement();
         }
 
@@ -250,7 +258,7 @@ void ConnectionSettings::exportXMLSettings(){
     }
 }
 
-
+//import function called when the application boots
 void ConnectionSettings::importXMLSettings(){
 
     QFile input("xmlConnectionSettings.xml");
@@ -261,6 +269,7 @@ void ConnectionSettings::importXMLSettings(){
     readerStream.readNext();
     while (!readerStream.atEnd())
     {
+
         while (readerStream.name() == "Function")
         {
             readerStream.readNext();
@@ -334,6 +343,14 @@ void ConnectionSettings::importXMLSettings(){
                     if(readerStream.name() == "ArgFacul")
                     {
                         ConnectionSettings::tabArgument[ConnectionSettings::tabArgument.size()-1]->at(ConnectionSettings::tabArgument[ConnectionSettings::tabArgument.size()-1]->size()-1)->setArgFac(readerStream.readElementText());
+                        readerStream.readNext();
+
+                        while(readerStream.isStartElement()==false)
+                        readerStream.readNext();
+                    }
+                    if(readerStream.name() == "ArgOutline")
+                    {
+                        ConnectionSettings::tabArgument[ConnectionSettings::tabArgument.size()-1]->at(ConnectionSettings::tabArgument[ConnectionSettings::tabArgument.size()-1]->size()-1)->setArgOutline(readerStream.readElementText());
 
                         while(readerStream.isStartElement()==false)
                             if(readerStream.atEnd()==true){
@@ -360,7 +377,19 @@ void ConnectionSettings::importXMLSettings(){
     }
 }
 
+//slot called when the save button is triggered
+void ConnectionSettings::validationConnectionSettings(){
 
+    int reponse = QMessageBox::question(this, "Connection Settings validation", "Do you really want to save these settings ?",
+                            QMessageBox::No | QMessageBox::Yes);
+
+    if (reponse == QMessageBox::Yes)
+        {
+            exportXMLSettings();
+            QMessageBox::information(this, "Connection Setting Validated", "Export done");
+            this->quit();
+        }
+}
 /*
     QMessageBox::information(this, "err",
         QString::number(MainWindow::ConnectionSettings::tabFunction.size())         +  "\n" +

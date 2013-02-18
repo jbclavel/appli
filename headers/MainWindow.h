@@ -4,6 +4,7 @@
 #include <qthread.h>
 #include "ConnectionSettings.h"
 #include <vector>
+#include "FunctionForm.h"
 
 /**
   * @file MainWindow.h
@@ -25,6 +26,7 @@ class MainWindow : public QMainWindow{
 
 
 public:
+
 
     /**
       * @brief constructor: creates the window, the menus and initializes the characteristics
@@ -75,6 +77,7 @@ protected:
       */
     QMdiArea* centraleArea;
     ConnectionSettings* ConnectionSettingsWindow;
+    FunctionForm* FunctionFormWindow;
 
     // QMenu
     QMenu *menuFile;
@@ -133,7 +136,8 @@ protected:
     QAction *actionCheckModelType;
     QAction *actionStatistics;
     QMenu *menuConnection;
-    QAction *action1;
+    QAction *actionConnection;
+    /*    QAction *action1;
     QAction *action2;
     QAction *action3;
     QAction *action4;
@@ -143,6 +147,7 @@ protected:
     QAction *action8;
     QAction *action9;
     QAction *action10;
+*/
     QAction *actionNewConnection;
 
     // action for the menu Help
@@ -192,6 +197,12 @@ public slots:
       *
       */
     void exportXMLMetadata();
+
+    /**
+      * @brief imports style and layout data from XML format
+      *
+      */
+    void importXMLMetadata();
 
     // menu view
 
@@ -317,4 +328,6 @@ public slots:
 
     void openConnection();
 
-};
+    void openConnectionForm();
+
+    };
