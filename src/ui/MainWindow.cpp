@@ -12,10 +12,12 @@
 #include "IO.h"
 #include "FunctionForm.h"
 
-QString MainWindow::fileName;
+MainWindow* MainWindow::mwThis;
 
 MainWindow::MainWindow()
 {
+    // static variable
+    MainWindow::mwThis = this;
 
     //arguments type list of new function
     ConnectionSettings::argTypeList= QStringList() << "Text" << "Process";
@@ -159,49 +161,6 @@ MainWindow::MainWindow()
     actionConnection = menuComputation->addAction("Launch a function...");
     actionNewConnection = menuComputation->addAction("Create a new connection...");
 
-    /*
-    action1 = menuConnection->addAction("Fct 1");
-    action2 = menuConnection->addAction("Fct 2");
-    action3 = menuConnection->addAction("Fct 3");
-    action4 = menuConnection->addAction("Fct 4");
-    action5 = menuConnection->addAction("Fct 5");
-    action6 = menuConnection->addAction("Fct 6");
-    action7 = menuConnection->addAction("Fct 7");
-    action8 = menuConnection->addAction("Fct 8");
-    action9 = menuConnection->addAction("Fct 9");
-    action10 = menuConnection->addAction("Fct 10");
-
-    menuComputation->addSeparator();
-    actionNewConnection = menuComputation->addAction("New Connection");
-
-    //
-    action1->setVisible(false);
-    action2->setVisible(false);
-    action3->setVisible(false);
-    action4->setVisible(false);
-    action5->setVisible(false);
-    action6->setVisible(false);
-    action7->setVisible(false);
-    action8->setVisible(false);
-    action9->setVisible(false);
-    action10->setVisible(false);
-
-    action1->setVisible(true);
-    action1->setText(ConnectionSettings::tabFunction[0]->getNameFunction());
-
-    /*
-            action1
-            action2
-            action3
-            action4
-            action5
-            action6
-            action7
-            action8
-            action9
-            action10
-      */
-
             // disable what does not work well
     actionCheckModelType->setEnabled(false);
 
@@ -213,6 +172,7 @@ MainWindow::MainWindow()
     QObject::connect(actionStatistics, SIGNAL(triggered()), this, SLOT(statistics()));
     QObject::connect(actionConnection, SIGNAL(triggered()), this, SLOT(openConnectionForm()));
     QObject::connect(actionNewConnection, SIGNAL(triggered()), this, SLOT(openConnection()));
+    //QObject::connect(menuComputation, SIGNAL(hovered(QAction*)), this, SLOT(openConnection()));
 
     actionConnection->setShortcut(    QKeySequence(Qt::CTRL + Qt::Key_C));
 
@@ -568,16 +528,17 @@ void MainWindow::importXMLMetadata(){
         //QMessageBox::information(this,"zero allo?", "zero allo?");
         input.open(QFile::ReadOnly | QFile::Text);
 
-        stream.readNext();
+
         //QMessageBox::information(this,"premier allo?", "premier allo?");
 
         while (!stream.atEnd())
         {
             //QMessageBox::information(this,"deuxième allo?", "Je suis en dehors de global");
+
             while (stream.name()=="global")
             {
                 stream.readNext();
-                //QMessageBox::information(this,"allo?", "Je suis dans global");
+                QMessageBox::information(this,"allo?", "Je suis dans global");
                 while (stream.isStartElement()==false)
                 {
                     stream.readNext();
@@ -641,7 +602,8 @@ void MainWindow::importXMLMetadata(){
                                            stream.readNext();
                                        }
                                }
-                               if(stream.name() == "sort_color")
+
+                               /*if(stream.name() == "sort_color")
                                {
                                         QString color = stream.readElementText();
                                         // get the map of all the gsorts in the myArea, related to the name of the sorts
@@ -653,7 +615,7 @@ void MainWindow::importXMLMetadata(){
                                                 for(it=sortList.begin(); it!=sortList.end(); it++) {
                                                 // for all the GSort in the map, set the brush
                                                 it->second->getRect()->setBrush(QBrush(QColor(color)));
-                                                QMessageBox::information(this,"ça va ?", "Je suis sur le point de changer la couleur des sortes");
+                                                QMessageBox::information(this,"ça va ?", "Je suis sur le point de changer la couleur de la sorte en"+ color);
                                             }
                                         }
                                         QMessageBox::information(this,"ça va ?", "Je suis dans sort color");
@@ -662,7 +624,7 @@ void MainWindow::importXMLMetadata(){
                                         {
                                             stream.readNext();
                                         }
-                                }
+                                }*/
                                 stream.readNext();
 
                                 while (stream.isStartElement()==false)
@@ -671,15 +633,80 @@ void MainWindow::importXMLMetadata(){
                                 }
 
                   }
-                  while(stream.isStartElement()==false)
+
+
+
+                 /* while(stream.isStartElement()==false)
                        if(stream.atEnd()==true){
                            break;
                            }else{
                    stream.readNext();
                        }
+                  */
 
 
-                 }
+            }
+
+
+
+            while (stream.name()=="sorts")
+            {
+                QMessageBox::information(this,"Salut","Je suis dans sorts");
+                stream.readNext();
+                while (stream.isStartElement()==false)
+                {
+                    stream.readNext();
+                }
+
+                if (stream.name()=="sort")
+                {
+                    QMessageBox::information(this,"Salut","Je suis dans sort");
+                    stream.readNext();
+                    while (stream.isStartElement()==false)
+                    {
+                        stream.readNext();
+                    }
+
+
+                    if (stream.name()=="pos")
+                    {
+                        QMessageBox::information(this,"Salut","Je suis dans pos");
+                        stream.readNext();
+                        while (stream.isStartElement()==false)
+                        {
+                            stream.readNext();
+                        }
+                    }
+                    if (stream.name()=="size")
+                    {
+                        QMessageBox::information(this,"Salut","Je suis dans size");
+                        stream.readNext();
+                        while (stream.isStartElement()==false)
+                        {
+                            stream.readNext();
+                        }
+                    }
+
+                    if (stream.name()=="color")
+                    {
+                        QString color = stream.readElementText();
+                        // get the map of all the gsorts in the myArea, related to the name of the sorts
+                        map<string, GSortPtr> sortList = myarea->getPHPtr()->getGraphicsScene()->getGSorts();
+                        map<string, GSortPtr>::iterator it;
+                        if (!QColor(color).isValid()) {
+                            return ;
+                        } else {
+                                for(it=sortList.begin(); it!=sortList.end(); it++) {
+                                // for all the GSort in the map, set the brush
+                                it->second->getRect()->setBrush(QBrush(QColor(color)));
+                                QMessageBox::information(this,"ça va ?", "Je suis sur le point de changer la couleur de la sorte en"+ color);
+                            }
+                        }
+                     }
+                  }
+
+              }
+
             stream.readNext();
 
            }
@@ -913,12 +940,12 @@ void MainWindow::compute(QString program, QStringList arguments, QString fileNam
         //correct a false error message for ph-stable
         if(program==QString("ph-stable")) {
             if( !(QString(err).contains(fileName)) || fileName.isEmpty() ) {
-              //  QMessageBox::critical(this, program+".error", err);
+                QMessageBox::critical(this, program+".error", err);
             }
         } else {
             //correct a false error message for ph-exec
             if(program!=QString("ph-exec")) {
-              //  QMessageBox::critical(this, program+".error", err);
+                QMessageBox::critical(this, program+".error", err);
             }
         }
     }
@@ -926,7 +953,7 @@ void MainWindow::compute(QString program, QStringList arguments, QString fileNam
     //pop up for the output
     if(!out.isEmpty()){
 
-       // QMessageBox::information(this, program+".output", out);
+        QMessageBox::information(this, program+".output", out);
 
     }
 
@@ -1087,17 +1114,18 @@ void MainWindow::openConnection(){
 
 void MainWindow::openConnectionForm(){
 
-    MainWindow::fileName;
+    QString fileName;
     if(this->getCentraleArea()->currentSubWindow() != 0) {
 
         QMdiSubWindow *subWindow = this->getCentraleArea()->currentSubWindow();
-        MainWindow::fileName = ((Area*) subWindow->widget())->path;
+        fileName = ((Area*) subWindow->widget())->path;
     } else {
-        MainWindow::fileName = "";
+        fileName = "";
     }
 
-    FunctionFormWindow = new FunctionForm();
+    FunctionFormWindow = new FunctionForm(fileName);
     FunctionFormWindow->show();
+
 }
 
 
@@ -1154,6 +1182,8 @@ void MainWindow::enableMenu(){
         this->actionComputeReachability->setEnabled(true);
         this->actionRunStochasticSimulation->setEnabled(true);
         this->actionStatistics->setEnabled(true);
-        this->actionConnection->setEnabled(true);
+        if(ConnectionSettings::tabFunction.size()!=0){
+            this->actionConnection->setEnabled(true);
+        }
     }
 }

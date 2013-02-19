@@ -7,7 +7,7 @@
 
 
 ConnectionSettings::ConnectionSettings():
-    QWidget()
+    QDialog()
 {
     // First group : Define the new function
     name = new QLineEdit;
@@ -254,21 +254,28 @@ void ConnectionSettings::exportXMLSettings(){
         writerStream.writeEndDocument();
 
         output.close();
-
     }
     ConnectionSettings::importXMLSettings();
+    MainWindow::mwThis->enableMenu();
 }
 
 //import function called when the application boots
 void ConnectionSettings::importXMLSettings(){
 
+    //reset tabFunction and tabArgument
     if(ConnectionSettings::tabFunction.size()!=0){
         for(int i=0; i<ConnectionSettings::tabFunction.size(); i++){
-            tabFunction[i]->~FuncFrame();
+            ConnectionSettings::tabFunction[i]->~FuncFrame();
+
+            for(int j=0; j<ConnectionSettings::tabArgument[i]->size();j++){
+                ConnectionSettings::tabArgument[i]->at(j)->~ArgumentFrame();
+            }
+            ConnectionSettings::tabArgument[i]->clear();
         }
-        //QMessageBox::critical(this, "Error", QString::number(ConnectionSettings::tabFunction.size()));
+        ConnectionSettings::tabFunction.clear();
+        ConnectionSettings::tabArgument.clear();
+
     }
-    //ConnectionSettings::tabArgument
 
     QFile input("xmlConnectionSettings.xml");
     QXmlStreamReader readerStream;
@@ -380,7 +387,6 @@ void ConnectionSettings::importXMLSettings(){
     readerStream.readNext();
     }
     input.close();
-
 }
 
 //slot called when the save button is triggered
@@ -437,3 +443,4 @@ void ConnectionSettings::validationConnectionSettings(){
 //QMessageBox::critical(this, "Error", "No file opened!");
 */
 
+//MainWindow* castParent = reinterpret_cast<MainWindow*> (parent);//->openConnectionForm();

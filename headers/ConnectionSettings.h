@@ -8,7 +8,8 @@
 
 
 
-class ConnectionSettings : public QWidget
+
+class ConnectionSettings : public QDialog
 {
     Q_OBJECT
 
@@ -27,8 +28,6 @@ class ConnectionSettings : public QWidget
         static std::vector< std::vector<ArgumentFrame*>* > tabArgument;
         static void importXMLSettings();
         static QStringList argTypeList;
-
-
 
     private slots:
         void buildTable();

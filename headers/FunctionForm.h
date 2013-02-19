@@ -5,12 +5,12 @@
 //#include "ArgumentFrame.h"
 //#include "FuncFrame.h"
 
-class FunctionForm : public QWidget
+class FunctionForm : public QDialog
 {
     Q_OBJECT
 
     public:
-        FunctionForm();
+        FunctionForm(QString fileName);
         ~FunctionForm();
 
         //std::vector<QLabel*> tabArgNumber;
@@ -31,6 +31,7 @@ class FunctionForm : public QWidget
 
 
     private:
+        QString pathTab;
         QComboBox *choix;
         QPushButton *Yes;
         QPushButton *Cancel;
