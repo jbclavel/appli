@@ -7,7 +7,7 @@
 
 
 ConnectionSettings::ConnectionSettings():
-    QWidget()
+    QDialog()
 {
     // First group : Define the new function
     name = new QLineEdit;
@@ -254,11 +254,9 @@ void ConnectionSettings::exportXMLSettings(){
         writerStream.writeEndDocument();
 
         output.close();
-
     }
-
     ConnectionSettings::importXMLSettings();
-    //MainWindow::enableMenu();
+    MainWindow::mwThis->enableMenu();
 }
 
 //import function called when the application boots
@@ -389,7 +387,6 @@ void ConnectionSettings::importXMLSettings(){
     readerStream.readNext();
     }
     input.close();
-
 }
 
 //slot called when the save button is triggered
@@ -446,3 +443,4 @@ void ConnectionSettings::validationConnectionSettings(){
 //QMessageBox::critical(this, "Error", "No file opened!");
 */
 
+//MainWindow* castParent = reinterpret_cast<MainWindow*> (parent);//->openConnectionForm();
