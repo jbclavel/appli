@@ -728,7 +728,43 @@ void MainWindow::importXMLMetadata(){
                     }
                     QMessageBox::information(this,"Salut","Je suis sorti du label ");
 
+                    while (stream.name()=="processes")
+                    {
+                        QMessageBox::information(this,"Salut","Je suis dans processes");
+                        stream.readNext();
+                        while (stream.isStartElement()==false)
+                        {
+                            stream.readNext();
+                        }
 
+                        while (stream.name()=="process")
+                        {
+                            stream.readNext();
+                            while (stream.isStartElement()==false)
+                            {
+                                stream.readNext();
+                            }
+
+                            if (stream.name()=="pos")
+                            {
+                                stream.readNext();
+                                while (stream.isStartElement()==false)
+                                {
+                                    stream.readNext();
+                                }
+                            }
+
+                            if (stream.name()=="size")
+                            {
+                                stream.readNext();
+                                while (stream.isStartElement()==false)
+                                {
+                                    stream.readNext();
+                                }
+                            }
+                        }
+                    }
+                    QMessageBox::information(this,"Salut","Je suis sorti du processes ");
 
                  }
                 QMessageBox::information(this,"Salut","Je suis sorti du sort ");
