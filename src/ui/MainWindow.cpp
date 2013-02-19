@@ -538,7 +538,7 @@ void MainWindow::importXMLMetadata(){
             while (stream.name()=="global")
             {
                 stream.readNext();
-                QMessageBox::information(this,"allo?", "Je suis dans global");
+                //QMessageBox::information(this,"allo?", "Je suis dans global");
                 while (stream.isStartElement()==false)
                 {
                     stream.readNext();
@@ -658,9 +658,10 @@ void MainWindow::importXMLMetadata(){
                     stream.readNext();
                 }
 
-                if (stream.name()=="sort")
+                while (stream.name()=="sort")
                 {
-                    QMessageBox::information(this,"Salut","Je suis dans sort");
+                    std::string sortname = stream.attributes().first().value().toString().toStdString();
+                    QMessageBox::information(this,"Salut","Je suis dans le sort "+stream.attributes().first().value().toString());
                     stream.readNext();
                     while (stream.isStartElement()==false)
                     {
@@ -690,22 +691,50 @@ void MainWindow::importXMLMetadata(){
                     if (stream.name()=="color")
                     {
                         QString color = stream.readElementText();
-                        // get the map of all the gsorts in the myArea, related to the name of the sorts
-                        map<string, GSortPtr> sortList = myarea->getPHPtr()->getGraphicsScene()->getGSorts();
-                        map<string, GSortPtr>::iterator it;
-                        if (!QColor(color).isValid()) {
-                            return ;
-                        } else {
-                                for(it=sortList.begin(); it!=sortList.end(); it++) {
-                                // for all the GSort in the map, set the brush
-                                it->second->getRect()->setBrush(QBrush(QColor(color)));
-                                QMessageBox::information(this,"ça va ?", "Je suis sur le point de changer la couleur de la sorte en"+ color);
+                        myarea->getPHPtr()->getGraphicsScene()->getGSort(sortname)->getRect()->setBrush(QBrush(QColor(color)));
+                        stream.readNext();
+                        while (stream.isStartElement()==false)
+                        {
+                            stream.readNext();
+                        }
+                    }
+
+                    while (stream.name()=="label")
+                    {
+                        QMessageBox::information(this,"Salut","Je suis dans label");
+                        stream.readNext();
+                        while (stream.isStartElement()==false)
+                        {
+                            stream.readNext();
+                        }
+
+                        if (stream.name()=="font")
+                        {
+                            stream.readNext();
+                            while (stream.isStartElement()==false)
+                            {
+                                stream.readNext();
                             }
                         }
-                     }
-                  }
 
-              }
+                        if (stream.name()=="pos")
+                        {
+                            stream.readNext();
+                            while (stream.isStartElement()==false)
+                            {
+                                stream.readNext();
+                            }
+                        }
+                    }
+                    QMessageBox::information(this,"Salut","Je suis sorti du label ");
+
+
+
+                 }
+                QMessageBox::information(this,"Salut","Je suis sorti du sort ");
+
+
+             }
 
             stream.readNext();
 

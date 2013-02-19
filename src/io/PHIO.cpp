@@ -270,7 +270,7 @@ void PHIO::exportXMLMetadata(MainWindow *window, QFile &output){
 
         stream.writeEndElement(); // label
 
-        stream.writeStartElement("processes");
+        /*stream.writeStartElement("processes");
         stream.writeAttribute("nb", QString::number(a->getProcesses().size()));
 
         for (ProcessPtr &b : a->getProcesses()){
@@ -290,7 +290,7 @@ void PHIO::exportXMLMetadata(MainWindow *window, QFile &output){
             stream.writeEndElement(); // process
         }
 
-        stream.writeEndElement(); // processes
+        stream.writeEndElement(); // processes*/
 
         stream.writeEndElement(); // sort
     }
