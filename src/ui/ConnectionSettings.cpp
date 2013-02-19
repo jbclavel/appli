@@ -70,7 +70,8 @@ ConnectionSettings::ConnectionSettings():
 
     setLayout(globalLayout);
     setWindowTitle("Connection Settings");
-    resize(400, 450);
+    setModal(true);
+    resize(550, 200);
 
 }
 

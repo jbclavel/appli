@@ -19,6 +19,9 @@ class FunctionForm : public QDialog
         //std::vector<QCheckBox*> tabArgfacul;
         //int nbArgPrcdt;
 
+    signals :
+
+
     private slots:
         //void buildTable();
         //void quit();
@@ -28,6 +31,7 @@ class FunctionForm : public QDialog
         void quit();
         void fctBack();
         void launchCompute();
+        void enableForm(int state);
 
 
     private:
@@ -42,6 +46,8 @@ class FunctionForm : public QDialog
         int indexFctChosen;
         std::vector<QGroupBox*> tabGroupBox;
         std::vector<QFormLayout*> tabQFormLayout;
+        std::vector<QHBoxLayout*> tabQHBox;
+        std::vector<QCheckBox*> tabQcheckBox;
         std::vector<QWidget*> tabLineEdit;
         std::vector<QString*> tabNomLine;
 

@@ -20,9 +20,8 @@ MainWindow::MainWindow()
     MainWindow::mwThis = this;
 
     //arguments type list of new function
-    ConnectionSettings::argTypeList= QStringList() << "Text" << "Process";
+        ConnectionSettings::argTypeList= QStringList() << "Text" << "Entier" << "Boolean" << "Process" << "File" << "Folder" << "Choix";
 
-    //MainWindow::returnFct()
     //import of the setting included in the xml file
     ConnectionSettings::importXMLSettings();
 
