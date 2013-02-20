@@ -60,7 +60,6 @@ class FunctionForm : public QDialog
 
         std::vector<QPushButton*> tabButtonFile;
         std::vector<QPushButton*> tabButtonDirec;
-        std::vector<QString*> tabFileName;
 
 
         QPushButton *Ok;
