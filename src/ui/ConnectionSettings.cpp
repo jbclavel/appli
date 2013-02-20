@@ -256,20 +256,28 @@ void ConnectionSettings::exportXMLSettings(){
         output.close();
 
     }
+
     ConnectionSettings::importXMLSettings();
+    //MainWindow::enableMenu();
 }
 
 //import function called when the application boots
 void ConnectionSettings::importXMLSettings(){
 
-    if(ConnectionSettings::tabFunction.size() != 0){
-
+    //reset tabFunction and tabArgument
+    if(ConnectionSettings::tabFunction.size()!=0){
         for(int i=0; i<ConnectionSettings::tabFunction.size(); i++){
-
             ConnectionSettings::tabFunction[i]->~FuncFrame();
+
+            for(int j=0; j<ConnectionSettings::tabArgument[i]->size();j++){
+                ConnectionSettings::tabArgument[i]->at(j)->~ArgumentFrame();
+            }
+            ConnectionSettings::tabArgument[i]->clear();
         }
+        ConnectionSettings::tabFunction.clear();
+        ConnectionSettings::tabArgument.clear();
+
     }
-    //ConnectionSettings::tabArgument
 
     QFile input("xmlConnectionSettings.xml");
     QXmlStreamReader readerStream;
