@@ -651,7 +651,7 @@ void MainWindow::importXMLMetadata(){
 
             while (stream.name()=="sorts")
             {
-                QMessageBox::information(this,"Salut","Je suis dans sorts");
+                //QMessageBox::information(this,"Salut","Je suis dans sorts");
                 stream.readNext();
                 while (stream.isStartElement()==false)
                 {
@@ -661,7 +661,7 @@ void MainWindow::importXMLMetadata(){
                 while (stream.name()=="sort")
                 {
                     std::string sortname = stream.attributes().first().value().toString().toStdString();
-                    QMessageBox::information(this,"Salut","Je suis dans le sort "+stream.attributes().first().value().toString());
+                    //QMessageBox::information(this,"Salut","Je suis dans le sort "+stream.attributes().first().value().toString());
                     stream.readNext();
                     while (stream.isStartElement()==false)
                     {
@@ -671,7 +671,7 @@ void MainWindow::importXMLMetadata(){
 
                     if (stream.name()=="pos")
                     {
-                        QMessageBox::information(this,"Salut","Je suis dans pos");
+                        //QMessageBox::information(this,"Salut","Je suis dans pos");
                         stream.readNext();
                         while (stream.isStartElement()==false)
                         {
@@ -680,7 +680,7 @@ void MainWindow::importXMLMetadata(){
                     }
                     if (stream.name()=="size")
                     {
-                        QMessageBox::information(this,"Salut","Je suis dans size");
+                        //QMessageBox::information(this,"Salut","Je suis dans size");
                         stream.readNext();
                         while (stream.isStartElement()==false)
                         {
@@ -701,7 +701,7 @@ void MainWindow::importXMLMetadata(){
 
                     while (stream.name()=="label")
                     {
-                        QMessageBox::information(this,"Salut","Je suis dans label");
+                        //QMessageBox::information(this,"Salut","Je suis dans label");
                         stream.readNext();
                         while (stream.isStartElement()==false)
                         {
@@ -725,12 +725,12 @@ void MainWindow::importXMLMetadata(){
                                 stream.readNext();
                             }
                         }
-                    }
-                    QMessageBox::information(this,"Salut","Je suis sorti du label ");
+                     }
+                    //QMessageBox::information(this,"Salut","Je suis sorti du label ");
 
                     while (stream.name()=="processes")
                     {
-                        QMessageBox::information(this,"Salut","Je suis dans processes");
+                        //QMessageBox::information(this,"Salut","Je suis dans processes");
                         stream.readNext();
                         while (stream.isStartElement()==false)
                         {
@@ -764,17 +764,103 @@ void MainWindow::importXMLMetadata(){
                             }
                         }
                     }
-                    QMessageBox::information(this,"Salut","Je suis sorti du processes ");
+                    //QMessageBox::information(this,"Salut","Je suis sorti du processes ");
 
                  }
-                QMessageBox::information(this,"Salut","Je suis sorti du sort ");
+                //QMessageBox::information(this,"Salut","Je suis sorti du sort ");
 
 
              }
 
+            while (stream.name()=="sort_groups")
+            {
+                QMessageBox::information(this,"Salut","Je suis dans sort_groups");
+                stream.readNext();
+                while (stream.isStartElement()==false)
+                {
+                    stream.readNext();
+                }
+
+                while (stream.name()=="group")
+                {
+                    QMessageBox::information(this,"Salut","Je suis dans le group "+stream.attributes().first().value().toString());
+                    // Getting the name of the group
+                    QString groupname = stream.attributes().first().value().toString();
+                    // Creating the group in treeArea
+                    QTreeWidgetItem* groupe = new QTreeWidgetItem(area->treeArea->groupsTree);
+                    groupe->setText(0, groupname);
+                    area->treeArea->groups.push_back(groupe);
+                    int size = area->treeArea->groupsPalette->size();
+                    area->treeArea->groupsPalette->insert(groupe, area->treeArea->palette->at(size%8));
+                    groupe->setForeground(0, QBrush(area->treeArea->palette->at(size%8)));
+
+                    stream.readNext();
+                    while (stream.isStartElement()==false)
+                    {
+                        stream.readNext();
+                    }
+
+                    if (stream.name()=="color")
+                    {
+                        QMessageBox::information(this,"Salut","Je suis dans group color");
+                        stream.readNext();
+                        while (stream.isStartElement()==false)
+                        {
+                            stream.readNext();
+                        }
+                    }
+
+                    while (stream.name()=="sorts_of_group")
+                    {
+                        QMessageBox::information(this,"Salut","Je suis dans sorts_of_group");
+                        stream.readNext();
+                        while (stream.isStartElement()==false)
+                        {
+                            stream.readNext();
+                        }
+
+                        while (stream.name()=="sort")
+                        {
+                            QMessageBox::information(this,"Salut","Je suis dans group sort "+ stream.attributes().first().value().toString());
+                            // Getting all the sorts in the sorts Tree
+                            QList<QTreeWidgetItem*> sortsFound = area->treeArea->sortsTree->findItems("", Qt::MatchContains, 0);
+                            // Getting the name of the sort in the group
+                            QString sortname = stream.attributes().first().value().toString();
+                            for (QTreeWidgetItem* &a : sortsFound)
+                            {
+                                if (a->text(0)==sortname)
+                                {
+                                    //QTreeWidgetItem* b = new QTreeWidgetItem(area->treeArea->groupsTree->currentItem());
+                                    QTreeWidgetItem* b = new QTreeWidgetItem(groupe);
+                                    b->setText(0, a->text(0));
+                                    b->setForeground(0, a->foreground(0));
+                                    QColor coul = area->treeArea->groupsPalette->value(groupe);
+                                    QPen* pen = new QPen();
+                                    pen->setColor(coul);
+                                    pen->setWidth(4);
+                                    area->treeArea->myPHPtr->getGraphicsScene()->getGSort(a->text(0).toStdString())->getRect()->setPen(*pen);
+                                }
+                            }
+                            stream.readNext();
+                            while(stream.isStartElement()==false)
+                                if(stream.atEnd()==true){
+                                        break;
+                                }else{
+                                stream.readNext();
+                                }
+                        }
+                         QMessageBox::information(this,"Salut","Je suis sorti de group sort ");
+                    }
+                }
+
+                 QMessageBox::information(this,"Salut","Je suis sorti de group");
+
+            }
+
             stream.readNext();
 
-           }
+         }
+        input.close();
 
 
 

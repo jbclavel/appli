@@ -307,7 +307,7 @@ void PHIO::exportXMLMetadata(MainWindow *window, QFile &output){
             stream.writeTextElement("color", a->foreground(0).color().name());
             // sorts list
             if (a->childCount()) {
-                stream.writeStartElement("sorts");
+                stream.writeStartElement("sorts_of_group");
                 for (int i(0); i < a->childCount(); i++) {
                     stream.writeStartElement("sort");
                     stream.writeAttribute("name", a->child(i)->text(0));
