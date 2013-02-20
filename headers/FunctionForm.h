@@ -32,10 +32,17 @@ class FunctionForm : public QDialog
         void fctBack();
         void launchCompute();
         void enableForm(int state);
+        void getName();
+        void getDirectoryName();
 
 
     private:
         QString pathTab;
+        int compteurFile;
+        int indexFile;
+        int indexDirec;
+
+
         QComboBox *choix;
         QPushButton *Yes;
         QPushButton *Cancel;
@@ -50,6 +57,10 @@ class FunctionForm : public QDialog
         std::vector<QCheckBox*> tabQcheckBox;
         std::vector<QWidget*> tabLineEdit;
         std::vector<QString*> tabNomLine;
+
+        std::vector<QPushButton*> tabButtonFile;
+        std::vector<QPushButton*> tabButtonDirec;
+        std::vector<QString*> tabFileName;
 
 
         QPushButton *Ok;
