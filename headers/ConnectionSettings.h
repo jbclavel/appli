@@ -34,6 +34,7 @@ class ConnectionSettings : public QDialog
         void quit();
         void exportXMLSettings();  
         void validationConnectionSettings();
+        void testOutline();
 
 
     private:

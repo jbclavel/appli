@@ -357,22 +357,40 @@ void FunctionForm::launchCompute(){
                 {
             case 0 : //"Text"
             case 1 : //"Entier"
-            case 3 : //"Process"
             case 4 : //"File"
             case 5 : //"Folder"
             case 6 : //"Choix"
             {
-            arguments << ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgSuf() << reinterpret_cast<QLineEdit*>(tabLineEdit[i])->text();
+                if(ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgSuf()!=""){
+                    arguments << ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgSuf();
+                }
+                arguments  << reinterpret_cast<QLineEdit*>(tabLineEdit[i])->text();
             break;
             }
             case 2 : //"Boolean"
-            break;
             {
-            arguments << ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgSuf() << reinterpret_cast<QComboBox*>(tabLineEdit[i])->currentText();
+                if(ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgSuf()!=""){
+                    arguments << ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgSuf();
+                }
+            arguments << reinterpret_cast<QComboBox*>(tabLineEdit[i])->currentText();
+            break;
             }
-                }                        //"--no-debug" << "-i" << pathTab << "a" << "1" ;
+            case 3 : //"Process"
+            {
+                if(ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgSuf()!=""){
+                    arguments << ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgSuf();
+                }
+            QString state = reinterpret_cast<QLineEdit*>(tabLineEdit[i])->text();
+            arguments << state.at(0) << state.at(1) ;
+            break;
+            }
+                }                        //"--no-debug" << "-i" << pathTab << "a" "1" ;
         }
-        //MainWindow::mwThis->compute(program, arguments, pathTab);
+
+//        QMessageBox::information(this, "ok", arguments[0]+" "+arguments[1]+" "+arguments[2]
+  //                               +" "+arguments[3]+" "+arguments[4]);
+
+        MainWindow::mwThis->compute(program, arguments);
 
         if(ConnectionSettings::tabFunction[indexFctChosen]->getNbArgument()!="0"){
             //destroyers

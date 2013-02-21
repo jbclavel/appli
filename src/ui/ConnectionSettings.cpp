@@ -59,7 +59,7 @@ ConnectionSettings::ConnectionSettings():
 
         // Connexions des signaux et des slots
     connect(nbArg, SIGNAL(valueChanged(int)), this, SLOT(buildTable()));
-    connect(Save, SIGNAL(clicked()), this, SLOT(validationConnectionSettings()));
+    connect(Save, SIGNAL(clicked()), this, SLOT(testOutline()));
     connect(Cancel, SIGNAL(clicked()), this, SLOT(quit()));
 
     //Mise en page générale
@@ -392,17 +392,29 @@ void ConnectionSettings::importXMLSettings(){
 
 //slot called when the save button is triggered
 void ConnectionSettings::validationConnectionSettings(){
-
-    int reponse = QMessageBox::question(this, "Connection Settings validation", "Do you really want to save these settings ?",
+    int reponse = QMessageBox::question(this, "Connection Settings Validation", "Do you really want to save these settings ?",
                             QMessageBox::No | QMessageBox::Yes);
-
-    if (reponse == QMessageBox::Yes)
-        {
+    if (reponse == QMessageBox::Yes){
             exportXMLSettings();
             QMessageBox::information(this, "Connection Setting Validated", "Export done");
             this->quit();
-        }
+    }
 }
+
+void ConnectionSettings::testOutline(){
+    boolean vide = false;
+    for (int k = 0; k < nbArg->text().toInt(); k++){
+        if(tabArgOutline[k]->text()==""){
+            vide=true;
+        }
+    }
+    if(vide){
+        QMessageBox::information(this, "Connection Setting Validation", "Please, specify all the Outline fields");
+    }else{
+        this->validationConnectionSettings();
+    }
+}
+
 /*
     QMessageBox::information(this, "err",
         QString::number(MainWindow::ConnectionSettings::tabFunction.size())         +  "\n" +
