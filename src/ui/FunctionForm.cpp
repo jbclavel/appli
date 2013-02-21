@@ -38,6 +38,7 @@ FunctionForm::FunctionForm(QString fileName):
     setLayout(totalLayout);
     setWindowTitle("Function Form");
     setModal(true);
+    resize(10,20);
 }
 
 void FunctionForm::quit(){
@@ -52,6 +53,8 @@ void FunctionForm::quit(){
 FunctionForm::~FunctionForm(){}
 
 void FunctionForm::openConnectionForm(){
+
+    resize(800,10);
 
     //which function has been choosen?
     functionChosen = choix->currentText();
@@ -81,10 +84,15 @@ void FunctionForm::openConnectionForm(){
             case 0 :   //"Text"
                 {
                 tabLineEdit.push_back(new QLineEdit);
-                tabNomLine.push_back(new QString(ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgNumber()));
+
                 tabQFormLayout.push_back(new QFormLayout);
-                    tabQFormLayout[i]->addRow(*(tabNomLine[i]) +" (Suffixe : "+
-                        ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgSuf()+")", tabLineEdit[i]);
+                    if(ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgSuf()==""){
+                        tabQFormLayout[i]->addRow("Without any suffix", tabLineEdit[i]);
+                    }else{
+                        tabQFormLayout[i]->addRow("Suffixe : "+
+                            ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgSuf(), tabLineEdit[i]);
+                    }
+
                 tabQcheckBox.push_back(new QCheckBox("Taken into account"));
                 tabQHBox.push_back(new QHBoxLayout);
                     tabQHBox[i]->addWidget(tabQcheckBox[i]);
@@ -98,18 +106,22 @@ void FunctionForm::openConnectionForm(){
                     }
                 connect(this->tabQcheckBox[i], SIGNAL(stateChanged(int)), this, SLOT(enableForm(int)));
 
-                tabGroupBox.push_back(new QGroupBox("Specify the "+
-                      ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgType()+" argument : "+
-                      ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgOutline()));
+                tabGroupBox.push_back(new QGroupBox("Argument "+ QString::number(i+1)+
+                                    +" : (Type : " + ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgType()
+                                    +") Caption : " + ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgOutline()));
                 tabGroupBox[i]->setLayout(tabQHBox[i]);
             break;}
             case 1:   //"Entier"
                 {
                 tabLineEdit.push_back(new QSpinBox);
-                tabNomLine.push_back(new QString(ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgNumber()));
+
                 tabQFormLayout.push_back(new QFormLayout);
-                    tabQFormLayout[i]->addRow(*(tabNomLine[i]) +" (Suffixe : "+
-                        ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgSuf()+")", tabLineEdit[i]);
+                    if(ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgSuf()==""){
+                        tabQFormLayout[i]->addRow("Without any suffix", tabLineEdit[i]);
+                    }else{
+                        tabQFormLayout[i]->addRow("Suffixe : "+
+                            ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgSuf(), tabLineEdit[i]);
+                    }
                 tabQcheckBox.push_back(new QCheckBox("Taken into account"));
                 tabQHBox.push_back(new QHBoxLayout);
                     tabQHBox[i]->addWidget(tabQcheckBox[i]);
@@ -123,9 +135,9 @@ void FunctionForm::openConnectionForm(){
                     }
                 connect(this->tabQcheckBox[i], SIGNAL(stateChanged(int)), this, SLOT(enableForm(int)));
 
-                tabGroupBox.push_back(new QGroupBox("Specify the "+
-                      ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgType()+" argument : "+
-                      ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgOutline()));
+                tabGroupBox.push_back(new QGroupBox("Argument "+ QString::number(i+1)+
+                                    +" : (Type : " + ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgType()
+                                    +") Caption : " + ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgOutline()));
                 tabGroupBox[i]->setLayout(tabQHBox[i]);
             break;}
             case 2:   //"Boolean"
@@ -133,10 +145,14 @@ void FunctionForm::openConnectionForm(){
                 tabLineEdit.push_back(new QComboBox);
                     reinterpret_cast<QComboBox*> (tabLineEdit[i])->addItem("True");
                     reinterpret_cast<QComboBox*> (tabLineEdit[i])->addItem("False");
-                tabNomLine.push_back(new QString(ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgNumber()));
+
                 tabQFormLayout.push_back(new QFormLayout);
-                    tabQFormLayout[i]->addRow(*(tabNomLine[i]) +" (Suffixe : "+
-                        ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgSuf()+")", tabLineEdit[i]);
+                    if(ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgSuf()==""){
+                        tabQFormLayout[i]->addRow("Without any suffix", tabLineEdit[i]);
+                    }else{
+                        tabQFormLayout[i]->addRow("Suffixe : "+
+                            ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgSuf(), tabLineEdit[i]);
+                    }
                 tabQcheckBox.push_back(new QCheckBox("Taken into account"));
                 tabQHBox.push_back(new QHBoxLayout);
                     tabQHBox[i]->addWidget(tabQcheckBox[i]);
@@ -150,18 +166,22 @@ void FunctionForm::openConnectionForm(){
                     }
                 connect(this->tabQcheckBox[i], SIGNAL(stateChanged(int)), this, SLOT(enableForm(int)));
 
-                tabGroupBox.push_back(new QGroupBox("Specify the "+
-                      ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgType()+" argument : "+
-                      ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgOutline()));
+                tabGroupBox.push_back(new QGroupBox("Argument "+ QString::number(i+1)+
+                                    +" : (Type : " + ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgType()
+                                    +") Caption : " + ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgOutline()));
                 tabGroupBox[i]->setLayout(tabQHBox[i]);
             break;}
             case 3:   //"Process"
                 {
                 tabLineEdit.push_back(new QLineEdit);
-                tabNomLine.push_back(new QString(ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgNumber()));
+
                 tabQFormLayout.push_back(new QFormLayout);
-                    tabQFormLayout[i]->addRow(*(tabNomLine[i]) +" (Suffixe : "+
-                        ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgSuf()+")", tabLineEdit[i]);
+                    if(ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgSuf()==""){
+                        tabQFormLayout[i]->addRow("Without any suffix", tabLineEdit[i]);
+                    }else{
+                        tabQFormLayout[i]->addRow("Suffixe : "+
+                            ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgSuf(), tabLineEdit[i]);
+                    }
                 tabQcheckBox.push_back(new QCheckBox("Taken into account"));
                 tabQHBox.push_back(new QHBoxLayout);
                     tabQHBox[i]->addWidget(tabQcheckBox[i]);
@@ -176,9 +196,9 @@ void FunctionForm::openConnectionForm(){
                 connect(this->tabQcheckBox[i], SIGNAL(stateChanged(int)), this, SLOT(enableForm(int)));
 
 
-                tabGroupBox.push_back(new QGroupBox("Specify the "+
-                      ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgType()+" argument : "+
-                      ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgOutline()));
+                tabGroupBox.push_back(new QGroupBox("Argument "+ QString::number(i+1)+
+                                    +" : (Type : " + ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgType()
+                                    +") Caption : " + ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgOutline()));
                 tabGroupBox[i]->setLayout(tabQHBox[i]);
             break;}
             case 4:   //"File"
@@ -187,10 +207,14 @@ void FunctionForm::openConnectionForm(){
                 tabButtonFile.push_back(new QPushButton("Browse"));
                 connect(tabButtonFile[indexFile], SIGNAL(clicked()), this, SLOT(getName()));
 
-                tabNomLine.push_back(new QString(ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgNumber()));
+
                 tabQFormLayout.push_back(new QFormLayout);
-                    tabQFormLayout[i]->addRow(*(tabNomLine[i]) +" (Suffixe : "+
-                        ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgSuf()+")", tabLineEdit[i]);
+                    if(ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgSuf()==""){
+                        tabQFormLayout[i]->addRow("Without any suffix", tabLineEdit[i]);
+                    }else{
+                        tabQFormLayout[i]->addRow("Suffixe : "+
+                            ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgSuf(), tabLineEdit[i]);
+                    }
                 tabQcheckBox.push_back(new QCheckBox("Taken into account"));
                 tabQHBox.push_back(new QHBoxLayout);
                     tabQHBox[i]->addWidget(tabQcheckBox[i]);
@@ -206,9 +230,9 @@ void FunctionForm::openConnectionForm(){
                     }
                 connect(this->tabQcheckBox[i], SIGNAL(stateChanged(int)), this, SLOT(enableForm(int)));
 
-                tabGroupBox.push_back(new QGroupBox("Specify the "+
-                      ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgType()+" argument : "+
-                      ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgOutline()));
+                tabGroupBox.push_back(new QGroupBox("Argument "+ QString::number(i+1)+
+                                    +" : (Type : " + ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgType()
+                                    +") Caption : " + ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgOutline()));
                 tabGroupBox[i]->setLayout(tabQHBox[i]);
 
                 indexFile+=1;
@@ -219,10 +243,14 @@ void FunctionForm::openConnectionForm(){
                 tabButtonDirec.push_back(new QPushButton("Browse"));
                 connect(tabButtonDirec[indexDirec], SIGNAL(clicked()), this, SLOT(getDirectoryName()));
 
-                tabNomLine.push_back(new QString(ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgNumber()));
+
                 tabQFormLayout.push_back(new QFormLayout);
-                    tabQFormLayout[i]->addRow(*(tabNomLine[i]) +" (Suffixe : "+
-                        ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgSuf()+")", tabLineEdit[i]);
+                    if(ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgSuf()==""){
+                        tabQFormLayout[i]->addRow("Without any suffix", tabLineEdit[i]);
+                    }else{
+                        tabQFormLayout[i]->addRow("Suffixe : "+
+                            ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgSuf(), tabLineEdit[i]);
+                    }
                 tabQcheckBox.push_back(new QCheckBox("Taken into account"));
                 tabQHBox.push_back(new QHBoxLayout);
                     tabQHBox[i]->addWidget(tabQcheckBox[i]);
@@ -238,9 +266,9 @@ void FunctionForm::openConnectionForm(){
                     }
                 connect(this->tabQcheckBox[i], SIGNAL(stateChanged(int)), this, SLOT(enableForm(int)));
 
-                tabGroupBox.push_back(new QGroupBox("Specify the "+
-                      ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgType()+" argument : "+
-                      ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgOutline()));
+                tabGroupBox.push_back(new QGroupBox("Argument "+ QString::number(i+1)+
+                                    +" : (Type : " + ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgType()
+                                    +") Caption : " + ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgOutline()));
                 tabGroupBox[i]->setLayout(tabQHBox[i]);
 
                 indexDirec+=1;
@@ -248,10 +276,14 @@ void FunctionForm::openConnectionForm(){
             case 6:   //"Choix"
                 {
                 tabLineEdit.push_back(new QLineEdit);
-                tabNomLine.push_back(new QString(ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgNumber()));
+
                 tabQFormLayout.push_back(new QFormLayout);
-                    tabQFormLayout[i]->addRow(*(tabNomLine[i]) +" (Suffixe : "+
-                        ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgSuf()+")", tabLineEdit[i]);
+                    if(ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgSuf()==""){
+                        tabQFormLayout[i]->addRow("Without any suffix", tabLineEdit[i]);
+                    }else{
+                        tabQFormLayout[i]->addRow("Suffixe : "+
+                            ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgSuf(), tabLineEdit[i]);
+                    }
                 tabQcheckBox.push_back(new QCheckBox("Taken into account"));
                 tabQHBox.push_back(new QHBoxLayout);
                     tabQHBox[i]->addWidget(tabQcheckBox[i]);
@@ -265,9 +297,9 @@ void FunctionForm::openConnectionForm(){
                     }
                 connect(this->tabQcheckBox[i], SIGNAL(stateChanged(int)), this, SLOT(enableForm(int)));
 
-                tabGroupBox.push_back(new QGroupBox("Specify the "+
-                      ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgType()+" argument : "+
-                      ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgOutline()));
+                tabGroupBox.push_back(new QGroupBox("Argument "+ QString::number(i+1)+
+                                    +" : (Type : " + ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgType()
+                                    +") Caption : " + ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgOutline()));
                 tabGroupBox[i]->setLayout(tabQHBox[i]);
             break;}
             }
@@ -281,7 +313,7 @@ void FunctionForm::openConnectionForm(){
     buttonLayout2->addWidget(back);
     totalLayout->addLayout(buttonLayout2);
 
-    connect(Ok, SIGNAL(clicked()), this, SLOT(launchCompute()));
+    connect(Ok, SIGNAL(clicked()), this, SLOT(testEmpty()));
     connect(back, SIGNAL(clicked()), this, SLOT(fctBack()));
 }
 }
@@ -291,7 +323,7 @@ void FunctionForm::fctBack(){
 
     for(int i=tabGroupBox.size(); i>0; i--){
         tabLineEdit[i-1]->~QWidget();
-        tabNomLine[i-1]->~QString();
+
         tabQFormLayout[i-1]->~QFormLayout();
         tabQcheckBox[i-1]->~QCheckBox();
         for(int j=tabButtonFile.size(); j>0; j--){
@@ -306,7 +338,7 @@ void FunctionForm::fctBack(){
         tabGroupBox[i-1]->~QGroupBox();
 
         tabLineEdit.pop_back();
-        tabNomLine.pop_back();
+
         tabQFormLayout.pop_back();
         tabQcheckBox.pop_back();
         tabQHBox.pop_back();
@@ -320,6 +352,8 @@ void FunctionForm::fctBack(){
         Ok->~QPushButton();
         back->~QPushButton();
         buttonLayout2->~QHBoxLayout();
+
+        resize(10, 20);
 
         //re-build the former window
         choix = new QComboBox;
@@ -396,7 +430,7 @@ void FunctionForm::launchCompute(){
             //destroyers
             for(int i=tabGroupBox.size(); i>0; i--){
                 tabLineEdit[i-1]->~QWidget();
-                tabNomLine[i-1]->~QString();
+
                 tabQFormLayout[i-1]->~QFormLayout();
                 tabQcheckBox[i-1]->~QCheckBox();
                 for(int j=tabButtonFile.size(); j>0; j--){
@@ -411,7 +445,7 @@ void FunctionForm::launchCompute(){
                 tabGroupBox[i-1]->~QGroupBox();
 
                 tabLineEdit.pop_back();
-                tabNomLine.pop_back();
+
                 tabQFormLayout.pop_back();
                 tabQcheckBox.pop_back();
                 tabQHBox.pop_back();
@@ -429,6 +463,35 @@ void FunctionForm::launchCompute(){
         this->~FunctionForm();
     }
 }
+
+void FunctionForm::testEmpty(){
+    boolean vide = false;
+    for(int i=0; i<ConnectionSettings::tabArgument[indexFctChosen]->size(); i++){
+        if(tabQcheckBox[i]->isChecked()){
+            switch(ConnectionSettings::argTypeList.indexOf(ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgType()))
+                {
+            case 0 : //"Text"
+            case 3 : //"Process"
+            case 4 : //"File"
+            case 5 : //"Folder"
+            case 6 : //"Choix"
+            {
+                if(reinterpret_cast<QLineEdit*>(tabLineEdit[i])->text()==""){
+                    vide=true;
+                }
+            break;
+            }
+                }
+        }
+    }
+
+    if(vide){
+        QMessageBox::information(this, "Computation", "Please, fill the mandatory fields !");
+    }else{
+        this->launchCompute();
+    }
+}
+
 
 //slot : enable the field according to the ("taken into account") checkbox state
 void FunctionForm::enableForm(int state){

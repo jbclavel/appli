@@ -5,7 +5,6 @@
 #include "ArgumentFrame.h"
 
 
-
 ConnectionSettings::ConnectionSettings():
     QDialog()
 {
@@ -59,7 +58,7 @@ ConnectionSettings::ConnectionSettings():
 
         // Connexions des signaux et des slots
     connect(nbArg, SIGNAL(valueChanged(int)), this, SLOT(buildTable()));
-    connect(Save, SIGNAL(clicked()), this, SLOT(testOutline()));
+    connect(Save, SIGNAL(clicked()), this, SLOT(testFunctionName()));
     connect(Cancel, SIGNAL(clicked()), this, SLOT(quit()));
 
     //Mise en page générale
@@ -78,44 +77,45 @@ ConnectionSettings::ConnectionSettings():
 //build the tabel
 void ConnectionSettings::buildTable(){
 
-        if(nbArg->text().toInt()>nbArgPrcdt){
+    if(nbArg->text().toInt()>nbArgPrcdt){
 
-            tabArgNumber.push_back(new QLabel("Arg " + nbArg->text() + " :" , this));
+        tabArgNumber.push_back(new QLabel("Arg " + nbArg->text() + " :" , this));
 
-            tabArgType.push_back(new QComboBox(this));
-            tabArgType[tabArgType.size()-1]->addItems(ConnectionSettings::argTypeList);
+        tabArgType.push_back(new QComboBox(this));
+        tabArgType[tabArgType.size()-1]->addItems(ConnectionSettings::argTypeList);
 
-            tabArgSuf.push_back(new QLineEdit( this));
+        tabArgSuf.push_back(new QLineEdit( this));
 
-            tabArgfacul.push_back(new QCheckBox("Yes"));
+        tabArgfacul.push_back(new QCheckBox("Yes"));
 
-            tabArgOutline.push_back(new QLineEdit( this));
+        tabArgOutline.push_back(new QLineEdit( this));
 
-            gridTable->addWidget(tabArgNumber[tabArgNumber.size()-1], nbArg->text().toInt(), 0);
-            gridTable->addWidget(tabArgType[tabArgType.size()-1], nbArg->text().toInt(), 1);
-            gridTable->addWidget(tabArgSuf[tabArgSuf.size()-1], nbArg->text().toInt(), 2);
-            gridTable->addWidget(tabArgfacul[tabArgfacul.size()-1],nbArg->text().toInt(),3);
-            gridTable->addWidget(tabArgOutline[tabArgOutline.size()-1],nbArg->text().toInt(),4);
+        gridTable->addWidget(tabArgNumber[tabArgNumber.size()-1], nbArg->text().toInt(), 0);
+        gridTable->addWidget(tabArgType[tabArgType.size()-1], nbArg->text().toInt(), 1);
+        gridTable->addWidget(tabArgSuf[tabArgSuf.size()-1], nbArg->text().toInt(), 2);
+        gridTable->addWidget(tabArgfacul[tabArgfacul.size()-1],nbArg->text().toInt(),3);
+        gridTable->addWidget(tabArgOutline[tabArgOutline.size()-1],nbArg->text().toInt(),4);
 
-            nbArgPrcdt = nbArg->text().toInt();
+        nbArgPrcdt = nbArg->text().toInt();
 
-        }else if(nbArg->text().toInt()<nbArgPrcdt){
+    }else if(nbArg->text().toInt()<nbArgPrcdt){
 
-                    tabArgNumber[tabArgNumber.size()-1]->~QLabel();
-                    tabArgType[tabArgType.size()-1]->~QComboBox();
-                    tabArgSuf[tabArgSuf.size()-1]->~QLineEdit();
-                    tabArgfacul[tabArgfacul.size()-1]->~QCheckBox();
-                    tabArgOutline[tabArgOutline.size()-1]->~QLineEdit();
+                tabArgNumber[tabArgNumber.size()-1]->~QLabel();
+                tabArgType[tabArgType.size()-1]->~QComboBox();
+                tabArgSuf[tabArgSuf.size()-1]->~QLineEdit();
+                tabArgfacul[tabArgfacul.size()-1]->~QCheckBox();
+                tabArgOutline[tabArgOutline.size()-1]->~QLineEdit();
 
-                    tabArgNumber.pop_back();
-                    tabArgType.pop_back();
-                    tabArgSuf.pop_back();
-                    tabArgfacul.pop_back();
-                    tabArgOutline.pop_back();
+                tabArgNumber.pop_back();
+                tabArgType.pop_back();
+                tabArgSuf.pop_back();
+                tabArgfacul.pop_back();
+                tabArgOutline.pop_back();
 
-                    nbArgPrcdt = nbArg->text().toInt();
-            }
-     }
+                nbArgPrcdt = nbArg->text().toInt();
+    }
+    resize(550, 200);
+}
 
 
 //SLOT : close the window
@@ -392,12 +392,64 @@ void ConnectionSettings::importXMLSettings(){
 
 //slot called when the save button is triggered
 void ConnectionSettings::validationConnectionSettings(){
-    int reponse = QMessageBox::question(this, "Connection Settings Validation", "Do you really want to save these settings ?",
-                            QMessageBox::No | QMessageBox::Yes);
+    QString argPres;
+    if(nbArg->text()=="0"){
+        argPres= "<font color=red> Without any Argument !</font>";
+    }else{
+        for(int i=0; i<nbArg->text().toInt(); i++){
+            argPres = argPres +"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color= black><b>- Arg " + QString::number(i+1) + " : </b>("
+                    + tabArgOutline[i]->text() +") </font>";
+                if(tabArgSuf[i]->text()==""){
+                    argPres = argPres +"<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color=green>Without suffix</font>";
+                }else{
+                    argPres = argPres +"<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color = green>Suffixe : " + tabArgSuf[i]->text() + "</font>";
+                }
+                argPres = argPres + "<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Typed as : <font color = red>" + tabArgType[i]->currentText()+"</font>";
+                if(tabArgfacul[i]->isChecked()){
+                    argPres = argPres +"<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color= blue>Mandatory </font>";
+                }else{
+                    argPres = argPres +"<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color = blue>Facultative </font>";
+                }
+            argPres=argPres+"<br>";
+        }
+    }
+
+    int reponse = QMessageBox::question(this, "Connection Settings Validation",
+                "Do you really  want to save these settings ? <br><br> <font color= black><b>Function Name : </b></font>"
+                                        + name->text()+"<br> <font color= black><b>Program Name : </b></font>"
+                                        + program->text()+"<br>"
+                                        + argPres,
+                                        QMessageBox::No | QMessageBox::Yes);
+
     if (reponse == QMessageBox::Yes){
             exportXMLSettings();
             QMessageBox::information(this, "Connection Setting Validated", "Export done");
             this->quit();
+    }
+}
+
+void ConnectionSettings::testFunctionName(){
+    boolean vide = false;
+    if(name->text()==""){
+        vide=true;
+    }
+    if(vide){
+        QMessageBox::information(this, "Connection Setting Validation", "Please, specify the function name to be displayed");
+    }else{
+        this->testProgram();
+    }
+}
+
+
+void ConnectionSettings::testProgram(){
+    boolean vide = false;
+    if(program->text()==""){
+        vide=true;
+    }
+    if(vide){
+        QMessageBox::information(this, "Connection Setting Validation", "Please, specify the program name");
+    }else{
+        this->testOutline();
     }
 }
 
@@ -414,6 +466,8 @@ void ConnectionSettings::testOutline(){
         this->validationConnectionSettings();
     }
 }
+
+
 
 /*
     QMessageBox::information(this, "err",
