@@ -247,8 +247,8 @@ void PHIO::exportXMLMetadata(MainWindow *window, QFile &output){
         stream.writeAttribute("visible", QString::number(myarea->getPHPtr()->getGraphicsScene()->getGSort(a->getName())->GSort::isVisible()));
 
         stream.writeStartElement("pos");
-        stream.writeAttribute("x",QString::number(myarea->getPHPtr()->getGraphicsScene()->getGSort(a->getName())->geteventPressPoint().x())) ;
-        stream.writeAttribute("y",QString::number(myarea->getPHPtr()->getGraphicsScene()->getGSort(a->getName())->geteventPressPoint().y()));
+        stream.writeAttribute("x",QString::number(myarea->getPHPtr()->getGraphicsScene()->getGSort(a->getName())->getCluster().topLeft.x()));
+        stream.writeAttribute("y",QString::number(myarea->getPHPtr()->getGraphicsScene()->getGSort(a->getName())->getCluster().topLeft.y()));
         stream.writeEndElement(); // pos
 
         stream.writeStartElement("size");
