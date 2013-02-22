@@ -530,6 +530,9 @@ void MainWindow::importXMLMetadata(){
 
         //QMessageBox::information(this,"premier allo?", "premier allo?");
 
+        try
+        {
+
         while (!stream.atEnd())
         {
             //QMessageBox::information(this,"deuxième allo?", "Je suis en dehors de global");
@@ -569,8 +572,8 @@ void MainWindow::importXMLMetadata(){
                                    QString PATH = stream.readElementText();
                                    if (PATH!=area->path)
                                    {
-                                       QMessageBox::critical(this,"Error","Preferences file does not refer to the current opened file");
-                                       break;
+                                       throw wrong_import_file();
+
                                    }
                                    stream.readNext();
                                    while (stream.isStartElement()==false)
@@ -870,6 +873,12 @@ void MainWindow::importXMLMetadata(){
             stream.readNext();
 
          }
+         }
+        catch (wrong_import_file e)
+        {
+            QMessageBox::critical(this,"Error","Preferences file does not refer to the current opened file");
+        }
+
         input.close();
 
 

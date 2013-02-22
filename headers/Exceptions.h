@@ -45,6 +45,15 @@ struct file_not_exist: virtual io_error { };
   */
 struct not_regular_file: virtual io_error { };
 
+/**
+  * @class not_regular_file
+  * @brief struct defining the exception called when the import file does not refer to the current ph file
+    extends io_error
+  *
+  */
+struct wrong_import_file: virtual io_error { };
+
+
 //Parse errors
 typedef error_info<struct parse_detail, string> parse_info;
 
