@@ -20,9 +20,8 @@ MainWindow::MainWindow()
     MainWindow::mwThis = this;
 
     //arguments type list of new function
-    ConnectionSettings::argTypeList= QStringList() << "Text" << "Process";
+        ConnectionSettings::argTypeList= QStringList() << "Text" << "Entier" << "Boolean" << "Process" << "File" << "Folder" << "Choix";
 
-    //MainWindow::returnFct()
     //import of the setting included in the xml file
     ConnectionSettings::importXMLSettings();
 
@@ -1165,7 +1164,10 @@ void MainWindow::computeReachability() {
 
     if (ok && !state.isEmpty()) {
         // give the arguments
-        arguments << "--no-debug" << "-i" << fileName << state.at(0) << state.at(1) ;
+        arguments << "--no-debug" << "-i" << fileName << state.at(0) <<state.at(1) ;
+
+       // QMessageBox::information(this, "ok", arguments[0]+" "+arguments[1]+" "+arguments[2]
+         //                        +" "+arguments[3]+" "+arguments[4]);
 
         //call MainWindow::compute
         this->compute(program, arguments);
@@ -1209,7 +1211,6 @@ void MainWindow::runStochasticSimulation() {
     }else{
         ae= "true";
     }
-    QMessageBox::information(this, "ok", az);//ok =true && !state.isEmpty()
     QMessageBox::information(this, "!state.isEmpty()", ae);//ok =true && !state.isEmpty()
 */
 
