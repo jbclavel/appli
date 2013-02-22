@@ -20,7 +20,7 @@ MainWindow::MainWindow()
     MainWindow::mwThis = this;
 
     //arguments type list of new function
-        ConnectionSettings::argTypeList= QStringList() << "Text" << "Entier" << "Boolean" << "Process" << "File" << "Folder" << "Choix";
+    ConnectionSettings::argTypeList= QStringList() << "Text" << "Entier" << "Boolean" << "Process" << "File" << "Folder" << "Choix";
 
     //import of the setting included in the xml file
     ConnectionSettings::importXMLSettings();
@@ -249,7 +249,7 @@ MyArea* MainWindow::openTab() {
         QDialog* mb = new QDialog(filedialog);
         mb->setWindowFlags(Qt::Window | Qt::WindowTitleHint | Qt::CustomizeWindowHint);
 
-        QString file = filedialog->getOpenFileName(this, "Open...",);
+        QString file = filedialog->getOpenFileName(this, "Open...");
 
         // TODO refactor using early returns
         if(file!=NULL) {
