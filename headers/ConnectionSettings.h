@@ -17,6 +17,7 @@ class ConnectionSettings : public QDialog
     public:
         ConnectionSettings();
         ~ConnectionSettings();
+
         std::vector<QLabel*> tabArgNumber;
         std::vector<QComboBox*> tabArgType ;
         std::vector<QLineEdit*> tabArgSuf;
@@ -34,6 +35,9 @@ class ConnectionSettings : public QDialog
         void quit();
         void exportXMLSettings();  
         void validationConnectionSettings();
+        void testFunctionName();
+        void testProgram();
+        void testOutline();
 
 
     private:
