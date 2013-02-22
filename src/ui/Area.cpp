@@ -318,6 +318,13 @@ void Area::saveEdit(){
         // build the tree in the treeArea
         this->treeArea->build();
 
+        /*QList<QTreeWidgetItem*> selected = this->treeArea->sortsTree->selectedItems();
+
+        for(QTreeWidgetItem* &a : selected){
+
+            myPHPtr->getGraphicsScene()->getGSort(a->text(0).toStdString())->getRect()->setBrush(QBrush(QColor("blue")));
+        }*/
+
         this->indicatorEdit->setVisible(false);       
         this->saveTextEdit->setDefault(false);
         this->textArea->incrementeNberTextChange();        

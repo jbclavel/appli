@@ -249,7 +249,7 @@ MyArea* MainWindow::openTab() {
         QDialog* mb = new QDialog(filedialog);
         mb->setWindowFlags(Qt::Window | Qt::WindowTitleHint | Qt::CustomizeWindowHint);
 
-        QString file = filedialog->getOpenFileName(this, "Open...");
+        QString file = filedialog->getOpenFileName(this, "Open...",);
 
         // TODO refactor using early returns
         if(file!=NULL) {
@@ -377,7 +377,7 @@ void MainWindow::save() {
         if(!((Area*) subWindow->widget())->indicatorEdit->isVisible()){
 
         // SaveFile dialog
-        QString fichier = QFileDialog::getSaveFileName(this, "Save file");
+            QString fichier = QFileDialog::getSaveFileName(this, "Save file", "*.ph");
 
         // need a std::string instead of a QString
         std::string path =	fichier.toStdString();
@@ -385,7 +385,7 @@ void MainWindow::save() {
         //Selection of output format
 
         QStringList items;
-        items << tr("Text") << tr("Dump");
+        items << tr("Standard") << tr("Dump");
         bool ok;
         QString typeFile = QInputDialog::getItem(this,"Select output format","Format : ", items, 0, false, &ok);
 
@@ -395,7 +395,7 @@ void MainWindow::save() {
             PHPtr ph= ((Area*) subWindow->widget())->myArea->getPHPtr();
             PHIO::writeToFile (path, ph);
         }
-        else if(ok && typeFile == "Text"){
+        else if(ok && typeFile == "Standard"){
 
             std::string ph = ((Area*) subWindow->widget())->textArea->toPlainText().toStdString();
             IO::writeFile (path, ph);

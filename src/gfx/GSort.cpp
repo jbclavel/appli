@@ -127,6 +127,7 @@ void GSort::mouseReleaseEvent(QGraphicsSceneMouseEvent *event) {
     }
 
     event->accept();
+
 }
 
 

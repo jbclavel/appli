@@ -21,11 +21,13 @@ PHScene::PHScene(PH* _ph) : ph(_ph) {
 #include <QDebug>
 void PHScene::doRender(void) {
 	
+    ////////////////////////////////////////////////ZONE PROBLEME//////////////////////////////////////////////////
+
     // retrieve graph
 	GVGraphPtr graph = ph->toGVGraph();
 	
     // create GProcesses linking actual processes (PH info) with GVNodes (display info)
-	QList<GVNode> gnodes = graph->nodes();	
+    QList<GVNode> gnodes = graph->nodes();
 	for (GVNode &gn : gnodes) {
         for (SortPtr &s : ph->getSorts()) {
             for (ProcessPtr &p : s->getProcesses()) {
@@ -47,12 +49,14 @@ void PHScene::doRender(void) {
 	for (GVCluster &gc : gclusters)
 		for (SortPtr &s : ph->getSorts())
 			if (gc.name == makeClusterName(s->getName()))
-				sorts.insert(GSortEntry(s->getName(), make_shared<GSort>(s, gc)));
+                sorts.insert(GSortEntry(s->getName(), make_shared<GSort>(s, gc)));
+
+    ////////////////////////////////////////////////ZONE PROBLEME//////////////////////////////////////////////////
 
     // create GActions linking actual actions to GVEdges (display info)
     createActions(graph);
 
-	draw();
+    draw();
 }
 
 

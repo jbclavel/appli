@@ -110,9 +110,9 @@ GVGraphPtr PH::toGVGraph(void) {
 
     // BUG FIXING ATTEMPT:
     // to force hits' heads and bounces' tails to coincide
-//    const int nbPorts(8);
-//    QString ports[nbPorts] = { "n", "ne", "e", "se", "s", "sw", "w", "nw" };
-//    int i(0);
+    const int nbPorts(8);
+    QString ports[nbPorts] = { "n", "ne", "e", "se", "s", "sw", "w", "nw" };
+    int i(0);
 
     // add Actions (well named)
 	for (ActionPtr &a : actions) {
@@ -123,9 +123,9 @@ GVGraphPtr PH::toGVGraph(void) {
 
         // BUG FIXING ATTEMPT:
         // to force hits' heads and bounces' tails to coincide
-//        _agset(res->getEdge(makeProcessName(a->getSource()), makeProcessName(a->getTarget())), "headport", ports[i]);
-//        _agset(res->getEdge(makeProcessName(a->getTarget()), makeProcessName(a->getResult())), "tailport", ports[i]);
-//        i = (i+1) % (nbPorts-1);
+        _agset(res->getEdge(makeProcessName(a->getSource()), makeProcessName(a->getTarget())), "headport", ports[i]);
+        _agset(res->getEdge(makeProcessName(a->getTarget()), makeProcessName(a->getResult())), "tailport", ports[i]);
+        i = (i+1) % (nbPorts-1);
 
         // BUG FIXING ATTEMPT:
         // if the target and the result are next to each other in their sort, then prevent overlap
