@@ -530,6 +530,9 @@ void MainWindow::importXMLMetadata(){
 
         //QMessageBox::information(this,"premier allo?", "premier allo?");
 
+        try
+        {
+
         while (!stream.atEnd())
         {
             //QMessageBox::information(this,"deuxième allo?", "Je suis en dehors de global");
@@ -569,8 +572,8 @@ void MainWindow::importXMLMetadata(){
                                    QString PATH = stream.readElementText();
                                    if (PATH!=area->path)
                                    {
-                                       QMessageBox::critical(this,"Error","Preferences file does not refer to the current opened file");
-                                       break;
+                                       throw wrong_import_file();
+
                                    }
                                    stream.readNext();
                                    while (stream.isStartElement()==false)
@@ -671,12 +674,25 @@ void MainWindow::importXMLMetadata(){
                     if (stream.name()=="pos")
                     {
                         //QMessageBox::information(this,"Salut","Je suis dans pos");
+
+                        /* // Getting x position of the top left corner of the sort
+                        int posx = stream.attributes().first().value().toString().toInt();
+                        // Setting the x coordinate to the new value
+                        myarea->getPHPtr()->getGraphicsScene()->getGSort(sortname)->getCluster().topLeft.setX(posx);
+                        // Getting y position of the top left corner of the sort
+                        int posy = stream.attributes().last().value().toString().toInt();
+                        // Setting the y coordinate to the new value
+                        myarea->getPHPtr()->getGraphicsScene()->getGSort(sortname)->getCluster().topLeft.setY(posy);
+                        */
                         stream.readNext();
                         while (stream.isStartElement()==false)
                         {
                             stream.readNext();
                         }
                     }
+
+                    //QMessageBox::information(this,"Salut","Je suis sorti de pos");
+
                     if (stream.name()=="size")
                     {
                         //QMessageBox::information(this,"Salut","Je suis dans size");
@@ -763,17 +779,16 @@ void MainWindow::importXMLMetadata(){
                             }
                         }
                     }
-                    //QMessageBox::information(this,"Salut","Je suis sorti du processes ");
+
 
                  }
-                //QMessageBox::information(this,"Salut","Je suis sorti du sort ");
 
 
              }
 
             while (stream.name()=="sort_groups")
             {
-                QMessageBox::information(this,"Salut","Je suis dans sort_groups");
+                //QMessageBox::information(this,"Salut","Je suis dans sort_groups");
                 stream.readNext();
                 while (stream.isStartElement()==false)
                 {
@@ -782,7 +797,7 @@ void MainWindow::importXMLMetadata(){
 
                 while (stream.name()=="group")
                 {
-                    QMessageBox::information(this,"Salut","Je suis dans le group "+stream.attributes().first().value().toString());
+                    //QMessageBox::information(this,"Salut","Je suis dans le group "+stream.attributes().first().value().toString());
                     // Getting the name of the group
                     QString groupname = stream.attributes().first().value().toString();
                     // Creating the group in treeArea
@@ -801,7 +816,7 @@ void MainWindow::importXMLMetadata(){
 
                     if (stream.name()=="color")
                     {
-                        QMessageBox::information(this,"Salut","Je suis dans group color");
+                        //QMessageBox::information(this,"Salut","Je suis dans group color");
                         stream.readNext();
                         while (stream.isStartElement()==false)
                         {
@@ -811,7 +826,7 @@ void MainWindow::importXMLMetadata(){
 
                     while (stream.name()=="sorts_of_group")
                     {
-                        QMessageBox::information(this,"Salut","Je suis dans sorts_of_group");
+                        //QMessageBox::information(this,"Salut","Je suis dans sorts_of_group");
                         stream.readNext();
                         while (stream.isStartElement()==false)
                         {
@@ -820,7 +835,7 @@ void MainWindow::importXMLMetadata(){
 
                         while (stream.name()=="sort")
                         {
-                            QMessageBox::information(this,"Salut","Je suis dans group sort "+ stream.attributes().first().value().toString());
+                            //QMessageBox::information(this,"Salut","Je suis dans group sort "+ stream.attributes().first().value().toString());
                             // Getting all the sorts in the sorts Tree
                             QList<QTreeWidgetItem*> sortsFound = area->treeArea->sortsTree->findItems("", Qt::MatchContains, 0);
                             // Getting the name of the sort in the group
@@ -848,17 +863,22 @@ void MainWindow::importXMLMetadata(){
                                 stream.readNext();
                                 }
                         }
-                         QMessageBox::information(this,"Salut","Je suis sorti de group sort ");
+
                     }
                 }
 
-                 QMessageBox::information(this,"Salut","Je suis sorti de group");
 
             }
 
             stream.readNext();
 
          }
+         }
+        catch (wrong_import_file e)
+        {
+            QMessageBox::critical(this,"Error","Preferences file does not refer to the current opened file");
+        }
+
         input.close();
 
 
