@@ -14,6 +14,8 @@ TextArea::TextArea(QWidget *parent) :
     this->setPalette(p);
     this->setCurrentFont(QFont("TypeWriter", 10));
     this->setTextColor(QColor("white"));
+
+    this->setCursor(QCursor(Qt::BlankCursor));
     this->setCursorWidth(2);
 }
 

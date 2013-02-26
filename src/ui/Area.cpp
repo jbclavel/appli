@@ -17,7 +17,7 @@ Area::Area(QWidget *parent, QString path) :
     this->indicatorEdit = new TextArea(this);
     this->listOldText = new QStringList();
 
-    //Ajoute la coloration au text (lie le TextArea)
+    //Add text coloration (lie le TextArea)
     colorerSequences = new ColorerSequences(textArea->document());
 
     // treeArea: create widgets containing the buttons
@@ -53,6 +53,7 @@ Area::Area(QWidget *parent, QString path) :
     this->saveTextEdit->setFixedSize(QSize(80,30));
     this->saveTextEdit->setVisible(false);
     this->saveTextEdit->setEnabled(false);
+    this->saveTextEdit->setShortcut(QKeySequence((Qt::CTRL + Qt::Key_E)));
 
     this->cancelTextEdit = new QPushButton("Cancel",this);
     this->cancelTextEdit->setFixedSize(QSize(80,30));
@@ -71,6 +72,7 @@ Area::Area(QWidget *parent, QString path) :
     this->indicatorEdit->setFrameShadow(QTextEdit::Plain);
     this->indicatorEdit->setPlainText("Edition...");
     this->indicatorEdit->setVisible(false);
+    //Press CTRL+E to save or CTRL+ESC to cancel
 
     // set the global layout
     QHBoxLayout *layout = new QHBoxLayout;
@@ -245,8 +247,8 @@ void Area::expandOrReduceText(){
 
 void Area::editText(){
 
-        this->textArea->setNberEdit(0);
-        this->setOldText();
+    this->textArea->setNberEdit(0);
+    this->setOldText();
 }
 
 void Area::cancelEdit(){
@@ -266,7 +268,6 @@ void Area::cancelEdit(){
 
         default:
             return;
-
     }
 
     int a = this->listOldText->size()-i;
@@ -318,19 +319,13 @@ void Area::saveEdit(){
         // build the tree in the treeArea
         this->treeArea->build();
 
-        /*QList<QTreeWidgetItem*> selected = this->treeArea->sortsTree->selectedItems();
-
-        for(QTreeWidgetItem* &a : selected){
-
-            myPHPtr->getGraphicsScene()->getGSort(a->text(0).toStdString())->getRect()->setBrush(QBrush(QColor("blue")));
-        }*/
-
         this->indicatorEdit->setVisible(false);       
         this->saveTextEdit->setDefault(false);
         this->textArea->incrementeNberTextChange();        
         this->typeOfCancel = 0;
         this->saveTextEdit->setEnabled(false);        
         this->textArea->setNberEdit(0);
+        this->cancelTextEdit->setShortcut(QKeySequence());
 
         this->setOldText();
 
@@ -374,7 +369,7 @@ void Area::saveEdit(){
     catch(sort_not_found& sort){
 
         //Catch a error if the user delete a sort before associated actions !
-
+//numéro de ligne +
         QMessageBox::critical(this, "Error !", "Delete the associated actions before the process !");
         //this->textArea->undo();
         //this->cancelEdit();
@@ -399,6 +394,8 @@ void Area::onTextEdit(){
         this->indicatorEdit->setVisible(true);        
         this->saveTextEdit->setEnabled(true);
         this->cancelTextEdit->setEnabled(true);
+        this->cancelTextEdit->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_Escape));
+        QToolTip::showText(QPoint(850,80), "Press CTRL+E to save or CTRL+ESC to cancel");
     }
 }
 
