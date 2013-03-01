@@ -377,7 +377,7 @@ void MainWindow::save() {
         if(!((Area*) subWindow->widget())->indicatorEdit->isVisible()){
 
         // SaveFile dialog
-            QString fichier = QFileDialog::getSaveFileName(this, "Save file", "*.ph");
+        QString fichier = QFileDialog::getSaveFileName(this, "Save file", "*.ph");
 
         // need a std::string instead of a QString
         std::string path =	fichier.toStdString();
@@ -392,7 +392,7 @@ void MainWindow::save() {
         //save as
         if(ok && typeFile == "Dump"){
 
-            PHPtr ph= ((Area*) subWindow->widget())->myArea->getPHPtr();
+            PHPtr ph = ((Area*) subWindow->widget())->myArea->getPHPtr();
             PHIO::writeToFile (path, ph);
         }
         else if(ok && typeFile == "Standard"){

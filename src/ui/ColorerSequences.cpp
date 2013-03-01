@@ -98,7 +98,6 @@ void ColorerSequences::highlightBlock(const QString &text)
             tabIndex[i] = text.indexOf(tabExpression[i], tabIndex[i] + length);
        }
     }
-
 }
 
 ColorerSequences::~ColorerSequences()

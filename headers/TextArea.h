@@ -63,6 +63,13 @@ public:
       */
     void decNberTextChange();
 
+    void keyReleaseEvent(QKeyEvent *event);
+
+    int nberLetter;
+    QStringList* listLetter;
+    QString word;
+
+    void appendWord(QStringList* list, int pos);
 private :
 
     /**
