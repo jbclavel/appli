@@ -100,6 +100,14 @@ class PHScene: public QGraphicsScene {
           */
         void updateGraph();
 
+        /**
+          * @brief recalculates the graph, functions of customized GSort items positions
+          *
+          */
+        void updateGraphForImport();
+
+
+
 
 	protected:
 
@@ -114,14 +122,6 @@ class PHScene: public QGraphicsScene {
           *
           */
 		void draw(void);
-
-        /**
-          * @brief creates GAction items from graphviz graph (GVEdge structs)
-          *
-          * @param GVGraphPtr a smart pointer to the graphviz graph to convert
-          *
-          */
-        void createActions(GVGraphPtr graph);
 
         /**
           * @brief map of the Sorts drawn in the scene: the keys are the names of the Sorts
@@ -140,5 +140,13 @@ class PHScene: public QGraphicsScene {
           *
           */
         std::vector<GActionPtr> actions;
+
+        /**
+          * @brief creates GAction items from graphviz graph (GVEdge structs)
+          *
+          * @param GVGraphPtr a smart pointer to the graphviz graph to convert
+          *
+          */
+        void createActions(GVGraphPtr graph);
 
 };
