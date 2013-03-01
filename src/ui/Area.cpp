@@ -104,7 +104,8 @@ Area::Area(QWidget *parent, QString path) :
     QObject::connect(this->cancelTextEdit, SIGNAL(clicked()), this, SLOT(cancelEdit()));
     QObject::connect(this->textArea, SIGNAL(textChanged()), this->textArea, SLOT(onTextEdit()));
     QObject::connect(this->saveTextEdit, SIGNAL(clicked()), this, SLOT(saveEdit()));
-    QObject::connect(this->textArea, SIGNAL(textChanged()), this, SLOT(onTextEdit()));
+    QObject::connect(this->textArea, SIGNAL(textChanged()), this, SLOT(onTextEdit()));    
+    QObject::connect(this, SIGNAL(edition()), this, SLOT(showToolTip()));
 
     // initialization
     this->textArea->setHidden(true);
@@ -333,6 +334,9 @@ void Area::saveEdit(){
     }
     catch(ph_parse_error & argh){
 
+        //PHPtr ph = myArea->getPHPtr();
+        //PHIO::writeToFile ("dumpTemp.ph", ph);
+
         //Catch a parsing error !
         //Put the exception into a QMessageBox critical
 
@@ -363,13 +367,13 @@ void Area::saveEdit(){
 
         //One or more of your expressions are wrong !
         newph.remove();
-        QMessageBox::critical(this, "Syntax error !", "One or more of your expressions are wrong !\nPlease check "+list3[0]+" "+list3[1]);
+        QMessageBox::critical(this, "Syntax error !", "One or more of your expressions are wrong !\nNear "+list3[0]+" "+list3[1]);
         //return NULL;
     }
     catch(sort_not_found& sort){
 
         //Catch a error if the user delete a sort before associated actions !
-//numéro de ligne +
+
         QMessageBox::critical(this, "Error !", "Delete the associated actions before the process !");
         //this->textArea->undo();
         //this->cancelEdit();
@@ -390,16 +394,53 @@ void Area::onTextEdit(){
     }
     else{
 
+/*        try{
+
+            QFile parseTemp("parseTemp.ph");
+
+            parseTemp.open(QIODevice::WriteOnly | QIODevice::Truncate);
+            QTextStream flux(&parseTemp);
+            flux.setCodec("UTF-8");
+
+            flux << this->textArea->toPlainText() << endl;
+
+            QString *file = new QString("parseTemp.ph");
+            std::string phFile = file->toStdString();
+
+            PHIO::parseFile(phFile);
+
+            parseTemp.remove();
+        }
+        catch(ph_parse_error & argh){
+
+            this->textArea->setFontUnderline(true);
+        }*/
+
+        if(this->textArea->getNberEdit() == 1){
+
+            emit edition();
+        }
+
         this->saveTextEdit->setDefault(true);
         this->indicatorEdit->setVisible(true);        
         this->saveTextEdit->setEnabled(true);
         this->cancelTextEdit->setEnabled(true);
         this->cancelTextEdit->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_Escape));
-        QToolTip::showText(QPoint(850,80), "Press CTRL+E to save or CTRL+ESC to cancel");
     }
 }
 
 void Area::setOldText(){
 
     this->listOldText->insert(this->textArea->getNberTextChange(), this->textArea->toPlainText());
+}
+
+void Area::showToolTip(){
+
+    QToolTip::showText(QPoint(850,80), "Press CTRL+E to save or CTRL+ESC to cancel");
+    QTimer::singleShot(5000, this, SLOT(hideToolTip()));
+}
+
+void Area::hideToolTip(){
+
+    QToolTip::hideText();
 }

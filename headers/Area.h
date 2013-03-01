@@ -167,9 +167,9 @@ public:
 
     int typeOfCancel;
 
-
 signals:
 
+    void edition();
 
 public slots:
 
@@ -213,7 +213,11 @@ public slots:
       * @brief method to save all the new textArea into the QStringList
       *
       */
-    void setOldText();
+    void setOldText();    
+
+    void showToolTip();
+
+    void hideToolTip();
 
 };
 
