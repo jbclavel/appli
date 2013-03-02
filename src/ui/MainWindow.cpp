@@ -1354,7 +1354,9 @@ void MainWindow::enableMenu(){
         this->actionComputeReachability->setEnabled(true);
         this->actionRunStochasticSimulation->setEnabled(true);
         this->actionStatistics->setEnabled(true);
+
         if(ConnectionSettings::tabFunction.size()!=0){
+
             this->actionConnection->setEnabled(true);
         }
     }

@@ -63,7 +63,7 @@ public:
       */
     void decNberTextChange();
 
-    void keyReleaseEvent(QKeyEvent *event);
+    //void keyReleaseEvent(QKeyEvent *event);
 
     int nberLetter;
     QStringList* listLetter;
