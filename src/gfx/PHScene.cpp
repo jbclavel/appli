@@ -150,6 +150,34 @@ void PHScene::updateGraph() {
 
 }
 
+void PHScene::updateGraphForImport() {
+
+    GVGraphPtr graph = ph->updateGVGraph(this);
+
+    // update GProcess items' positions
+    // using nested loops to make sure that each GVNode matches related GProcess
+    list<ProcessPtr> phProcesses = ph->getProcesses();
+    for (GVNode &gvnode : graph->nodes())
+        for (list<ProcessPtr>::iterator it = phProcesses.begin(); it != phProcesses.end(); ++it)
+            if (gvnode.name == makeProcessName(*it)) {
+                (*it)->getGProcess()->setNode(gvnode);
+                break;
+            }
+
+
+    // create GActions linking actual actions to GVEdges (display info)
+    actions.clear();
+    createActions(graph);
+
+
+    for (GActionPtr &a : actions)
+        addItem(a->getDisplayItem());
+
+    // hide actions that are related to hidden sorts
+    showActions();
+
+}
+
 
 void PHScene::createActions(GVGraphPtr graph) {
 

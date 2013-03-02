@@ -663,7 +663,7 @@ void MainWindow::importXMLMetadata(){
                 while (stream.name()=="sort")
                 {
                     std::string sortname = stream.attributes().first().value().toString().toStdString();
-                    //QMessageBox::information(this,"Salut","Je suis dans le sort "+stream.attributes().first().value().toString());
+                    QMessageBox::information(this,"Salut","Je suis dans le sort "+stream.attributes().first().value().toString());
                     stream.readNext();
                     while (stream.isStartElement()==false)
                     {
@@ -673,17 +673,25 @@ void MainWindow::importXMLMetadata(){
 
                     if (stream.name()=="pos")
                     {
-                        //QMessageBox::information(this,"Salut","Je suis dans pos");
+                        QMessageBox::information(this,"Salut","Je suis dans pos");
 
-                        /* // Getting x position of the top left corner of the sort
-                        int posx = stream.attributes().first().value().toString().toInt();
+                        // Getting x coordinate of the top left corner of the sort
+                        //qreal posx = stream.attributes().first().value().toString().toDouble();
                         // Setting the x coordinate to the new value
-                        myarea->getPHPtr()->getGraphicsScene()->getGSort(sortname)->getCluster().topLeft.setX(posx);
-                        // Getting y position of the top left corner of the sort
-                        int posy = stream.attributes().last().value().toString().toInt();
+                        //myarea->getPHPtr()->getGraphicsScene()->getGSort(sortname)->setX(posx);
+                        // Getting y coordinate of the top left corner of the sort
+                        //qreal posy = stream.attributes().value("y").toString().toDouble();
                         // Setting the y coordinate to the new value
-                        myarea->getPHPtr()->getGraphicsScene()->getGSort(sortname)->getCluster().topLeft.setY(posy);
-                        */
+                        //myarea->getPHPtr()->getGraphicsScene()->getGSort(sortname)->setY(posy);
+                        // Getting x coordinate of the cluster of the sort
+                        qreal posxCluster = stream.attributes().value("xcluster").toString().toDouble();
+                        // Setting the x coordinate to the new value
+                        myarea->getPHPtr()->getGraphicsScene()->getGSort(sortname)->getCluster().topLeft.setX(posxCluster);
+                        // Getting y coordinate of the cluster of the sort
+                        qreal posyCluster = stream.attributes().last().value().toString().toDouble();
+                        // Setting the y coordinate to the new value
+                        myarea->getPHPtr()->getGraphicsScene()->getGSort(sortname)->getCluster().topLeft.setY(posyCluster);
+
                         stream.readNext();
                         while (stream.isStartElement()==false)
                         {
@@ -691,7 +699,7 @@ void MainWindow::importXMLMetadata(){
                         }
                     }
 
-                    //QMessageBox::information(this,"Salut","Je suis sorti de pos");
+                    QMessageBox::information(this,"Salut","Je suis sorti de pos");
 
                     if (stream.name()=="size")
                     {
@@ -745,7 +753,7 @@ void MainWindow::importXMLMetadata(){
 
                     while (stream.name()=="processes")
                     {
-                        //QMessageBox::information(this,"Salut","Je suis dans processes");
+                        QMessageBox::information(this,"Salut","Je suis dans processes");
                         stream.readNext();
                         while (stream.isStartElement()==false)
                         {
@@ -754,6 +762,8 @@ void MainWindow::importXMLMetadata(){
 
                         while (stream.name()=="process")
                         {
+                            QMessageBox::information(this,"Salut","Je suis dans le process "+stream.attributes().first().value().toString());
+                            int noprocess = stream.attributes().first().value().toString().toInt();
                             stream.readNext();
                             while (stream.isStartElement()==false)
                             {
@@ -762,33 +772,72 @@ void MainWindow::importXMLMetadata(){
 
                             if (stream.name()=="pos")
                             {
+                                QMessageBox::information(this,"Salut","Je suis dans process pos");
+                                int nodeX = stream.attributes().first().value().toString().toInt();
+                                int nodeY = stream.attributes().last().value().toString().toInt();
+
+                                list<ProcessPtr> phProcesses = myarea->getPHPtr()->getProcesses();
+                                list<ProcessPtr>::iterator it;
+                                for (it=phProcesses.begin();it!=phProcesses.end(); it++)
+                                {
+                                    if ((*it)->getNumber()==noprocess)
+                                    {
+                                        (*it)->getGProcess()->setNodeCoords(nodeX,nodeY);
+                                    }
+                                }
+
                                 stream.readNext();
                                 while (stream.isStartElement()==false)
                                 {
                                     stream.readNext();
                                 }
+
+                                /*vector<GProcessPtr> phProcesses = myarea->getPHPtr()->getGraphicsScene()->getProcesses();
+                                vector<GProcessPtr>::iterator it;
+                                int i=0;
+                                for (it=phProcesses.begin();it!=phProcesses.end(); it++)
+                                {
+                                    if (i==noprocess)
+                                    {
+                                        (*it)->setNodeCoords(nodeX,nodeY);
+                                    }
+                                    i++;
+                                }
+
+                                stream.readNext();
+                                while (stream.isStartElement()==false)
+                                {
+                                    stream.readNext();
+                                }*/
                             }
+
+
 
                             if (stream.name()=="size")
                             {
+                                //QMessageBox::information(this,"Salut","Je suis dans process size");
                                 stream.readNext();
                                 while (stream.isStartElement()==false)
                                 {
                                     stream.readNext();
                                 }
                             }
+
+
                         }
                     }
-
+                    //QMessageBox::information(this,"Salut","Je suis sorti de processes");
 
                  }
 
 
-             }
+            }
+
+
 
             while (stream.name()=="sort_groups")
             {
-                //QMessageBox::information(this,"Salut","Je suis dans sort_groups");
+                QMessageBox::information(this,"Salut","Je suis dans sort_groups");
                 stream.readNext();
                 while (stream.isStartElement()==false)
                 {
@@ -797,7 +846,7 @@ void MainWindow::importXMLMetadata(){
 
                 while (stream.name()=="group")
                 {
-                    //QMessageBox::information(this,"Salut","Je suis dans le group "+stream.attributes().first().value().toString());
+                    QMessageBox::information(this,"Salut","Je suis dans le group "+stream.attributes().first().value().toString());
                     // Getting the name of the group
                     QString groupname = stream.attributes().first().value().toString();
                     // Creating the group in treeArea
@@ -816,7 +865,7 @@ void MainWindow::importXMLMetadata(){
 
                     if (stream.name()=="color")
                     {
-                        //QMessageBox::information(this,"Salut","Je suis dans group color");
+                        QMessageBox::information(this,"Salut","Je suis dans group color");
                         stream.readNext();
                         while (stream.isStartElement()==false)
                         {
@@ -826,7 +875,7 @@ void MainWindow::importXMLMetadata(){
 
                     while (stream.name()=="sorts_of_group")
                     {
-                        //QMessageBox::information(this,"Salut","Je suis dans sorts_of_group");
+                        QMessageBox::information(this,"Salut","Je suis dans sorts_of_group");
                         stream.readNext();
                         while (stream.isStartElement()==false)
                         {
@@ -835,7 +884,7 @@ void MainWindow::importXMLMetadata(){
 
                         while (stream.name()=="sort")
                         {
-                            //QMessageBox::information(this,"Salut","Je suis dans group sort "+ stream.attributes().first().value().toString());
+                            QMessageBox::information(this,"Salut","Je suis dans group sort "+ stream.attributes().first().value().toString());
                             // Getting all the sorts in the sorts Tree
                             QList<QTreeWidgetItem*> sortsFound = area->treeArea->sortsTree->findItems("", Qt::MatchContains, 0);
                             // Getting the name of the sort in the group
@@ -864,9 +913,16 @@ void MainWindow::importXMLMetadata(){
                                 }
                         }
 
+
                     }
                 }
-
+                stream.readNext();
+                while(stream.isStartElement()==false)
+                    if(stream.atEnd()==true){
+                            break;
+                    }else{
+                    stream.readNext();
+                    }
 
             }
 
@@ -881,12 +937,13 @@ void MainWindow::importXMLMetadata(){
 
         input.close();
 
-
+        myarea->getPHPtr()->getGraphicsScene()->updateGraph();
 
 
     } else {
      QMessageBox::critical(this,"Error","No file opened");
     }
+
 }
 
 // method to adjust the view

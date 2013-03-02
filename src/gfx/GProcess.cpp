@@ -91,3 +91,4 @@ bool GProcess::checkCollisions() {
     return false;
 }
 
+ProcessPtr* GProcess::getProcess() { return &(this->process); }
