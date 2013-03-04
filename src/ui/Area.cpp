@@ -348,6 +348,8 @@ void Area::saveEdit(){
         if (!phcProcess->waitForStarted())
             throw pint_program_not_found() << file_info("phc");
 
+        phcProcess->readChannel();
+
         // read result
         QByteArray stderr;
         QByteArray stdout;
