@@ -13,16 +13,18 @@ TextArea::TextArea(QWidget *parent) :
     //this->setMaximumHeight(600);
     this->nberEdit = -1;
     this->nberTextChange = 0;
-    this->nberLetter = 0;
-    this->listLetter = new QStringList();    
-    this->setAcceptRichText(true);
+
+    //attribut for syntax correction
+    //this->nberLetter = 0;
+    //this->listLetter = new QStringList();
+    //this->setAcceptRichText(true);
 
     QPalette p = this->palette();
-    p.setColor(QPalette::Base, QColor(10, 10, 10));
+    p.setColor(QPalette::Base, QColor(217, 221, 233));
     this->setPalette(p);
     this->setCurrentFont(QFont("TypeWriter", 10));
-    this->setTextColor(QColor("white"));
-    this->setCursorWidth(2);
+    this->setTextColor(QColor("black"));
+    this->setCursorWidth(8);
 }
 
 
@@ -84,7 +86,7 @@ void TextArea::keyReleaseEvent(QKeyEvent *event){
         this->appendWord(this->listLetter, pos);
         this->nberLetter = 0;
     }
-}*/
+}
 
 void TextArea::appendWord(QStringList* list, int pos){
 
@@ -130,5 +132,4 @@ void TextArea::appendWord(QStringList* list, int pos){
     }
 
     list->clear();
-    //std::cout << this->word.toStdString() << std::endl;
-}
+}*/
