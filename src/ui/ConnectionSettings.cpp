@@ -70,6 +70,7 @@ ConnectionSettings::ConnectionSettings():
         // Connexions des signaux et des slots
     connect(nbArg, SIGNAL(valueChanged(int)), this, SLOT(buildTable()));
     connect(Save, SIGNAL(clicked()), this, SLOT(testFunctionName()));
+
     connect(Cancel, SIGNAL(clicked()), this, SLOT(quit()));
 
     //Mise en page générale
@@ -195,7 +196,7 @@ ConnectionSettings::~ConnectionSettings(){
 
             //remove the table
             if(nbArg->text().toInt()!=0){
-
+                int curseur=0;
                 for(int i = nbArg->text().toInt()-1 ; i >= 0 ; i--){
                     tabArgNumber[i]->~QLabel();
                     tabArgType[i]->~QComboBox();
@@ -204,9 +205,13 @@ ConnectionSettings::~ConnectionSettings(){
                     if(a=="QLineEdit"){
                         reinterpret_cast<QLineEdit*>(tabArgSuf[i])->~QLineEdit();
                      }else if(a=="QSpinBox"){
-                        for(int j=0; j<reinterpret_cast<QSpinBox*>(tabArgSuf[i])->text().toInt() ; j++){
+                        int curseurLocal = curseur;
+                        for(int j=curseurLocal; j<reinterpret_cast<QSpinBox*>(tabArgSuf[i])->text().toInt() + curseurLocal; j++){
+                            QMessageBox::critical(this, "Error", QString::number(i) +" j:"+ QString::number(j));
+
                             tabChoixNom[j]->~QLineEdit();
                             tabChoixParam[j]->~QLineEdit();
+                            curseur+=1;
                         }
                         reinterpret_cast<QSpinBox*>(tabArgSuf[i])->~QSpinBox();
                     }
@@ -280,19 +285,26 @@ void ConnectionSettings::exportXMLSettings(){
            writerStream.writeStartElement("Function");
 
            writerStream.writeStartElement("Definition");
-           writerStream.writeTextElement("name", ConnectionSettings::tabFunction[i]->getNameFunction());
-           writerStream.writeTextElement("program", ConnectionSettings::tabFunction[i]->getProgram());
+               writerStream.writeTextElement("name", ConnectionSettings::tabFunction[i]->getNameFunction());
+               writerStream.writeTextElement("program", ConnectionSettings::tabFunction[i]->getProgram());
                writerStream.writeTextElement("nbArgument", ConnectionSettings::tabFunction[i]->getNbArgument());
            writerStream.writeEndElement();
 
-          for ( j = 0; j < ConnectionSettings::tabArgument[i]->size(); j++){
+        for ( j = 0; j < ConnectionSettings::tabArgument[i]->size(); j++){
 
-               writerStream.writeStartElement("ArgumentsDefinition");
+            writerStream.writeStartElement("ArgumentsDefinition");
                writerStream.writeTextElement("ArgNumber", ConnectionSettings::tabArgument[i]->at(j)->getArgNumber());
                    writerStream.writeTextElement("ArgType", ConnectionSettings::tabArgument[i]->at(j)->getArgType());
                    writerStream.writeTextElement("ArgSuf", ConnectionSettings::tabArgument[i]->at(j)->getArgSuf());
                    writerStream.writeTextElement("ArgFacul", ConnectionSettings::tabArgument[i]->at(j)->getArgFac());
                    writerStream.writeTextElement("ArgOutline", ConnectionSettings::tabArgument[i]->at(j)->getArgOutline());
+
+                   for(int m = 0; m < ConnectionSettings::tabChoix[i]->at(j)->size(); m++){
+                       writerStream.writeStartElement("ChoixList");
+                           writerStream.writeTextElement("ChoixNom", ConnectionSettings::tabChoix[i]->at(j)->at(m)->getChoixNom());
+                           writerStream.writeTextElement("ChoixParam", ConnectionSettings::tabChoix[i]->at(j)->at(m)->getChoixParam());
+                       writerStream.writeEndElement();
+                   }
                writerStream.writeEndElement();
            }
 
@@ -326,22 +338,20 @@ void ConnectionSettings::exportXMLSettings(){
                 writerStream.writeTextElement("ArgFacul", QString::number(tabArgfacul[k]->isChecked()));
                 writerStream.writeTextElement("ArgOutline", tabArgOutline[k]->text());
 //
-                QMessageBox::critical(this, "Error", QString::number(reinterpret_cast<QSpinBox*>(tabArgSuf[k])->text().toInt()+curseur));
                 if(az=="QSpinBox"){
                     int curse = curseur;
                     for(int l=curse; l<reinterpret_cast<QSpinBox*>(tabArgSuf[k])->text().toInt()+curse; l++){
-                        QMessageBox::critical(this, "Error", QString::number(l));
 
                         writerStream.writeStartElement("ChoixList");
                             writerStream.writeTextElement("ChoixNom", tabChoixNom[l]->text());
-                            writerStream.writeTextElement("ChoixNom", tabChoixParam[l]->text());
+                            writerStream.writeTextElement("ChoixParam", tabChoixParam[l]->text());
                         writerStream.writeEndElement();
                         curseur+=1;
                     }
                 }else{
                     writerStream.writeStartElement("ChoixList");
                         writerStream.writeTextElement("ChoixNom", "pas de type choix");
-                        writerStream.writeTextElement("ChoixNom", "pas de type choix");
+                        writerStream.writeTextElement("ChoixParam", "pas de type choix");
                     writerStream.writeEndElement();
                 }
 
@@ -356,6 +366,12 @@ void ConnectionSettings::exportXMLSettings(){
                 writerStream.writeTextElement("ArgFacul", "Sans Argument");
                 writerStream.writeTextElement("ArgOutline", "Sans Argument");
             writerStream.writeEndElement();
+
+            writerStream.writeStartElement("ChoixList");
+                writerStream.writeTextElement("ChoixNom", "pas de type choix");
+                writerStream.writeTextElement("ChoixParam", "pas de type choix");
+            writerStream.writeEndElement();
+
         }
 
         writerStream.writeEndElement();
@@ -416,6 +432,8 @@ void ConnectionSettings::importXMLSettings(){
                     {
                         ConnectionSettings::tabFunction.push_back(new FuncFrame());
                         ConnectionSettings::tabArgument.push_back(new std::vector<ArgumentFrame*>());
+                        ConnectionSettings::tabChoix.push_back(new std::vector< std::vector <ChoixLigne*>*>());
+
                         ConnectionSettings::tabFunction[ConnectionSettings::tabFunction.size()-1]->setNameFunction(readerStream.readElementText());
 
                         while(readerStream.isStartElement()==false)
@@ -442,6 +460,8 @@ void ConnectionSettings::importXMLSettings(){
 
                 while(readerStream.name() == "ArgumentsDefinition")
                 {
+                    ConnectionSettings::tabChoix[ConnectionSettings::tabChoix.size()-1]->push_back(new std::vector <ChoixLigne*>());
+
                     readerStream.readNext();
                     while(readerStream.isStartElement()==false)
                     readerStream.readNext();
@@ -482,50 +502,30 @@ void ConnectionSettings::importXMLSettings(){
                     if(readerStream.name() == "ArgOutline")
                     {
                         ConnectionSettings::tabArgument[ConnectionSettings::tabArgument.size()-1]->at(ConnectionSettings::tabArgument[ConnectionSettings::tabArgument.size()-1]->size()-1)->setArgOutline(readerStream.readElementText());
-////
+                        while(readerStream.isStartElement()==false)
+                        readerStream.readNext();
 
-                        while(readerStream.name() == "ArgumentsDefinition")
+                    }
+
+                        while(readerStream.name() == "ChoixList")
                         {
                             readerStream.readNext();
                             while(readerStream.isStartElement()==false)
                             readerStream.readNext();
 
-                            if(readerStream.name() == "ArgNumber")
+                            if(readerStream.name() == "ChoixNom")
                             {
-                                ConnectionSettings::tabArgument[ConnectionSettings::tabArgument.size()-1]->push_back(new ArgumentFrame());
-                                ConnectionSettings::tabArgument[ConnectionSettings::tabArgument.size()-1]->at(ConnectionSettings::tabArgument[ConnectionSettings::tabArgument.size()-1]->size()-1)->setArgNumber(readerStream.readElementText());
+                                ConnectionSettings::tabChoix[ConnectionSettings::tabChoix.size()-1]->at(ConnectionSettings::tabChoix[ConnectionSettings::tabChoix.size()-1]->size()-1)->push_back(new ChoixLigne());
+                                ConnectionSettings::tabChoix[ConnectionSettings::tabChoix.size()-1]->at(ConnectionSettings::tabChoix[ConnectionSettings::tabChoix.size()-1]->size()-1)->at(ConnectionSettings::tabChoix[ConnectionSettings::tabChoix.size()-1]->at(ConnectionSettings::tabChoix[ConnectionSettings::tabChoix.size()-1]->size()-1)->size()-1)->setChoixNom(readerStream.readElementText());
                                 readerStream.readNext();
 
                                 while(readerStream.isStartElement()==false)
                                 readerStream.readNext();
                             }
-                            if(readerStream.name() == "ArgType")
+                            if(readerStream.name() == "ChoixParam")
                             {
-                                ConnectionSettings::tabArgument[ConnectionSettings::tabArgument.size()-1]->at(ConnectionSettings::tabArgument[ConnectionSettings::tabArgument.size()-1]->size()-1)->setArgType(readerStream.readElementText());
+                                ConnectionSettings::tabChoix[ConnectionSettings::tabChoix.size()-1]->at(ConnectionSettings::tabChoix[ConnectionSettings::tabChoix.size()-1]->size()-1)->at(ConnectionSettings::tabChoix[ConnectionSettings::tabChoix.size()-1]->at(ConnectionSettings::tabChoix[ConnectionSettings::tabChoix.size()-1]->size()-1)->size()-1)->setChoixParam(readerStream.readElementText());
                                 readerStream.readNext();
-
-                                while(readerStream.isStartElement()==false)
-                                readerStream.readNext();
-                            }
-                            if(readerStream.name() == "ArgSuf")
-                            {
-                                ConnectionSettings::tabArgument[ConnectionSettings::tabArgument.size()-1]->at(ConnectionSettings::tabArgument[ConnectionSettings::tabArgument.size()-1]->size()-1)->setArgSuf(readerStream.readElementText());
-                                readerStream.readNext();
-
-                                while(readerStream.isStartElement()==false)
-                                readerStream.readNext();
-                            }
-                            if(readerStream.name() == "ArgFacul")
-                            {
-                                ConnectionSettings::tabArgument[ConnectionSettings::tabArgument.size()-1]->at(ConnectionSettings::tabArgument[ConnectionSettings::tabArgument.size()-1]->size()-1)->setArgFac(readerStream.readElementText());
-                                readerStream.readNext();
-
-                                while(readerStream.isStartElement()==false)
-                                readerStream.readNext();
-                            }
-                            if(readerStream.name() == "ArgOutline")
-                            {
-                                ConnectionSettings::tabArgument[ConnectionSettings::tabArgument.size()-1]->at(ConnectionSettings::tabArgument[ConnectionSettings::tabArgument.size()-1]->size()-1)->setArgOutline(readerStream.readElementText());
 
                                 while(readerStream.isStartElement()==false)
                                     if(readerStream.atEnd()==true){
@@ -533,16 +533,9 @@ void ConnectionSettings::importXMLSettings(){
                                     }else{
                                     readerStream.readNext();
                                     }
+
                             }
-
                         }
-
-
-                        ///
-
-
-
-
                         while(readerStream.isStartElement()==false)
                             if(readerStream.atEnd()==true){
                                     break;
@@ -551,7 +544,6 @@ void ConnectionSettings::importXMLSettings(){
                             }
                     }
 
-                }
                 while(readerStream.isStartElement()==false)
                     if(readerStream.atEnd()==true){
                         break;
