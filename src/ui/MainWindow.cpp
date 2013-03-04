@@ -676,13 +676,13 @@ void MainWindow::importXMLMetadata(){
                         QMessageBox::information(this,"Salut","Je suis dans pos");
 
                         // Getting x coordinate of the top left corner of the sort
-                        //qreal posx = stream.attributes().first().value().toString().toDouble();
+                        qreal posx = stream.attributes().first().value().toString().toDouble();
                         // Setting the x coordinate to the new value
-                        //myarea->getPHPtr()->getGraphicsScene()->getGSort(sortname)->setX(posx);
+                        myarea->getPHPtr()->getGraphicsScene()->getGSort(sortname)->setX(posx);
                         // Getting y coordinate of the top left corner of the sort
-                        //qreal posy = stream.attributes().value("y").toString().toDouble();
+                        qreal posy = stream.attributes().value("y").toString().toDouble();
                         // Setting the y coordinate to the new value
-                        //myarea->getPHPtr()->getGraphicsScene()->getGSort(sortname)->setY(posy);
+                        myarea->getPHPtr()->getGraphicsScene()->getGSort(sortname)->setY(posy);
                         // Getting x coordinate of the cluster of the sort
                         qreal posxCluster = stream.attributes().value("xcluster").toString().toDouble();
                         // Setting the x coordinate to the new value
@@ -776,13 +776,10 @@ void MainWindow::importXMLMetadata(){
                                 int nodeX = stream.attributes().first().value().toString().toInt();
                                 int nodeY = stream.attributes().last().value().toString().toInt();
 
-                                list<ProcessPtr> phProcesses = myarea->getPHPtr()->getProcesses();
-                                list<ProcessPtr>::iterator it;
-                                for (it=phProcesses.begin();it!=phProcesses.end(); it++)
-                                {
-                                    if ((*it)->getNumber()==noprocess)
+                                for (ProcessPtr &b : myarea->getPHPtr()->getGraphicsScene()->getGSort(sortname)->getSort()->getProcesses()){
+                                    if (b->getNumber()==noprocess)
                                     {
-                                        (*it)->getGProcess()->setNodeCoords(nodeX,nodeY);
+                                        b->getGProcess()->setNodeCoords(nodeX,nodeY);
                                     }
                                 }
 
@@ -792,23 +789,7 @@ void MainWindow::importXMLMetadata(){
                                     stream.readNext();
                                 }
 
-                                /*vector<GProcessPtr> phProcesses = myarea->getPHPtr()->getGraphicsScene()->getProcesses();
-                                vector<GProcessPtr>::iterator it;
-                                int i=0;
-                                for (it=phProcesses.begin();it!=phProcesses.end(); it++)
-                                {
-                                    if (i==noprocess)
-                                    {
-                                        (*it)->setNodeCoords(nodeX,nodeY);
-                                    }
-                                    i++;
-                                }
 
-                                stream.readNext();
-                                while (stream.isStartElement()==false)
-                                {
-                                    stream.readNext();
-                                }*/
                             }
 
 
@@ -830,7 +811,7 @@ void MainWindow::importXMLMetadata(){
 
                  }
 
-
+                myarea->getPHPtr()->getGraphicsScene()->updateGraphForImport();
             }
 
 
@@ -937,7 +918,7 @@ void MainWindow::importXMLMetadata(){
 
         input.close();
 
-        myarea->getPHPtr()->getGraphicsScene()->updateGraph();
+        //myarea->getPHPtr()->getGraphicsScene()->updateGraph();
 
 
     } else {
