@@ -20,7 +20,7 @@ MainWindow::MainWindow()
     MainWindow::mwThis = this;
 
     //arguments type list of new function
-        ConnectionSettings::argTypeList= QStringList() << "Text" << "Entier" << "Boolean" << "Process" << "File" << "Folder" << "Choix";
+    ConnectionSettings::argTypeList= QStringList() << "Text" << "Entier" << "Boolean" << "Process" << "File" << "Folder" << "Choix";
 
     //import of the setting included in the xml file
     ConnectionSettings::importXMLSettings();
@@ -377,7 +377,7 @@ void MainWindow::save() {
         if(!((Area*) subWindow->widget())->indicatorEdit->isVisible()){
 
         // SaveFile dialog
-        QString fichier = QFileDialog::getSaveFileName(this, "Save file");
+        QString fichier = QFileDialog::getSaveFileName(this, "Save file", "*.ph");
 
         // need a std::string instead of a QString
         std::string path =	fichier.toStdString();
@@ -385,17 +385,17 @@ void MainWindow::save() {
         //Selection of output format
 
         QStringList items;
-        items << tr("Text") << tr("Dump");
+        items << tr("Standard") << tr("Dump");
         bool ok;
         QString typeFile = QInputDialog::getItem(this,"Select output format","Format : ", items, 0, false, &ok);
 
         //save as
         if(ok && typeFile == "Dump"){
 
-            PHPtr ph= ((Area*) subWindow->widget())->myArea->getPHPtr();
+            PHPtr ph = ((Area*) subWindow->widget())->myArea->getPHPtr();
             PHIO::writeToFile (path, ph);
         }
-        else if(ok && typeFile == "Text"){
+        else if(ok && typeFile == "Standard"){
 
             std::string ph = ((Area*) subWindow->widget())->textArea->toPlainText().toStdString();
             IO::writeFile (path, ph);
@@ -530,6 +530,9 @@ void MainWindow::importXMLMetadata(){
 
         //QMessageBox::information(this,"premier allo?", "premier allo?");
 
+        try
+        {
+
         while (!stream.atEnd())
         {
             //QMessageBox::information(this,"deuxième allo?", "Je suis en dehors de global");
@@ -569,8 +572,8 @@ void MainWindow::importXMLMetadata(){
                                    QString PATH = stream.readElementText();
                                    if (PATH!=area->path)
                                    {
-                                       QMessageBox::critical(this,"Error","Preferences file does not refer to the current opened file");
-                                       break;
+                                       throw wrong_import_file();
+
                                    }
                                    stream.readNext();
                                    while (stream.isStartElement()==false)
@@ -660,7 +663,7 @@ void MainWindow::importXMLMetadata(){
                 while (stream.name()=="sort")
                 {
                     std::string sortname = stream.attributes().first().value().toString().toStdString();
-                    //QMessageBox::information(this,"Salut","Je suis dans le sort "+stream.attributes().first().value().toString());
+                    QMessageBox::information(this,"Salut","Je suis dans le sort "+stream.attributes().first().value().toString());
                     stream.readNext();
                     while (stream.isStartElement()==false)
                     {
@@ -670,13 +673,34 @@ void MainWindow::importXMLMetadata(){
 
                     if (stream.name()=="pos")
                     {
-                        //QMessageBox::information(this,"Salut","Je suis dans pos");
+                        QMessageBox::information(this,"Salut","Je suis dans pos");
+
+                        // Getting x coordinate of the top left corner of the sort
+                        //qreal posx = stream.attributes().first().value().toString().toDouble();
+                        // Setting the x coordinate to the new value
+                        //myarea->getPHPtr()->getGraphicsScene()->getGSort(sortname)->setX(posx);
+                        // Getting y coordinate of the top left corner of the sort
+                        //qreal posy = stream.attributes().value("y").toString().toDouble();
+                        // Setting the y coordinate to the new value
+                        //myarea->getPHPtr()->getGraphicsScene()->getGSort(sortname)->setY(posy);
+                        // Getting x coordinate of the cluster of the sort
+                        qreal posxCluster = stream.attributes().value("xcluster").toString().toDouble();
+                        // Setting the x coordinate to the new value
+                        myarea->getPHPtr()->getGraphicsScene()->getGSort(sortname)->getCluster().topLeft.setX(posxCluster);
+                        // Getting y coordinate of the cluster of the sort
+                        qreal posyCluster = stream.attributes().last().value().toString().toDouble();
+                        // Setting the y coordinate to the new value
+                        myarea->getPHPtr()->getGraphicsScene()->getGSort(sortname)->getCluster().topLeft.setY(posyCluster);
+
                         stream.readNext();
                         while (stream.isStartElement()==false)
                         {
                             stream.readNext();
                         }
                     }
+
+                    QMessageBox::information(this,"Salut","Je suis sorti de pos");
+
                     if (stream.name()=="size")
                     {
                         //QMessageBox::information(this,"Salut","Je suis dans size");
@@ -729,7 +753,7 @@ void MainWindow::importXMLMetadata(){
 
                     while (stream.name()=="processes")
                     {
-                        //QMessageBox::information(this,"Salut","Je suis dans processes");
+                        QMessageBox::information(this,"Salut","Je suis dans processes");
                         stream.readNext();
                         while (stream.isStartElement()==false)
                         {
@@ -738,6 +762,8 @@ void MainWindow::importXMLMetadata(){
 
                         while (stream.name()=="process")
                         {
+                            QMessageBox::information(this,"Salut","Je suis dans le process "+stream.attributes().first().value().toString());
+                            int noprocess = stream.attributes().first().value().toString().toInt();
                             stream.readNext();
                             while (stream.isStartElement()==false)
                             {
@@ -746,30 +772,68 @@ void MainWindow::importXMLMetadata(){
 
                             if (stream.name()=="pos")
                             {
+                                QMessageBox::information(this,"Salut","Je suis dans process pos");
+                                int nodeX = stream.attributes().first().value().toString().toInt();
+                                int nodeY = stream.attributes().last().value().toString().toInt();
+
+                                list<ProcessPtr> phProcesses = myarea->getPHPtr()->getProcesses();
+                                list<ProcessPtr>::iterator it;
+                                for (it=phProcesses.begin();it!=phProcesses.end(); it++)
+                                {
+                                    if ((*it)->getNumber()==noprocess)
+                                    {
+                                        (*it)->getGProcess()->setNodeCoords(nodeX,nodeY);
+                                    }
+                                }
+
                                 stream.readNext();
                                 while (stream.isStartElement()==false)
                                 {
                                     stream.readNext();
                                 }
+
+                                /*vector<GProcessPtr> phProcesses = myarea->getPHPtr()->getGraphicsScene()->getProcesses();
+                                vector<GProcessPtr>::iterator it;
+                                int i=0;
+                                for (it=phProcesses.begin();it!=phProcesses.end(); it++)
+                                {
+                                    if (i==noprocess)
+                                    {
+                                        (*it)->setNodeCoords(nodeX,nodeY);
+                                    }
+                                    i++;
+                                }
+
+                                stream.readNext();
+                                while (stream.isStartElement()==false)
+                                {
+                                    stream.readNext();
+                                }*/
                             }
+
+
 
                             if (stream.name()=="size")
                             {
+                                //QMessageBox::information(this,"Salut","Je suis dans process size");
                                 stream.readNext();
                                 while (stream.isStartElement()==false)
                                 {
                                     stream.readNext();
                                 }
                             }
+
+
                         }
                     }
-                    //QMessageBox::information(this,"Salut","Je suis sorti du processes ");
+                    //QMessageBox::information(this,"Salut","Je suis sorti de processes");
 
                  }
-                //QMessageBox::information(this,"Salut","Je suis sorti du sort ");
 
 
-             }
+            }
+
+
 
             while (stream.name()=="sort_groups")
             {
@@ -848,25 +912,38 @@ void MainWindow::importXMLMetadata(){
                                 stream.readNext();
                                 }
                         }
-                         QMessageBox::information(this,"Salut","Je suis sorti de group sort ");
+
+
                     }
                 }
-
-                 QMessageBox::information(this,"Salut","Je suis sorti de group");
+                stream.readNext();
+                while(stream.isStartElement()==false)
+                    if(stream.atEnd()==true){
+                            break;
+                    }else{
+                    stream.readNext();
+                    }
 
             }
 
             stream.readNext();
 
          }
+         }
+        catch (wrong_import_file e)
+        {
+            QMessageBox::critical(this,"Error","Preferences file does not refer to the current opened file");
+        }
+
         input.close();
 
-
+        myarea->getPHPtr()->getGraphicsScene()->updateGraph();
 
 
     } else {
      QMessageBox::critical(this,"Error","No file opened");
     }
+
 }
 
 // method to adjust the view

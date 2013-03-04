@@ -47,50 +47,61 @@ void ColorerSequences::highlightBlock(const QString &text)
     tabPattern[23]= "stochasticity_absorption";
     tabPattern[24]= "\\(\\*.*\\*\\)";
 
+    QBrush ponctuation(QColor("#d7d3db"));
+    QBrush comment(QColor("#d7d3db"));
+    QBrush stoach(QColor("#ffff54"));
+    QBrush instruction(Qt::red);
+
     //define the colors for each pattern
-    tabClassFormat[0].setForeground(Qt::blue);
-    tabClassFormat[1].setForeground(Qt::blue);
-    tabClassFormat[2].setForeground(Qt::blue);
-    tabClassFormat[3].setForeground(Qt::blue);
-    tabClassFormat[4].setForeground(Qt::yellow);
-    tabClassFormat[5].setForeground(Qt::blue);
-    tabClassFormat[6].setForeground(Qt::blue);
-    tabClassFormat[7].setForeground(Qt::blue);
-    tabClassFormat[8].setForeground(Qt::blue);
-    tabClassFormat[9].setForeground(Qt::blue);
-    tabClassFormat[10].setForeground(Qt::blue);
-    tabClassFormat[11].setForeground(Qt::red);
-    tabClassFormat[12].setForeground(Qt::red);
-    tabClassFormat[13].setForeground(Qt::red);
-    tabClassFormat[14].setForeground(Qt::blue);
-    tabClassFormat[15].setForeground(Qt::red);
-    tabClassFormat[16].setForeground(Qt::red);
-    tabClassFormat[17].setForeground(Qt::red);
-    tabClassFormat[18].setForeground(Qt::red);
-    tabClassFormat[19].setForeground(Qt::red);
-    tabClassFormat[20].setForeground(Qt::red);
-    tabClassFormat[21].setForeground(Qt::red);
-    tabClassFormat[22].setForeground(Qt::red);
-    tabClassFormat[23].setForeground(Qt::red);
-    tabClassFormat[24].setForeground(Qt::green);
+    tabClassFormat[0].setForeground(ponctuation);
+    tabClassFormat[1].setForeground(ponctuation);
+    tabClassFormat[2].setForeground(ponctuation);
+    tabClassFormat[3].setForeground(ponctuation);
+    tabClassFormat[4].setForeground(stoach);
+    tabClassFormat[5].setForeground(ponctuation);
+    tabClassFormat[6].setForeground(ponctuation);
+    tabClassFormat[7].setForeground(ponctuation);
+    tabClassFormat[8].setForeground(ponctuation);
+    tabClassFormat[9].setForeground(ponctuation);
+    tabClassFormat[10].setForeground(ponctuation);
+    tabClassFormat[11].setForeground(instruction);
+    tabClassFormat[12].setForeground(instruction);
+    tabClassFormat[13].setForeground(instruction);
+    tabClassFormat[14].setForeground(ponctuation);
+    tabClassFormat[15].setForeground(instruction);
+    tabClassFormat[16].setForeground(instruction);
+    tabClassFormat[17].setForeground(instruction);
+    tabClassFormat[18].setForeground(instruction);
+    tabClassFormat[19].setForeground(instruction);
+    tabClassFormat[20].setForeground(instruction);
+    tabClassFormat[21].setForeground(instruction);
+    tabClassFormat[22].setForeground(instruction);
+    tabClassFormat[23].setForeground(instruction);
+    tabClassFormat[24].setForeground(comment);
 
     //match color to pattern
     for (int i=0 ; i<nbMotEnValeur ; i++)
     {
-       tabClassFormat[i].setFontWeight(QFont::Bold);
-       tabExpression[i].setPattern(tabPattern[i]);
-       tabIndex[i]=text.indexOf(tabExpression[i]);
-       while (tabIndex[i] >= 0) {
-           int length = tabExpression[i].matchedLength();
-           setFormat(tabIndex[i], length, tabClassFormat[i]);
-           tabIndex[i] = text.indexOf(tabExpression[i], tabIndex[i] + length);
+        tabClassFormat[i].setFontItalic(true);
+
+        if(i != 24){
+
+            tabClassFormat[i].setFontWeight(QFont::Bold);
+            tabClassFormat[i].setFontItalic(false);
+        }
+
+        tabExpression[i].setPattern(tabPattern[i]);
+        tabIndex[i]=text.indexOf(tabExpression[i]);
+        while (tabIndex[i] >= 0) {
+            int length = tabExpression[i].matchedLength();
+            setFormat(tabIndex[i], length, tabClassFormat[i]);
+            tabIndex[i] = text.indexOf(tabExpression[i], tabIndex[i] + length);
        }
     }
-
 }
 
 ColorerSequences::~ColorerSequences()
 {
 
-};
+}
 

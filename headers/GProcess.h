@@ -90,6 +90,15 @@ class GProcess {
           */
         bool checkCollisions();
 
+
+        /**
+          * @brief gets the related Process
+          *
+          */
+
+        ProcessPtr* getProcess();
+
+
 	
 	protected:
 

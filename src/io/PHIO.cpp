@@ -247,8 +247,10 @@ void PHIO::exportXMLMetadata(MainWindow *window, QFile &output){
         stream.writeAttribute("visible", QString::number(myarea->getPHPtr()->getGraphicsScene()->getGSort(a->getName())->GSort::isVisible()));
 
         stream.writeStartElement("pos");
-        stream.writeAttribute("x",QString::number(myarea->getPHPtr()->getGraphicsScene()->getGSort(a->getName())->geteventPressPoint().x())) ;
-        stream.writeAttribute("y",QString::number(myarea->getPHPtr()->getGraphicsScene()->getGSort(a->getName())->geteventPressPoint().y()));
+        stream.writeAttribute("x",QString::number(myarea->getPHPtr()->getGraphicsScene()->getGSort(a->getName())->x()));
+        stream.writeAttribute("y",QString::number(myarea->getPHPtr()->getGraphicsScene()->getGSort(a->getName())->y()));
+        stream.writeAttribute("xcluster",QString::number(myarea->getPHPtr()->getGraphicsScene()->getGSort(a->getName())->getCluster().topLeft.x()));
+        stream.writeAttribute("ycluster",QString::number(myarea->getPHPtr()->getGraphicsScene()->getGSort(a->getName())->getCluster().topLeft.y()));
         stream.writeEndElement(); // pos
 
         stream.writeStartElement("size");
@@ -278,8 +280,8 @@ void PHIO::exportXMLMetadata(MainWindow *window, QFile &output){
             stream.writeAttribute("i", QString::number(b->getNumber()));
 
             stream.writeStartElement("pos");
-            stream.writeAttribute("x", "");
-            stream.writeAttribute("y", "");
+            stream.writeAttribute("x", QString::number(b->getGProcess()->getNode()->centerPos.x()));
+            stream.writeAttribute("y", QString::number(b->getGProcess()->getNode()->centerPos.y()));
             stream.writeEndElement(); // pos
 
             stream.writeStartElement("size");
