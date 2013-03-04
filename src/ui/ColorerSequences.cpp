@@ -47,10 +47,14 @@ void ColorerSequences::highlightBlock(const QString &text)
     tabPattern[23]= "stochasticity_absorption";
     tabPattern[24]= "\\(\\*.*\\*\\)";
 
-    QBrush ponctuation(QColor("#d7d3db"));
-    QBrush comment(QColor("#d7d3db"));
-    QBrush stoach(QColor("#ffff54"));
-    QBrush instruction(Qt::red);
+    //QBrush ponctuation(QColor("#d7d3db"));
+    QBrush ponctuation(QColor("#7f7f7f"));
+    //QBrush comment(QColor("#d7d3db"));
+    QBrush comment(QColor("#949494"));
+    //QBrush stoach(QColor("#ffff54"));
+    QBrush stoach(QColor("#e7a516"));
+    QBrush instruction("#ff3237");
+    //QBrush instruction(Qt::red);
 
     //define the colors for each pattern
     tabClassFormat[0].setForeground(ponctuation);
