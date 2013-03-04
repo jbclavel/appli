@@ -141,7 +141,6 @@ void PHScene::updateGraph() {
     actions.clear();
     createActions(graph);
 
-
     for (GActionPtr &a : actions)
         addItem(a->getDisplayItem());
 
