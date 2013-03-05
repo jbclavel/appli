@@ -14,6 +14,7 @@ QStringList ConnectionSettings::argTypeList;
 FunctionForm::FunctionForm(QString fileName):
     QDialog()
 {
+    indexFilePH=0;
     indexFile=0;
     indexDirec=0;
     pathTab =fileName;
@@ -91,7 +92,7 @@ void FunctionForm::openConnectionForm(){
                     if(ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgSuf()==""){
                         tabQFormLayout[i]->addRow("Without any suffix", tabLineEdit[i]);
                     }else{
-                        tabQFormLayout[i]->addRow("Suffixe : "+
+                        tabQFormLayout[i]->addRow("Prefixe : "+
                             ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgSuf(), tabLineEdit[i]);
                     }
 
@@ -113,15 +114,16 @@ void FunctionForm::openConnectionForm(){
                                     +") Caption : " + ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgOutline()));
                 tabGroupBox[i]->setLayout(tabQHBox[i]);
             break;}
-            case 1:   //"Entier"
+            case 1:   //"Integer"
                 {
                 tabLineEdit.push_back(new QSpinBox);
+                reinterpret_cast<QSpinBox*>(tabLineEdit[i])->setMaximum(10000);
 
                 tabQFormLayout.push_back(new QFormLayout);
                     if(ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgSuf()==""){
                         tabQFormLayout[i]->addRow("Without any suffix", tabLineEdit[i]);
                     }else{
-                        tabQFormLayout[i]->addRow("Suffixe : "+
+                        tabQFormLayout[i]->addRow("Prefixe : "+
                             ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgSuf(), tabLineEdit[i]);
                     }
                 tabQcheckBox.push_back(new QCheckBox("Taken into account"));
@@ -142,7 +144,38 @@ void FunctionForm::openConnectionForm(){
                                     +") Caption : " + ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgOutline()));
                 tabGroupBox[i]->setLayout(tabQHBox[i]);
             break;}
-            case 2:   //"Boolean"
+        case 2:   //"Real"
+            {
+            tabLineEdit.push_back(new QDoubleSpinBox);
+            reinterpret_cast<QDoubleSpinBox*>(tabLineEdit[i])->setDecimals(15);
+            reinterpret_cast<QDoubleSpinBox*>(tabLineEdit[i])->setRange(-10000,10000);
+
+            tabQFormLayout.push_back(new QFormLayout);
+                if(ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgSuf()==""){
+                    tabQFormLayout[i]->addRow("Without any suffix", tabLineEdit[i]);
+                }else{
+                    tabQFormLayout[i]->addRow("Prefixe : "+
+                        ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgSuf(), tabLineEdit[i]);
+                }
+            tabQcheckBox.push_back(new QCheckBox("Taken into account"));
+            tabQHBox.push_back(new QHBoxLayout);
+                tabQHBox[i]->addWidget(tabQcheckBox[i]);
+                tabQHBox[i]->addLayout(tabQFormLayout[i]);
+
+                if(ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgFac()=="0"){ //if argument is not fac
+                    tabQcheckBox[i]->setChecked(true);
+                    tabQcheckBox[i]->setEnabled(false);
+                }else{
+                    tabLineEdit[i]->setEnabled(false);
+                }
+            connect(this->tabQcheckBox[i], SIGNAL(stateChanged(int)), this, SLOT(enableForm(int)));
+
+            tabGroupBox.push_back(new QGroupBox("Argument "+ QString::number(i+1)+
+                                +" : (Type : " + ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgType()
+                                +") Caption : " + ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgOutline()));
+            tabGroupBox[i]->setLayout(tabQHBox[i]);
+        break;}
+            case 3:   //"Boolean"
                 {
                 tabLineEdit.push_back(new QComboBox);
                     reinterpret_cast<QComboBox*> (tabLineEdit[i])->addItem("True");
@@ -152,7 +185,7 @@ void FunctionForm::openConnectionForm(){
                     if(ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgSuf()==""){
                         tabQFormLayout[i]->addRow("Without any suffix", tabLineEdit[i]);
                     }else{
-                        tabQFormLayout[i]->addRow("Suffixe : "+
+                        tabQFormLayout[i]->addRow("Prefixe : "+
                             ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgSuf(), tabLineEdit[i]);
                     }
                 tabQcheckBox.push_back(new QCheckBox("Taken into account"));
@@ -173,7 +206,7 @@ void FunctionForm::openConnectionForm(){
                                     +") Caption : " + ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgOutline()));
                 tabGroupBox[i]->setLayout(tabQHBox[i]);
             break;}
-            case 3:   //"Process"
+            case 4:   //"Process List"
                 {
                 tabLineEdit.push_back(new QLineEdit);
 
@@ -181,7 +214,7 @@ void FunctionForm::openConnectionForm(){
                     if(ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgSuf()==""){
                         tabQFormLayout[i]->addRow("Without any suffix", tabLineEdit[i]);
                     }else{
-                        tabQFormLayout[i]->addRow("Suffixe : "+
+                        tabQFormLayout[i]->addRow("Prefixe : "+
                             ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgSuf(), tabLineEdit[i]);
                     }
                 tabQcheckBox.push_back(new QCheckBox("Taken into account"));
@@ -203,32 +236,63 @@ void FunctionForm::openConnectionForm(){
                                     +") Caption : " + ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgOutline()));
                 tabGroupBox[i]->setLayout(tabQHBox[i]);
             break;}
-            case 4:   //"File"
+        case 5:   //"Process Group"
+            {
+            tabLineEdit.push_back(new QLineEdit);
+
+            tabQFormLayout.push_back(new QFormLayout);
+                if(ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgSuf()==""){
+                    tabQFormLayout[i]->addRow("Without any suffix", tabLineEdit[i]);
+                }else{
+                    tabQFormLayout[i]->addRow("Prefixe : "+
+                        ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgSuf(), tabLineEdit[i]);
+                }
+            tabQcheckBox.push_back(new QCheckBox("Taken into account"));
+            tabQHBox.push_back(new QHBoxLayout);
+                tabQHBox[i]->addWidget(tabQcheckBox[i]);
+                tabQHBox[i]->addLayout(tabQFormLayout[i]);
+
+                if(ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgFac()=="0"){ //if argument is not fac
+                    tabQcheckBox[i]->setChecked(true);
+                    tabQcheckBox[i]->setEnabled(false);
+                }else{
+                    tabLineEdit[i]->setEnabled(false);
+                }
+            connect(this->tabQcheckBox[i], SIGNAL(stateChanged(int)), this, SLOT(enableForm(int)));
+
+
+            tabGroupBox.push_back(new QGroupBox("Argument "+ QString::number(i+1)+
+                                +" : (Type : " + ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgType()
+                                +") Caption : " + ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgOutline()));
+            tabGroupBox[i]->setLayout(tabQHBox[i]);
+        break;}
+
+        case 6:   //"File .ph"
                 {
                 tabLineEdit.push_back(new QLineEdit);
-                tabButtonFile.push_back(new QPushButton("Browse"));
-                connect(tabButtonFile[indexFile], SIGNAL(clicked()), this, SLOT(getName()));
+                tabButtonFilePH.push_back(new QPushButton("Browse"));
+                connect(tabButtonFilePH[indexFilePH], SIGNAL(clicked()), this, SLOT(getNamePH()));
 
 
                 tabQFormLayout.push_back(new QFormLayout);
                     if(ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgSuf()==""){
                         tabQFormLayout[i]->addRow("Without any suffix", tabLineEdit[i]);
                     }else{
-                        tabQFormLayout[i]->addRow("Suffixe : "+
+                        tabQFormLayout[i]->addRow("Prefixe : "+
                             ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgSuf(), tabLineEdit[i]);
                     }
                 tabQcheckBox.push_back(new QCheckBox("Taken into account"));
                 tabQHBox.push_back(new QHBoxLayout);
                     tabQHBox[i]->addWidget(tabQcheckBox[i]);
                     tabQHBox[i]->addLayout(tabQFormLayout[i]);
-                    tabQHBox[i]->addWidget(tabButtonFile[indexFile]);
+                    tabQHBox[i]->addWidget(tabButtonFilePH[indexFilePH]);
 
                     if(ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgFac()=="0"){ //if argument is not fac
                         tabQcheckBox[i]->setChecked(true);
                         tabQcheckBox[i]->setEnabled(false);
                     }else{
                         tabLineEdit[i]->setEnabled(false);
-                        tabButtonFile[indexFile]->setEnabled(false);
+                        tabButtonFilePH[indexFilePH]->setEnabled(false);
                     }
                 connect(this->tabQcheckBox[i], SIGNAL(stateChanged(int)), this, SLOT(enableForm(int)));
 
@@ -237,9 +301,46 @@ void FunctionForm::openConnectionForm(){
                                     +") Caption : " + ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgOutline()));
                 tabGroupBox[i]->setLayout(tabQHBox[i]);
 
-                indexFile+=1;
+                indexFilePH+=1;
             break;}
-            case 5:   //"Folder"
+        case 7:   //"File"
+            {
+            tabLineEdit.push_back(new QLineEdit);
+            tabButtonFile.push_back(new QPushButton("Browse"));
+            connect(tabButtonFile[indexFile], SIGNAL(clicked()), this, SLOT(getName()));
+
+
+            tabQFormLayout.push_back(new QFormLayout);
+                if(ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgSuf()==""){
+                    tabQFormLayout[i]->addRow("Without any suffix", tabLineEdit[i]);
+                }else{
+                    tabQFormLayout[i]->addRow("Prefixe : "+
+                        ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgSuf(), tabLineEdit[i]);
+                }
+            tabQcheckBox.push_back(new QCheckBox("Taken into account"));
+            tabQHBox.push_back(new QHBoxLayout);
+                tabQHBox[i]->addWidget(tabQcheckBox[i]);
+                tabQHBox[i]->addLayout(tabQFormLayout[i]);
+                tabQHBox[i]->addWidget(tabButtonFile[indexFile]);
+
+                if(ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgFac()=="0"){ //if argument is not fac
+                    tabQcheckBox[i]->setChecked(true);
+                    tabQcheckBox[i]->setEnabled(false);
+                }else{
+                    tabLineEdit[i]->setEnabled(false);
+                    tabButtonFile[indexFile]->setEnabled(false);
+                }
+            connect(this->tabQcheckBox[i], SIGNAL(stateChanged(int)), this, SLOT(enableForm(int)));
+
+            tabGroupBox.push_back(new QGroupBox("Argument "+ QString::number(i+1)+
+                                +" : (Type : " + ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgType()
+                                +") Caption : " + ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgOutline()));
+            tabGroupBox[i]->setLayout(tabQHBox[i]);
+
+            indexFile+=1;
+        break;}
+
+        case 8:   //"Folder"
                 {
                 tabLineEdit.push_back(new QLineEdit);
                 tabButtonDirec.push_back(new QPushButton("Browse"));
@@ -250,7 +351,7 @@ void FunctionForm::openConnectionForm(){
                     if(ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgSuf()==""){
                         tabQFormLayout[i]->addRow("Without any suffix", tabLineEdit[i]);
                     }else{
-                        tabQFormLayout[i]->addRow("Suffixe : "+
+                        tabQFormLayout[i]->addRow("Prefixe : "+
                             ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgSuf(), tabLineEdit[i]);
                     }
                 tabQcheckBox.push_back(new QCheckBox("Taken into account"));
@@ -275,17 +376,16 @@ void FunctionForm::openConnectionForm(){
 
                 indexDirec+=1;
             break;}
-            case 6:   //"Choix"
+            case 9:   //"Choice"
                 {
-                tabLineEdit.push_back(new QLineEdit);
+                tabLineEdit.push_back(new QComboBox);
+                for(int m=0; m<ConnectionSettings::tabChoix[indexFctChosen]->at(i)->size() ; m++){
+                    reinterpret_cast<QComboBox*>(tabLineEdit[i])->addItem(ConnectionSettings::tabChoix[indexFctChosen]->at(i)->at(m)->getChoixNom());
+                }
 
                 tabQFormLayout.push_back(new QFormLayout);
-                    if(ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgSuf()==""){
-                        tabQFormLayout[i]->addRow("Without any suffix", tabLineEdit[i]);
-                    }else{
-                        tabQFormLayout[i]->addRow("Suffixe : "+
-                            ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgSuf(), tabLineEdit[i]);
-                    }
+                tabQFormLayout[i]->addRow("Choice : ", tabLineEdit[i]);
+
                 tabQcheckBox.push_back(new QCheckBox("Taken into account"));
                 tabQHBox.push_back(new QHBoxLayout);
                     tabQHBox[i]->addWidget(tabQcheckBox[i]);
@@ -304,6 +404,90 @@ void FunctionForm::openConnectionForm(){
                                     +") Caption : " + ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgOutline()));
                 tabGroupBox[i]->setLayout(tabQHBox[i]);
             break;}
+        case 10:   //"File not existing"
+            {
+            tabLineEdit.push_back(new QLineEdit);
+
+            tabQFormLayout.push_back(new QFormLayout);
+                if(ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgSuf()==""){
+                    tabQFormLayout[i]->addRow("Without any suffix", tabLineEdit[i]);
+                }else{
+                    tabQFormLayout[i]->addRow("Prefixe : "+
+                        ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgSuf(), tabLineEdit[i]);
+                }
+
+            tabQcheckBox.push_back(new QCheckBox("Taken into account"));
+            tabQHBox.push_back(new QHBoxLayout);
+                tabQHBox[i]->addWidget(tabQcheckBox[i]);
+                tabQHBox[i]->addLayout(tabQFormLayout[i]);
+
+                if(ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgFac()=="0"){ //if argument is not fac
+                    tabQcheckBox[i]->setChecked(true);
+                    tabQcheckBox[i]->setEnabled(false);
+                }else{
+                    tabLineEdit[i]->setEnabled(false);
+                }
+            connect(this->tabQcheckBox[i], SIGNAL(stateChanged(int)), this, SLOT(enableForm(int)));
+
+            tabGroupBox.push_back(new QGroupBox("Argument "+ QString::number(i+1)+
+                                +" : (Type : " + ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgType()
+                                +") Caption : " + ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgOutline()));
+            tabGroupBox[i]->setLayout(tabQHBox[i]);
+        break;}
+        case 11:   //"Necessary argument"
+            {
+            tabLineEdit.push_back(new QLineEdit);
+            reinterpret_cast<QLineEdit*>(tabLineEdit[i])->setText(ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgSuf());
+            tabLineEdit[i]->setEnabled(false);
+
+            tabQFormLayout.push_back(new QFormLayout);
+            tabQFormLayout[i]->addRow("Mandatory Argument : ", tabLineEdit[i]);
+
+            tabQcheckBox.push_back(new QCheckBox("Taken into account"));
+            tabQHBox.push_back(new QHBoxLayout);
+                tabQHBox[i]->addWidget(tabQcheckBox[i]);
+                tabQHBox[i]->addLayout(tabQFormLayout[i]);
+
+
+            tabQcheckBox[i]->setChecked(true);
+            tabQcheckBox[i]->setEnabled(false);
+
+            connect(this->tabQcheckBox[i], SIGNAL(stateChanged(int)), this, SLOT(enableForm(int)));
+
+            tabGroupBox.push_back(new QGroupBox("Argument "+ QString::number(i+1)+
+                                +" : (Type : " + ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgType()
+                                +") Caption : " + ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgOutline()));
+            tabGroupBox[i]->setLayout(tabQHBox[i]);
+        break;}
+        case 12:   //"Current File"
+            {
+            tabLineEdit.push_back(new QLineEdit);
+            reinterpret_cast<QLineEdit*>(tabLineEdit[i])->setText(MainWindow::mwThis->pathCurrentWindow());
+            tabLineEdit[i]->setEnabled(false);
+
+            tabQFormLayout.push_back(new QFormLayout);
+                if(ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgSuf()==""){
+                    tabQFormLayout[i]->addRow("Without any suffix", tabLineEdit[i]);
+                }else{
+                    tabQFormLayout[i]->addRow("Prefixe : "+
+                        ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgSuf(), tabLineEdit[i]);
+                }
+
+            tabQcheckBox.push_back(new QCheckBox("Taken into account"));
+            tabQHBox.push_back(new QHBoxLayout);
+                tabQHBox[i]->addWidget(tabQcheckBox[i]);
+                tabQHBox[i]->addLayout(tabQFormLayout[i]);
+
+            tabQcheckBox[i]->setChecked(true);
+            tabQcheckBox[i]->setEnabled(false);
+
+            connect(this->tabQcheckBox[i], SIGNAL(stateChanged(int)), this, SLOT(enableForm(int)));
+
+            tabGroupBox.push_back(new QGroupBox("Argument "+ QString::number(i+1)+
+                                +" : (Type : " + ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgType()
+                                +") Caption : " + ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgOutline()));
+            tabGroupBox[i]->setLayout(tabQHBox[i]);
+        break;}
             }
         totalLayout->addWidget(tabGroupBox[i]);
         }
@@ -328,6 +512,10 @@ void FunctionForm::fctBack(){
 
         tabQFormLayout[i-1]->~QFormLayout();
         tabQcheckBox[i-1]->~QCheckBox();
+        for(int j=tabButtonFilePH.size(); j>0; j--){
+            tabButtonFilePH[j-1]->~QPushButton();
+            tabButtonFilePH.pop_back();
+        }
         for(int j=tabButtonFile.size(); j>0; j--){
             tabButtonFile[j-1]->~QPushButton();
             tabButtonFile.pop_back();
@@ -347,6 +535,7 @@ void FunctionForm::fctBack(){
         tabGroupBox.pop_back();
     }
 
+    indexFilePH=0;
     indexFile=0;
     indexDirec=0;
 
@@ -392,10 +581,14 @@ void FunctionForm::launchCompute(){
             switch(ConnectionSettings::argTypeList.indexOf(ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgType()))
                 {
             case 0 : //"Text"
-            case 1 : //"Entier"
-            case 4 : //"File"
-            case 5 : //"Folder"
-            case 6 : //"Choix"
+            case 1 : //"Integer"
+            case 2 : //"Real"
+            case 6 : //"File .ph"
+            case 7 : //"File"
+            case 8 : //"Folder"
+            case 10 : //"File not existing"
+            case 11 : //"Necessary argument"
+            case 12 : //"Current File"
             {
                 if(ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgSuf()!=""){
                     arguments << ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgSuf();
@@ -403,7 +596,7 @@ void FunctionForm::launchCompute(){
                 arguments  << reinterpret_cast<QLineEdit*>(tabLineEdit[i])->text();
             break;
             }
-            case 2 : //"Boolean"
+            case 3 : //"Boolean
             {
                 if(ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgSuf()!=""){
                     arguments << ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgSuf();
@@ -411,20 +604,61 @@ void FunctionForm::launchCompute(){
             arguments << reinterpret_cast<QComboBox*>(tabLineEdit[i])->currentText();
             break;
             }
-            case 3 : //"Process"
+            case 4 : //"Process List"
             {
                 if(ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgSuf()!=""){
                     arguments << ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgSuf();
                 }
+
+            QStringList a = MainWindow::mwThis->wordList(reinterpret_cast<QLineEdit*>(tabLineEdit[i])->text());
+
+            for (int j=0; j< a.size(); j++){
+                    arguments << a[j];
+                }
+            break;
+            }
+            case 5 : //"Process Group"
+            {
+                if(ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgSuf()!=""){
+                    arguments << ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgSuf();
+                }
+            QStringList a = MainWindow::mwThis->wordList(reinterpret_cast<QLineEdit*>(tabLineEdit[i])->text());
+            QString mot;//= """";
+            int compteur = 0;
+            for (int j=0; j< a.size(); j++){
+                if(compteur %2 ==0){
+                    mot += a[j] +" ";
+                    compteur+=1;
+                }else{
+                    mot += a[j] +",";
+                    compteur+=1;
+                }
+            }
+            //mot+="""";
+
+            QMessageBox::critical(this, "Error", mot );
+
             QString state = reinterpret_cast<QLineEdit*>(tabLineEdit[i])->text();
-            arguments << state.at(0) << state.at(1) ;
+            arguments << ""+mot+"" ;
+            break;
+            }
+            case 9 : //"Choice"
+            {
+            int num;
+            for(int u = 0; u< ConnectionSettings::tabChoix[indexFctChosen]->at(i)->size(); u++){
+                if(ConnectionSettings::tabChoix[indexFctChosen]->at(i)->at(u)->getChoixNom()==reinterpret_cast<QComboBox*>(tabLineEdit[i])->currentText()){
+                    num=u;
+                }
+            }
+            arguments << ConnectionSettings::tabChoix[indexFctChosen]->at(i)->at(num)->getChoixParam();
             break;
             }
                 }                        //"--no-debug" << "-i" << pathTab << "a" "1" ;
         }
 
-//        QMessageBox::information(this, "ok", arguments[0]+" "+arguments[1]+" "+arguments[2]
-  //                               +" "+arguments[3]+" "+arguments[4]);
+       // QMessageBox::information(this, "ok", arguments[0]);
+                                 //+" "+arguments[1]+" "+arguments[2]
+                                 //+" "+arguments[3]+" "+arguments[4]);
 
         MainWindow::mwThis->compute(program, arguments);
 
@@ -435,6 +669,10 @@ void FunctionForm::launchCompute(){
 
                 tabQFormLayout[i-1]->~QFormLayout();
                 tabQcheckBox[i-1]->~QCheckBox();
+                for(int j=tabButtonFilePH.size(); j>0; j--){
+                    tabButtonFilePH[j-1]->~QPushButton();
+                    tabButtonFilePH.pop_back();
+                }
                 for(int j=tabButtonFile.size(); j>0; j--){
                     tabButtonFile[j-1]->~QPushButton();
                     tabButtonFile.pop_back();
@@ -454,6 +692,7 @@ void FunctionForm::launchCompute(){
                 tabGroupBox.pop_back();
 
             }
+            indexFilePH=0;
             indexFile=0;
             indexDirec=0;
 
@@ -465,6 +704,7 @@ void FunctionForm::launchCompute(){
         this->~FunctionForm();
     }
 }
+
 
 void FunctionForm::testEmpty(){
     boolean vide = false;
@@ -500,6 +740,17 @@ void FunctionForm::enableForm(int state){
     for(int i =0; i<ConnectionSettings::tabFunction[indexFctChosen]->getNbArgument().toInt() ; i++){
         if(tabQcheckBox[i]->isChecked()){
             tabLineEdit[i]->setEnabled(true);
+            //File .ph
+            int compteurPH =0;
+                if(ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgType()=="File .ph"){
+                    for(int j=0; j<i;j++){
+                        if(ConnectionSettings::tabArgument[indexFctChosen]->at(j)->getArgType()=="File .ph"){
+                            compteurPH +=1;
+                        }
+                    }
+                tabButtonFilePH[compteurPH]->setEnabled(true);
+                compteurPH=0;
+                }
             //File
             int compteur =0;
                 if(ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgType()=="File"){
@@ -524,6 +775,17 @@ void FunctionForm::enableForm(int state){
             }
         }else{
             tabLineEdit[i]->setEnabled(false);
+            //File .ph
+            int compteurPH =0;
+                if(ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgType()=="File .ph"){
+                    for(int j=0; j<i;j++){
+                        if(ConnectionSettings::tabArgument[indexFctChosen]->at(j)->getArgType()=="File .ph"){
+                            compteurPH +=1;
+                        }
+                    }
+                tabButtonFilePH[compteurPH]->setEnabled(false);
+                compteurPH=0;
+                }
             //File
             int compteur =0;
                 if(ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgType()=="File"){
@@ -551,16 +813,37 @@ void FunctionForm::enableForm(int state){
 }
 
 
+//slot : get the .ph file name when the "browse" pushbutton is clicked
+void FunctionForm::getNamePH(){
+    QString a;
+    a = QFileDialog::getOpenFileName(this,"Select File", "/home/", tr("All Files (*.ph)"));
+    int num;
+        for(int i=0; i<tabButtonFilePH.size(); i++){
+            if(tabButtonFilePH[i]==QObject::sender()){
+                num=i;
+            }
+        }
+    int now=0;
+        while(num!=-1){
+            if(ConnectionSettings::tabArgument[indexFctChosen]->at(now)->getArgType()=="File .ph"){
+                num-=1;
+            }
+            now+=1;
+        }
+    reinterpret_cast<QLineEdit*>(tabLineEdit[now-1])->setText(a);
+}
+
 //slot : get the file name when the "browse" pushbutton is clicked
 void FunctionForm::getName(){
     QString a;
-    a = QFileDialog::getOpenFileName(this,"Select File", "/home/", tr("All Files (*.ph)"));
+    a = QFileDialog::getOpenFileName(this,"Select File", "/home/");
     int num;
         for(int i=0; i<tabButtonFile.size(); i++){
             if(tabButtonFile[i]==QObject::sender()){
                 num=i;
             }
         }
+
     int now=0;
         while(num!=-1){
             if(ConnectionSettings::tabArgument[indexFctChosen]->at(now)->getArgType()=="File"){

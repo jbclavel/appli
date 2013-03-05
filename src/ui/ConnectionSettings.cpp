@@ -47,8 +47,8 @@ ConnectionSettings::ConnectionSettings():
 
     enTeteArgNum = new QLabel("", this);
     enTeteArgTyp = new QLabel("Type", this);
-    enTeteArgSuf = new QLabel("Suffix", this);
-    enTeteArgFac = new QLabel("Facultatif ", this);
+    enTeteArgSuf = new QLabel("Prefix", this);
+    enTeteArgFac = new QLabel("Facultative ", this);
     enTeteArgOutline = new QLabel("Outline ", this);
 
     gridTable->addWidget(enTeteArgNum,0, 0);
@@ -86,7 +86,7 @@ ConnectionSettings::ConnectionSettings():
 
 }
 
-//build the tabel
+//build the table
 void ConnectionSettings::buildTable(){
 
     if(nbArg->text().toInt()>nbArgPrcdt){
@@ -96,6 +96,7 @@ void ConnectionSettings::buildTable(){
         tabArgType.push_back(new QComboBox(this));
         tabArgType[tabArgType.size()-1]->addItems(ConnectionSettings::argTypeList);
         connect(tabArgType[tabArgType.size()-1], SIGNAL(activated(QString)), this, SLOT(choixCrea(QString)));
+        connect(tabArgType[tabArgType.size()-1], SIGNAL(activated(QString)), this, SLOT(setEnability(QString)));
 
         tabArgSuf.push_back(new QLineEdit(this));
 
@@ -207,8 +208,6 @@ ConnectionSettings::~ConnectionSettings(){
                      }else if(a=="QSpinBox"){
                         int curseurLocal = curseur;
                         for(int j=curseurLocal; j<reinterpret_cast<QSpinBox*>(tabArgSuf[i])->text().toInt() + curseurLocal; j++){
-                            QMessageBox::critical(this, "Error", QString::number(i) +" j:"+ QString::number(j));
-
                             tabChoixNom[j]->~QLineEdit();
                             tabChoixParam[j]->~QLineEdit();
                             curseur+=1;
@@ -570,22 +569,30 @@ void ConnectionSettings::validationConnectionSettings(){
             QString cond;
             if(az=="QLineEdit"){
                cond = reinterpret_cast<QLineEdit*>(tabArgSuf[i])->text();
-            }else if(az=="QSpinBox"){
-               cond = reinterpret_cast<QSpinBox*>(tabArgSuf[i])->text();
             }
 
-            if(cond ==""){
-                    argPres = argPres +"<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color=green>Without suffix</font>";
-                }else{
-                    argPres = argPres +"<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color = green>Suffixe : " + cond + "</font>";
+            if(cond =="" && az != "QSpinBox"){
+                argPres += "<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color=green>Without prefix</font>";
+            }else if (az != "QSpinBox"){
+                argPres += "<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color = green>Prefixe : " + cond + "</font>";
+            }
+
+            argPres += "<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Typed as : <font color = red>" + tabArgType[i]->currentText()+"</font>";
+            int curseur =0;
+            if(tabArgType[i]->currentText()=="Choice"){
+                int curse = curseur;
+                for(int j=curse; j<reinterpret_cast<QSpinBox*>(tabArgSuf[i])->text().toInt()+curse; j++){
+                    argPres+="<br>Choice Name : "+ tabChoixNom[j]->text()+" ; Parametre : "+ tabChoixParam[j]->text();
+                    curseur+=1;
                 }
-                argPres = argPres + "<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Typed as : <font color = red>" + tabArgType[i]->currentText()+"</font>";
-                if(tabArgfacul[i]->isChecked()){
-                    argPres = argPres +"<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color= blue>Mandatory </font>";
-                }else{
-                    argPres = argPres +"<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color = blue>Facultative </font>";
-                }
-            argPres=argPres+"<br>";
+
+            }
+            if(tabArgfacul[i]->isChecked()){
+                argPres += "<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color= blue>Facultative </font>";
+            }else{
+                argPres += "<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color = blue>Mandatory </font>";
+            }
+            argPres += "<br>";
         }
     }
 
@@ -638,6 +645,29 @@ void ConnectionSettings::testOutline(){
     if(vide){
         QMessageBox::information(this, "Connection Setting Validation", "Please, specify all the Outline fields");
     }else{
+        this->testChoix();
+    }
+}
+
+void ConnectionSettings::testChoix(){
+    boolean zero=false;
+    for(int k = 0; k < nbArg->text().toInt(); k++){
+        if(tabArgType[k]->currentText()=="Choice" && reinterpret_cast<QSpinBox*>(tabArgSuf[k])->text()=="0"){
+            zero=true;
+        }
+    }
+
+    boolean vide = false;
+    for (int k = 0; k < tabChoixNom.size(); k++){
+        if(tabChoixNom[k]->text()=="" || tabChoixParam[k]->text()==""){
+            vide=true;
+        }
+    }
+    if(zero){
+        QMessageBox::information(this, "Connection Setting Validation", "Please, check your settings : there is at least one choice argument with no choice");
+    }else if(vide){
+        QMessageBox::information(this, "Connection Setting Validation", "Please, specify all the Choice fields");
+    }else{
         this->validationConnectionSettings();
     }
 }
@@ -665,7 +695,7 @@ void ConnectionSettings::choixCrea(QString param){
     }
 
 
-    if(param=="Choix" && ab !="QSpinBox"){
+    if(param=="Choice" && ab !="QSpinBox"){
 
         reinterpret_cast<QLineEdit*>(tabArgSuf[num])->~QLineEdit();
         tabArgSuf[num] = new QSpinBox(this);
@@ -685,10 +715,10 @@ void ConnectionSettings::choixCrea(QString param){
             }
         }
 
-    }else if(tabArgTypeMem[num]=="Choix" && param!="Choix"){
+    }else if(tabArgTypeMem[num]=="Choice" && param!="Choice"){
         if(reinterpret_cast<QSpinBox*>(tabArgSuf[num])->text().toInt()!=0){
            QMessageBox::information(this, "Warning", "You can not delete the last argument because some choice lines still exist. Please, delete some choice lines !");
-           tabArgType[num]->setCurrentIndex(ConnectionSettings::argTypeList.indexOf("Choix"));
+           tabArgType[num]->setCurrentIndex(ConnectionSettings::argTypeList.indexOf("Choice"));
         }else{
 
         reinterpret_cast<QSpinBox*>(tabArgSuf[num])->~QSpinBox();
@@ -942,6 +972,18 @@ void ConnectionSettings::buildChoix(){
                 }
             }
 
+    }
+}
+
+//enable or not the facultative checkbox according to the argument type choosen
+void ConnectionSettings::setEnability(QString param){
+    for(int i=0; i<tabArgfacul.size(); i++){
+        if(tabArgType[i]->currentText()=="Necessary argument" || tabArgType[i]->currentText()=="Current File"){
+            tabArgfacul[i]->setChecked(false);
+            tabArgfacul[i]->setEnabled(false);
+        }else{
+            tabArgfacul[i]->setEnabled(true);
+        }
     }
 }
 //QMessageBox::critical(this, "Error", "No");

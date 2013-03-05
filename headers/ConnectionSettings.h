@@ -53,8 +53,10 @@ class ConnectionSettings : public QDialog
         void testFunctionName();
         void testProgram();
         void testOutline();
+        void testChoix();
         void choixCrea(QString param);
         void buildChoix();
+        void setEnability(QString param);
 
 
     private:

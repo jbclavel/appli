@@ -29,6 +29,8 @@ class MainWindow : public QMainWindow{
 public:
 
     static MainWindow* mwThis;
+    QStringList wordList(const QString& text);
+
     /**
       * @brief constructor: creates the window, the menus and initializes the characteristics
       *
@@ -69,6 +71,7 @@ public:
       *
       */
     void enableMenu();
+    QString pathCurrentWindow();
 
 
 protected:
