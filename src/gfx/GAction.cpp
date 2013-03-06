@@ -20,7 +20,7 @@ GAction::GAction(ActionPtr a, GVEdge e, GVEdge f, PHScene* sc) : scene(sc), acti
     arrowTails.first 	= new QGraphicsPathItem(edges.first.path, display);
     arrowTails.first->setPen(QPen(color));
     arrowTails.second 	= new QGraphicsPathItem(edges.second.path, display);
-    arrowTails.second->setPen(QPen(color, 1, Qt::DashLine));
+    arrowTails.second->setPen(QPen(color, 0, Qt::DashLine));
 
     // arrow heads
     arrowHeads.first 	= makeArrowHead(edges.first, color);
@@ -41,9 +41,15 @@ QGraphicsPolygonItem* GAction::makeArrowHead(const GVEdge& e, const QColor& colo
     QPointF p = e.path.pointAtPercent(1);
     QPointF* q = new QPointF(p.x() - 8, p.y() - 5);
     QPointF* r = new QPointF(p.x() - 8, p.y() + 5);
+    QPointF* s = new QPointF(p.x() - 1, p.y());
+    QPointF* t = new QPointF(p.x() - 7.5, p.y() + 4);
+    QPointF* u = new QPointF(p.x() - 7.5, p.y() - 4);
     QPolygonF polygon;
     polygon.push_back(p);
     polygon.push_back(*q);
+    polygon.push_back(*u);
+    polygon.push_back(*s);
+    polygon.push_back(*t);
     polygon.push_back(*r);
 
     // rotate arrow
