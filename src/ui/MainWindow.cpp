@@ -663,7 +663,7 @@ void MainWindow::importXMLMetadata(){
                 while (stream.name()=="sort")
                 {
                     std::string sortname = stream.attributes().first().value().toString().toStdString();
-                    QMessageBox::information(this,"Salut","Je suis dans le sort "+stream.attributes().first().value().toString());
+                    //QMessageBox::information(this,"Salut","Je suis dans le sort "+stream.attributes().first().value().toString());
                     stream.readNext();
                     while (stream.isStartElement()==false)
                     {
@@ -850,7 +850,7 @@ void MainWindow::importXMLMetadata(){
 
                     if (stream.name()=="color")
                     {
-                        QMessageBox::information(this,"Salut","Je suis dans group color");
+                        //QMessageBox::information(this,"Salut","Je suis dans group color");
                         stream.readNext();
                         while (stream.isStartElement()==false)
                         {
@@ -860,7 +860,7 @@ void MainWindow::importXMLMetadata(){
 
                     while (stream.name()=="sorts_of_group")
                     {
-                        QMessageBox::information(this,"Salut","Je suis dans sorts_of_group");
+                        //QMessageBox::information(this,"Salut","Je suis dans sorts_of_group");
                         stream.readNext();
                         while (stream.isStartElement()==false)
                         {
@@ -901,6 +901,17 @@ void MainWindow::importXMLMetadata(){
 
                     }
                 }
+
+                /*if (stream.name()=="debug")
+                {
+                    //QMessageBox::information(this,"Salut","Je suis dans debug");
+                    stream.readNext();
+                    while (stream.isStartElement()==false)
+                    {
+                        stream.readNext();
+                    }
+                }*/
+
                 stream.readNext();
                 while(stream.isStartElement()==false)
                     if(stream.atEnd()==true){

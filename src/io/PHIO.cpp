@@ -322,6 +322,10 @@ void PHIO::exportXMLMetadata(MainWindow *window, QFile &output){
         }
     }
 
+    stream.writeStartElement("debug");
+    stream.writeAttribute("debug","");
+    stream.writeEndElement();
+
 
     stream.writeEndElement(); // sort_groups
 
