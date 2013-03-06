@@ -299,6 +299,10 @@ void Area::saveEdit(){
     try{
 
         //Save new text into new file
+        if(this->textArea->toPlainText().isEmpty()){
+
+            throw textAreaEmpty_exception();
+        }
 
         flux << this->textArea->toPlainText() << endl;
 
@@ -332,10 +336,11 @@ void Area::saveEdit(){
 
         newph.remove();
     }
-    catch(ph_parse_error & argh){
+    catch(textAreaEmpty_exception & e){
 
-        //PHPtr ph = myArea->getPHPtr();
-        //PHIO::writeToFile ("dumpTemp.ph", ph);
+        QMessageBox::critical(this, "Error !", "You cannot update from an empty text area !");
+    }
+    catch(ph_parse_error & argh){
 
         //Catch a parsing error !
         //Put the exception into a QMessageBox critical
@@ -377,8 +382,6 @@ void Area::saveEdit(){
         //Catch a error if the user delete a sort before associated actions !
 
         QMessageBox::critical(this, "Error !", "Delete the associated actions before the process !");
-        //this->textArea->undo();
-        //this->cancelEdit();
     }
 }
 
@@ -395,28 +398,6 @@ void Area::onTextEdit(){
         this->cancelTextEdit->setEnabled(false);
     }
     else{
-
-/*        try{
-
-            QFile parseTemp("parseTemp.ph");
-
-            parseTemp.open(QIODevice::WriteOnly | QIODevice::Truncate);
-            QTextStream flux(&parseTemp);
-            flux.setCodec("UTF-8");
-
-            flux << this->textArea->toPlainText() << endl;
-
-            QString *file = new QString("parseTemp.ph");
-            std::string phFile = file->toStdString();
-
-            PHIO::parseFile(phFile);
-
-            parseTemp.remove();
-        }
-        catch(ph_parse_error & argh){
-
-            this->textArea->setFontUnderline(true);
-        }*/
 
         if(this->textArea->getNberEdit() == 1){
 

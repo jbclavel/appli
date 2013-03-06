@@ -18,11 +18,11 @@ TextArea::TextArea(QWidget *parent) :
     //this->nberLetter = 0;
     //this->listLetter = new QStringList();
     //this->setAcceptRichText(true);
-
+//217, 221, 233
     QPalette p = this->palette();
-    p.setColor(QPalette::Base, QColor(217, 221, 233));
+    p.setColor(QPalette::Base, QColor(207, 226, 243));
     this->setPalette(p);
-    this->setCurrentFont(QFont("TypeWriter", 10));
+    //this->setCurrentFont(QFont("TypeWriter", 10));
     this->setTextColor(QColor(46,46,46));
     this->setCursorWidth(8);
 }

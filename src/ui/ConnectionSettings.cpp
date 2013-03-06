@@ -17,6 +17,17 @@ ConnectionSettings::ConnectionSettings():
     nbArg->setValue(0);
     nbArgPrcdt = nbArg->text().toInt();
 
+//a mettre en fct
+    tabChoixPrcdt.clear();
+    for (int i=0; i<nbArg->text().toInt() ; i++){
+        QString a = tabArgSuf[i]->metaObject()->className();
+        if(a=="QSpinBox"){
+            tabChoixPrcdt.push_back(reinterpret_cast<QSpinBox*>(tabArgSuf[i])->text());
+        }else if(a=="QLineEdit"){
+            tabChoixPrcdt.push_back("pas de type choix");
+        }
+    }
+
     definitionLayout = new QFormLayout;
     definitionLayout->addRow("Function &name to be displayed", name);
     definitionLayout->addRow("&Program", program);
@@ -59,6 +70,7 @@ ConnectionSettings::ConnectionSettings():
         // Connexions des signaux et des slots
     connect(nbArg, SIGNAL(valueChanged(int)), this, SLOT(buildTable()));
     connect(Save, SIGNAL(clicked()), this, SLOT(testFunctionName()));
+
     connect(Cancel, SIGNAL(clicked()), this, SLOT(quit()));
 
     //Mise en page générale
@@ -83,26 +95,47 @@ void ConnectionSettings::buildTable(){
 
         tabArgType.push_back(new QComboBox(this));
         tabArgType[tabArgType.size()-1]->addItems(ConnectionSettings::argTypeList);
+        connect(tabArgType[tabArgType.size()-1], SIGNAL(activated(QString)), this, SLOT(choixCrea(QString)));
 
-        tabArgSuf.push_back(new QLineEdit( this));
+        tabArgSuf.push_back(new QLineEdit(this));
 
         tabArgfacul.push_back(new QCheckBox("Yes"));
 
         tabArgOutline.push_back(new QLineEdit( this));
 
-        gridTable->addWidget(tabArgNumber[tabArgNumber.size()-1], nbArg->text().toInt(), 0);
-        gridTable->addWidget(tabArgType[tabArgType.size()-1], nbArg->text().toInt(), 1);
-        gridTable->addWidget(tabArgSuf[tabArgSuf.size()-1], nbArg->text().toInt(), 2);
-        gridTable->addWidget(tabArgfacul[tabArgfacul.size()-1],nbArg->text().toInt(),3);
-        gridTable->addWidget(tabArgOutline[tabArgOutline.size()-1],nbArg->text().toInt(),4);
+        //def de rowmax = rangée max
+        rowMax = nbArg->text().toInt()-1;
+        int ind = rowMax;
+        for(int i = 0; i < ind; i++){
+            QString a = tabArgSuf[i]->metaObject()->className();
+            if(a=="QSpinBox"){
+                rowMax += reinterpret_cast<QSpinBox*>(tabArgSuf[i])->text().toInt();
+            }
+        }
+
+        gridTable->addWidget(tabArgNumber[tabArgNumber.size()-1], rowMax+1 , 0);
+        gridTable->addWidget(tabArgType[tabArgType.size()-1], rowMax+1 , 1);
+        gridTable->addWidget(tabArgSuf[tabArgSuf.size()-1], rowMax+1 , 2);
+        gridTable->addWidget(tabArgfacul[tabArgfacul.size()-1],rowMax+1 ,3);
+        gridTable->addWidget(tabArgOutline[tabArgOutline.size()-1],rowMax+1 ,4);
 
         nbArgPrcdt = nbArg->text().toInt();
 
     }else if(nbArg->text().toInt()<nbArgPrcdt){
 
+        QString a = tabArgSuf[tabArgSuf.size()-1]->metaObject()->className();
+        if(a!="QSpinBox"){
+
                 tabArgNumber[tabArgNumber.size()-1]->~QLabel();
                 tabArgType[tabArgType.size()-1]->~QComboBox();
-                tabArgSuf[tabArgSuf.size()-1]->~QLineEdit();
+
+                QString a = tabArgSuf[tabArgSuf.size()-1]->metaObject()->className();
+                if(a=="QLineEdit"){
+                    reinterpret_cast<QLineEdit*>(tabArgSuf[tabArgSuf.size()-1])->~QLineEdit();
+                }else if(a=="QSpinBox"){
+                    reinterpret_cast<QSpinBox*>(tabArgSuf[tabArgSuf.size()-1])->~QSpinBox();
+                }
+
                 tabArgfacul[tabArgfacul.size()-1]->~QCheckBox();
                 tabArgOutline[tabArgOutline.size()-1]->~QLineEdit();
 
@@ -113,8 +146,42 @@ void ConnectionSettings::buildTable(){
                 tabArgOutline.pop_back();
 
                 nbArgPrcdt = nbArg->text().toInt();
+        }else if(reinterpret_cast<QSpinBox*>(tabArgSuf[tabArgSuf.size()-1])->text().toInt()!=0){
+            QMessageBox::information(this, "Warning", "You can not delete the last argument because some choice lines still exist. Please, delete some choice lines !");
+            nbArg->setValue(nbArg->text().toInt()+1);
+        }else{
+            tabArgNumber[tabArgNumber.size()-1]->~QLabel();
+            tabArgType[tabArgType.size()-1]->~QComboBox();
+
+            QString a = tabArgSuf[tabArgSuf.size()-1]->metaObject()->className();
+            if(a=="QLineEdit"){
+                reinterpret_cast<QLineEdit*>(tabArgSuf[tabArgSuf.size()-1])->~QLineEdit();
+            }else if(a=="QSpinBox"){
+                reinterpret_cast<QSpinBox*>(tabArgSuf[tabArgSuf.size()-1])->~QSpinBox();
+            }
+
+            tabArgfacul[tabArgfacul.size()-1]->~QCheckBox();
+            tabArgOutline[tabArgOutline.size()-1]->~QLineEdit();
+
+            tabArgNumber.pop_back();
+            tabArgType.pop_back();
+            tabArgSuf.pop_back();
+            tabArgfacul.pop_back();
+            tabArgOutline.pop_back();
+
+            nbArgPrcdt = nbArg->text().toInt();
     }
+    }
+    gridTable->update();
     resize(550, 200);
+
+    for(int i=tabArgTypeMem.size(); i>0; i--){
+        tabArgTypeMem.pop_back();
+    }
+
+    for(int i=0; i<tabArgType.size(); i++){
+        tabArgTypeMem.push_back(tabArgType[i]->currentText());
+    }
 }
 
 
@@ -129,11 +196,26 @@ ConnectionSettings::~ConnectionSettings(){
 
             //remove the table
             if(nbArg->text().toInt()!=0){
-
+                int curseur=0;
                 for(int i = nbArg->text().toInt()-1 ; i >= 0 ; i--){
                     tabArgNumber[i]->~QLabel();
                     tabArgType[i]->~QComboBox();
-                    tabArgSuf[i]->~QLineEdit();
+
+                    QString a = tabArgSuf[i]->metaObject()->className();
+                    if(a=="QLineEdit"){
+                        reinterpret_cast<QLineEdit*>(tabArgSuf[i])->~QLineEdit();
+                     }else if(a=="QSpinBox"){
+                        int curseurLocal = curseur;
+                        for(int j=curseurLocal; j<reinterpret_cast<QSpinBox*>(tabArgSuf[i])->text().toInt() + curseurLocal; j++){
+                            QMessageBox::critical(this, "Error", QString::number(i) +" j:"+ QString::number(j));
+
+                            tabChoixNom[j]->~QLineEdit();
+                            tabChoixParam[j]->~QLineEdit();
+                            curseur+=1;
+                        }
+                        reinterpret_cast<QSpinBox*>(tabArgSuf[i])->~QSpinBox();
+                    }
+
                     tabArgfacul[i]->~QCheckBox();
                     tabArgOutline[i]->~QLineEdit();
 
@@ -144,6 +226,8 @@ ConnectionSettings::~ConnectionSettings(){
                     tabArgOutline.pop_back();
 
                 }
+                tabChoixNom.clear();
+                tabChoixParam.clear();
             }
 
             //remove the definition group
@@ -201,19 +285,26 @@ void ConnectionSettings::exportXMLSettings(){
            writerStream.writeStartElement("Function");
 
            writerStream.writeStartElement("Definition");
-           writerStream.writeTextElement("name", ConnectionSettings::tabFunction[i]->getNameFunction());
-           writerStream.writeTextElement("program", ConnectionSettings::tabFunction[i]->getProgram());
+               writerStream.writeTextElement("name", ConnectionSettings::tabFunction[i]->getNameFunction());
+               writerStream.writeTextElement("program", ConnectionSettings::tabFunction[i]->getProgram());
                writerStream.writeTextElement("nbArgument", ConnectionSettings::tabFunction[i]->getNbArgument());
            writerStream.writeEndElement();
 
-          for ( j = 0; j < ConnectionSettings::tabArgument[i]->size(); j++){
+        for ( j = 0; j < ConnectionSettings::tabArgument[i]->size(); j++){
 
-               writerStream.writeStartElement("ArgumentsDefinition");
+            writerStream.writeStartElement("ArgumentsDefinition");
                writerStream.writeTextElement("ArgNumber", ConnectionSettings::tabArgument[i]->at(j)->getArgNumber());
                    writerStream.writeTextElement("ArgType", ConnectionSettings::tabArgument[i]->at(j)->getArgType());
                    writerStream.writeTextElement("ArgSuf", ConnectionSettings::tabArgument[i]->at(j)->getArgSuf());
                    writerStream.writeTextElement("ArgFacul", ConnectionSettings::tabArgument[i]->at(j)->getArgFac());
                    writerStream.writeTextElement("ArgOutline", ConnectionSettings::tabArgument[i]->at(j)->getArgOutline());
+
+                   for(int m = 0; m < ConnectionSettings::tabChoix[i]->at(j)->size(); m++){
+                       writerStream.writeStartElement("ChoixList");
+                           writerStream.writeTextElement("ChoixNom", ConnectionSettings::tabChoix[i]->at(j)->at(m)->getChoixNom());
+                           writerStream.writeTextElement("ChoixParam", ConnectionSettings::tabChoix[i]->at(j)->at(m)->getChoixParam());
+                       writerStream.writeEndElement();
+                   }
                writerStream.writeEndElement();
            }
 
@@ -229,14 +320,41 @@ void ConnectionSettings::exportXMLSettings(){
             writerStream.writeTextElement("nbArgument", nbArg->text());
         writerStream.writeEndElement();
 
+        int curseur=0;
         for (int k = 0; k < nbArg->text().toInt(); k++){
 
             writerStream.writeStartElement("ArgumentsDefinition");
                 writerStream.writeTextElement("ArgNumber", tabArgNumber[k]->text());
                 writerStream.writeTextElement("ArgType", tabArgType[k]->currentText());
-                writerStream.writeTextElement("ArgSuf", tabArgSuf[k]->text());
+
+                QString az = tabArgSuf[k]->metaObject()->className();
+
+                if(az=="QLineEdit"){
+                   writerStream.writeTextElement("ArgSuf", reinterpret_cast<QLineEdit*>(tabArgSuf[k])->text());
+                }else if(az=="QSpinBox"){
+                   writerStream.writeTextElement("ArgSuf", reinterpret_cast<QSpinBox*>(tabArgSuf[k])->text());
+                }
+
                 writerStream.writeTextElement("ArgFacul", QString::number(tabArgfacul[k]->isChecked()));
                 writerStream.writeTextElement("ArgOutline", tabArgOutline[k]->text());
+//
+                if(az=="QSpinBox"){
+                    int curse = curseur;
+                    for(int l=curse; l<reinterpret_cast<QSpinBox*>(tabArgSuf[k])->text().toInt()+curse; l++){
+
+                        writerStream.writeStartElement("ChoixList");
+                            writerStream.writeTextElement("ChoixNom", tabChoixNom[l]->text());
+                            writerStream.writeTextElement("ChoixParam", tabChoixParam[l]->text());
+                        writerStream.writeEndElement();
+                        curseur+=1;
+                    }
+                }else{
+                    writerStream.writeStartElement("ChoixList");
+                        writerStream.writeTextElement("ChoixNom", "pas de type choix");
+                        writerStream.writeTextElement("ChoixParam", "pas de type choix");
+                    writerStream.writeEndElement();
+                }
+
             writerStream.writeEndElement();
         }
 
@@ -248,6 +366,12 @@ void ConnectionSettings::exportXMLSettings(){
                 writerStream.writeTextElement("ArgFacul", "Sans Argument");
                 writerStream.writeTextElement("ArgOutline", "Sans Argument");
             writerStream.writeEndElement();
+
+            writerStream.writeStartElement("ChoixList");
+                writerStream.writeTextElement("ChoixNom", "pas de type choix");
+                writerStream.writeTextElement("ChoixParam", "pas de type choix");
+            writerStream.writeEndElement();
+
         }
 
         writerStream.writeEndElement();
@@ -270,11 +394,17 @@ void ConnectionSettings::importXMLSettings(){
 
             for(int j=0; j<ConnectionSettings::tabArgument[i]->size();j++){
                 ConnectionSettings::tabArgument[i]->at(j)->~ArgumentFrame();
+                for(int k=0; k<ConnectionSettings::tabChoix[i]->at(j)->size(); k++){
+                    ConnectionSettings::tabChoix[i]->at(j)->at(k)->~ChoixLigne();
+                }
+                ConnectionSettings::tabChoix[i]->at(j)->clear();
             }
             ConnectionSettings::tabArgument[i]->clear();
+            ConnectionSettings::tabChoix[i]->clear();
         }
         ConnectionSettings::tabFunction.clear();
         ConnectionSettings::tabArgument.clear();
+        ConnectionSettings::tabChoix.clear();
 
     }
 
@@ -302,6 +432,8 @@ void ConnectionSettings::importXMLSettings(){
                     {
                         ConnectionSettings::tabFunction.push_back(new FuncFrame());
                         ConnectionSettings::tabArgument.push_back(new std::vector<ArgumentFrame*>());
+                        ConnectionSettings::tabChoix.push_back(new std::vector< std::vector <ChoixLigne*>*>());
+
                         ConnectionSettings::tabFunction[ConnectionSettings::tabFunction.size()-1]->setNameFunction(readerStream.readElementText());
 
                         while(readerStream.isStartElement()==false)
@@ -328,6 +460,8 @@ void ConnectionSettings::importXMLSettings(){
 
                 while(readerStream.name() == "ArgumentsDefinition")
                 {
+                    ConnectionSettings::tabChoix[ConnectionSettings::tabChoix.size()-1]->push_back(new std::vector <ChoixLigne*>());
+
                     readerStream.readNext();
                     while(readerStream.isStartElement()==false)
                     readerStream.readNext();
@@ -368,7 +502,40 @@ void ConnectionSettings::importXMLSettings(){
                     if(readerStream.name() == "ArgOutline")
                     {
                         ConnectionSettings::tabArgument[ConnectionSettings::tabArgument.size()-1]->at(ConnectionSettings::tabArgument[ConnectionSettings::tabArgument.size()-1]->size()-1)->setArgOutline(readerStream.readElementText());
+                        while(readerStream.isStartElement()==false)
+                        readerStream.readNext();
 
+                    }
+
+                        while(readerStream.name() == "ChoixList")
+                        {
+                            readerStream.readNext();
+                            while(readerStream.isStartElement()==false)
+                            readerStream.readNext();
+
+                            if(readerStream.name() == "ChoixNom")
+                            {
+                                ConnectionSettings::tabChoix[ConnectionSettings::tabChoix.size()-1]->at(ConnectionSettings::tabChoix[ConnectionSettings::tabChoix.size()-1]->size()-1)->push_back(new ChoixLigne());
+                                ConnectionSettings::tabChoix[ConnectionSettings::tabChoix.size()-1]->at(ConnectionSettings::tabChoix[ConnectionSettings::tabChoix.size()-1]->size()-1)->at(ConnectionSettings::tabChoix[ConnectionSettings::tabChoix.size()-1]->at(ConnectionSettings::tabChoix[ConnectionSettings::tabChoix.size()-1]->size()-1)->size()-1)->setChoixNom(readerStream.readElementText());
+                                readerStream.readNext();
+
+                                while(readerStream.isStartElement()==false)
+                                readerStream.readNext();
+                            }
+                            if(readerStream.name() == "ChoixParam")
+                            {
+                                ConnectionSettings::tabChoix[ConnectionSettings::tabChoix.size()-1]->at(ConnectionSettings::tabChoix[ConnectionSettings::tabChoix.size()-1]->size()-1)->at(ConnectionSettings::tabChoix[ConnectionSettings::tabChoix.size()-1]->at(ConnectionSettings::tabChoix[ConnectionSettings::tabChoix.size()-1]->size()-1)->size()-1)->setChoixParam(readerStream.readElementText());
+                                readerStream.readNext();
+
+                                while(readerStream.isStartElement()==false)
+                                    if(readerStream.atEnd()==true){
+                                            break;
+                                    }else{
+                                    readerStream.readNext();
+                                    }
+
+                            }
+                        }
                         while(readerStream.isStartElement()==false)
                             if(readerStream.atEnd()==true){
                                     break;
@@ -377,7 +544,6 @@ void ConnectionSettings::importXMLSettings(){
                             }
                     }
 
-                }
                 while(readerStream.isStartElement()==false)
                     if(readerStream.atEnd()==true){
                         break;
@@ -399,10 +565,19 @@ void ConnectionSettings::validationConnectionSettings(){
         for(int i=0; i<nbArg->text().toInt(); i++){
             argPres = argPres +"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color= black><b>- Arg " + QString::number(i+1) + " : </b>("
                     + tabArgOutline[i]->text() +") </font>";
-                if(tabArgSuf[i]->text()==""){
+
+            QString az = tabArgSuf[i]->metaObject()->className();
+            QString cond;
+            if(az=="QLineEdit"){
+               cond = reinterpret_cast<QLineEdit*>(tabArgSuf[i])->text();
+            }else if(az=="QSpinBox"){
+               cond = reinterpret_cast<QSpinBox*>(tabArgSuf[i])->text();
+            }
+
+            if(cond ==""){
                     argPres = argPres +"<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color=green>Without suffix</font>";
                 }else{
-                    argPres = argPres +"<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color = green>Suffixe : " + tabArgSuf[i]->text() + "</font>";
+                    argPres = argPres +"<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color = green>Suffixe : " + cond + "</font>";
                 }
                 argPres = argPres + "<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Typed as : <font color = red>" + tabArgType[i]->currentText()+"</font>";
                 if(tabArgfacul[i]->isChecked()){
@@ -468,46 +643,308 @@ void ConnectionSettings::testOutline(){
 }
 
 
+void ConnectionSettings::choixCrea(QString param){
 
-/*
-    QMessageBox::information(this, "err",
-        QString::number(MainWindow::ConnectionSettings::tabFunction.size())         +  "\n" +
-        QString::number(MainWindow::ConnectionSettings::tabArgument.size())         +  "\n" +
-        QString::number(MainWindow::ConnectionSettings::tabArgument[0]->size())     +  "\n" +
-        QString::number(MainWindow::ConnectionSettings::tabArgument[1]->size())     +  "\n" +
+    int num;
+    for(int i=0; i<tabArgType.size(); i++){
+        if(tabArgType[i]==QObject::sender()){
+        num=i;
+        }
+    }
 
-        MainWindow::ConnectionSettings::tabFunction[0]->getNameFunction()           +  "\n" +
-        MainWindow::ConnectionSettings::tabFunction[0]->getProgram()                +  "\n" +
-        MainWindow::ConnectionSettings::tabFunction[0]->getNbArgument()             +  "\n" +
-        MainWindow::ConnectionSettings::tabFunction[0]->getArguments().at(0)->getArgNumber()    +  "\n" +
+    QString ab = tabArgSuf[num]->metaObject()->className();
 
-            MainWindow::ConnectionSettings::tabArgument[0]->at(0)->getArgNumber()       +  "\n" +
-            MainWindow::ConnectionSettings::tabArgument[0]->at(0)->getArgType()         +  "\n" +
-            MainWindow::ConnectionSettings::tabArgument[0]->at(0)->getArgSuf()          +  "\n" +
-            MainWindow::ConnectionSettings::tabArgument[0]->at(0)->getArgFac()          +  "\n" +
+    int position = 0;
+    for(int i=0; i< num; i++ ){
+        QString a = tabArgSuf[i]->metaObject()->className();
+        if(a=="QSpinBox"){
+            position+= 1 + reinterpret_cast<QSpinBox*>(tabArgSuf[i])->text().toInt();
+        }else if(a=="QLineEdit"){
+            position+=1;
+        }
+    }
 
-            MainWindow::ConnectionSettings::tabArgument[0]->at(1)->getArgNumber()       +  "\n" +
-            MainWindow::ConnectionSettings::tabArgument[0]->at(1)->getArgType()         +  "\n" +
-            MainWindow::ConnectionSettings::tabArgument[0]->at(1)->getArgSuf()          +  "\n" +
-            MainWindow::ConnectionSettings::tabArgument[0]->at(1)->getArgFac()          +  "\n" +
 
-        MainWindow::ConnectionSettings::tabFunction[1]->getNameFunction()           +  "\n" +
-        MainWindow::ConnectionSettings::tabFunction[1]->getProgram()                +  "\n" +
-        MainWindow::ConnectionSettings::tabFunction[1]->getNbArgument()             +  "\n" +
-        MainWindow::ConnectionSettings::tabFunction[1]->getArguments().at(0)->getArgNumber()    +  "\n" +
+    if(param=="Choix" && ab !="QSpinBox"){
 
-            MainWindow::ConnectionSettings::tabArgument[1]->at(0)->getArgNumber()       +  "\n" +
-            MainWindow::ConnectionSettings::tabArgument[1]->at(0)->getArgType()         +  "\n" +
-            MainWindow::ConnectionSettings::tabArgument[1]->at(0)->getArgSuf()          +  "\n" +
-            MainWindow::ConnectionSettings::tabArgument[1]->at(0)->getArgFac()          +  "\n"
+        reinterpret_cast<QLineEdit*>(tabArgSuf[num])->~QLineEdit();
+        tabArgSuf[num] = new QSpinBox(this);
+        tabArgSuf[num]->findChild<QLineEdit*>()->setReadOnly(true);
 
-            MainWindow::ConnectionSettings::tabArgument[1]->at(1)->getArgNumber()       +  "\n" +
-            MainWindow::ConnectionSettings::tabArgument[1]->at(1)->getArgType()         +  "\n" +
-            MainWindow::ConnectionSettings::tabArgument[1]->at(1)->getArgSuf()          +  "\n" +
-            MainWindow::ConnectionSettings::tabArgument[1]->at(1)->getArgFac()          +  "\n"
+        gridTable->addWidget(tabArgSuf[num], position +1, 2);
+        connect(tabArgSuf[num], SIGNAL(valueChanged(int)), this, SLOT(buildChoix()));
 
-);
-//QMessageBox::critical(this, "Error", "No file opened!");
-*/
+        //a mettre en fct
+        tabChoixPrcdt.clear();
+        for (int i=0; i<nbArg->text().toInt() ; i++){
+            QString a = tabArgSuf[i]->metaObject()->className();
+            if(a=="QSpinBox"){
+                tabChoixPrcdt.push_back(reinterpret_cast<QSpinBox*>(tabArgSuf[i])->text());
+            }else if(a=="QLineEdit"){
+                tabChoixPrcdt.push_back("pas de type choix");
+            }
+        }
+
+    }else if(tabArgTypeMem[num]=="Choix" && param!="Choix"){
+        if(reinterpret_cast<QSpinBox*>(tabArgSuf[num])->text().toInt()!=0){
+           QMessageBox::information(this, "Warning", "You can not delete the last argument because some choice lines still exist. Please, delete some choice lines !");
+           tabArgType[num]->setCurrentIndex(ConnectionSettings::argTypeList.indexOf("Choix"));
+        }else{
+
+        reinterpret_cast<QSpinBox*>(tabArgSuf[num])->~QSpinBox();
+        tabArgSuf[num] = new QLineEdit(this);
+
+        gridTable->addWidget(tabArgSuf[num], position +1, 2);
+
+        //a mettre en fct
+        tabChoixPrcdt.clear();
+            for (int i=0; i<nbArg->text().toInt() ; i++){
+                QString a = tabArgSuf[i]->metaObject()->className();
+                if(a=="QSpinBox"){
+                    tabChoixPrcdt.push_back(reinterpret_cast<QSpinBox*>(tabArgSuf[i])->text());
+                }else if(a=="QLineEdit"){
+                    tabChoixPrcdt.push_back("pas de type choix");
+                }
+            }
+        }
+    }
+
+    for(int i=tabArgTypeMem.size(); i>0; i--){
+        tabArgTypeMem.pop_back();
+    }
+
+    for(int i=0; i<tabArgType.size(); i++){
+        tabArgTypeMem.push_back(tabArgType[i]->currentText());
+    }
+
+}
+
+void ConnectionSettings::buildChoix(){
+
+    // def de tri = nbr de choix en tt
+    int nbLigneChoix=0;
+    for(int i=0; i<nbArg->text().toInt(); i++){
+
+        QString nat = tabArgSuf[i]->metaObject()->className();
+        if(nat=="QSpinBox"){
+            nbLigneChoix += reinterpret_cast<QSpinBox*>(tabArgSuf[i])->text().toInt();
+        }
+    }
+
+    // def de num = numero du sender
+    int num;
+    for(int i=0; i<tabArgSuf.size(); i++){
+        if(tabArgSuf[i]==QObject::sender()){
+            num=i;
+        }
+    }
+
+    // def de ici : somme des spinbox pour i < num
+    int ici=0;
+    for (int i=0; i<num; i++){
+        QString a = tabArgSuf[i]->metaObject()->className();
+        if(a=="QSpinBox"){
+            ici += reinterpret_cast<QSpinBox*>(tabArgSuf[i])->text().toInt();
+        }
+    }
+
+    ici+= reinterpret_cast<QSpinBox*>(tabArgSuf[num])->text().toInt();
+
+    int indexTabTampon=0;
+    int indexTabTamponParam=0;
+
+    if(reinterpret_cast<QSpinBox*>(tabArgSuf[num])->text().toInt()> tabChoixPrcdt[num].toInt()){
+
+        if(tabChoixNom.size()!=0){
+            tabTampon.clear();
+            for (int i=0; i<tabChoixNom.size() ; i++){
+                tabTampon.push_back(tabChoixNom[i]);
+            }
+
+            tabChoixNom.clear();
+
+            for (int i=0; i< num; i++ ){
+
+                QString a = tabArgSuf[i]->metaObject()->className();
+                int ind=0;
+
+                if(a=="QSpinBox"){
+                    while(ind < reinterpret_cast<QSpinBox*>(tabArgSuf[i])->text().toInt() ){
+                        tabChoixNom.push_back(tabTampon[indexTabTampon]);
+                        ind+=1;
+                        indexTabTampon+=1;
+                    }
+                }
+            }
+
+            for(int i=0; i<tabChoixPrcdt[num].toInt(); i++){
+
+                tabChoixNom.push_back(tabTampon[indexTabTampon]);
+                indexTabTampon+=1;
+            }
+        }
+
+
+        if(tabChoixParam.size()!=0){
+            tabTamponParam.clear();
+            for (int i=0; i<tabChoixParam.size() ; i++){
+                tabTamponParam.push_back(tabChoixParam[i]);
+            }
+
+           tabChoixParam.clear();
+
+            for (int i=0; i< num; i++ ){
+
+                QString a = tabArgSuf[i]->metaObject()->className();
+                int ind=0;
+
+                if(a=="QSpinBox"){
+                    while(ind < reinterpret_cast<QSpinBox*>(tabArgSuf[i])->text().toInt() ){
+                        tabChoixParam.push_back(tabTamponParam[indexTabTamponParam]);
+                        ind+=1;
+                        indexTabTamponParam+=1;
+                    }
+                }
+            }
+
+            for(int i=0; i<tabChoixPrcdt[num].toInt(); i++){
+
+                tabChoixParam.push_back(tabTamponParam[indexTabTamponParam]);
+                indexTabTamponParam+=1;
+            }
+        }
+
+
+        tabChoixNom.push_back(new QLineEdit(this));
+        tabChoixParam.push_back(new QLineEdit(this));
+
+        for (int i= num +1; i< nbArg->text().toInt(); i++ ){
+            QString a = tabArgSuf[i]->metaObject()->className();
+            int ind=0;
+            if(a=="QSpinBox"){
+                while(ind < reinterpret_cast<QSpinBox*>(tabArgSuf[i])->text().toInt() ){
+                    tabChoixNom.push_back(tabTampon[indexTabTampon]);
+                    tabChoixParam.push_back(tabTamponParam[indexTabTamponParam]);
+                    ind+=1;
+                    indexTabTampon+=1;
+                    indexTabTamponParam+=1;
+                }
+            }
+        }
+
+        int indexGrid = 1 ;
+        int indexTabChoixNom =0;
+        int indexTabChoixNomLocal=0;
+
+        for(int i = 0; i < nbArg->text().toInt(); i++){
+            QString a = tabArgSuf[i]->metaObject()->className();
+
+            if(a=="QLineEdit"){
+
+                gridTable->addWidget(tabArgNumber[i], indexGrid , 0);
+                gridTable->addWidget(tabArgType[i], indexGrid , 1);
+                gridTable->addWidget(tabArgSuf[i], indexGrid , 2);
+                gridTable->addWidget(tabArgfacul[i], indexGrid ,3);
+                gridTable->addWidget(tabArgOutline[i], indexGrid ,4);
+                gridTable->update();
+                indexGrid +=1;
+
+
+
+            }else if(a=="QSpinBox"){
+
+                gridTable->addWidget(tabArgNumber[i], indexGrid , 0);
+                gridTable->addWidget(tabArgType[i], indexGrid , 1);
+                gridTable->addWidget(tabArgSuf[i], indexGrid , 2);
+                gridTable->addWidget(tabArgfacul[i], indexGrid ,3);
+                gridTable->addWidget(tabArgOutline[i], indexGrid ,4);
+                indexGrid +=1;
+
+
+                while(indexTabChoixNomLocal < reinterpret_cast<QSpinBox*>(tabArgSuf[i])->text().toInt()){
+
+                    gridTable->addWidget(tabChoixNom[indexTabChoixNom], indexGrid , 2);
+                    gridTable->addWidget(tabChoixParam[indexTabChoixNom], indexGrid , 3);
+                    indexGrid +=1;
+                    indexTabChoixNomLocal +=1;
+                    indexTabChoixNom+=1;
+                }
+                indexTabChoixNomLocal=0;
+            }
+        }
+
+        tabChoixPrcdt.clear();
+        for (int i=0; i<nbArg->text().toInt() ; i++){
+            QString a = tabArgSuf[i]->metaObject()->className();
+            if(a=="QSpinBox"){
+                tabChoixPrcdt.push_back(reinterpret_cast<QSpinBox*>(tabArgSuf[i])->text());
+            }else if(a=="QLineEdit"){
+                tabChoixPrcdt.push_back("pas de type choix");
+            }
+        }
+
+        }else if(reinterpret_cast<QSpinBox*>(tabArgSuf[num])->text().toInt()<tabChoixPrcdt[num].toInt()){
+
+            tabChoixNom[ici]->~QLineEdit();
+            tabChoixParam[ici]->~QLineEdit();
+            tabChoixNom.erase(tabChoixNom.begin()+ici);
+            tabChoixParam.erase(tabChoixParam.begin()+ici);
+
+
+            int indexGrid = 1 ;
+            int indexTabChoixNom =0;
+            int indexTabChoixNomLocal=0;
+
+            for(int i = 0; i < nbArg->text().toInt(); i++){
+                QString a = tabArgSuf[i]->metaObject()->className();
+
+                if(a=="QLineEdit"){
+
+                    gridTable->addWidget(tabArgNumber[i], indexGrid , 0);
+                    gridTable->addWidget(tabArgType[i], indexGrid , 1);
+                    gridTable->addWidget(tabArgSuf[i], indexGrid , 2);
+                    gridTable->addWidget(tabArgfacul[i], indexGrid ,3);
+                    gridTable->addWidget(tabArgOutline[i], indexGrid ,4);
+                    gridTable->update();
+                    indexGrid +=1;
+
+
+
+                }else if(a=="QSpinBox"){
+
+                    gridTable->addWidget(tabArgNumber[i], indexGrid , 0);
+                    gridTable->addWidget(tabArgType[i], indexGrid , 1);
+                    gridTable->addWidget(tabArgSuf[i], indexGrid , 2);
+                    gridTable->addWidget(tabArgfacul[i], indexGrid ,3);
+                    gridTable->addWidget(tabArgOutline[i], indexGrid ,4);
+                    indexGrid +=1;
+
+
+                    while(indexTabChoixNomLocal < reinterpret_cast<QSpinBox*>(tabArgSuf[i])->text().toInt()){
+
+                        gridTable->addWidget(tabChoixNom[indexTabChoixNom], indexGrid , 2);
+                        gridTable->addWidget(tabChoixParam[indexTabChoixNom], indexGrid , 3);
+                        indexGrid +=1;
+                        indexTabChoixNomLocal +=1;
+                        indexTabChoixNom+=1;
+                    }
+                    indexTabChoixNomLocal=0;
+                }
+            }
+
+            tabChoixPrcdt.clear();
+            for (int i=0; i<nbArg->text().toInt() ; i++){
+                QString a = tabArgSuf[i]->metaObject()->className();
+                if(a=="QSpinBox"){
+                    tabChoixPrcdt.push_back(reinterpret_cast<QSpinBox*>(tabArgSuf[i])->text());
+                }else if(a=="QLineEdit"){
+                    tabChoixPrcdt.push_back("pas de type choix");
+                }
+            }
+
+    }
+}
+//QMessageBox::critical(this, "Error", "No");
+
 
 //MainWindow* castParent = reinterpret_cast<MainWindow*> (parent);//->openConnectionForm();

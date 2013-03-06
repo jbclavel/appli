@@ -4,6 +4,7 @@
 #include <QtGui>
 #include "ArgumentFrame.h"
 #include "FuncFrame.h"
+#include "ChoixLigne.h"
 
 
 
@@ -19,14 +20,28 @@ class ConnectionSettings : public QDialog
         ~ConnectionSettings();
 
         std::vector<QLabel*> tabArgNumber;
-        std::vector<QComboBox*> tabArgType ;
-        std::vector<QLineEdit*> tabArgSuf;
+        std::vector<QComboBox*> tabArgType;
+
+        std::vector<QString> tabArgTypeMem;
+
+        std::vector<QWidget*> tabArgSuf;
         std::vector<QCheckBox*> tabArgfacul;
         std::vector<QLineEdit*> tabArgOutline;
+
+
+        std::vector<QLineEdit*> tabTampon;
+        std::vector<QLineEdit*> tabTamponParam;
+
+        std::vector<QLineEdit*> tabChoixNom;
+        std::vector<QLineEdit*> tabChoixParam;
+
         int nbArgPrcdt;
+        int rowMax;
+        std::vector<QString> tabChoixPrcdt;
 
         static std::vector<FuncFrame*> tabFunction;
         static std::vector< std::vector<ArgumentFrame*>* > tabArgument;
+        static std::vector< std::vector< std::vector<ChoixLigne*>*>*> tabChoix;
         static void importXMLSettings();
         static QStringList argTypeList;
 
@@ -38,6 +53,8 @@ class ConnectionSettings : public QDialog
         void testFunctionName();
         void testProgram();
         void testOutline();
+        void choixCrea(QString param);
+        void buildChoix();
 
 
     private:
@@ -50,6 +67,7 @@ class ConnectionSettings : public QDialog
 
         //Groupe : Table
         QGridLayout *gridTable;
+
             //en-tête
         QLabel *enTeteArgNum ;
         QLabel *enTeteArgTyp ;

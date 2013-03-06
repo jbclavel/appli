@@ -7,6 +7,8 @@
 
 std::vector<FuncFrame*> ConnectionSettings::tabFunction;
 std::vector< std::vector<ArgumentFrame*>* > ConnectionSettings::tabArgument;
+std::vector< std::vector< std::vector<ChoixLigne*>*>*> ConnectionSettings::tabChoix;
+
 QStringList ConnectionSettings::argTypeList;
 
 FunctionForm::FunctionForm(QString fileName):

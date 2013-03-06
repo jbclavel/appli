@@ -110,14 +110,14 @@ GVGraphPtr PH::toGVGraph(void) {
 
     // BUG FIXING ATTEMPT:
     // to force hits' heads and bounces' tails to coincide
-    const int nbPorts(8);
-    QString ports[nbPorts] = { "n", "ne", "e", "se", "s", "sw", "w", "nw" };
+    const int nbPorts(9);
+    QString ports[nbPorts] = { "n", "ne", "e", "se", "s", "sw", "w", "nw", "_"};
     int i(0);
 
     // add Actions (well named)
 	for (ActionPtr &a : actions) {
 		res->addEdge(	makeProcessName(a->getSource())
-					, 	makeProcessName(a->getTarget()));
+                    , 	makeProcessName(a->getTarget()));
 		res->addEdge(	makeProcessName(a->getTarget())
 					, 	makeProcessName(a->getResult()));
 
@@ -127,18 +127,26 @@ GVGraphPtr PH::toGVGraph(void) {
         _agset(res->getEdge(makeProcessName(a->getTarget()), makeProcessName(a->getResult())), "tailport", ports[i]);
         i = (i+1) % (nbPorts-1);
 
+        Agsym_t* b;
+        b = agedgeattr(res->graph(), "arrowhead", "");
+        agxset(res->getEdge(makeProcessName(a->getSource()), makeProcessName(a->getTarget())), b->index, "open");
+
+        //_agset(res->graph(), "splines", "true");
+        //_agedgeattr(res->graph(), "arrowhead", "open");
+
         // BUG FIXING ATTEMPT:
         // if the target and the result are next to each other in their sort, then prevent overlap
-//        if (a->getTarget()->getSort() == a->getResult()->getSort()) {
+       /* if (a->getTarget()->getSort() == a->getResult()->getSort()) {
 //            //qDebug() << "intern bounce in " << a->getTarget()->getSort()->getName().c_str();
-//            int diffIndex(a->getTarget()->getNumber() - a->getResult()->getNumber());
-//            if (diffIndex == 1 || diffIndex == -1) {
-//                // TODO do something to avoid edge overlap
-//                //qDebug() << "close bounce: " << makeProcessName(a->getTarget()) << " -> " << makeProcessName(a->getResult());
-//                //_agset(res->getEdge(makeProcessName(a->getTarget()), makeProcessName(a->getResult())), "len", "10");
-//            }
-//        }
-	}
+            int diffIndex(a->getTarget()->getNumber() - a->getResult()->getNumber());
+            if (diffIndex == 1 || diffIndex == -1) {
+                // TODO do something to avoid edge overlap
+                //qDebug() << "close bounce: " << makeProcessName(a->getTarget()) << " -> " << makeProcessName(a->getResult());
+                _agset(res->getEdge(makeProcessName(a->getTarget()), makeProcessName(a->getResult())), "len", "10");
+            }
+        }*/
+    }
+    _agset(res->graph(), "splines", "true");
 	
     // let graphviz calculate an appropriate layout
     res->applyLayout();
@@ -177,6 +185,37 @@ GVGraphPtr PH::updateGVGraph(PHScene *scene) {
                     , 	makeProcessName(a->getResult()));
     }
 
+    // BUG FIXING ATTEMPT:
+    // to force hits' heads and bounces' tails to coincide
+    const int nbPorts(8);
+    QString ports[nbPorts] = { "n", "ne", "e", "se", "s", "sw", "w", "nw" };
+    int i(0);
+
+    // add Actions (well named)
+    for (ActionPtr &a : actions) {
+        res->addEdge(	makeProcessName(a->getSource())
+                    , 	makeProcessName(a->getTarget()));
+        res->addEdge(	makeProcessName(a->getTarget())
+                    , 	makeProcessName(a->getResult()));
+
+        // BUG FIXING ATTEMPT:
+        // to force hits' heads and bounces' tails to coincide
+        _agset(res->getEdge(makeProcessName(a->getSource()), makeProcessName(a->getTarget())), "headport", ports[i]);
+        _agset(res->getEdge(makeProcessName(a->getTarget()), makeProcessName(a->getResult())), "tailport", ports[i]);
+        i = (i+1) % (nbPorts-1);
+
+        // BUG FIXING ATTEMPT:
+        // if the target and the result are next to each other in their sort, then prevent overlap
+        /*if (a->getTarget()->getSort() == a->getResult()->getSort()) {
+//            //qDebug() << "intern bounce in " << a->getTarget()->getSort()->getName().c_str();
+            int diffIndex(a->getTarget()->getNumber() - a->getResult()->getNumber());
+            if (diffIndex == 1 || diffIndex == -1) {
+                // TODO do something to avoid edge overlap
+                //qDebug() << "close bounce: " << makeProcessName(a->getTarget()) << " -> " << makeProcessName(a->getResult());
+                _agset(res->getEdge(makeProcessName(a->getTarget()), makeProcessName(a->getResult())), "len", "10");
+            }
+        }*/
+    }
     // let graphviz calculate an appropriate layout
     res->applyLayout();
 

@@ -73,6 +73,14 @@ struct ph_parse_error: virtual exception_base { };
   */
 struct pint_phc_crash: virtual ph_parse_error { };
 
+/**
+  * @class textAreaEmpty_exception
+  * @brief struct defining the exception called when the user update from an empty textArea
+    extends ph_parse_error
+  *
+  */
+struct textAreaEmpty_exception: virtual ph_parse_error { };
+
 //Pint errors
 
 /**

@@ -10,7 +10,6 @@
 #include "Process.h"
 #include "PHScene.h"
 
-
 PHScene::PHScene(PH* _ph) : ph(_ph) {
     // set background color
     setBackgroundBrush(QBrush(QColor(210, 210, 210)));
@@ -140,7 +139,6 @@ void PHScene::updateGraph() {
     // create GActions linking actual actions to GVEdges (display info)
     actions.clear();
     createActions(graph);
-
 
     for (GActionPtr &a : actions)
         addItem(a->getDisplayItem());
