@@ -70,6 +70,11 @@ void GProcess::setNodeCoords(int dx, int dy) {
     node.centerPos.setY(node.centerPos.y() + dy);
 }
 
+void GProcess::setNodeCoordsForImport(int x, int y) {
+    node.centerPos.setX(x);
+    node.centerPos.setY(y);
+}
+
 
 void GProcess::setNode(GVNode gvnode) {
     this->node = gvnode;

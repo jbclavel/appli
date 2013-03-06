@@ -249,8 +249,8 @@ void PHIO::exportXMLMetadata(MainWindow *window, QFile &output){
         stream.writeStartElement("pos");
         stream.writeAttribute("x",QString::number(myarea->getPHPtr()->getGraphicsScene()->getGSort(a->getName())->x()));
         stream.writeAttribute("y",QString::number(myarea->getPHPtr()->getGraphicsScene()->getGSort(a->getName())->y()));
-        stream.writeAttribute("xcluster",QString::number(myarea->getPHPtr()->getGraphicsScene()->getGSort(a->getName())->getCluster().topLeft.x()));
-        stream.writeAttribute("ycluster",QString::number(myarea->getPHPtr()->getGraphicsScene()->getGSort(a->getName())->getCluster().topLeft.y()));
+        stream.writeAttribute("xcluster",QString::number(myarea->getPHPtr()->getGraphicsScene()->getGSort(a->getName())->getCluster().topLeft.rx()));
+        stream.writeAttribute("ycluster",QString::number(myarea->getPHPtr()->getGraphicsScene()->getGSort(a->getName())->getCluster().topLeft.ry()));
         stream.writeEndElement(); // pos
 
         stream.writeStartElement("size");
