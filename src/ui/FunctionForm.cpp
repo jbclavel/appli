@@ -20,7 +20,7 @@ FunctionForm::FunctionForm(QString fileName):
 
     choix = new QComboBox;
 
-    for (int i=0; i<ConnectionSettings::tabFunction.size();i++ ){
+    for (int i=0; i<(int)ConnectionSettings::tabFunction.size();i++ ){
         choix->addItem(ConnectionSettings::tabFunction[i]->getNameFunction());
     }
 
@@ -68,7 +68,7 @@ void FunctionForm::openConnectionForm(){
     buttonLayout->~QHBoxLayout();
 
     //which number is the function choosen in the tab?
-    for (int i=0; i< ConnectionSettings::tabFunction.size() ; i++ ){
+    for (int i=0; i< (int)ConnectionSettings::tabFunction.size() ; i++ ){
         if(functionChosen == ConnectionSettings::tabFunction[i]->getNameFunction()){
             indexFctChosen = i;
         }
@@ -360,7 +360,7 @@ void FunctionForm::fctBack(){
         //re-build the former window
         choix = new QComboBox;
 
-        for (int i=0; i<ConnectionSettings::tabFunction.size();i++ ){
+        for (int i=0; i<(int)ConnectionSettings::tabFunction.size();i++ ){
             choix->addItem(ConnectionSettings::tabFunction[i]->getNameFunction());
         }
 
@@ -388,7 +388,7 @@ void FunctionForm::launchCompute(){
 
         QStringList arguments;
 
-        for(int i=0; i<ConnectionSettings::tabArgument[indexFctChosen]->size(); i++){
+        for(int i=0; i<(int)ConnectionSettings::tabArgument[indexFctChosen]->size(); i++){
             switch(ConnectionSettings::argTypeList.indexOf(ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgType()))
                 {
             case 0 : //"Text"
@@ -468,7 +468,7 @@ void FunctionForm::launchCompute(){
 
 void FunctionForm::testEmpty(){
     boolean vide = false;
-    for(int i=0; i<ConnectionSettings::tabArgument[indexFctChosen]->size(); i++){
+    for(int i=0; i<(int)ConnectionSettings::tabArgument[indexFctChosen]->size(); i++){
         if(tabQcheckBox[i]->isChecked()){
             switch(ConnectionSettings::argTypeList.indexOf(ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgType()))
                 {
@@ -556,7 +556,7 @@ void FunctionForm::getName(){
     QString a;
     a = QFileDialog::getOpenFileName(this,"Select File", "/home/", tr("All Files (*.ph)"));
     int num;
-        for(int i=0; i<tabButtonFile.size(); i++){
+        for(int i=0; i<(int)tabButtonFile.size(); i++){
             if(tabButtonFile[i]==QObject::sender()){
                 num=i;
             }
@@ -577,7 +577,7 @@ void FunctionForm::getDirectoryName(){
     QString a;
     a = QFileDialog::getExistingDirectory(this,"Select Directory", "/home/");
     int num;
-        for(int i=0; i<tabButtonDirec.size(); i++){
+        for(int i=0; i<(int)tabButtonDirec.size(); i++){
             if(tabButtonDirec[i]==QObject::sender()){
                 num=i;
             }

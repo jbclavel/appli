@@ -176,6 +176,8 @@ class PH {
           */
 		void 	setInfiniteDefaultRate (bool b);
 
+        QStringList* positionHit;
+
 	protected:
 
 		//Headers
