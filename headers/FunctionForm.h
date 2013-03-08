@@ -12,6 +12,7 @@ class FunctionForm : public QDialog
         FunctionForm(QString fileName);
         ~FunctionForm();
 
+
     signals :
 
     private slots:
@@ -31,6 +32,9 @@ class FunctionForm : public QDialog
         //the entry argument state is useless
         void enableForm(int state);
 
+        //function which let us have the .ph File Name selected in a QFileDialog window
+        void getNamePH();
+
         //function which let us have the File Name selected in a QFileDialog window
         void getName();
 
@@ -42,6 +46,10 @@ class FunctionForm : public QDialog
     private:
         //variable containing the path of the current file .ph open
         QString pathTab;
+
+
+        //variable allow us to manage the .ph files
+        int indexFilePH;
 
         //variable allow us to manage the files
         int indexFile;
@@ -62,6 +70,11 @@ class FunctionForm : public QDialog
         //global layout
         QVBoxLayout *totalLayout;
 
+        //scroll
+        QWidget *widget;
+        QScrollArea *area;
+        QVBoxLayout *layoutTotal;
+
         //Name and index of the function chosen
         QString functionChosen;
         int indexFctChosen;
@@ -74,6 +87,7 @@ class FunctionForm : public QDialog
         std::vector<QWidget*> tabLineEdit;
 
         std::vector<QPushButton*> tabButtonFile;
+        std::vector<QPushButton*> tabButtonFilePH;
         std::vector<QPushButton*> tabButtonDirec;
 
         //2 buttons

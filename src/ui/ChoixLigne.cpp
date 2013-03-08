@@ -23,6 +23,14 @@ void ChoixLigne::setChoixParam(QString newChoixParam){
     choixParam = newChoixParam;
 }
 
+QString ChoixLigne::getChoixPrefix(){
+    return choixPrefix;
+}
+
+void ChoixLigne::setChoixPrefix(QString newChoixPrefix){
+    choixPrefix = newChoixPrefix;
+}
+
 
 
 

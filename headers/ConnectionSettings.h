@@ -31,9 +31,11 @@ class ConnectionSettings : public QDialog
 
         std::vector<QLineEdit*> tabTampon;
         std::vector<QLineEdit*> tabTamponParam;
+        std::vector<QLineEdit*> tabTamponPrefix;
 
         std::vector<QLineEdit*> tabChoixNom;
         std::vector<QLineEdit*> tabChoixParam;
+        std::vector<QLineEdit*> tabChoixPrefix;
 
         int nbArgPrcdt;
         int rowMax;
@@ -53,8 +55,11 @@ class ConnectionSettings : public QDialog
         void testFunctionName();
         void testProgram();
         void testOutline();
+        void testChoix();
+        void testNecessaryArgument();
         void choixCrea(QString param);
         void buildChoix();
+        void setEnability(QString param);
 
 
     private:
@@ -86,6 +91,11 @@ class ConnectionSettings : public QDialog
 
         //Mise en page générale
         QVBoxLayout *globalLayout;
+
+        //scroll area
+        QWidget *widget;
+        QScrollArea *area;
+        QVBoxLayout *layoutTotal;
 
 };
 #endif

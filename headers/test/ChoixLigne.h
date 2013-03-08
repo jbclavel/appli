@@ -15,9 +15,13 @@ public:
     QString getChoixParam();
     void setChoixParam(QString newChoixParam);
 
+    QString getChoixPrefix();
+    void setChoixPrefix(QString newChoixPrefix);
+
 private :
     QString choixNom;
     QString choixParam;
+    QString choixPrefix;
 
 };
 
