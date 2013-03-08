@@ -70,6 +70,11 @@ class FunctionForm : public QDialog
         //global layout
         QVBoxLayout *totalLayout;
 
+        //scroll
+        QWidget *widget;
+        QScrollArea *area;
+        QVBoxLayout *layoutTotal;
+
         //Name and index of the function chosen
         QString functionChosen;
         int indexFctChosen;

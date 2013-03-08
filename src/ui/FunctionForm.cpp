@@ -38,10 +38,21 @@ FunctionForm::FunctionForm(QString fileName):
     connect(Yes, SIGNAL(clicked()), this, SLOT(openConnectionForm()));
     connect(Cancel, SIGNAL(clicked()), this, SLOT(quit()));
 
-    setLayout(totalLayout);
+    //ajout du scroll
+    widget = new QWidget;
+    widget->setLayout(totalLayout);
+    area = new QScrollArea;
+    area->setWidget(widget);
+    area->setWidgetResizable(true);
+
+    layoutTotal = new QVBoxLayout;
+    layoutTotal->addWidget(area);
+
+
+    setLayout(layoutTotal);
     setWindowTitle("Function Form");
     setModal(true);
-    resize(10,20);
+    resize(600,200);
 }
 
 void FunctionForm::quit(){
@@ -50,6 +61,10 @@ void FunctionForm::quit(){
     Cancel->~QPushButton();
     buttonLayout->~QHBoxLayout();
     totalLayout->~QVBoxLayout();
+    widget->~QWidget();
+    area->~QScrollArea();
+    layoutTotal->~QVBoxLayout();
+
     this->~FunctionForm();
 }
 
@@ -57,7 +72,7 @@ FunctionForm::~FunctionForm(){}
 
 void FunctionForm::openConnectionForm(){
 
-    resize(800,10);
+    resize(800,500);
 
     //which function has been choosen?
     functionChosen = choix->currentText();
@@ -544,7 +559,7 @@ void FunctionForm::fctBack(){
         back->~QPushButton();
         buttonLayout2->~QHBoxLayout();
 
-        resize(10, 20);
+        resize(600,200);
 
         //re-build the former window
         choix = new QComboBox;
@@ -701,6 +716,11 @@ void FunctionForm::launchCompute(){
             buttonLayout2->~QHBoxLayout();
         }
         totalLayout->~QVBoxLayout();
+
+        widget->~QWidget();
+        area->~QScrollArea();
+        layoutTotal->~QVBoxLayout();
+
         this->~FunctionForm();
     }
 }
@@ -713,10 +733,12 @@ void FunctionForm::testEmpty(){
             switch(ConnectionSettings::argTypeList.indexOf(ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgType()))
                 {
             case 0 : //"Text"
-            case 3 : //"Process"
-            case 4 : //"File"
-            case 5 : //"Folder"
-            case 6 : //"Choix"
+            case 4 : //"Process List"
+            case 5 : //"Process Group"
+            case 6 : //"File .ph"
+            case 7 : //"File"
+            case 8 : //"Folder"
+            case 10 : //"File not existing"
             {
                 if(reinterpret_cast<QLineEdit*>(tabLineEdit[i])->text()==""){
                     vide=true;
@@ -809,6 +831,11 @@ void FunctionForm::enableForm(int state){
                 compteurDir=0;
                 }
             }
+    }
+    for(int i =0; i<ConnectionSettings::tabFunction[indexFctChosen]->getNbArgument().toInt() ; i++){
+        if(ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgType()=="Necessary argument" ||ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgType()=="Current File"){
+            tabLineEdit[i]->setEnabled(false);
+        }
     }
 }
 

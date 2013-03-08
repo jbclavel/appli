@@ -79,10 +79,20 @@ ConnectionSettings::ConnectionSettings():
     globalLayout->addWidget(groupTable);
     globalLayout->addLayout(boutonsLayout);
 
-    setLayout(globalLayout);
+    //ajout du scroll
+    widget = new QWidget;
+    widget->setLayout(globalLayout);
+    area = new QScrollArea;
+    area->setWidget(widget);
+    area->setWidgetResizable(true);
+
+    layoutTotal = new QVBoxLayout;
+    layoutTotal->addWidget(area);
+
+    setLayout(layoutTotal);
     setWindowTitle("Connection Settings");
     setModal(true);
-    resize(550, 200);
+    resize(700,300);
 
 }
 
@@ -92,8 +102,10 @@ void ConnectionSettings::buildTable(){
     if(nbArg->text().toInt()>nbArgPrcdt){
 
         tabArgNumber.push_back(new QLabel("Arg " + nbArg->text() + " :" , this));
+        tabArgNumber[tabArgNumber.size()-1]->setMinimumHeight(25);
 
         tabArgType.push_back(new QComboBox(this));
+        tabArgType[tabArgType.size()-1]->setMinimumHeight(25);
         tabArgType[tabArgType.size()-1]->addItems(ConnectionSettings::argTypeList);
         connect(tabArgType[tabArgType.size()-1], SIGNAL(activated(QString)), this, SLOT(choixCrea(QString)));
         connect(tabArgType[tabArgType.size()-1], SIGNAL(activated(QString)), this, SLOT(setEnability(QString)));
@@ -174,7 +186,7 @@ void ConnectionSettings::buildTable(){
     }
     }
     gridTable->update();
-    resize(550, 200);
+    resize(700, 500);
 
     for(int i=tabArgTypeMem.size(); i>0; i--){
         tabArgTypeMem.pop_back();
@@ -189,75 +201,78 @@ void ConnectionSettings::buildTable(){
 //SLOT : close the window
 void ConnectionSettings::quit(){
 
+    //remove the table
+    if(nbArg->text().toInt()!=0){
+        int curseur=0;
+        for(int i = nbArg->text().toInt()-1 ; i >= 0 ; i--){
+            tabArgNumber[i]->~QLabel();
+            tabArgType[i]->~QComboBox();
+
+            QString a = tabArgSuf[i]->metaObject()->className();
+            if(a=="QLineEdit"){
+                reinterpret_cast<QLineEdit*>(tabArgSuf[i])->~QLineEdit();
+             }else if(a=="QSpinBox"){
+                int curseurLocal = curseur;
+                for(int j=curseurLocal; j<reinterpret_cast<QSpinBox*>(tabArgSuf[i])->text().toInt() + curseurLocal; j++){
+                    tabChoixNom[j]->~QLineEdit();
+                    tabChoixParam[j]->~QLineEdit();
+                    curseur+=1;
+                }
+                reinterpret_cast<QSpinBox*>(tabArgSuf[i])->~QSpinBox();
+            }
+
+            tabArgfacul[i]->~QCheckBox();
+            tabArgOutline[i]->~QLineEdit();
+
+            tabArgNumber.pop_back();
+            tabArgType.pop_back();
+            tabArgSuf.pop_back();
+            tabArgfacul.pop_back();
+            tabArgOutline.pop_back();
+
+        }
+        tabChoixNom.clear();
+        tabChoixParam.clear();
+    }
+
+    //remove the definition group
+    name->~QLineEdit();
+    program->~QLineEdit();
+    nbArg->~QSpinBox();
+
+    definitionLayout->~QFormLayout();
+    groupDefinition->~QGroupBox();
+
+    //Remove : Groupe : Table
+    gridTable->~QGridLayout();
+        //Remove : en-tête
+    enTeteArgNum->~QLabel();
+    enTeteArgTyp->~QLabel();
+    enTeteArgSuf->~QLabel();
+    enTeteArgFac->~QLabel();
+    enTeteArgOutline->~QLabel();
+
+    tableLayout->~QVBoxLayout();
+    groupTable->~QGroupBox();
+
+    //Remove : button
+    Save->~QPushButton();
+    Cancel->~QPushButton();
+    boutonsLayout->~QHBoxLayout();
+
+    //Remove : general layout
+    globalLayout->~QVBoxLayout();
+
+    //Remove : scrollbar
+    widget->~QWidget();
+    area->~QScrollArea();
+    layoutTotal->~QVBoxLayout();
+
     this->~ConnectionSettings();
 }
 
 //Detroyer
-ConnectionSettings::~ConnectionSettings(){
-
-            //remove the table
-            if(nbArg->text().toInt()!=0){
-                int curseur=0;
-                for(int i = nbArg->text().toInt()-1 ; i >= 0 ; i--){
-                    tabArgNumber[i]->~QLabel();
-                    tabArgType[i]->~QComboBox();
-
-                    QString a = tabArgSuf[i]->metaObject()->className();
-                    if(a=="QLineEdit"){
-                        reinterpret_cast<QLineEdit*>(tabArgSuf[i])->~QLineEdit();
-                     }else if(a=="QSpinBox"){
-                        int curseurLocal = curseur;
-                        for(int j=curseurLocal; j<reinterpret_cast<QSpinBox*>(tabArgSuf[i])->text().toInt() + curseurLocal; j++){
-                            tabChoixNom[j]->~QLineEdit();
-                            tabChoixParam[j]->~QLineEdit();
-                            curseur+=1;
-                        }
-                        reinterpret_cast<QSpinBox*>(tabArgSuf[i])->~QSpinBox();
-                    }
-
-                    tabArgfacul[i]->~QCheckBox();
-                    tabArgOutline[i]->~QLineEdit();
-
-                    tabArgNumber.pop_back();
-                    tabArgType.pop_back();
-                    tabArgSuf.pop_back();
-                    tabArgfacul.pop_back();
-                    tabArgOutline.pop_back();
-
-                }
-                tabChoixNom.clear();
-                tabChoixParam.clear();
-            }
-
-            //remove the definition group
-            name->~QLineEdit();
-            program->~QLineEdit();
-            nbArg->~QSpinBox();
-
-            definitionLayout->~QFormLayout();
-            groupDefinition->~QGroupBox();
-
-            //Remove : Groupe : Table
-            gridTable->~QGridLayout();
-                //Remove : en-tête
-            enTeteArgNum->~QLabel();
-            enTeteArgTyp->~QLabel();
-            enTeteArgSuf->~QLabel();
-            enTeteArgFac->~QLabel();
-            enTeteArgOutline->~QLabel();
-
-            tableLayout->~QVBoxLayout();
-            groupTable->~QGroupBox();
-
-            //Remove : button
-            Save->~QPushButton();
-            Cancel->~QPushButton();
-            boutonsLayout->~QHBoxLayout();
-
-            //Remove : general layout
-            globalLayout->~QVBoxLayout();
-
-}
+ConnectionSettings::~ConnectionSettings(){}
 
 //export function
 void ConnectionSettings::exportXMLSettings(){
@@ -668,6 +683,22 @@ void ConnectionSettings::testChoix(){
     }else if(vide){
         QMessageBox::information(this, "Connection Setting Validation", "Please, specify all the Choice fields");
     }else{
+        this->testNecessaryArgument();
+    }
+}
+
+void ConnectionSettings::testNecessaryArgument(){
+    boolean vide = false;
+    for (int k = 0; k < nbArg->text().toInt(); k++){
+        if(tabArgType[k]->currentText()=="Necessary argument" ||tabArgType[k]->currentText()=="Current File"){
+            if(reinterpret_cast<QLineEdit*>(tabArgSuf[k])->text()==""){
+            vide=true;
+            }
+        }
+    }
+    if(vide){
+        QMessageBox::information(this, "Connection Setting Validation", "Please, specify all the ""Necessary argument"" or ""Current File"" Prefix fields");
+    }else{
         this->validationConnectionSettings();
     }
 }
@@ -846,7 +877,10 @@ void ConnectionSettings::buildChoix(){
 
 
         tabChoixNom.push_back(new QLineEdit(this));
+        tabChoixNom[tabChoixNom.size()-1]->setPlaceholderText("Name");
         tabChoixParam.push_back(new QLineEdit(this));
+        tabChoixParam[tabChoixParam.size()-1]->setPlaceholderText("Parametre");
+
 
         for (int i= num +1; i< nbArg->text().toInt(); i++ ){
             QString a = tabArgSuf[i]->metaObject()->className();
@@ -983,6 +1017,13 @@ void ConnectionSettings::setEnability(QString param){
             tabArgfacul[i]->setEnabled(false);
         }else{
             tabArgfacul[i]->setEnabled(true);
+        }
+        if(tabArgType[i]->currentText()=="Necessary argument"){
+            reinterpret_cast<QLineEdit*>(tabArgSuf[i])->setPlaceholderText("Put the argument here");
+        }else{
+            if(tabArgType[i]->currentText()!="Choice"){
+                reinterpret_cast<QLineEdit*>(tabArgSuf[i])->setPlaceholderText("");
+            }
         }
     }
 }

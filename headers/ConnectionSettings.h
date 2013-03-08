@@ -54,6 +54,7 @@ class ConnectionSettings : public QDialog
         void testProgram();
         void testOutline();
         void testChoix();
+        void testNecessaryArgument();
         void choixCrea(QString param);
         void buildChoix();
         void setEnability(QString param);
@@ -88,6 +89,11 @@ class ConnectionSettings : public QDialog
 
         //Mise en page générale
         QVBoxLayout *globalLayout;
+
+        //scroll area
+        QWidget *widget;
+        QScrollArea *area;
+        QVBoxLayout *layoutTotal;
 
 };
 #endif
