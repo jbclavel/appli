@@ -394,7 +394,7 @@ void FunctionForm::openConnectionForm(){
             case 9:   //"Choice"
                 {
                 tabLineEdit.push_back(new QComboBox);
-                for(int m=0; m<ConnectionSettings::tabChoix[indexFctChosen]->at(i)->size() ; m++){
+                for(int m=0; m<(int)ConnectionSettings::tabChoix[indexFctChosen]->at(i)->size() ; m++){
                     reinterpret_cast<QComboBox*>(tabLineEdit[i])->addItem(ConnectionSettings::tabChoix[indexFctChosen]->at(i)->at(m)->getChoixNom());
                 }
 
@@ -592,12 +592,8 @@ void FunctionForm::launchCompute(){
 
         QStringList arguments;
 
-<<<<<<< HEAD
-        for(int i=0; i<(int)ConnectionSettings::tabArgument[indexFctChosen]->size(); i++){
-=======
-        for(int i=0; i<ConnectionSettings::tabArgument[indexFctChosen]->size(); i++){
+    for(int i=0; i<(int)ConnectionSettings::tabArgument[indexFctChosen]->size(); i++){
             if(tabQcheckBox[i]->isChecked()){
->>>>>>> 5c521088e8f570448a0503ed2f62e52d8582cfbe
             switch(ConnectionSettings::argTypeList.indexOf(ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgType()))
                 {
             case 0 : //"Text"
@@ -662,7 +658,7 @@ void FunctionForm::launchCompute(){
             case 9 : //"Choice"
             {
             int num;
-            for(int u = 0; u< ConnectionSettings::tabChoix[indexFctChosen]->at(i)->size(); u++){
+            for(int u = 0; u< (int)ConnectionSettings::tabChoix[indexFctChosen]->at(i)->size(); u++){
                 if(ConnectionSettings::tabChoix[indexFctChosen]->at(i)->at(u)->getChoixNom()==reinterpret_cast<QComboBox*>(tabLineEdit[i])->currentText()){
                     num=u;
                 }
@@ -852,7 +848,7 @@ void FunctionForm::getNamePH(){
     QString a;
     a = QFileDialog::getOpenFileName(this,"Select File", "/home/", tr("All Files (*.ph)"));
     int num;
-        for(int i=0; i<tabButtonFilePH.size(); i++){
+        for(int i=0; i<(int)tabButtonFilePH.size(); i++){
             if(tabButtonFilePH[i]==QObject::sender()){
                 num=i;
             }
