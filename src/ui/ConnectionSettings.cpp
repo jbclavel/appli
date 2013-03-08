@@ -216,6 +216,7 @@ void ConnectionSettings::quit(){
                 for(int j=curseurLocal; j<reinterpret_cast<QSpinBox*>(tabArgSuf[i])->text().toInt() + curseurLocal; j++){
                     tabChoixNom[j]->~QLineEdit();
                     tabChoixParam[j]->~QLineEdit();
+                    tabChoixPrefix[j]->~QLineEdit();
                     curseur+=1;
                 }
                 reinterpret_cast<QSpinBox*>(tabArgSuf[i])->~QSpinBox();
@@ -233,6 +234,7 @@ void ConnectionSettings::quit(){
         }
         tabChoixNom.clear();
         tabChoixParam.clear();
+        tabChoixPrefix.clear();
     }
 
     //remove the definition group
@@ -317,6 +319,7 @@ void ConnectionSettings::exportXMLSettings(){
                        writerStream.writeStartElement("ChoixList");
                            writerStream.writeTextElement("ChoixNom", ConnectionSettings::tabChoix[i]->at(j)->at(m)->getChoixNom());
                            writerStream.writeTextElement("ChoixParam", ConnectionSettings::tabChoix[i]->at(j)->at(m)->getChoixParam());
+                           writerStream.writeTextElement("ChoixPrefix", ConnectionSettings::tabChoix[i]->at(j)->at(m)->getChoixPrefix());
                        writerStream.writeEndElement();
                    }
                writerStream.writeEndElement();
@@ -359,6 +362,7 @@ void ConnectionSettings::exportXMLSettings(){
                         writerStream.writeStartElement("ChoixList");
                             writerStream.writeTextElement("ChoixNom", tabChoixNom[l]->text());
                             writerStream.writeTextElement("ChoixParam", tabChoixParam[l]->text());
+                            writerStream.writeTextElement("ChoixPrefix", tabChoixPrefix[l]->text());
                         writerStream.writeEndElement();
                         curseur+=1;
                     }
@@ -366,6 +370,7 @@ void ConnectionSettings::exportXMLSettings(){
                     writerStream.writeStartElement("ChoixList");
                         writerStream.writeTextElement("ChoixNom", "pas de type choix");
                         writerStream.writeTextElement("ChoixParam", "pas de type choix");
+                        writerStream.writeTextElement("ChoixPrefix", "pas de type choix");
                     writerStream.writeEndElement();
                 }
 
@@ -384,6 +389,7 @@ void ConnectionSettings::exportXMLSettings(){
             writerStream.writeStartElement("ChoixList");
                 writerStream.writeTextElement("ChoixNom", "pas de type choix");
                 writerStream.writeTextElement("ChoixParam", "pas de type choix");
+                writerStream.writeTextElement("ChoixPrefix", "pas de type choix");
             writerStream.writeEndElement();
 
         }
@@ -542,6 +548,14 @@ void ConnectionSettings::importXMLSettings(){
                                 readerStream.readNext();
 
                                 while(readerStream.isStartElement()==false)
+                                readerStream.readNext();
+                            }
+                            if(readerStream.name() == "ChoixPrefix")
+                            {
+                                ConnectionSettings::tabChoix[ConnectionSettings::tabChoix.size()-1]->at(ConnectionSettings::tabChoix[ConnectionSettings::tabChoix.size()-1]->size()-1)->at(ConnectionSettings::tabChoix[ConnectionSettings::tabChoix.size()-1]->at(ConnectionSettings::tabChoix[ConnectionSettings::tabChoix.size()-1]->size()-1)->size()-1)->setChoixPrefix(readerStream.readElementText());
+                                readerStream.readNext();
+
+                                while(readerStream.isStartElement()==false)
                                     if(readerStream.atEnd()==true){
                                             break;
                                     }else{
@@ -597,8 +611,13 @@ void ConnectionSettings::validationConnectionSettings(){
             if(tabArgType[i]->currentText()=="Choice"){
                 int curse = curseur;
                 for(int j=curse; j<reinterpret_cast<QSpinBox*>(tabArgSuf[i])->text().toInt()+curse; j++){
-                    argPres+="<br>Choice Name : "+ tabChoixNom[j]->text()+" ; Parametre : "+ tabChoixParam[j]->text();
+                    if(tabChoixPrefix[j]->text()==""){
+                    argPres+="<br>Witout Prefix ; Choice Name : "+ tabChoixNom[j]->text()+" ; Parametre : "+ tabChoixParam[j]->text();
                     curseur+=1;
+                    }else{
+                        argPres+="<br>Prefix : "+ tabChoixPrefix[j]->text() +" ; Choice Name : "+ tabChoixNom[j]->text()+" ; Parametre : "+ tabChoixParam[j]->text();
+                        curseur+=1;
+                    }
                 }
 
             }
@@ -813,6 +832,7 @@ void ConnectionSettings::buildChoix(){
 
     int indexTabTampon=0;
     int indexTabTamponParam=0;
+    int indexTabTamponPrefix=0;
 
     if(reinterpret_cast<QSpinBox*>(tabArgSuf[num])->text().toInt()> tabChoixPrcdt[num].toInt()){
 
@@ -875,11 +895,42 @@ void ConnectionSettings::buildChoix(){
             }
         }
 
+        if(tabChoixPrefix.size()!=0){
+            tabTamponPrefix.clear();
+            for (int i=0; i<tabChoixPrefix.size() ; i++){
+                tabTamponPrefix.push_back(tabChoixPrefix[i]);
+            }
+
+           tabChoixPrefix.clear();
+
+            for (int i=0; i< num; i++ ){
+
+                QString a = tabArgSuf[i]->metaObject()->className();
+                int ind=0;
+
+                if(a=="QSpinBox"){
+                    while(ind < reinterpret_cast<QSpinBox*>(tabArgSuf[i])->text().toInt() ){
+                        tabChoixPrefix.push_back(tabTamponPrefix[indexTabTamponPrefix]);
+                        ind+=1;
+                        indexTabTamponPrefix+=1;
+                    }
+                }
+            }
+
+            for(int i=0; i<tabChoixPrcdt[num].toInt(); i++){
+
+                tabChoixPrefix.push_back(tabTamponPrefix[indexTabTamponPrefix]);
+                indexTabTamponPrefix+=1;
+            }
+        }
+
 
         tabChoixNom.push_back(new QLineEdit(this));
         tabChoixNom[tabChoixNom.size()-1]->setPlaceholderText("Name");
         tabChoixParam.push_back(new QLineEdit(this));
         tabChoixParam[tabChoixParam.size()-1]->setPlaceholderText("Parametre");
+        tabChoixPrefix.push_back(new QLineEdit(this));
+        tabChoixPrefix[tabChoixPrefix.size()-1]->setPlaceholderText("Prefix");
 
 
         for (int i= num +1; i< nbArg->text().toInt(); i++ ){
@@ -889,9 +940,11 @@ void ConnectionSettings::buildChoix(){
                 while(ind < reinterpret_cast<QSpinBox*>(tabArgSuf[i])->text().toInt() ){
                     tabChoixNom.push_back(tabTampon[indexTabTampon]);
                     tabChoixParam.push_back(tabTamponParam[indexTabTamponParam]);
+                    tabChoixPrefix.push_back(tabTamponPrefix[indexTabTamponPrefix]);
                     ind+=1;
                     indexTabTampon+=1;
                     indexTabTamponParam+=1;
+                    indexTabTamponPrefix+=1;
                 }
             }
         }
@@ -927,6 +980,7 @@ void ConnectionSettings::buildChoix(){
 
                 while(indexTabChoixNomLocal < reinterpret_cast<QSpinBox*>(tabArgSuf[i])->text().toInt()){
 
+                    gridTable->addWidget(tabChoixPrefix[indexTabChoixNom], indexGrid , 1);
                     gridTable->addWidget(tabChoixNom[indexTabChoixNom], indexGrid , 2);
                     gridTable->addWidget(tabChoixParam[indexTabChoixNom], indexGrid , 3);
                     indexGrid +=1;
@@ -951,8 +1005,10 @@ void ConnectionSettings::buildChoix(){
 
             tabChoixNom[ici]->~QLineEdit();
             tabChoixParam[ici]->~QLineEdit();
+            tabChoixPrefix[ici]->~QLineEdit();
             tabChoixNom.erase(tabChoixNom.begin()+ici);
             tabChoixParam.erase(tabChoixParam.begin()+ici);
+            tabChoixPrefix.erase(tabChoixPrefix.begin()+ici);
 
 
             int indexGrid = 1 ;
@@ -986,6 +1042,7 @@ void ConnectionSettings::buildChoix(){
 
                     while(indexTabChoixNomLocal < reinterpret_cast<QSpinBox*>(tabArgSuf[i])->text().toInt()){
 
+                        gridTable->addWidget(tabChoixPrefix[indexTabChoixNom], indexGrid , 1);
                         gridTable->addWidget(tabChoixNom[indexTabChoixNom], indexGrid , 2);
                         gridTable->addWidget(tabChoixParam[indexTabChoixNom], indexGrid , 3);
                         indexGrid +=1;

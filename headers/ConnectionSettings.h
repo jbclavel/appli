@@ -31,9 +31,11 @@ class ConnectionSettings : public QDialog
 
         std::vector<QLineEdit*> tabTampon;
         std::vector<QLineEdit*> tabTamponParam;
+        std::vector<QLineEdit*> tabTamponPrefix;
 
         std::vector<QLineEdit*> tabChoixNom;
         std::vector<QLineEdit*> tabChoixParam;
+        std::vector<QLineEdit*> tabChoixPrefix;
 
         int nbArgPrcdt;
         int rowMax;

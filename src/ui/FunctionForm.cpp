@@ -105,7 +105,7 @@ void FunctionForm::openConnectionForm(){
 
                 tabQFormLayout.push_back(new QFormLayout);
                     if(ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgSuf()==""){
-                        tabQFormLayout[i]->addRow("Without any suffix", tabLineEdit[i]);
+                        tabQFormLayout[i]->addRow("Without any prefix", tabLineEdit[i]);
                     }else{
                         tabQFormLayout[i]->addRow("Prefixe : "+
                             ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgSuf(), tabLineEdit[i]);
@@ -136,7 +136,7 @@ void FunctionForm::openConnectionForm(){
 
                 tabQFormLayout.push_back(new QFormLayout);
                     if(ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgSuf()==""){
-                        tabQFormLayout[i]->addRow("Without any suffix", tabLineEdit[i]);
+                        tabQFormLayout[i]->addRow("Without any prefix", tabLineEdit[i]);
                     }else{
                         tabQFormLayout[i]->addRow("Prefixe : "+
                             ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgSuf(), tabLineEdit[i]);
@@ -167,7 +167,7 @@ void FunctionForm::openConnectionForm(){
 
             tabQFormLayout.push_back(new QFormLayout);
                 if(ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgSuf()==""){
-                    tabQFormLayout[i]->addRow("Without any suffix", tabLineEdit[i]);
+                    tabQFormLayout[i]->addRow("Without any prefix", tabLineEdit[i]);
                 }else{
                     tabQFormLayout[i]->addRow("Prefixe : "+
                         ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgSuf(), tabLineEdit[i]);
@@ -198,7 +198,7 @@ void FunctionForm::openConnectionForm(){
 
                 tabQFormLayout.push_back(new QFormLayout);
                     if(ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgSuf()==""){
-                        tabQFormLayout[i]->addRow("Without any suffix", tabLineEdit[i]);
+                        tabQFormLayout[i]->addRow("Without any prefix", tabLineEdit[i]);
                     }else{
                         tabQFormLayout[i]->addRow("Prefixe : "+
                             ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgSuf(), tabLineEdit[i]);
@@ -227,7 +227,7 @@ void FunctionForm::openConnectionForm(){
 
                 tabQFormLayout.push_back(new QFormLayout);
                     if(ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgSuf()==""){
-                        tabQFormLayout[i]->addRow("Without any suffix", tabLineEdit[i]);
+                        tabQFormLayout[i]->addRow("Without any prefix", tabLineEdit[i]);
                     }else{
                         tabQFormLayout[i]->addRow("Prefixe : "+
                             ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgSuf(), tabLineEdit[i]);
@@ -257,7 +257,7 @@ void FunctionForm::openConnectionForm(){
 
             tabQFormLayout.push_back(new QFormLayout);
                 if(ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgSuf()==""){
-                    tabQFormLayout[i]->addRow("Without any suffix", tabLineEdit[i]);
+                    tabQFormLayout[i]->addRow("Without any prefix", tabLineEdit[i]);
                 }else{
                     tabQFormLayout[i]->addRow("Prefixe : "+
                         ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgSuf(), tabLineEdit[i]);
@@ -291,7 +291,7 @@ void FunctionForm::openConnectionForm(){
 
                 tabQFormLayout.push_back(new QFormLayout);
                     if(ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgSuf()==""){
-                        tabQFormLayout[i]->addRow("Without any suffix", tabLineEdit[i]);
+                        tabQFormLayout[i]->addRow("Without any Prefix", tabLineEdit[i]);
                     }else{
                         tabQFormLayout[i]->addRow("Prefixe : "+
                             ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgSuf(), tabLineEdit[i]);
@@ -327,7 +327,7 @@ void FunctionForm::openConnectionForm(){
 
             tabQFormLayout.push_back(new QFormLayout);
                 if(ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgSuf()==""){
-                    tabQFormLayout[i]->addRow("Without any suffix", tabLineEdit[i]);
+                    tabQFormLayout[i]->addRow("Without any prefix", tabLineEdit[i]);
                 }else{
                     tabQFormLayout[i]->addRow("Prefixe : "+
                         ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgSuf(), tabLineEdit[i]);
@@ -364,7 +364,7 @@ void FunctionForm::openConnectionForm(){
 
                 tabQFormLayout.push_back(new QFormLayout);
                     if(ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgSuf()==""){
-                        tabQFormLayout[i]->addRow("Without any suffix", tabLineEdit[i]);
+                        tabQFormLayout[i]->addRow("Without any prefix", tabLineEdit[i]);
                     }else{
                         tabQFormLayout[i]->addRow("Prefixe : "+
                             ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgSuf(), tabLineEdit[i]);
@@ -425,7 +425,7 @@ void FunctionForm::openConnectionForm(){
 
             tabQFormLayout.push_back(new QFormLayout);
                 if(ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgSuf()==""){
-                    tabQFormLayout[i]->addRow("Without any suffix", tabLineEdit[i]);
+                    tabQFormLayout[i]->addRow("Without any prefix", tabLineEdit[i]);
                 }else{
                     tabQFormLayout[i]->addRow("Prefixe : "+
                         ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgSuf(), tabLineEdit[i]);
@@ -482,7 +482,7 @@ void FunctionForm::openConnectionForm(){
 
             tabQFormLayout.push_back(new QFormLayout);
                 if(ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgSuf()==""){
-                    tabQFormLayout[i]->addRow("Without any suffix", tabLineEdit[i]);
+                    tabQFormLayout[i]->addRow("Without any prefix", tabLineEdit[i]);
                 }else{
                     tabQFormLayout[i]->addRow("Prefixe : "+
                         ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgSuf(), tabLineEdit[i]);
@@ -593,6 +593,7 @@ void FunctionForm::launchCompute(){
         QStringList arguments;
 
         for(int i=0; i<ConnectionSettings::tabArgument[indexFctChosen]->size(); i++){
+            if(tabQcheckBox[i]->isChecked()){
             switch(ConnectionSettings::argTypeList.indexOf(ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgType()))
                 {
             case 0 : //"Text"
@@ -651,9 +652,6 @@ void FunctionForm::launchCompute(){
             }
             //mot+="""";
 
-            QMessageBox::critical(this, "Error", mot );
-
-            QString state = reinterpret_cast<QLineEdit*>(tabLineEdit[i])->text();
             arguments << ""+mot+"" ;
             break;
             }
@@ -665,13 +663,18 @@ void FunctionForm::launchCompute(){
                     num=u;
                 }
             }
-            arguments << ConnectionSettings::tabChoix[indexFctChosen]->at(i)->at(num)->getChoixParam();
+            if(ConnectionSettings::tabChoix[indexFctChosen]->at(i)->at(num)->getChoixPrefix()!=""){
+                arguments << ConnectionSettings::tabChoix[indexFctChosen]->at(i)->at(num)->getChoixPrefix() << ConnectionSettings::tabChoix[indexFctChosen]->at(i)->at(num)->getChoixParam();
+            }else{
+                arguments << ConnectionSettings::tabChoix[indexFctChosen]->at(i)->at(num)->getChoixParam();
+            }
             break;
             }
                 }                        //"--no-debug" << "-i" << pathTab << "a" "1" ;
         }
+        }
 
-       // QMessageBox::information(this, "ok", arguments[0]);
+        QMessageBox::information(this, "ok", arguments[0]);
                                  //+" "+arguments[1]+" "+arguments[2]
                                  //+" "+arguments[3]+" "+arguments[4]);
 
