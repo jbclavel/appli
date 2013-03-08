@@ -76,6 +76,15 @@ class GProcess {
         void setNodeCoords(int dx, int dy);
 
         /**
+          * @brief updates the related GVNode's coordinates with a point
+          *
+          * @param int x the horizontal coordinate of the node
+          * @param int y the vertical coordinate of the node
+          *
+          */
+        void setNodeCoordsForImport(int x, int y);
+
+        /**
           * @brief sets the related GVNode structure
           *
           * @param GVNode the GVNode to copy geometry from

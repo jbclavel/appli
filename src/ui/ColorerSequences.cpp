@@ -53,8 +53,8 @@ void ColorerSequences::highlightBlock(const QString &text)
     QBrush comment(QColor("#949494"));
     //QBrush stoach(QColor("#ffff54"));
     QBrush stoach(QColor("#e7a516"));
-    QBrush instruction("#ff3237");
     //QBrush instruction(Qt::red);
+    QBrush instruction("#ff3237");
 
     //define the colors for each pattern
     tabClassFormat[0].setForeground(ponctuation);

@@ -48,6 +48,7 @@ void GVSubGraph::setGraphAttributes(void) {
     QString nodePtsWidth = QString("%1").arg(GVSubGraph::nodeSize/_agget(_graph, "dpi", "96,0").replace(',', ".").toDouble());
 	//GV uses , instead of . for the separator in floats
     _agnodeattr(_graph, "width", nodePtsWidth.replace('.', ","));
+    //_agedgeattr(_graph, "arrowhead", "onormal");
 
 }
 
