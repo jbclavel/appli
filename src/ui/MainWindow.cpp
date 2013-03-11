@@ -158,7 +158,7 @@ MainWindow::MainWindow()
     actionStatistics = menuComputation->addAction("Statistics...");
     menuComputation->addSeparator();
     actionConnection = menuComputation->addAction("Launch a function...");
-    actionNewConnection = menuComputation->addAction("Create a new connection...");
+    actionNewConnection = menuComputation->addAction("Create a new function...");
 
             // disable what does not work well
     actionCheckModelType->setEnabled(false);
@@ -1137,6 +1137,11 @@ void MainWindow::hideShowTree(){
 
 // main method for the computation menu
 void MainWindow::compute(QString program, QStringList arguments, QString fileName) {
+
+    QString bou;
+    for (int i=0; i<arguments.size(); i++){
+        bou+=arguments[i];
+    }
 
     // start process
     QProcess *myProcess = new QProcess();
