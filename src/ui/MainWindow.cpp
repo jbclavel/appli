@@ -844,6 +844,7 @@ void MainWindow::importXMLMetadata(){
                     area->treeArea->groupsPalette->insert(groupe, area->treeArea->palette->at(size%8));
                     //groupe->setForeground(0, QBrush(area->treeArea->palette->at(size%8)));
 
+
                     stream.readNext();
                     while (stream.isStartElement()==false)
                     {
@@ -886,9 +887,8 @@ void MainWindow::importXMLMetadata(){
                                     QTreeWidgetItem* b = new QTreeWidgetItem(groupe);
                                     b->setText(0, a->text(0));
                                     b->setForeground(0, a->foreground(0));
-                                    QColor coul = area->treeArea->groupsPalette->value(groupe);
                                     QPen* pen = new QPen();
-                                    pen->setColor(coul);
+                                    pen->setColor(groupe->foreground(0).color());
                                     pen->setWidth(4);
                                     area->treeArea->myPHPtr->getGraphicsScene()->getGSort(a->text(0).toStdString())->getRect()->setPen(*pen);
                                 }
