@@ -524,6 +524,7 @@ void MainWindow::importXMLMetadata(){
         QXmlStreamReader stream(&input) ;
         Area* area = (Area*)this->getCentraleArea()->currentSubWindow()->widget();
         MyArea* myarea = ((Area*)this->getCentraleArea()->currentSubWindow()->widget())->myArea;
+        area->treeArea->groupsTree->clear();
         //QMessageBox::information(this,"zero allo?", "zero allo?");
         input.open(QFile::ReadOnly | QFile::Text);
 
