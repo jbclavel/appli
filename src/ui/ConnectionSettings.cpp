@@ -90,7 +90,7 @@ ConnectionSettings::ConnectionSettings():
     layoutTotal->addWidget(area);
 
     setLayout(layoutTotal);
-    setWindowTitle("Connection Settings");
+    setWindowTitle("Computation Settings");
     setModal(true);
     resize(700,300);
 
@@ -280,7 +280,7 @@ ConnectionSettings::~ConnectionSettings(){}
 void ConnectionSettings::exportXMLSettings(){
 
     //this->importXMLSettings();
-    QFile output("xmlConnectionSettings.xml");
+    QFile output("xmlComputationSettings.xml");
 
     if (!output.open(QIODevice::WriteOnly)){
         QMessageBox::critical(this, "Error", "Sorry, unable to open file.");
@@ -428,7 +428,7 @@ void ConnectionSettings::importXMLSettings(){
 
     }
 
-    QFile input("xmlConnectionSettings.xml");
+    QFile input("xmlComputationSettings.xml");
     QXmlStreamReader readerStream;
     input.open(QFile::ReadOnly | QFile::Text);
     readerStream.setDevice(&input);
@@ -630,7 +630,7 @@ void ConnectionSettings::validationConnectionSettings(){
         }
     }
 
-    int reponse = QMessageBox::question(this, "Connection Settings Validation",
+    int reponse = QMessageBox::question(this, "Computation Settings Validation",
                 "Do you really  want to save these settings ? <br><br> <font color= black><b>Function Name : </b></font>"
                                         + name->text()+"<br> <font color= black><b>Program Name : </b></font>"
                                         + program->text()+"<br>"
@@ -639,7 +639,7 @@ void ConnectionSettings::validationConnectionSettings(){
 
     if (reponse == QMessageBox::Yes){
             exportXMLSettings();
-            QMessageBox::information(this, "Connection Setting Validated", "Export done");
+            QMessageBox::information(this, "Computation Setting Validated", "Export done");
             this->quit();
     }
 }
@@ -650,7 +650,7 @@ void ConnectionSettings::testFunctionName(){
         vide=true;
     }
     if(vide){
-        QMessageBox::information(this, "Connection Setting Validation", "Please, specify the function name to be displayed");
+        QMessageBox::information(this, "Computation Settings Validation", "Please, specify the function name to be displayed");
     }else{
         this->testProgram();
     }
@@ -663,7 +663,7 @@ void ConnectionSettings::testProgram(){
         vide=true;
     }
     if(vide){
-        QMessageBox::information(this, "Connection Setting Validation", "Please, specify the program name");
+        QMessageBox::information(this, "Computation Settings Validation", "Please, specify the program name");
     }else{
         this->testOutline();
     }
@@ -677,7 +677,7 @@ void ConnectionSettings::testOutline(){
         }
     }
     if(vide){
-        QMessageBox::information(this, "Connection Setting Validation", "Please, specify all the Outline fields");
+        QMessageBox::information(this, "Computation Settings Validation", "Please, specify all the Outline fields");
     }else{
         this->testChoix();
     }
@@ -698,9 +698,9 @@ void ConnectionSettings::testChoix(){
         }
     }
     if(zero){
-        QMessageBox::information(this, "Connection Setting Validation", "Please, check your settings : there is at least one choice argument with no choice");
+        QMessageBox::information(this, "Computation Settings Validation", "Please, check your settings : there is at least one choice argument with no choice");
     }else if(vide){
-        QMessageBox::information(this, "Connection Setting Validation", "Please, specify all the Choice fields");
+        QMessageBox::information(this, "Computation Settings Validation", "Please, specify all the Choice fields");
     }else{
         this->testNecessaryArgument();
     }
@@ -709,14 +709,14 @@ void ConnectionSettings::testChoix(){
 void ConnectionSettings::testNecessaryArgument(){
     boolean vide = false;
     for (int k = 0; k < nbArg->text().toInt(); k++){
-        if(tabArgType[k]->currentText()=="Necessary argument" ||tabArgType[k]->currentText()=="Current File"){
+        if(tabArgType[k]->currentText()=="Argument" ||tabArgType[k]->currentText()=="Current File"){
             if(reinterpret_cast<QLineEdit*>(tabArgSuf[k])->text()==""){
             vide=true;
             }
         }
     }
     if(vide){
-        QMessageBox::information(this, "Connection Setting Validation", "Please, specify all the ""Necessary argument"" or ""Current File"" Prefix fields");
+        QMessageBox::information(this, "Computation Settings Validation", "Please, specify all the ""Argument"" or ""Current File"" Prefix fields");
     }else{
         this->validationConnectionSettings();
     }
@@ -1069,13 +1069,13 @@ void ConnectionSettings::buildChoix(){
 //enable or not the facultative checkbox according to the argument type choosen
 void ConnectionSettings::setEnability(QString param){
     for(int i=0; i<tabArgfacul.size(); i++){
-        if(tabArgType[i]->currentText()=="Necessary argument" || tabArgType[i]->currentText()=="Current File"){
+        /*if(tabArgType[i]->currentText()=="Argument" || tabArgType[i]->currentText()=="Current File"){
             tabArgfacul[i]->setChecked(false);
             tabArgfacul[i]->setEnabled(false);
         }else{
             tabArgfacul[i]->setEnabled(true);
-        }
-        if(tabArgType[i]->currentText()=="Necessary argument"){
+        }*/
+        if(tabArgType[i]->currentText()=="Argument"){
             reinterpret_cast<QLineEdit*>(tabArgSuf[i])->setPlaceholderText("Put the argument here");
         }else{
             if(tabArgType[i]->currentText()!="Choice"){

@@ -201,7 +201,7 @@ public slots:
       * @brief method to save text change clicking on the button
       *
       */
-    void saveEdit();
+    void saveEdit(int del = 0);
 
     /**
       * @brief method call by the signal textChanged()

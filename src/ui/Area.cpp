@@ -276,19 +276,21 @@ void Area::cancelEdit(){
     //Put the last update into the textArea
     this->textArea->setPlainText(this->listOldText->at(a));
 
-    this->saveEdit();
+    this->saveEdit(1);
 
     this->cancelTextEdit->setDefault(false);
     this->cancelTextEdit->setEnabled(false);
 
 }
 
-void Area::saveEdit(){
+void Area::saveEdit(int del){
 
     //temporary file for the text edition
 
     QFile newph("temp.ph");
+    QFile tempXML("tempXML.xml");
 
+    tempXML.open(QIODevice::WriteOnly);
     newph.open(QIODevice::WriteOnly | QIODevice::Truncate);
     QTextStream flux(&newph);
     flux.setCodec("UTF-8");    
@@ -306,7 +308,14 @@ void Area::saveEdit(){
 
         flux << this->textArea->toPlainText() << endl;
 
-        newph.close();
+        newph.close();        
+
+        if(del == 0){
+
+            PHIO::exportXMLMetadata(this->mainWindow, tempXML);
+        }
+
+        tempXML.close();
 
         // render graph
         PHPtr myPHPtr = PHIO::parseFile(phFile);
@@ -315,8 +324,9 @@ void Area::saveEdit(){
         PHScenePtr scene = myPHPtr->getGraphicsScene();
         this->myArea->setScene(&*scene);
 
-        // delete the current sortsTree
+        // delete the current sortsTree and groupsTree
         this->treeArea->sortsTree->clear();
+        this->treeArea->groupsTree->clear();
         // set the pointer of the treeArea
         this->treeArea->myPHPtr = myPHPtr;
         //set the pointer of the treeArea
@@ -335,6 +345,13 @@ void Area::saveEdit(){
         this->setOldText();
 
         newph.remove();
+
+        if(del == 0){
+
+            this->mainWindow->importXMLMetadata(tempXML.fileName());
+        }
+
+        //tempXML.remove();
     }
     catch(textAreaEmpty_exception & e){
 

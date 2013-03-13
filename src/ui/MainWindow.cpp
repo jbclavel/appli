@@ -20,7 +20,7 @@ MainWindow::MainWindow()
     MainWindow::mwThis = this;
 
     //arguments type list of new function
-    ConnectionSettings::argTypeList= QStringList() << "Text" << "Integer" << "Real" << "Boolean" << "Process List" << "Process Group" << "File .ph" << "File" << "Folder" << "Choice" << "File not existing" << "Necessary argument" << "Current File";
+    ConnectionSettings::argTypeList= QStringList() << "Text" << "Integer" << "Real" << "Boolean" << "Process List" << "Process Group" << "File .ph" << "File" << "Folder" << "Choice" << "File not existing" << "Argument" << "Current File";
 
     //import of the setting included in the xml file
     ConnectionSettings::importXMLSettings();
@@ -158,7 +158,7 @@ MainWindow::MainWindow()
     actionStatistics = menuComputation->addAction("Statistics...");
     menuComputation->addSeparator();
     actionConnection = menuComputation->addAction("Launch a function...");
-    actionNewConnection = menuComputation->addAction("Create a new connection...");
+    actionNewConnection = menuComputation->addAction("Create a new function...");
 
             // disable what does not work well
     actionCheckModelType->setEnabled(false);
@@ -512,14 +512,23 @@ void MainWindow::exportXMLMetadata(){
 }
 
 // method to import style and layout from XML format
-void MainWindow::importXMLMetadata(){
+void MainWindow::importXMLMetadata(QString tempXML){
+
     if(!this->getCentraleArea()->subWindowList().isEmpty()){
 
-        // OpenFile dialog
-        QString xmlfile = QFileDialog::getOpenFileName(this, "Import preferences", QString(),"*.xml");
+        QString xmlfile;
+
+        if(tempXML == ""){
+
+            // OpenFile dialog
+            xmlfile = QFileDialog::getOpenFileName(this, "Import preferences", QString(),"*.xml");
+        }
+        else{
+
+            xmlfile = tempXML;
+        }
 
         QFile input(xmlfile);
-
 
         QXmlStreamReader stream(&input) ;
         Area* area = (Area*)this->getCentraleArea()->currentSubWindow()->widget();
@@ -559,7 +568,10 @@ void MainWindow::importXMLMetadata(){
 
                   if (stream.name()=="name")
                   {
-                      QMessageBox::information(this,"Info", "Vous allez importer un fichier de preference pour le modele "+stream.readElementText());
+                      //if(tempXML == ""){
+
+                        //   QMessageBox::information(this,"Info", "Vous allez importer un fichier de preference pour le modele "+stream.readElementText());
+                      //}
                       stream.readNext();
                       while (stream.isStartElement()==false)
                       {
@@ -856,6 +868,7 @@ void MainWindow::importXMLMetadata(){
                     {
                         //QMessageBox::information(this,"Salut","Je suis dans group color");
                         QString groupcolor = stream.readElementText();
+                        //QMessageBox::information(this,"Salut",groupcolor);
                         groupe->setForeground(0, QBrush(QColor(groupcolor)));
                         stream.readNext();
                         while (stream.isStartElement()==false)
@@ -1142,6 +1155,11 @@ void MainWindow::hideShowTree(){
 
 // main method for the computation menu
 void MainWindow::compute(QString program, QStringList arguments, QString fileName) {
+
+    QString bou;
+    for (int i=0; i<arguments.size(); i++){
+        bou+=arguments[i];
+    }
 
     // start process
     QProcess *myProcess = new QProcess();

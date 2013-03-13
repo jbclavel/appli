@@ -196,7 +196,7 @@ public slots:
       * @brief imports style and layout data from XML format
       *
       */
-    void importXMLMetadata();
+    void importXMLMetadata(QString tempXML = "");
 
     // menu view
 
