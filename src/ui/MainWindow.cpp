@@ -247,6 +247,7 @@ MyArea* MainWindow::openTab() {
         QFileDialog* filedialog = new QFileDialog(this);
 
         QDialog* mb = new QDialog(filedialog);
+        mb->setFixedSize(200,200);
         mb->setWindowFlags(Qt::Window | Qt::WindowTitleHint | Qt::CustomizeWindowHint);
 
         QString file = filedialog->getOpenFileName(this, "Open...");
