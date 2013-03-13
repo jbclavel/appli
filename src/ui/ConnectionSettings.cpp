@@ -709,14 +709,14 @@ void ConnectionSettings::testChoix(){
 void ConnectionSettings::testNecessaryArgument(){
     boolean vide = false;
     for (int k = 0; k < nbArg->text().toInt(); k++){
-        if(tabArgType[k]->currentText()=="Necessary argument" ||tabArgType[k]->currentText()=="Current File"){
+        if(tabArgType[k]->currentText()=="Argument" ||tabArgType[k]->currentText()=="Current File"){
             if(reinterpret_cast<QLineEdit*>(tabArgSuf[k])->text()==""){
             vide=true;
             }
         }
     }
     if(vide){
-        QMessageBox::information(this, "Computation Settings Validation", "Please, specify all the ""Necessary argument"" or ""Current File"" Prefix fields");
+        QMessageBox::information(this, "Computation Settings Validation", "Please, specify all the ""Argument"" or ""Current File"" Prefix fields");
     }else{
         this->validationConnectionSettings();
     }
@@ -1069,13 +1069,13 @@ void ConnectionSettings::buildChoix(){
 //enable or not the facultative checkbox according to the argument type choosen
 void ConnectionSettings::setEnability(QString param){
     for(int i=0; i<tabArgfacul.size(); i++){
-        if(tabArgType[i]->currentText()=="Necessary argument" || tabArgType[i]->currentText()=="Current File"){
+        /*if(tabArgType[i]->currentText()=="Argument" || tabArgType[i]->currentText()=="Current File"){
             tabArgfacul[i]->setChecked(false);
             tabArgfacul[i]->setEnabled(false);
         }else{
             tabArgfacul[i]->setEnabled(true);
-        }
-        if(tabArgType[i]->currentText()=="Necessary argument"){
+        }*/
+        if(tabArgType[i]->currentText()=="Argument"){
             reinterpret_cast<QLineEdit*>(tabArgSuf[i])->setPlaceholderText("Put the argument here");
         }else{
             if(tabArgType[i]->currentText()!="Choice"){
