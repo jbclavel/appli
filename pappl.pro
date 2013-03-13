@@ -26,10 +26,10 @@ HEADERS 	= 	headers/Action.h 		\
     headers/TextArea.h \
     headers/TreeArea.h \
     headers/ColorerSequences.h \
-    Connection.h \
-    src/ui/connectionsettings.h \
-    src/ui/ConnectionSettings.h \
-    src/ui/ConnectionSettings.h \
+    #Connection.h \
+    #src/ui/connectionsettings.h \
+    #src/ui/ConnectionSettings.h \
+    #src/ui/ConnectionSettings.h \
     headers/ConnectionSettings.h \
     headers/ArgumentFrame.h \
     headers/FuncFrame.h \
