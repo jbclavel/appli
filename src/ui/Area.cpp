@@ -374,7 +374,7 @@ void Area::saveEdit(){
 
         //One or more of your expressions are wrong !
         newph.remove();
-        QMessageBox::critical(this, "Syntax error !", "One or more of your expressions are wrong !\nNear "+list3[0]+" "+list3[1]);
+        QMessageBox::critical(this, "Syntax error !", "One or more of your expressions are wrong !\nNear "+list3[0]+" "+list3[1]+" of dump");
         //return NULL;
     }
     catch(sort_not_found& sort){

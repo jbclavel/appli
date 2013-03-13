@@ -40,7 +40,8 @@ GProcess::GProcess(ProcessPtr p, GVNode n, qreal graphDPI) : process(p), node(n)
     // text
     text = new QGraphicsTextItem (QString("%1").arg(process->getNumber()), ellipse);
 	text->setDefaultTextColor(QColor(7,54,66));
-	text->setPos(node.centerPos.x(), node.centerPos.y());
+    text->setPos(node.centerPos.x(), node.centerPos.y());
+
     // position the text
 	QSizeF textSize = text->document()->size();
 	text->setPos(text->x() - textSize.width()/2, text->y() - textSize.height()/2);

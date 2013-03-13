@@ -192,7 +192,7 @@ void ConnectionSettings::buildTable(){
         tabArgTypeMem.pop_back();
     }
 
-    for(int i=0; i<tabArgType.size(); i++){
+    for(int i=0; i<(int)tabArgType.size(); i++){
         tabArgTypeMem.push_back(tabArgType[i]->currentText());
     }
 }
@@ -297,7 +297,7 @@ void ConnectionSettings::exportXMLSettings(){
 //paste previous functions
        int i;
        int j;
-       for(i=0; i< ConnectionSettings::tabFunction.size(); i++){
+       for(i=0; i<(int)ConnectionSettings::tabFunction.size(); i++){
            writerStream.writeStartElement("Function");
 
            writerStream.writeStartElement("Definition");
@@ -306,7 +306,7 @@ void ConnectionSettings::exportXMLSettings(){
                writerStream.writeTextElement("nbArgument", ConnectionSettings::tabFunction[i]->getNbArgument());
            writerStream.writeEndElement();
 
-        for ( j = 0; j < ConnectionSettings::tabArgument[i]->size(); j++){
+        for ( j = 0; j < (int)ConnectionSettings::tabArgument[i]->size(); j++){
 
             writerStream.writeStartElement("ArgumentsDefinition");
                writerStream.writeTextElement("ArgNumber", ConnectionSettings::tabArgument[i]->at(j)->getArgNumber());
@@ -315,7 +315,7 @@ void ConnectionSettings::exportXMLSettings(){
                    writerStream.writeTextElement("ArgFacul", ConnectionSettings::tabArgument[i]->at(j)->getArgFac());
                    writerStream.writeTextElement("ArgOutline", ConnectionSettings::tabArgument[i]->at(j)->getArgOutline());
 
-                   for(int m = 0; m < ConnectionSettings::tabChoix[i]->at(j)->size(); m++){
+                   for(int m = 0; m < (int)ConnectionSettings::tabChoix[i]->at(j)->size(); m++){
                        writerStream.writeStartElement("ChoixList");
                            writerStream.writeTextElement("ChoixNom", ConnectionSettings::tabChoix[i]->at(j)->at(m)->getChoixNom());
                            writerStream.writeTextElement("ChoixParam", ConnectionSettings::tabChoix[i]->at(j)->at(m)->getChoixParam());
@@ -409,12 +409,12 @@ void ConnectionSettings::importXMLSettings(){
 
     //reset tabFunction and tabArgument
     if(ConnectionSettings::tabFunction.size()!=0){
-        for(int i=0; i<ConnectionSettings::tabFunction.size(); i++){
+        for(int i=0; i<(int)ConnectionSettings::tabFunction.size(); i++){
             ConnectionSettings::tabFunction[i]->~FuncFrame();
 
-            for(int j=0; j<ConnectionSettings::tabArgument[i]->size();j++){
+            for(int j=0; j<(int)ConnectionSettings::tabArgument[i]->size();j++){
                 ConnectionSettings::tabArgument[i]->at(j)->~ArgumentFrame();
-                for(int k=0; k<ConnectionSettings::tabChoix[i]->at(j)->size(); k++){
+                for(int k=0; k<(int)ConnectionSettings::tabChoix[i]->at(j)->size(); k++){
                     ConnectionSettings::tabChoix[i]->at(j)->at(k)->~ChoixLigne();
                 }
                 ConnectionSettings::tabChoix[i]->at(j)->clear();
@@ -726,7 +726,7 @@ void ConnectionSettings::testNecessaryArgument(){
 void ConnectionSettings::choixCrea(QString param){
 
     int num;
-    for(int i=0; i<tabArgType.size(); i++){
+    for(int i=0; i<(int)tabArgType.size(); i++){
         if(tabArgType[i]==QObject::sender()){
         num=i;
         }
@@ -793,7 +793,7 @@ void ConnectionSettings::choixCrea(QString param){
         tabArgTypeMem.pop_back();
     }
 
-    for(int i=0; i<tabArgType.size(); i++){
+    for(int i=0; i<(int)tabArgType.size(); i++){
         tabArgTypeMem.push_back(tabArgType[i]->currentText());
     }
 
@@ -813,7 +813,7 @@ void ConnectionSettings::buildChoix(){
 
     // def de num = numero du sender
     int num;
-    for(int i=0; i<tabArgSuf.size(); i++){
+    for(int i=0; i<(int)tabArgSuf.size(); i++){
         if(tabArgSuf[i]==QObject::sender()){
             num=i;
         }
@@ -838,7 +838,7 @@ void ConnectionSettings::buildChoix(){
 
         if(tabChoixNom.size()!=0){
             tabTampon.clear();
-            for (int i=0; i<tabChoixNom.size() ; i++){
+            for (int i=0; i<(int)tabChoixNom.size() ; i++){
                 tabTampon.push_back(tabChoixNom[i]);
             }
 
@@ -868,7 +868,7 @@ void ConnectionSettings::buildChoix(){
 
         if(tabChoixParam.size()!=0){
             tabTamponParam.clear();
-            for (int i=0; i<tabChoixParam.size() ; i++){
+            for (int i=0; i<(int)tabChoixParam.size() ; i++){
                 tabTamponParam.push_back(tabChoixParam[i]);
             }
 

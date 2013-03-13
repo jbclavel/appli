@@ -829,6 +829,8 @@ void MainWindow::importXMLMetadata(){
                     stream.readNext();
                 }
 
+
+
                 while (stream.name()=="group")
                 {
                     //QMessageBox::information(this,"Salut","Je suis dans le group "+stream.attributes().first().value().toString());
@@ -840,7 +842,8 @@ void MainWindow::importXMLMetadata(){
                     area->treeArea->groups.push_back(groupe);
                     int size = area->treeArea->groupsPalette->size();
                     area->treeArea->groupsPalette->insert(groupe, area->treeArea->palette->at(size%8));
-                    groupe->setForeground(0, QBrush(area->treeArea->palette->at(size%8)));
+                    //groupe->setForeground(0, QBrush(area->treeArea->palette->at(size%8)));
+
 
                     stream.readNext();
                     while (stream.isStartElement()==false)
@@ -851,6 +854,8 @@ void MainWindow::importXMLMetadata(){
                     if (stream.name()=="color")
                     {
                         //QMessageBox::information(this,"Salut","Je suis dans group color");
+                        QString groupcolor = stream.readElementText();
+                        groupe->setForeground(0, QBrush(QColor(groupcolor)));
                         stream.readNext();
                         while (stream.isStartElement()==false)
                         {
@@ -882,9 +887,8 @@ void MainWindow::importXMLMetadata(){
                                     QTreeWidgetItem* b = new QTreeWidgetItem(groupe);
                                     b->setText(0, a->text(0));
                                     b->setForeground(0, a->foreground(0));
-                                    QColor coul = area->treeArea->groupsPalette->value(groupe);
                                     QPen* pen = new QPen();
-                                    pen->setColor(coul);
+                                    pen->setColor(groupe->foreground(0).color());
                                     pen->setWidth(4);
                                     area->treeArea->myPHPtr->getGraphicsScene()->getGSort(a->text(0).toStdString())->getRect()->setPen(*pen);
                                 }

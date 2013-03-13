@@ -38,7 +38,7 @@ void GVSubGraph::setGraphAttributes(void) {
 
     // set graph attributes
     _agset(_graph, "overlap", "scale");
-    _agset(_graph, "splines", "true");
+    _agset(_graph, "splines", "false");
     //_agset(_graph, "splines", "curved"); // with fdp, "curved" provokes edge overlap on nodes
 	_agset(_graph, "dpi", "96,0");
     QString strSepValue = QString::number(sepValue).prepend("+");
@@ -48,7 +48,6 @@ void GVSubGraph::setGraphAttributes(void) {
     QString nodePtsWidth = QString("%1").arg(GVSubGraph::nodeSize/_agget(_graph, "dpi", "96,0").replace(',', ".").toDouble());
 	//GV uses , instead of . for the separator in floats
     _agnodeattr(_graph, "width", nodePtsWidth.replace('.', ","));
-    //_agedgeattr(_graph, "arrowhead", "onormal");
 
 }
 
