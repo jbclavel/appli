@@ -171,6 +171,8 @@ signals:
 
     void edition();
 
+    void makeTempXML();
+
 public slots:
 
     /**
@@ -218,6 +220,8 @@ public slots:
     void showToolTip();
 
     void hideToolTip();
+
+    void tempXMLfile();
 
 };
 

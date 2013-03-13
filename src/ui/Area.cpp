@@ -106,6 +106,7 @@ Area::Area(QWidget *parent, QString path) :
     QObject::connect(this->saveTextEdit, SIGNAL(clicked()), this, SLOT(saveEdit()));
     QObject::connect(this->textArea, SIGNAL(textChanged()), this, SLOT(onTextEdit()));    
     QObject::connect(this, SIGNAL(edition()), this, SLOT(showToolTip()));
+    QObject::connect(this, SIGNAL(makeTempXML()), this, SLOT(tempXMLfile()));
 
     // initialization
     this->textArea->setHidden(true);
@@ -288,14 +289,13 @@ void Area::saveEdit(int del){
     //temporary file for the text edition
 
     QFile newph("temp.ph");
-    QFile tempXML("tempXML.xml");
 
-    tempXML.open(QIODevice::WriteOnly);
     newph.open(QIODevice::WriteOnly | QIODevice::Truncate);
     QTextStream flux(&newph);
     flux.setCodec("UTF-8");    
 
     QString *file = new QString("temp.ph");
+    QString fileXML("tempXML.xml");
     std::string phFile = file->toStdString();
 
     try{
@@ -312,10 +312,8 @@ void Area::saveEdit(int del){
 
         if(del == 0){
 
-            PHIO::exportXMLMetadata(this->mainWindow, tempXML);
+            emit makeTempXML();
         }
-
-        tempXML.close();
 
         // render graph
         PHPtr myPHPtr = PHIO::parseFile(phFile);
@@ -326,7 +324,7 @@ void Area::saveEdit(int del){
 
         // delete the current sortsTree and groupsTree
         this->treeArea->sortsTree->clear();
-        this->treeArea->groupsTree->clear();
+        //this->treeArea->groupsTree->clear();
         // set the pointer of the treeArea
         this->treeArea->myPHPtr = myPHPtr;
         //set the pointer of the treeArea
@@ -346,12 +344,7 @@ void Area::saveEdit(int del){
 
         newph.remove();
 
-        if(del == 0){
-
-            this->mainWindow->importXMLMetadata(tempXML.fileName());
-        }
-
-        //tempXML.remove();
+        this->mainWindow->importXMLMetadata(fileXML);
     }
     catch(textAreaEmpty_exception & e){
 
@@ -443,4 +436,12 @@ void Area::showToolTip(){
 void Area::hideToolTip(){
 
     QToolTip::hideText();
+}
+
+void Area::tempXMLfile(){
+
+    QFile tempXML("tempXML.xml");
+    tempXML.open(QIODevice::WriteOnly);
+    PHIO::exportXMLMetadata(this->mainWindow, tempXML);
+    tempXML.close();
 }

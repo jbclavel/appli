@@ -11,6 +11,7 @@
 #include "ConnectionSettings.h"
 #include "IO.h"
 #include "FunctionForm.h"
+#include "GSort.h"
 
 MainWindow* MainWindow::mwThis;
 
@@ -355,6 +356,8 @@ void MainWindow::closeTab() {
     if(!this->getCentraleArea()->subWindowList().isEmpty()) {
         QMdiSubWindow *subWindow = this->getCentraleArea()->currentSubWindow();
         subWindow->close();
+        QFile tempXML("tempXML.xml");
+        tempXML.remove();
     } else {
         QMessageBox::critical(this, "Error", "No file opened!");
     }
@@ -708,7 +711,6 @@ void MainWindow::importXMLMetadata(QString tempXML){
                         // Setting the y coordinate to the new value
                         myarea->getPHPtr()->getGraphicsScene()->getGSort(sortname)->getCluster().topLeft.setY(posyCluster);
 
-
                         stream.readNext();
                         while (stream.isStartElement()==false)
                         {
@@ -826,6 +828,13 @@ void MainWindow::importXMLMetadata(QString tempXML){
                     }
                     //QMessageBox::information(this,"Salut","Je suis sorti de processes");
 
+                    QGraphicsSceneMouseEvent* event = new QGraphicsSceneMouseEvent();
+                    event->scenePos().setX(1);
+                    event->scenePos().setY(1);
+                    myarea->getPHPtr()->getGraphicsScene()->getGSort(sortname)->mouseReleaseEvent(event);
+                    //event->scenePos().setX(-1);
+                    //event->scenePos().setY(-1);
+                    //myarea->getPHPtr()->getGraphicsScene()->getGSort(sortname)->mouseReleaseEvent(event);
                  }
 
                 myarea->getPHPtr()->getGraphicsScene()->updateGraphForImport();
@@ -952,7 +961,6 @@ void MainWindow::importXMLMetadata(QString tempXML){
         input.close();
 
         //myarea->getPHPtr()->getGraphicsScene()->updateGraph();
-
 
     } else {
      QMessageBox::critical(this,"Error","No file opened");
