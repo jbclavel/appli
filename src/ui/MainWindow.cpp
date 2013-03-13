@@ -269,6 +269,22 @@ MyArea* MainWindow::openTab() {
                 }
             }
 
+            //Selection of graphic performance
+
+            QStringList items;
+            items << tr("Low") << tr("High");
+            bool ok;
+            QString display = QInputDialog::getItem(this,"Select graphic performance","Display : ", items, 0, false, &ok);
+
+            if(ok && display == "Low"){
+
+                this->displayMode = 0;
+            }
+            else if(ok && display == "High"){
+
+                this->displayMode = 1;
+            }
+
             if(!alreadyOpen) {
 
                 //Display loading window
@@ -1469,4 +1485,14 @@ void MainWindow::enableMenu(){
             this->actionConnection->setEnabled(true);
         }
     }
+}
+
+int MainWindow::getDisplayMode(){
+
+    return this->displayMode;
+}
+
+void MainWindow::setDisplayMode(int a){
+
+    this->displayMode = a;
 }
