@@ -193,8 +193,8 @@ void FunctionForm::openConnectionForm(){
             case 3:   //"Boolean"
                 {
                 tabLineEdit.push_back(new QComboBox);
-                    reinterpret_cast<QComboBox*> (tabLineEdit[i])->addItem("True");
-                    reinterpret_cast<QComboBox*> (tabLineEdit[i])->addItem("False");
+                    reinterpret_cast<QComboBox*> (tabLineEdit[i])->addItem("true");
+                    reinterpret_cast<QComboBox*> (tabLineEdit[i])->addItem("false");
 
                 tabQFormLayout.push_back(new QFormLayout);
                     if(ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgSuf()==""){
@@ -449,24 +449,26 @@ void FunctionForm::openConnectionForm(){
                                 +") Caption : " + ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgOutline()));
             tabGroupBox[i]->setLayout(tabQHBox[i]);
         break;}
-        case 11:   //"Necessary argument"
+        case 11:   //"Argument"
             {
             tabLineEdit.push_back(new QLineEdit);
             reinterpret_cast<QLineEdit*>(tabLineEdit[i])->setText(ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgSuf());
             tabLineEdit[i]->setEnabled(false);
 
             tabQFormLayout.push_back(new QFormLayout);
-            tabQFormLayout[i]->addRow("Mandatory Argument : ", tabLineEdit[i]);
+            tabQFormLayout[i]->addRow("Argument : ", tabLineEdit[i]);
 
             tabQcheckBox.push_back(new QCheckBox("Taken into account"));
             tabQHBox.push_back(new QHBoxLayout);
                 tabQHBox[i]->addWidget(tabQcheckBox[i]);
                 tabQHBox[i]->addLayout(tabQFormLayout[i]);
 
-
-            tabQcheckBox[i]->setChecked(true);
-            tabQcheckBox[i]->setEnabled(false);
-
+                if(ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgFac()=="0"){ //if argument is not fac
+                    tabQcheckBox[i]->setChecked(true);
+                    tabQcheckBox[i]->setEnabled(false);
+                }else{
+                    tabLineEdit[i]->setEnabled(false);
+                }
             connect(this->tabQcheckBox[i], SIGNAL(stateChanged(int)), this, SLOT(enableForm(int)));
 
             tabGroupBox.push_back(new QGroupBox("Argument "+ QString::number(i+1)+
@@ -493,9 +495,12 @@ void FunctionForm::openConnectionForm(){
                 tabQHBox[i]->addWidget(tabQcheckBox[i]);
                 tabQHBox[i]->addLayout(tabQFormLayout[i]);
 
-            tabQcheckBox[i]->setChecked(true);
-            tabQcheckBox[i]->setEnabled(false);
-
+                if(ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgFac()=="0"){ //if argument is not fac
+                    tabQcheckBox[i]->setChecked(true);
+                    tabQcheckBox[i]->setEnabled(false);
+                }else{
+                    tabLineEdit[i]->setEnabled(false);
+                }
             connect(this->tabQcheckBox[i], SIGNAL(stateChanged(int)), this, SLOT(enableForm(int)));
 
             tabGroupBox.push_back(new QGroupBox("Argument "+ QString::number(i+1)+
@@ -597,19 +602,30 @@ void FunctionForm::launchCompute(){
             switch(ConnectionSettings::argTypeList.indexOf(ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgType()))
                 {
             case 0 : //"Text"
-            case 1 : //"Integer"
-            case 2 : //"Real"
             case 6 : //"File .ph"
             case 7 : //"File"
             case 8 : //"Folder"
             case 10 : //"File not existing"
-            case 11 : //"Necessary argument"
             case 12 : //"Current File"
             {
                 if(ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgSuf()!=""){
                     arguments << ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgSuf();
                 }
                 arguments  << reinterpret_cast<QLineEdit*>(tabLineEdit[i])->text();
+            break;
+            }
+            case 11 : //"Argument"
+            {
+                arguments  << reinterpret_cast<QLineEdit*>(tabLineEdit[i])->text();
+            break;
+            }
+            case 1 : //"Integer"
+            case 2 : //"Real"
+            {
+                if(ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgSuf()!=""){
+                    arguments << ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgSuf();
+                }
+                arguments  << reinterpret_cast<QSpinBox*>(tabLineEdit[i])->text();
             break;
             }
             case 3 : //"Boolean
@@ -640,6 +656,7 @@ void FunctionForm::launchCompute(){
                 }
             QStringList a = MainWindow::mwThis->wordList(reinterpret_cast<QLineEdit*>(tabLineEdit[i])->text());
             QString mot;//= """";
+            QString motFinal;
             int compteur = 0;
             for (int j=0; j< a.size(); j++){
                 if(compteur %2 ==0){
@@ -650,9 +667,11 @@ void FunctionForm::launchCompute(){
                     compteur+=1;
                 }
             }
-            //mot+="""";
-
-            arguments << ""+mot+"" ;
+            for(int i=0; i< mot.size()-1 ;i++){
+                motFinal+=mot[i];
+            }
+            arguments << ""+motFinal
+                         +"" ;
             break;
             }
             case 9 : //"Choice"
@@ -674,7 +693,11 @@ void FunctionForm::launchCompute(){
         }
         }
 
-        QMessageBox::information(this, "ok", arguments[0]);
+        QString poiu;
+        for(int po=0; po<arguments.size();po++){
+            poiu+=arguments[po]+" ";
+        }
+        QMessageBox::information(this, "ok", poiu);
                                  //+" "+arguments[1]+" "+arguments[2]
                                  //+" "+arguments[3]+" "+arguments[4]);
 
@@ -836,7 +859,10 @@ void FunctionForm::enableForm(int state){
             }
     }
     for(int i =0; i<ConnectionSettings::tabFunction[indexFctChosen]->getNbArgument().toInt() ; i++){
-        if(ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgType()=="Necessary argument" ||ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgType()=="Current File"){
+        if(ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgType()=="Current File"){
+            tabLineEdit[i]->setEnabled(false);
+        }
+        if(ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgType()=="Argument"){
             tabLineEdit[i]->setEnabled(false);
         }
     }

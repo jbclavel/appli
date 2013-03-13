@@ -20,7 +20,7 @@ MainWindow::MainWindow()
     MainWindow::mwThis = this;
 
     //arguments type list of new function
-    ConnectionSettings::argTypeList= QStringList() << "Text" << "Integer" << "Real" << "Boolean" << "Process List" << "Process Group" << "File .ph" << "File" << "Folder" << "Choice" << "File not existing" << "Necessary argument" << "Current File";
+    ConnectionSettings::argTypeList= QStringList() << "Text" << "Integer" << "Real" << "Boolean" << "Process List" << "Process Group" << "File .ph" << "File" << "Folder" << "Choice" << "File not existing" << "Argument" << "Current File";
 
     //import of the setting included in the xml file
     ConnectionSettings::importXMLSettings();
@@ -158,7 +158,7 @@ MainWindow::MainWindow()
     actionStatistics = menuComputation->addAction("Statistics...");
     menuComputation->addSeparator();
     actionConnection = menuComputation->addAction("Launch a function...");
-    actionNewConnection = menuComputation->addAction("Create a new connection...");
+    actionNewConnection = menuComputation->addAction("Create a new function...");
 
             // disable what does not work well
     actionCheckModelType->setEnabled(false);
@@ -856,6 +856,7 @@ void MainWindow::importXMLMetadata(QString tempXML){
                     area->treeArea->groupsPalette->insert(groupe, area->treeArea->palette->at(size%8));
                     //groupe->setForeground(0, QBrush(area->treeArea->palette->at(size%8)));
 
+
                     stream.readNext();
                     while (stream.isStartElement()==false)
                     {
@@ -899,9 +900,8 @@ void MainWindow::importXMLMetadata(QString tempXML){
                                     QTreeWidgetItem* b = new QTreeWidgetItem(groupe);
                                     b->setText(0, a->text(0));
                                     b->setForeground(0, a->foreground(0));
-                                    QColor coul = area->treeArea->groupsPalette->value(groupe);
                                     QPen* pen = new QPen();
-                                    pen->setColor(coul);
+                                    pen->setColor(groupe->foreground(0).color());
                                     pen->setWidth(4);
                                     area->treeArea->myPHPtr->getGraphicsScene()->getGSort(a->text(0).toStdString())->getRect()->setPen(*pen);
                                 }
@@ -1154,6 +1154,11 @@ void MainWindow::hideShowTree(){
 
 // main method for the computation menu
 void MainWindow::compute(QString program, QStringList arguments, QString fileName) {
+
+    QString bou;
+    for (int i=0; i<arguments.size(); i++){
+        bou+=arguments[i];
+    }
 
     // start process
     QProcess *myProcess = new QProcess();
