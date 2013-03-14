@@ -188,7 +188,6 @@ GVGraphPtr PH::updateGVGraph(PHScene *scene) {
 
         const int nbPorts(3);
         const int nbResult(5);
-        //QString ports[nbPorts] = {"n", "ne", "e", "se", "s", "sw", "w", "nw", "_"};
         int i(0);
         int j(0);
         QStringList target;
@@ -279,7 +278,6 @@ GVGraphPtr PH::updateGVGraph(PHScene *scene) {
 
             // BUG FIXING ATTEMPT:
             // to force hits' heads and bounces' tails to coincide
-
             _agset(res->getEdge(makeProcessName(a->getSource()), makeProcessName(a->getTarget())), "tailport", source.at(i));
             _agset(res->getEdge(makeProcessName(a->getSource()), makeProcessName(a->getTarget())), "headport", target.at(i));
             _agset(res->getEdge(makeProcessName(a->getTarget()), makeProcessName(a->getResult())), "tailport", target.at(i));

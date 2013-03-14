@@ -78,7 +78,6 @@ public:
 
     void setDisplayMode(int);
 
-
 protected:
 
     /**
@@ -157,7 +156,6 @@ private :
     int displayMode;
 
 signals:
-
 
 public slots:
 

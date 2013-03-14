@@ -334,7 +334,7 @@ void Area::saveEdit(int del){
 
         this->indicatorEdit->setVisible(false);       
         this->saveTextEdit->setDefault(false);
-        this->textArea->incrementeNberTextChange();        
+        this->textArea->incrementeNberTextChange();
         this->typeOfCancel = 0;
         this->saveTextEdit->setEnabled(false);        
         this->textArea->setNberEdit(0);
@@ -440,8 +440,13 @@ void Area::hideToolTip(){
 
 void Area::tempXMLfile(){
 
-    QFile tempXML("tempXML.xml");
-    tempXML.open(QIODevice::WriteOnly);
-    PHIO::exportXMLMetadata(this->mainWindow, tempXML);
-    tempXML.close();
+    this->tempXML.setFileName("tempXML.xml");
+    this->tempXML.open(QIODevice::WriteOnly);
+    PHIO::exportXMLMetadata(this->mainWindow, this->tempXML);
+    this->tempXML.close();
+}
+
+void Area::deleteTempXML(){
+
+    this->tempXML.remove();
 }

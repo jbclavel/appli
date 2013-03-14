@@ -19,8 +19,6 @@ PHScene::PHScene(PH* _ph) : ph(_ph) {
 // render the scene from the related PH graph
 #include <QDebug>
 void PHScene::doRender(void) {
-	
-    ////////////////////////////////////////////////ZONE PROBLEME//////////////////////////////////////////////////
 
     // retrieve graph
 	GVGraphPtr graph = ph->toGVGraph();
@@ -50,8 +48,6 @@ void PHScene::doRender(void) {
 			if (gc.name == makeClusterName(s->getName()))
                 sorts.insert(GSortEntry(s->getName(), make_shared<GSort>(s, gc)));
 
-    ////////////////////////////////////////////////ZONE PROBLEME//////////////////////////////////////////////////
-
     // create GActions linking actual actions to GVEdges (display info)
     createActions(graph);
 
@@ -65,9 +61,10 @@ void PHScene::draw(void) {
     clear();
     for (auto &s : sorts)
         addItem(s.second.get());
-    for (GActionPtr &a : actions)
-		addItem(a->getDisplayItem());
+    for (GActionPtr &a : actions){
 
+        addItem(a->getDisplayItem());
+    }
 }
 
 
