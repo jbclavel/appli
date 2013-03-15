@@ -324,7 +324,6 @@ void Area::saveEdit(int del){
 
         // delete the current sortsTree and groupsTree
         this->treeArea->sortsTree->clear();
-        //this->treeArea->groupsTree->clear();
         // set the pointer of the treeArea
         this->treeArea->myPHPtr = myPHPtr;
         //set the pointer of the treeArea
@@ -412,6 +411,7 @@ void Area::onTextEdit(){
         if(this->textArea->getNberEdit() == 1){
 
             emit edition();
+            //emit makeTempXML();
         }
 
         this->saveTextEdit->setDefault(true);

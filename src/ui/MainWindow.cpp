@@ -12,6 +12,7 @@
 #include "IO.h"
 #include "FunctionForm.h"
 #include "GSort.h"
+#include <QThread>
 
 MainWindow* MainWindow::mwThis;
 
@@ -248,7 +249,7 @@ MyArea* MainWindow::openTab() {
         QFileDialog* filedialog = new QFileDialog(this);
 
         QDialog* mb = new QDialog(filedialog);
-        mb->setFixedSize(200,200);
+        mb->setFixedSize(300,150);
         mb->setWindowFlags(Qt::Window | Qt::WindowTitleHint | Qt::CustomizeWindowHint);
 
         QString file = filedialog->getOpenFileName(this, "Open...");
@@ -274,7 +275,7 @@ MyArea* MainWindow::openTab() {
             QStringList items;
             items << tr("Low") << tr("High");
             bool ok;
-            QString display = QInputDialog::getItem(this, "Select graphic performance", "Display : ", items, 0, false, &ok);
+            QString display = QInputDialog::getItem(this, "Graphic performance", "Display : ", items, 0, false, &ok);
 
             if(ok && display == "Low"){
 
@@ -300,8 +301,6 @@ MyArea* MainWindow::openTab() {
                 dialogue->setMovie(gif);
                 dialogue->show();
                 mb->open();
-
-                //sleep(5);
 
                 //need a std::string instead of a QString
                 std::string path =	file.toStdString();                
@@ -409,7 +408,7 @@ void MainWindow::save() {
         QStringList items;
         items << tr("Standard") << tr("Dump");
         bool ok;
-        QString typeFile = QInputDialog::getItem(this,"Select output format","Format : ", items, 0, false, &ok);
+        QString typeFile = QInputDialog::getItem(this,"Output format","Format : ", items, 0, false, &ok);
 
         //save as
         if(ok && typeFile == "Dump"){
@@ -846,11 +845,11 @@ void MainWindow::importXMLMetadata(QString tempXML){
                     }
                     //QMessageBox::information(this,"Salut","Je suis sorti de processes");
 
-                    if(i == myarea->getPHPtr()->getGraphicsScene()->getGSorts().size()-1){
+                    if(i == (int)myarea->getPHPtr()->getGraphicsScene()->getGSorts().size()-2){
 
                         QGraphicsSceneMouseEvent* event = new QGraphicsSceneMouseEvent();
-                        event->scenePos().setX(1);
-                        event->scenePos().setY(1);
+                        event->scenePos().setX(0.1);
+                        event->scenePos().setY(0.1);
                         myarea->getPHPtr()->getGraphicsScene()->getGSort(sortname)->mouseReleaseEvent(event);
                     }
                     i++;
