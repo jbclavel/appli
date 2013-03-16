@@ -25,10 +25,10 @@ class MainWindow : public QMainWindow{
 
     Q_OBJECT
 
-
 public:
 
     static MainWindow* mwThis;
+
     QStringList wordList(const QString& text);
 
     /**
@@ -71,8 +71,12 @@ public:
       *
       */
     void enableMenu();
+
     QString pathCurrentWindow();
 
+    int getDisplayMode();
+
+    void setDisplayMode(int);
 
 protected:
 
@@ -147,8 +151,11 @@ protected:
     // action for the menu Help
     QAction *actionHelp;
 
-signals:
+private :
 
+    int displayMode;
+
+signals:
 
 public slots:
 

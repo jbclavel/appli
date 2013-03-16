@@ -12,6 +12,7 @@
 #include "IO.h"
 #include "FunctionForm.h"
 #include "GSort.h"
+#include <QThread>
 
 MainWindow* MainWindow::mwThis;
 
@@ -248,7 +249,7 @@ MyArea* MainWindow::openTab() {
         QFileDialog* filedialog = new QFileDialog(this);
 
         QDialog* mb = new QDialog(filedialog);
-        mb->setFixedSize(200,200);
+        mb->setFixedSize(300,150);
         mb->setWindowFlags(Qt::Window | Qt::WindowTitleHint | Qt::CustomizeWindowHint);
 
         QString file = filedialog->getOpenFileName(this, "Open...");
@@ -269,7 +270,27 @@ MyArea* MainWindow::openTab() {
                 }
             }
 
-            if(!alreadyOpen) {
+            //Selection of graphic performance
+
+            QStringList items;
+            items << tr("Low") << tr("High");
+            bool ok;
+            QString display = QInputDialog::getItem(this, "Graphic performance", "Display : ", items, 0, false, &ok);
+
+            if(ok && display == "Low"){
+
+                this->displayMode = 0;
+            }
+            else if(ok && display == "High"){
+
+                this->displayMode = 1;
+            }
+            else{
+
+                return NULL;
+            }
+
+            if(!alreadyOpen){
 
                 //Display loading window
                 QLabel* dialogue = new QLabel(mb);
@@ -280,8 +301,6 @@ MyArea* MainWindow::openTab() {
                 dialogue->setMovie(gif);
                 dialogue->show();
                 mb->open();
-
-                //sleep(5);
 
                 //need a std::string instead of a QString
                 std::string path =	file.toStdString();                
@@ -355,10 +374,8 @@ void MainWindow::closeTab() {
 
     // if there is at least one subwindow, close the current one
     if(!this->getCentraleArea()->subWindowList().isEmpty()) {
-        QMdiSubWindow *subWindow = this->getCentraleArea()->currentSubWindow();
+        QMdiSubWindow *subWindow = this->getCentraleArea()->currentSubWindow();        
         subWindow->close();
-        QFile tempXML("tempXML.xml");
-        tempXML.remove();
     } else {
         QMessageBox::critical(this, "Error", "No file opened!");
     }
@@ -391,7 +408,7 @@ void MainWindow::save() {
         QStringList items;
         items << tr("Standard") << tr("Dump");
         bool ok;
-        QString typeFile = QInputDialog::getItem(this,"Select output format","Format : ", items, 0, false, &ok);
+        QString typeFile = QInputDialog::getItem(this,"Output format","Format : ", items, 0, false, &ok);
 
         //save as
         if(ok && typeFile == "Dump"){
@@ -677,6 +694,7 @@ void MainWindow::importXMLMetadata(QString tempXML){
                     stream.readNext();
                 }
 
+                int i = 0;
                 while (stream.name()=="sort")
                 {
                     std::string sortname = stream.attributes().first().value().toString().toStdString();
@@ -823,20 +841,19 @@ void MainWindow::importXMLMetadata(QString tempXML){
                                     stream.readNext();
                                 }
                             }
-
-
                         }
                     }
                     //QMessageBox::information(this,"Salut","Je suis sorti de processes");
 
-                    QGraphicsSceneMouseEvent* event = new QGraphicsSceneMouseEvent();
-                    event->scenePos().setX(1);
-                    event->scenePos().setY(1);
-                    myarea->getPHPtr()->getGraphicsScene()->getGSort(sortname)->mouseReleaseEvent(event);
-                    //event->scenePos().setX(-1);
-                    //event->scenePos().setY(-1);
-                    //myarea->getPHPtr()->getGraphicsScene()->getGSort(sortname)->mouseReleaseEvent(event);
-                 }
+                    if(i == (int)myarea->getPHPtr()->getGraphicsScene()->getGSorts().size()-2){
+
+                        QGraphicsSceneMouseEvent* event = new QGraphicsSceneMouseEvent();
+                        event->scenePos().setX(0.1);
+                        event->scenePos().setY(0.1);
+                        myarea->getPHPtr()->getGraphicsScene()->getGSort(sortname)->mouseReleaseEvent(event);
+                    }
+                    i++;
+                }
 
                 myarea->getPHPtr()->getGraphicsScene()->updateGraphForImport();
             }
@@ -1045,7 +1062,6 @@ void MainWindow::changeSortColor() {
     }
 }
 
-
 // method to set the default style: positive
 void MainWindow::positiveContrast() {
 
@@ -1159,9 +1175,6 @@ void MainWindow::hideShowTree(){
     view->hideOrShowTree();
 }
 
-
-
-
 // main method for the computation menu
 void MainWindow::compute(QString program, QStringList arguments, QString fileName) {
 
@@ -1214,7 +1227,6 @@ void MainWindow::compute(QString program, QStringList arguments, QString fileNam
 
 
 }
-
 
 void MainWindow::findFixpoints() {
 
@@ -1470,3 +1482,14 @@ void MainWindow::enableMenu(){
         }
     }
 }
+
+int MainWindow::getDisplayMode(){
+
+    return this->displayMode;
+}
+
+void MainWindow::setDisplayMode(int a){
+
+    this->displayMode = a;
+}
+

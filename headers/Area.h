@@ -167,6 +167,12 @@ public:
 
     int typeOfCancel;
 
+    QFile getTempXML();
+
+private:
+
+    QFile tempXML;
+
 signals:
 
     void edition();
@@ -222,6 +228,8 @@ public slots:
     void hideToolTip();
 
     void tempXMLfile();
+
+    void deleteTempXML();
 
 };
 

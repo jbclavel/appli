@@ -28,7 +28,7 @@ typedef boost::shared_ptr<GVSubGraph> GVSubGraphPtr;
 class GVSubGraph {
 
 	public:
-		
+
         /**
           * @brief the size in pixels of each node
           *
@@ -207,7 +207,6 @@ class GVSubGraph {
           *
           */
         qreal getDPI();
-
 
 	protected:
 		GVSubGraph();
