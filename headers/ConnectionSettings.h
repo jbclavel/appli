@@ -60,6 +60,7 @@ class ConnectionSettings : public QDialog
         void choixCrea(QString param);
         void buildChoix();
         void setEnability(QString param);
+        void prefixMaj(QString text);
 
 
     private:

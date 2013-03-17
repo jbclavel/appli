@@ -20,7 +20,7 @@ MainWindow::MainWindow()
     MainWindow::mwThis = this;
 
     //arguments type list of new function
-    ConnectionSettings::argTypeList= QStringList() << "Text" << "Integer" << "Real" << "Boolean" << "Process List" << "Process Group" << "File .ph" << "File" << "Folder" << "Choice" << "File not existing" << "Argument" << "Current File";
+    ConnectionSettings::argTypeList= QStringList() << "Text" << "Integer" << "Real" << "Boolean" << "Process Sequence" << "Process Set" << "File .ph" << "File" << "Folder" << "Choice" << "File not existing" << "Argument" << "Current File";
 
     //import of the setting included in the xml file
     ConnectionSettings::importXMLSettings();
@@ -1235,21 +1235,7 @@ void MainWindow::computeReachability() {
 
     if (ok && !state.isEmpty()) {
         // give the arguments
-        //arguments << "--no-debug" << "-i" << fileName << state.at(0) <<state.at(1) ;
-        //arguments << "--no-debug" << "-i" << fileName << "a" << "1" ;
 
-        QStringList a = this->wordList(state);
-        QString b;
-        for(int i =0; i< a.size(); i++){
-            b = b + a[i];
-        }
-        QMessageBox::critical(this, "Error", b);
-        QMessageBox::critical(this, "Error", a[0]+" "+a[1]+" "+a[2]+" "+a[3]+" "+a[4]+" "+a[5]);
-
-
-
-       // QMessageBox::information(this, "ok", arguments[0]+" "+arguments[1]+" "+arguments[2]
-         //                        +" "+arguments[3]);//+" "+arguments[4]);
 
         //call MainWindow::compute
         this->compute(program, arguments);

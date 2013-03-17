@@ -107,7 +107,7 @@ void FunctionForm::openConnectionForm(){
                     if(ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgSuf()==""){
                         tabQFormLayout[i]->addRow("Without any prefix", tabLineEdit[i]);
                     }else{
-                        tabQFormLayout[i]->addRow("Prefixe : "+
+                        tabQFormLayout[i]->addRow("Prefix : "+
                             ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgSuf(), tabLineEdit[i]);
                     }
 
@@ -138,7 +138,7 @@ void FunctionForm::openConnectionForm(){
                     if(ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgSuf()==""){
                         tabQFormLayout[i]->addRow("Without any prefix", tabLineEdit[i]);
                     }else{
-                        tabQFormLayout[i]->addRow("Prefixe : "+
+                        tabQFormLayout[i]->addRow("Prefix : "+
                             ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgSuf(), tabLineEdit[i]);
                     }
                 tabQcheckBox.push_back(new QCheckBox("Taken into account"));
@@ -169,7 +169,7 @@ void FunctionForm::openConnectionForm(){
                 if(ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgSuf()==""){
                     tabQFormLayout[i]->addRow("Without any prefix", tabLineEdit[i]);
                 }else{
-                    tabQFormLayout[i]->addRow("Prefixe : "+
+                    tabQFormLayout[i]->addRow("Prefix : "+
                         ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgSuf(), tabLineEdit[i]);
                 }
             tabQcheckBox.push_back(new QCheckBox("Taken into account"));
@@ -200,7 +200,7 @@ void FunctionForm::openConnectionForm(){
                     if(ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgSuf()==""){
                         tabQFormLayout[i]->addRow("Without any prefix", tabLineEdit[i]);
                     }else{
-                        tabQFormLayout[i]->addRow("Prefixe : "+
+                        tabQFormLayout[i]->addRow("Prefix : "+
                             ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgSuf(), tabLineEdit[i]);
                     }
                 tabQcheckBox.push_back(new QCheckBox("Taken into account"));
@@ -221,7 +221,7 @@ void FunctionForm::openConnectionForm(){
                                     +") Caption : " + ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgOutline()));
                 tabGroupBox[i]->setLayout(tabQHBox[i]);
             break;}
-            case 4:   //"Process List"
+            case 4:   //"Process Sequence"
                 {
                 tabLineEdit.push_back(new QLineEdit);
 
@@ -229,7 +229,7 @@ void FunctionForm::openConnectionForm(){
                     if(ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgSuf()==""){
                         tabQFormLayout[i]->addRow("Without any prefix", tabLineEdit[i]);
                     }else{
-                        tabQFormLayout[i]->addRow("Prefixe : "+
+                        tabQFormLayout[i]->addRow("Prefix : "+
                             ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgSuf(), tabLineEdit[i]);
                     }
                 tabQcheckBox.push_back(new QCheckBox("Taken into account"));
@@ -251,7 +251,7 @@ void FunctionForm::openConnectionForm(){
                                     +") Caption : " + ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgOutline()));
                 tabGroupBox[i]->setLayout(tabQHBox[i]);
             break;}
-        case 5:   //"Process Group"
+        case 5:   //"Process Set"
             {
             tabLineEdit.push_back(new QLineEdit);
 
@@ -259,7 +259,7 @@ void FunctionForm::openConnectionForm(){
                 if(ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgSuf()==""){
                     tabQFormLayout[i]->addRow("Without any prefix", tabLineEdit[i]);
                 }else{
-                    tabQFormLayout[i]->addRow("Prefixe : "+
+                    tabQFormLayout[i]->addRow("Prefix : "+
                         ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgSuf(), tabLineEdit[i]);
                 }
             tabQcheckBox.push_back(new QCheckBox("Taken into account"));
@@ -293,7 +293,7 @@ void FunctionForm::openConnectionForm(){
                     if(ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgSuf()==""){
                         tabQFormLayout[i]->addRow("Without any Prefix", tabLineEdit[i]);
                     }else{
-                        tabQFormLayout[i]->addRow("Prefixe : "+
+                        tabQFormLayout[i]->addRow("Prefix : "+
                             ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgSuf(), tabLineEdit[i]);
                     }
                 tabQcheckBox.push_back(new QCheckBox("Taken into account"));
@@ -329,7 +329,7 @@ void FunctionForm::openConnectionForm(){
                 if(ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgSuf()==""){
                     tabQFormLayout[i]->addRow("Without any prefix", tabLineEdit[i]);
                 }else{
-                    tabQFormLayout[i]->addRow("Prefixe : "+
+                    tabQFormLayout[i]->addRow("Prefix : "+
                         ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgSuf(), tabLineEdit[i]);
                 }
             tabQcheckBox.push_back(new QCheckBox("Taken into account"));
@@ -366,7 +366,7 @@ void FunctionForm::openConnectionForm(){
                     if(ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgSuf()==""){
                         tabQFormLayout[i]->addRow("Without any prefix", tabLineEdit[i]);
                     }else{
-                        tabQFormLayout[i]->addRow("Prefixe : "+
+                        tabQFormLayout[i]->addRow("Prefix : "+
                             ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgSuf(), tabLineEdit[i]);
                     }
                 tabQcheckBox.push_back(new QCheckBox("Taken into account"));
@@ -427,7 +427,7 @@ void FunctionForm::openConnectionForm(){
                 if(ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgSuf()==""){
                     tabQFormLayout[i]->addRow("Without any prefix", tabLineEdit[i]);
                 }else{
-                    tabQFormLayout[i]->addRow("Prefixe : "+
+                    tabQFormLayout[i]->addRow("Prefix : "+
                         ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgSuf(), tabLineEdit[i]);
                 }
 
@@ -486,7 +486,7 @@ void FunctionForm::openConnectionForm(){
                 if(ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgSuf()==""){
                     tabQFormLayout[i]->addRow("Without any prefix", tabLineEdit[i]);
                 }else{
-                    tabQFormLayout[i]->addRow("Prefixe : "+
+                    tabQFormLayout[i]->addRow("Prefix : "+
                         ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgSuf(), tabLineEdit[i]);
                 }
 
@@ -636,25 +636,47 @@ void FunctionForm::launchCompute(){
             arguments << reinterpret_cast<QComboBox*>(tabLineEdit[i])->currentText();
             break;
             }
-            case 4 : //"Process List"
+            case 4 : //"Process Sequence"
             {
                 if(ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgSuf()!=""){
                     arguments << ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgSuf();
                 }
 
-            QStringList a = MainWindow::mwThis->wordList(reinterpret_cast<QLineEdit*>(tabLineEdit[i])->text());
+            QString motPS = reinterpret_cast<QLineEdit*>(tabLineEdit[i])->text();
+            QString motPSFinal;
+            if(motPS.at(motPS.size()-1)==' '){
+                for(int p = 0 ; p < motPS.size()-1 ; p++){
+                    motPSFinal.push_back(motPS[p]);
+                }
+            }else{
+                motPSFinal=motPS;
+            }
+
+            QStringList a = MainWindow::mwThis->wordList(motPSFinal);
 
             for (int j=0; j< a.size(); j++){
                     arguments << a[j];
                 }
             break;
             }
-            case 5 : //"Process Group"
+            case 5 : //"Process Set"
             {
                 if(ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgSuf()!=""){
                     arguments << ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgSuf();
                 }
-            QStringList a = MainWindow::mwThis->wordList(reinterpret_cast<QLineEdit*>(tabLineEdit[i])->text());
+
+            QString motPS = reinterpret_cast<QLineEdit*>(tabLineEdit[i])->text();
+            QString motPSFinal;
+
+            if(motPS.at(motPS.size()-1)==' '){
+                for(int p = 0 ; p < motPS.size()-1 ; p++){
+                    motPSFinal.push_back(motPS[p]);
+                }
+            }else{
+                motPSFinal=motPS;
+            }
+
+            QStringList a = MainWindow::mwThis->wordList(motPSFinal);
             QString mot;//= """";
             QString motFinal;
             int compteur = 0;
@@ -670,8 +692,7 @@ void FunctionForm::launchCompute(){
             for(int i=0; i< mot.size()-1 ;i++){
                 motFinal+=mot[i];
             }
-            arguments << ""+motFinal
-                         +"" ;
+            arguments << ""+ motFinal +"" ;
             break;
             }
             case 9 : //"Choice"
@@ -694,12 +715,10 @@ void FunctionForm::launchCompute(){
         }
 
         QString poiu;
-        for(int po=0; po<arguments.size();po++){
+        for(int po=0; po < arguments.size();po++){
             poiu+=arguments[po]+" ";
         }
-        QMessageBox::information(this, "ok", poiu);
-                                 //+" "+arguments[1]+" "+arguments[2]
-                                 //+" "+arguments[3]+" "+arguments[4]);
+        QMessageBox::information(this, program, program+" "+poiu);
 
         MainWindow::mwThis->compute(program, arguments);
 
@@ -759,8 +778,8 @@ void FunctionForm::testEmpty(){
             switch(ConnectionSettings::argTypeList.indexOf(ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgType()))
                 {
             case 0 : //"Text"
-            case 4 : //"Process List"
-            case 5 : //"Process Group"
+            case 4 : //"Process Sequence"
+            case 5 : //"Process Set"
             case 6 : //"File .ph"
             case 7 : //"File"
             case 8 : //"Folder"
