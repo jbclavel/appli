@@ -1178,11 +1178,6 @@ void MainWindow::hideShowTree(){
 // main method for the computation menu
 void MainWindow::compute(QString program, QStringList arguments, QString fileName) {
 
-    QString bou;
-    for (int i=0; i<arguments.size(); i++){
-        bou+=arguments[i];
-    }
-
     // start process
     QProcess *myProcess = new QProcess();
 
@@ -1270,7 +1265,13 @@ void MainWindow::computeReachability() {
 
     if (ok && !state.isEmpty()) {
         // give the arguments
+        QStringList a = this->wordList(state);
 
+        arguments << "--no-debug" << "-i" << fileName;
+
+        for (int j=0; j< a.size(); j++){
+                arguments << a[j];
+            }
 
         //call MainWindow::compute
         this->compute(program, arguments);

@@ -801,7 +801,7 @@ void FunctionForm::launchCompute(){
     }
 
     //affichage de la fenetre "etesvous sur de vouloir lancer la fonction"
-    int reponse = QMessageBox::question(this, "Connection Settings validation : " + program, "Do you really want to launch the function (check settings if there is...)  ? <br> Function : "+ program +" "+poiu,
+    int reponse = QMessageBox::question(this, "Functio Form validation : " + program, "Do you really want to launch the function (check settings if there is...)  ? <br> Function : "+ program +" "+poiu,
                             QMessageBox::No | QMessageBox::Yes);
 
     if (reponse == QMessageBox::Yes){
@@ -893,7 +893,7 @@ void FunctionForm::testEmpty(){
     }
 
     if(vide){
-        QMessageBox::information(this, "Computation", "Please, fill the mandatory fields !");
+        QMessageBox::information(this, "Function Form validation", "Please, fill the mandatory fields !");
     }else{
         this->launchCompute();
     }
@@ -1011,7 +1011,7 @@ void FunctionForm::enableForm(int state){
 //slot : get the .ph file name when the "browse" pushbutton is clicked
 void FunctionForm::getNamePH(){
     QString a;
-    a = QFileDialog::getOpenFileName(this,"Select File", "/home/", tr("All Files (*.ph)"));
+    a = QFileDialog::getOpenFileName(this,"Select File .ph", "/home/", tr("All Files (*.ph)"));
     int num;
         for(int i=0; i<(int)tabButtonFilePH.size(); i++){
             if(tabButtonFilePH[i]==QObject::sender()){
