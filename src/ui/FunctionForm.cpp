@@ -589,13 +589,9 @@ void FunctionForm::fctBack(){
 
 void FunctionForm::launchCompute(){
 
-    int reponse = QMessageBox::question(this, "Connection Settings validation", "Do you really want to launch the function (check settings if there is...)  ?",
-                            QMessageBox::No | QMessageBox::Yes);
+    QString program = ConnectionSettings::tabFunction[indexFctChosen]->getProgram();
 
-    if (reponse == QMessageBox::Yes){
-        QString program = ConnectionSettings::tabFunction[indexFctChosen]->getProgram();
-
-        QStringList arguments;
+    QStringList arguments;
 
     for(int i=0; i<(int)ConnectionSettings::tabArgument[indexFctChosen]->size(); i++){
             if(tabQcheckBox[i]->isChecked()){
@@ -714,11 +710,15 @@ void FunctionForm::launchCompute(){
         }
         }
 
-        QString poiu;
-        for(int po=0; po < arguments.size();po++){
-            poiu+=arguments[po]+" ";
-        }
-        QMessageBox::information(this, program, program+" "+poiu);
+    QString poiu;
+    for(int po=0; po < arguments.size();po++){
+        poiu+=arguments[po]+" ";
+    }
+
+    int reponse = QMessageBox::question(this, "Connection Settings validation : " + program, "Do you really want to launch the function (check settings if there is...)  ? <br> Function : "+ program +" "+poiu,
+                            QMessageBox::No | QMessageBox::Yes);
+
+    if (reponse == QMessageBox::Yes){
 
         MainWindow::mwThis->compute(program, arguments);
 
