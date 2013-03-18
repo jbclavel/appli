@@ -17,6 +17,7 @@ FunctionForm::FunctionForm(QString fileName):
     indexFilePH=0;
     indexFile=0;
     indexDirec=0;
+    indexFileNotExisting=0;
     pathTab =fileName;
 
     choix = new QComboBox;
@@ -420,35 +421,41 @@ void FunctionForm::openConnectionForm(){
                 tabGroupBox[i]->setLayout(tabQHBox[i]);
             break;}
         case 10:   //"File not existing"
-            {
-            tabLineEdit.push_back(new QLineEdit);
+        {
+        tabLineEdit.push_back(new QLineEdit);
+        tabButtonFileNotExisting.push_back(new QPushButton("Browse"));
+        connect(tabButtonFileNotExisting[indexFileNotExisting], SIGNAL(clicked()), this, SLOT(getDirectoryNameFileNotExisting()));
 
-            tabQFormLayout.push_back(new QFormLayout);
-                if(ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgSuf()==""){
-                    tabQFormLayout[i]->addRow("Without any prefix", tabLineEdit[i]);
-                }else{
-                    tabQFormLayout[i]->addRow("Prefix : "+
-                        ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgSuf(), tabLineEdit[i]);
-                }
 
-            tabQcheckBox.push_back(new QCheckBox("Taken into account"));
-            tabQHBox.push_back(new QHBoxLayout);
-                tabQHBox[i]->addWidget(tabQcheckBox[i]);
-                tabQHBox[i]->addLayout(tabQFormLayout[i]);
+        tabQFormLayout.push_back(new QFormLayout);
+            if(ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgSuf()==""){
+                tabQFormLayout[i]->addRow("Without any prefix", tabLineEdit[i]);
+            }else{
+                tabQFormLayout[i]->addRow("Prefix : "+
+                    ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgSuf(), tabLineEdit[i]);
+            }
+        tabQcheckBox.push_back(new QCheckBox("Taken into account"));
+        tabQHBox.push_back(new QHBoxLayout);
+            tabQHBox[i]->addWidget(tabQcheckBox[i]);
+            tabQHBox[i]->addLayout(tabQFormLayout[i]);
+            tabQHBox[i]->addWidget(tabButtonFileNotExisting[indexFileNotExisting]);
 
-                if(ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgFac()=="0"){ //if argument is not fac
-                    tabQcheckBox[i]->setChecked(true);
-                    tabQcheckBox[i]->setEnabled(false);
-                }else{
-                    tabLineEdit[i]->setEnabled(false);
-                }
-            connect(this->tabQcheckBox[i], SIGNAL(stateChanged(int)), this, SLOT(enableForm(int)));
+            if(ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgFac()=="0"){ //if argument is not fac
+                tabQcheckBox[i]->setChecked(true);
+                tabQcheckBox[i]->setEnabled(false);
+            }else{
+                tabLineEdit[i]->setEnabled(false);
+                tabButtonFileNotExisting[indexFileNotExisting]->setEnabled(false);
+            }
+        connect(this->tabQcheckBox[i], SIGNAL(stateChanged(int)), this, SLOT(enableForm(int)));
 
-            tabGroupBox.push_back(new QGroupBox("Argument "+ QString::number(i+1)+
-                                +" : (Type : " + ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgType()
-                                +") Caption : " + ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgOutline()));
-            tabGroupBox[i]->setLayout(tabQHBox[i]);
-        break;}
+        tabGroupBox.push_back(new QGroupBox("Argument "+ QString::number(i+1)+
+                            +" : (Type : " + ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgType()
+                            +") Caption : " + ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgOutline()));
+        tabGroupBox[i]->setLayout(tabQHBox[i]);
+
+        indexFileNotExisting+=1;
+    break;}
         case 11:   //"Argument"
             {
             tabLineEdit.push_back(new QLineEdit);
@@ -544,6 +551,10 @@ void FunctionForm::fctBack(){
             tabButtonDirec[j-1]->~QPushButton();
             tabButtonDirec.pop_back();
         }
+        for(int j=tabButtonFileNotExisting.size(); j>0; j--){
+            tabButtonFileNotExisting[j-1]->~QPushButton();
+            tabButtonFileNotExisting.pop_back();
+        }
         tabQHBox[i-1]->~QHBoxLayout();
         tabGroupBox[i-1]->~QGroupBox();
 
@@ -558,6 +569,7 @@ void FunctionForm::fctBack(){
     indexFilePH=0;
     indexFile=0;
     indexDirec=0;
+    indexFileNotExisting=0;
 
 
         Ok->~QPushButton();
@@ -741,6 +753,10 @@ void FunctionForm::launchCompute(){
                     tabButtonDirec[j-1]->~QPushButton();
                     tabButtonDirec.pop_back();
                 }
+                for(int j=tabButtonFileNotExisting.size(); j>0; j--){
+                    tabButtonFileNotExisting[j-1]->~QPushButton();
+                    tabButtonFileNotExisting.pop_back();
+                }
                 tabQHBox[i-1]->~QHBoxLayout();
                 tabGroupBox[i-1]->~QGroupBox();
 
@@ -755,6 +771,7 @@ void FunctionForm::launchCompute(){
             indexFilePH=0;
             indexFile=0;
             indexDirec=0;
+            indexFileNotExisting=0;
 
             Ok->~QPushButton();
             back->~QPushButton();
@@ -840,6 +857,17 @@ void FunctionForm::enableForm(int state){
             tabButtonDirec[compteurDir]->setEnabled(true);
             compteurDir=0;
             }
+            //File Not Existing
+            int compteurFileNotExisting =0;
+                if(ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgType()=="File not existing"){
+                    for(int j=0; j<i;j++){
+                        if(ConnectionSettings::tabArgument[indexFctChosen]->at(j)->getArgType()=="File not existing"){
+                            compteurFileNotExisting +=1;
+                        }
+                    }
+            tabButtonFileNotExisting[compteurFileNotExisting]->setEnabled(true);
+            compteurFileNotExisting=0;
+            }
         }else{
             tabLineEdit[i]->setEnabled(false);
             //File .ph
@@ -865,7 +893,7 @@ void FunctionForm::enableForm(int state){
                 compteur=0;
                 }
             //directory
-            int compteurDir =0;
+            int compteurDir=0;
                 if(ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgType()=="Folder"){
                     for(int j=0; j<i;j++){
                         if(ConnectionSettings::tabArgument[indexFctChosen]->at(j)->getArgType()=="Folder"){
@@ -874,6 +902,17 @@ void FunctionForm::enableForm(int state){
                     }
                 tabButtonDirec[compteurDir]->setEnabled(false);
                 compteurDir=0;
+                }
+            //File Not Existing
+            int compteurFileNotExisting =0;
+                if(ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgType()=="File not existing"){
+                    for(int j=0; j<i;j++){
+                        if(ConnectionSettings::tabArgument[indexFctChosen]->at(j)->getArgType()=="File not existing"){
+                            compteurFileNotExisting +=1;
+                        }
+                    }
+                tabButtonFileNotExisting[compteurFileNotExisting]->setEnabled(false);
+                compteurFileNotExisting=0;
                 }
             }
     }
@@ -949,6 +988,28 @@ void FunctionForm::getDirectoryName(){
         }
     reinterpret_cast<QLineEdit*>(tabLineEdit[now-1])->setText(a);
 }
+
+
+//slot : get the file not existing name when the "browse" pushbutton is clicked
+void FunctionForm::getDirectoryNameFileNotExisting(){
+    QString a;
+    a = QFileDialog::getExistingDirectory(this,"Select Directory", "/home/");
+    int num;
+        for(int i=0; i<(int)tabButtonFileNotExisting.size(); i++){
+            if(tabButtonFileNotExisting[i]==QObject::sender()){
+                num=i;
+            }
+        }
+    int now=0;
+        while(num!=-1){
+            if(ConnectionSettings::tabArgument[indexFctChosen]->at(now)->getArgType()=="File not existing"){
+                num-=1;
+            }
+            now+=1;
+        }
+    reinterpret_cast<QLineEdit*>(tabLineEdit[now-1])->setText(a);
+}
+
 
 //QMessageBox::critical(this, "Error", "1");
 

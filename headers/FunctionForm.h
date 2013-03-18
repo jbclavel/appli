@@ -41,6 +41,9 @@ class FunctionForm : public QDialog
         //function which let us have the Directory Name selected in a QFileDialog window
         void getDirectoryName();
 
+        //function which let us have the directory name selected in a QFileDialog window for the case File not existing
+        void getDirectoryNameFileNotExisting();
+
         void testEmpty();
 
     private:
@@ -56,6 +59,9 @@ class FunctionForm : public QDialog
 
         //variable allow us to manage the directories
         int indexDirec;
+
+        //variable allow us to manage the File not existing
+        int indexFileNotExisting;
 
         //widget to choose the function
         QComboBox *choix;
@@ -89,6 +95,7 @@ class FunctionForm : public QDialog
         std::vector<QPushButton*> tabButtonFile;
         std::vector<QPushButton*> tabButtonFilePH;
         std::vector<QPushButton*> tabButtonDirec;
+        std::vector<QPushButton*> tabButtonFileNotExisting;
 
         //2 buttons
         QPushButton *Ok;
