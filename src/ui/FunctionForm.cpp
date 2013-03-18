@@ -4,28 +4,38 @@
 #include "MainWindow.h"
 
 
-
+// les trois vecteurs ci dessous sont les 3 vecteurs statiques qui sont initialisés
+// à l'ouverture de l'application lors de l'import du fichier XML xmlComputationSettings
+// ils enregistrent tous les paramètres interessants pour le lancement des fonctions
 std::vector<FuncFrame*> ConnectionSettings::tabFunction;
 std::vector< std::vector<ArgumentFrame*>* > ConnectionSettings::tabArgument;
 std::vector< std::vector< std::vector<ChoixLigne*>*>*> ConnectionSettings::tabChoix;
 
+// cette liste de Qstring est une variable statique.
+// elle représente tous les types d'arguments (l'ordre est très important)
+// cf MainWindow.cpp
 QStringList ConnectionSettings::argTypeList;
 
 FunctionForm::FunctionForm(QString fileName):
     QDialog()
 {
+    //variable à initialiser a zero au début
     indexFilePH=0;
     indexFile=0;
     indexDirec=0;
     indexFileNotExisting=0;
+    //permet d'avoir le chemin
     pathTab =fileName;
 
+    //première fenêtre
+        //combobox
     choix = new QComboBox;
 
     for (int i=0; i<(int)ConnectionSettings::tabFunction.size();i++ ){
         choix->addItem(ConnectionSettings::tabFunction[i]->getNameFunction());
     }
 
+        //boutons
     Yes = new QPushButton("&Yes");
     Cancel = new QPushButton("&Cancel");
     buttonLayout = new QHBoxLayout;
@@ -49,13 +59,14 @@ FunctionForm::FunctionForm(QString fileName):
     layoutTotal = new QVBoxLayout;
     layoutTotal->addWidget(area);
 
-
     setLayout(layoutTotal);
     setWindowTitle("Function Form");
     setModal(true);
     resize(600,200);
 }
 
+//slot appelé en cliquant sur le bouton cancel de la premiere fenêtre
+//qui a pour fonction de quitter la fenêtre
 void FunctionForm::quit(){
     choix->~QComboBox();
     Yes->~QPushButton();
@@ -69,8 +80,11 @@ void FunctionForm::quit(){
     this->~FunctionForm();
 }
 
+//destructeur
 FunctionForm::~FunctionForm(){}
 
+//slot appelé en cliquant sur le bouton ok de la premiere fenêtre
+// qui a pour fonction d'ouvrir la seconde fenêtre
 void FunctionForm::openConnectionForm(){
 
     resize(800,500);
@@ -102,6 +116,7 @@ void FunctionForm::openConnectionForm(){
             {
             case 0 :   //"Text"
                 {
+            //qline edit : champ texte simple
                 tabLineEdit.push_back(new QLineEdit);
 
                 tabQFormLayout.push_back(new QFormLayout);
@@ -132,6 +147,7 @@ void FunctionForm::openConnectionForm(){
             break;}
             case 1:   //"Integer"
                 {
+            //qspinbox : fenetre ou on ne peut mettre qu'un entier
                 tabLineEdit.push_back(new QSpinBox);
                 reinterpret_cast<QSpinBox*>(tabLineEdit[i])->setMaximum(10000);
 
@@ -162,6 +178,7 @@ void FunctionForm::openConnectionForm(){
             break;}
         case 2:   //"Real"
             {
+            //qspinbox : fenetre ou on ne peut mettre qu'un réel
             tabLineEdit.push_back(new QDoubleSpinBox);
             reinterpret_cast<QDoubleSpinBox*>(tabLineEdit[i])->setDecimals(15);
             reinterpret_cast<QDoubleSpinBox*>(tabLineEdit[i])->setRange(-10000,10000);
@@ -193,6 +210,7 @@ void FunctionForm::openConnectionForm(){
         break;}
             case 3:   //"Boolean"
                 {
+            //Qcombobox :liste de choix : vrai ou faux
                 tabLineEdit.push_back(new QComboBox);
                     reinterpret_cast<QComboBox*> (tabLineEdit[i])->addItem("true");
                     reinterpret_cast<QComboBox*> (tabLineEdit[i])->addItem("false");
@@ -224,6 +242,8 @@ void FunctionForm::openConnectionForm(){
             break;}
             case 4:   //"Process Sequence"
                 {
+            //qline edit : simple champ texte
+            //structure : le séparateur est l'espace
                 tabLineEdit.push_back(new QLineEdit);
 
                 tabQFormLayout.push_back(new QFormLayout);
@@ -254,6 +274,8 @@ void FunctionForm::openConnectionForm(){
             break;}
         case 5:   //"Process Set"
             {
+            //qline edit : simple champ texte
+            //structure : le séparateur est l'espace
             tabLineEdit.push_back(new QLineEdit);
 
             tabQFormLayout.push_back(new QFormLayout);
@@ -285,6 +307,8 @@ void FunctionForm::openConnectionForm(){
 
         case 6:   //"File .ph"
                 {
+            //champ texte + bouton parcourir (juste fichier .ph)
+            //le bouton alimente le champ texte
                 tabLineEdit.push_back(new QLineEdit);
                 tabButtonFilePH.push_back(new QPushButton("Browse"));
                 connect(tabButtonFilePH[indexFilePH], SIGNAL(clicked()), this, SLOT(getNamePH()));
@@ -321,6 +345,8 @@ void FunctionForm::openConnectionForm(){
             break;}
         case 7:   //"File"
             {
+            //champ texte + bouton parcourir (tt type de fichier)
+            //le bouton alimente le champ texte
             tabLineEdit.push_back(new QLineEdit);
             tabButtonFile.push_back(new QPushButton("Browse"));
             connect(tabButtonFile[indexFile], SIGNAL(clicked()), this, SLOT(getName()));
@@ -357,6 +383,8 @@ void FunctionForm::openConnectionForm(){
         break;}
 
         case 8:   //"Folder"
+            //champ texte + bouton parcourir (juste des dossiers)
+            //le bouton alimente le champ texte
                 {
                 tabLineEdit.push_back(new QLineEdit);
                 tabButtonDirec.push_back(new QPushButton("Browse"));
@@ -394,6 +422,7 @@ void FunctionForm::openConnectionForm(){
             break;}
             case 9:   //"Choice"
                 {
+            //Qcombo box : liste de choix alimentée par l'utilisateur averti (info ds xmlComputationSettings.xml)
                 tabLineEdit.push_back(new QComboBox);
                 for(int m=0; m<(int)ConnectionSettings::tabChoix[indexFctChosen]->at(i)->size() ; m++){
                     reinterpret_cast<QComboBox*>(tabLineEdit[i])->addItem(ConnectionSettings::tabChoix[indexFctChosen]->at(i)->at(m)->getChoixNom());
@@ -422,6 +451,9 @@ void FunctionForm::openConnectionForm(){
             break;}
         case 10:   //"File not existing"
         {
+            //champ texte + bouton parcourir (juste des dossiers)
+            //le bouton alimente le champ texte
+            //l'utilisateur n'a plus qu'à mettre un nom de fichier (celui qu'il veut créer)
         tabLineEdit.push_back(new QLineEdit);
         tabButtonFileNotExisting.push_back(new QPushButton("Browse"));
         connect(tabButtonFileNotExisting[indexFileNotExisting], SIGNAL(clicked()), this, SLOT(getDirectoryNameFileNotExisting()));
@@ -458,6 +490,8 @@ void FunctionForm::openConnectionForm(){
     break;}
         case 11:   //"Argument"
             {
+            //qline edit : champ texte alimenté par l'utilisateur avertit (fichier xmlComputationSetting.xml)
+            //champ grisé : modification  interdite
             tabLineEdit.push_back(new QLineEdit);
             reinterpret_cast<QLineEdit*>(tabLineEdit[i])->setText(ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgSuf());
             tabLineEdit[i]->setEnabled(false);
@@ -485,6 +519,8 @@ void FunctionForm::openConnectionForm(){
         break;}
         case 12:   //"Current File"
             {
+            //qline edit : champ texte alimenté par le fichier ouvert
+            //champ grisé : modification  interdite
             tabLineEdit.push_back(new QLineEdit);
             reinterpret_cast<QLineEdit*>(tabLineEdit[i])->setText(MainWindow::mwThis->pathCurrentWindow());
             tabLineEdit[i]->setEnabled(false);
@@ -519,6 +555,7 @@ void FunctionForm::openConnectionForm(){
         totalLayout->addWidget(tabGroupBox[i]);
         }
 
+    //creation des boutons
     Ok = new QPushButton("&Ok");
     back = new QPushButton("&Back");
     buttonLayout2 = new QHBoxLayout;
@@ -531,9 +568,11 @@ void FunctionForm::openConnectionForm(){
 }
 }
 
-
+//slot appelé en cliquant sur le bouton back
+//fonction de retour à la fenêtre de choix d'une function
 void FunctionForm::fctBack(){
 
+        //destructeur
     for(int i=tabGroupBox.size(); i>0; i--){
         tabLineEdit[i-1]->~QWidget();
 
@@ -599,12 +638,17 @@ void FunctionForm::fctBack(){
 
 }
 
+//slot appelé après avoir cliqué sur le bouton ok qi les tests sont ok
+// qui a pour but de lancer la fonction
 void FunctionForm::launchCompute(){
 
-    QString program = ConnectionSettings::tabFunction[indexFctChosen]->getProgram();
+   // nom du program
+   QString program = ConnectionSettings::tabFunction[indexFctChosen]->getProgram();
 
-    QStringList arguments;
+   //list des arguments
+   QStringList arguments;
 
+   //recupération  des arguments dans les différentes fenêtres
     for(int i=0; i<(int)ConnectionSettings::tabArgument[indexFctChosen]->size(); i++){
             if(tabQcheckBox[i]->isChecked()){
             switch(ConnectionSettings::argTypeList.indexOf(ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgType()))
@@ -616,6 +660,7 @@ void FunctionForm::launchCompute(){
             case 10 : //"File not existing"
             case 12 : //"Current File"
             {
+                //ici recuperation des info dans un simple qlineedit
                 if(ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgSuf()!=""){
                     arguments << ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgSuf();
                 }
@@ -624,12 +669,14 @@ void FunctionForm::launchCompute(){
             }
             case 11 : //"Argument"
             {
+                //ici recuperation des infos dans un simple qlineedit mais sans préfixe
                 arguments  << reinterpret_cast<QLineEdit*>(tabLineEdit[i])->text();
             break;
             }
             case 1 : //"Integer"
             case 2 : //"Real"
             {
+                //ici recuperation des info dans un qspinbox
                 if(ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgSuf()!=""){
                     arguments << ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgSuf();
                 }
@@ -638,6 +685,7 @@ void FunctionForm::launchCompute(){
             }
             case 3 : //"Boolean
             {
+                //ici recuperation des info dans un qcombobox
                 if(ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgSuf()!=""){
                     arguments << ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgSuf();
                 }
@@ -646,6 +694,15 @@ void FunctionForm::launchCompute(){
             }
             case 4 : //"Process Sequence"
             {
+                //ici recuperation des info dans un simple qlineedit
+                //mais avec un traitement : à partir du texte, on enlève l'espace de fin s'il existe,
+                //on crée une liste de mot en utilisant le separateur "espace"
+                //exemple : texte : a 1 b 2
+                //-->
+                //liste[0]=a
+                //liste[1]=1
+                //liste[2]=b
+                //liste[3]=2
                 if(ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgSuf()!=""){
                     arguments << ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgSuf();
                 }
@@ -669,6 +726,18 @@ void FunctionForm::launchCompute(){
             }
             case 5 : //"Process Set"
             {
+                //ici recuperation des info dans un simple qlineedit
+                //mais avec un traitement : à partir du texte, on enlève l'espace de fin s'il existe,
+                //on crée une liste de mot en utilisant le separateur "espace"
+                //on recrée un texte en insèrant des "," entre les sorts
+                //exemple : texte : a 1 b 2
+                //-->
+                //liste[0]=a
+                //liste[1]=1
+                //liste[2]=b
+                //liste[3]=2
+                //-->
+                //texte recréé : "a 1,b 2"
                 if(ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgSuf()!=""){
                     arguments << ConnectionSettings::tabArgument[indexFctChosen]->at(i)->getArgSuf();
                 }
@@ -705,6 +774,9 @@ void FunctionForm::launchCompute(){
             }
             case 9 : //"Choice"
             {
+                //qcombobox : liste de choix
+                //mais on ne recupère pas ce qui est affiché dans la combobox
+                //mais le paramètre associé dans le fichier xmlComputationSettings.xml
             int num;
             for(int u = 0; u< (int)ConnectionSettings::tabChoix[indexFctChosen]->at(i)->size(); u++){
                 if(ConnectionSettings::tabChoix[indexFctChosen]->at(i)->at(u)->getChoixNom()==reinterpret_cast<QComboBox*>(tabLineEdit[i])->currentText()){
@@ -722,18 +794,24 @@ void FunctionForm::launchCompute(){
         }
         }
 
+    //creation d'un texte comprenant tous les arguments
     QString poiu;
     for(int po=0; po < arguments.size();po++){
         poiu+=arguments[po]+" ";
     }
 
+    //affichage de la fenetre "etesvous sur de vouloir lancer la fonction"
     int reponse = QMessageBox::question(this, "Connection Settings validation : " + program, "Do you really want to launch the function (check settings if there is...)  ? <br> Function : "+ program +" "+poiu,
                             QMessageBox::No | QMessageBox::Yes);
 
     if (reponse == QMessageBox::Yes){
+        // si oui on lance la fonction et on ferme la fenêtre Functionform
+        //sinon on ne fait rein
 
+        //lancement de la fonction
         MainWindow::mwThis->compute(program, arguments);
 
+        //fermeture de la fenêtre
         if(ConnectionSettings::tabFunction[indexFctChosen]->getNbArgument()!="0"){
             //destroyers
             for(int i=tabGroupBox.size(); i>0; i--){
@@ -787,7 +865,9 @@ void FunctionForm::launchCompute(){
     }
 }
 
-
+//slot appelé lorsque l'on clique sur ok de la fenetre de lancement
+// teste si les champs qui doivent être remplis sont vides
+// si ils le sont : message d'erreur et la fonction n'est pas lancée
 void FunctionForm::testEmpty(){
     boolean vide = false;
     for(int i=0; i<(int)ConnectionSettings::tabArgument[indexFctChosen]->size(); i++){
@@ -802,6 +882,7 @@ void FunctionForm::testEmpty(){
             case 8 : //"Folder"
             case 10 : //"File not existing"
             {
+                //le test n'est fait que pour les chammps de type qlineedit
                 if(reinterpret_cast<QLineEdit*>(tabLineEdit[i])->text()==""){
                     vide=true;
                 }
@@ -990,7 +1071,7 @@ void FunctionForm::getDirectoryName(){
 }
 
 
-//slot : get the file not existing name when the "browse" pushbutton is clicked
+//slot : get the directory name of the file not existing when the "browse" pushbutton is clicked
 void FunctionForm::getDirectoryNameFileNotExisting(){
     QString a;
     a = QFileDialog::getExistingDirectory(this,"Select Directory", "/home/");
