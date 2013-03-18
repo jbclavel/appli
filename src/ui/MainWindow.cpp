@@ -11,6 +11,8 @@
 #include "ConnectionSettings.h"
 #include "IO.h"
 #include "FunctionForm.h"
+#include "GSort.h"
+#include <QThread>
 
 MainWindow* MainWindow::mwThis;
 
@@ -247,6 +249,7 @@ MyArea* MainWindow::openTab() {
         QFileDialog* filedialog = new QFileDialog(this);
 
         QDialog* mb = new QDialog(filedialog);
+        mb->setFixedSize(300,150);
         mb->setWindowFlags(Qt::Window | Qt::WindowTitleHint | Qt::CustomizeWindowHint);
 
         QString file = filedialog->getOpenFileName(this, "Open...");
@@ -267,7 +270,27 @@ MyArea* MainWindow::openTab() {
                 }
             }
 
-            if(!alreadyOpen) {
+            //Selection of graphic performance
+
+            QStringList items;
+            items << tr("Low") << tr("High");
+            bool ok;
+            QString display = QInputDialog::getItem(this, "Graphic performance", "Display : ", items, 0, false, &ok);
+
+            if(ok && display == "Low"){
+
+                this->displayMode = 0;
+            }
+            else if(ok && display == "High"){
+
+                this->displayMode = 1;
+            }
+            else{
+
+                return NULL;
+            }
+
+            if(!alreadyOpen){
 
                 //Display loading window
                 QLabel* dialogue = new QLabel(mb);
@@ -278,8 +301,6 @@ MyArea* MainWindow::openTab() {
                 dialogue->setMovie(gif);
                 dialogue->show();
                 mb->open();
-
-                //sleep(5);
 
                 //need a std::string instead of a QString
                 std::string path =	file.toStdString();                
@@ -353,7 +374,7 @@ void MainWindow::closeTab() {
 
     // if there is at least one subwindow, close the current one
     if(!this->getCentraleArea()->subWindowList().isEmpty()) {
-        QMdiSubWindow *subWindow = this->getCentraleArea()->currentSubWindow();
+        QMdiSubWindow *subWindow = this->getCentraleArea()->currentSubWindow();        
         subWindow->close();
     } else {
         QMessageBox::critical(this, "Error", "No file opened!");
@@ -387,7 +408,7 @@ void MainWindow::save() {
         QStringList items;
         items << tr("Standard") << tr("Dump");
         bool ok;
-        QString typeFile = QInputDialog::getItem(this,"Select output format","Format : ", items, 0, false, &ok);
+        QString typeFile = QInputDialog::getItem(this,"Output format","Format : ", items, 0, false, &ok);
 
         //save as
         if(ok && typeFile == "Dump"){
@@ -512,18 +533,28 @@ void MainWindow::exportXMLMetadata(){
 }
 
 // method to import style and layout from XML format
-void MainWindow::importXMLMetadata(){
+void MainWindow::importXMLMetadata(QString tempXML){
+
     if(!this->getCentraleArea()->subWindowList().isEmpty()){
 
-        // OpenFile dialog
-        QString xmlfile = QFileDialog::getOpenFileName(this, "Import preferences", QString(),"*.xml");
+        QString xmlfile;
+
+        if(tempXML == ""){
+
+            // OpenFile dialog
+            xmlfile = QFileDialog::getOpenFileName(this, "Import preferences", QString(),"*.xml");
+        }
+        else{
+
+            xmlfile = tempXML;
+        }
 
         QFile input(xmlfile);
-
 
         QXmlStreamReader stream(&input) ;
         Area* area = (Area*)this->getCentraleArea()->currentSubWindow()->widget();
         MyArea* myarea = ((Area*)this->getCentraleArea()->currentSubWindow()->widget())->myArea;
+        area->treeArea->groupsTree->clear();
         //QMessageBox::information(this,"zero allo?", "zero allo?");
         input.open(QFile::ReadOnly | QFile::Text);
 
@@ -558,7 +589,10 @@ void MainWindow::importXMLMetadata(){
 
                   if (stream.name()=="name")
                   {
-                      QMessageBox::information(this,"Info", "Vous allez importer un fichier de preference pour le modele "+stream.readElementText());
+                      //if(tempXML == ""){
+
+                        //   QMessageBox::information(this,"Info", "Vous allez importer un fichier de preference pour le modele "+stream.readElementText());
+                      //}
                       stream.readNext();
                       while (stream.isStartElement()==false)
                       {
@@ -660,6 +694,7 @@ void MainWindow::importXMLMetadata(){
                     stream.readNext();
                 }
 
+                int i = 0;
                 while (stream.name()=="sort")
                 {
                     std::string sortname = stream.attributes().first().value().toString().toStdString();
@@ -694,7 +729,6 @@ void MainWindow::importXMLMetadata(){
 
                         // Setting the y coordinate to the new value
                         myarea->getPHPtr()->getGraphicsScene()->getGSort(sortname)->getCluster().topLeft.setY(posyCluster);
-
 
                         stream.readNext();
                         while (stream.isStartElement()==false)
@@ -807,13 +841,19 @@ void MainWindow::importXMLMetadata(){
                                     stream.readNext();
                                 }
                             }
-
-
                         }
                     }
                     //QMessageBox::information(this,"Salut","Je suis sorti de processes");
 
-                 }
+                    if(i == (int)myarea->getPHPtr()->getGraphicsScene()->getGSorts().size()-2){
+
+                        QGraphicsSceneMouseEvent* event = new QGraphicsSceneMouseEvent();
+                        event->scenePos().setX(0.1);
+                        event->scenePos().setY(0.1);
+                        myarea->getPHPtr()->getGraphicsScene()->getGSort(sortname)->mouseReleaseEvent(event);
+                    }
+                    i++;
+                }
 
                 myarea->getPHPtr()->getGraphicsScene()->updateGraphForImport();
             }
@@ -855,6 +895,7 @@ void MainWindow::importXMLMetadata(){
                     {
                         //QMessageBox::information(this,"Salut","Je suis dans group color");
                         QString groupcolor = stream.readElementText();
+                        //QMessageBox::information(this,"Salut",groupcolor);
                         groupe->setForeground(0, QBrush(QColor(groupcolor)));
                         stream.readNext();
                         while (stream.isStartElement()==false)
@@ -939,7 +980,6 @@ void MainWindow::importXMLMetadata(){
 
         //myarea->getPHPtr()->getGraphicsScene()->updateGraph();
 
-
     } else {
      QMessageBox::critical(this,"Error","No file opened");
     }
@@ -1021,7 +1061,6 @@ void MainWindow::changeSortColor() {
         }
     }
 }
-
 
 // method to set the default style: positive
 void MainWindow::positiveContrast() {
@@ -1136,9 +1175,6 @@ void MainWindow::hideShowTree(){
     view->hideOrShowTree();
 }
 
-
-
-
 // main method for the computation menu
 void MainWindow::compute(QString program, QStringList arguments, QString fileName) {
 
@@ -1191,7 +1227,6 @@ void MainWindow::compute(QString program, QStringList arguments, QString fileNam
 
 
 }
-
 
 void MainWindow::findFixpoints() {
 
@@ -1433,3 +1468,14 @@ void MainWindow::enableMenu(){
         }
     }
 }
+
+int MainWindow::getDisplayMode(){
+
+    return this->displayMode;
+}
+
+void MainWindow::setDisplayMode(int a){
+
+    this->displayMode = a;
+}
+

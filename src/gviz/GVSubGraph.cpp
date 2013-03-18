@@ -5,7 +5,7 @@
 #include "Exceptions.h"
 #include "GVSubGraph.h"
 #include "GVGraph.h"
-
+#include "MainWindow.h"
 
 // UTILS
 
@@ -36,9 +36,20 @@ const qreal GVSubGraph::nodeSize = 50;
 const qreal GVSubGraph::sepValue = 12.0;
 void GVSubGraph::setGraphAttributes(void) {
 
+    QString mode;
+
+    if(MainWindow::mwThis->getDisplayMode() == 0){
+
+        mode = "false";
+    }
+    else if(MainWindow::mwThis->getDisplayMode() == 1){
+
+        mode = "true";
+    }
+
     // set graph attributes
     _agset(_graph, "overlap", "scale");
-    _agset(_graph, "splines", "false");
+    _agset(_graph, "splines", mode);
     //_agset(_graph, "splines", "curved"); // with fdp, "curved" provokes edge overlap on nodes
 	_agset(_graph, "dpi", "96,0");
     QString strSepValue = QString::number(sepValue).prepend("+");

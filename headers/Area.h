@@ -167,9 +167,17 @@ public:
 
     int typeOfCancel;
 
+    QFile getTempXML();
+
+private:
+
+    QFile tempXML;
+
 signals:
 
     void edition();
+
+    void makeTempXML();
 
 public slots:
 
@@ -201,7 +209,7 @@ public slots:
       * @brief method to save text change clicking on the button
       *
       */
-    void saveEdit();
+    void saveEdit(int del = 0);
 
     /**
       * @brief method call by the signal textChanged()
@@ -218,6 +226,10 @@ public slots:
     void showToolTip();
 
     void hideToolTip();
+
+    void tempXMLfile();
+
+    void deleteTempXML();
 
 };
 

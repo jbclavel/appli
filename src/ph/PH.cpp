@@ -5,6 +5,7 @@
 #include "PH.h"
 #include "PHScene.h"
 #include "Sort.h"
+#include "MainWindow.h"
 
 #include <GVGraph.h>
 #include <QDebug>
@@ -123,47 +124,6 @@ GVGraphPtr PH::toGVGraph(void) {
 		res->addEdge(	makeProcessName(a->getTarget())
                     , 	makeProcessName(a->getResult()));
 
-        /*int xSource = a->getSource()->getGProcess()->getNode()->centerPos.x();
-        int ySource = a->getSource()->getGProcess()->getNode()->centerPos.y();
-        int xTarget = a->getTarget()->getGProcess()->getNode()->centerPos.x();
-        int yTarget = a->getTarget()->getGProcess()->getNode()->centerPos.y();
-
-        std::cout << xSource << std::endl;*/
-
-        /*qreal xSource = this->getGraphicsScene()->getGSort(a->getSource()->getSort()->getName())->x();
-        qreal ySource = this->getGraphicsScene()->getGSort(a->getSource()->getSort()->getName())->y();
-        qreal xTarget = this->getGraphicsScene()->getGSort(a->getTarget()->getSort()->getName())->x();
-        qreal yTarget = this->getGraphicsScene()->getGSort(a->getTarget()->getSort()->getName())->y();*/
-
-       /* if(xSource >= xTarget && ySource >= yTarget){
-
-            ports.insert(0,"n");
-            ports.insert(1,"ne");
-            ports.insert(2,"e");
-        }
-        else if(xSource <= xTarget && ySource >= yTarget){
-
-            ports.insert(0,"n");
-            ports.insert(1,"nw");
-            ports.insert(2,"w");
-        }
-        else if(xSource >= xTarget && ySource <= yTarget){
-
-            ports.insert(0,"e");
-            ports.insert(1,"se");
-            ports.insert(2,"s");
-        }
-        else if(xSource <= xTarget && ySource <= yTarget){
-
-            ports.insert(0,"w");
-            ports.insert(1,"sw");
-            ports.insert(2,"s");
-        }
-        else{
-
-            ports.insert(0,"_");
-        }
-*/
         // BUG FIXING ATTEMPT:
         // to force hits' heads and bounces' tails to coincide
         //i = random() / (RAND_MAX + 1.0) * (8 + 1 - 0) + 0;
@@ -223,126 +183,143 @@ GVGraphPtr PH::updateGVGraph(PHScene *scene) {
 
     // BUG FIXING ATTEMPT:
     // to force hits' heads and bounces' tails to coincide
-    const int nbPorts(3);
-    const int nbResult(5);
-    //QString ports[nbPorts] = {"n", "ne", "e", "se", "s", "sw", "w", "nw", "_"};
-    int i(0);
-    int j(0);
-    QStringList target;
-    QStringList result;
-    QStringList source;
 
-    // add Actions (well named)
-    for (ActionPtr &a : actions) {
-        res->addEdge(	makeProcessName(a->getSource())
-                    , 	makeProcessName(a->getTarget()));
-        res->addEdge(	makeProcessName(a->getTarget())
-                    , 	makeProcessName(a->getResult()));
+    if(MainWindow::mwThis->getDisplayMode() == 0){
 
-        int xSource = a->getSource()->getGProcess()->getNode()->centerPos.x();
-        int ySource = a->getSource()->getGProcess()->getNode()->centerPos.y();
-        int xTarget = a->getTarget()->getGProcess()->getNode()->centerPos.x();
-        int yTarget = a->getTarget()->getGProcess()->getNode()->centerPos.y();
-        int xResult = a->getResult()->getGProcess()->getNode()->centerPos.x();
-        int yResult = a->getResult()->getGProcess()->getNode()->centerPos.y();
+        const int nbPorts(3);
+        const int nbResult(5);
+        int i(0);
+        int j(0);
+        QStringList target;
+        QStringList result;
+        QStringList source;
 
-        if((xSource > xTarget && ySource < yTarget) || (xSource >= xTarget && ySource < yTarget) || (xSource > xTarget && ySource <= yTarget)){
+        // add Actions (well named)
+        for (ActionPtr &a : actions) {
+            res->addEdge(	makeProcessName(a->getSource())
+                        , 	makeProcessName(a->getTarget()));
+            res->addEdge(	makeProcessName(a->getTarget())
+                        , 	makeProcessName(a->getResult()));
 
-            target.insert(0,"n");
-            target.insert(1,"ne");
-            target.insert(2,"e");
-            source.insert(0,"s");
-            source.insert(1,"sw");
-            source.insert(2,"w");
-        }
-        else if((xSource < xTarget && ySource < yTarget) || (xSource <= xTarget && ySource < yTarget) || (xSource < xTarget && ySource <= yTarget)){
+            int xSource = a->getSource()->getGProcess()->getNode()->centerPos.x();
+            int ySource = a->getSource()->getGProcess()->getNode()->centerPos.y();
+            int xTarget = a->getTarget()->getGProcess()->getNode()->centerPos.x();
+            int yTarget = a->getTarget()->getGProcess()->getNode()->centerPos.y();
+            int xResult = a->getResult()->getGProcess()->getNode()->centerPos.x();
+            int yResult = a->getResult()->getGProcess()->getNode()->centerPos.y();
 
-            target.insert(0,"n");
-            target.insert(1,"nw");
-            target.insert(2,"w");
-            source.insert(0,"s");
-            source.insert(1,"se");
-            source.insert(2,"e");
-        }
-        else if((xSource > xTarget && ySource > yTarget) || (xSource >= xTarget && ySource > yTarget) || (xSource > xTarget && ySource >= yTarget)){
+            if((xSource > xTarget && ySource < yTarget) || (xSource >= xTarget && ySource < yTarget) || (xSource > xTarget && ySource <= yTarget)){
 
-            target.insert(0,"e");
-            target.insert(1,"se");
-            target.insert(2,"s");
-            source.insert(0,"n");
-            source.insert(1,"nw");
-            source.insert(2,"w");
-        }
-        else if((xSource < xTarget && ySource > yTarget) || (xSource <= xTarget && ySource > yTarget) || (xSource < xTarget && ySource >= yTarget)){
-
-            target.insert(0,"w");
-            target.insert(1,"sw");
-            target.insert(2,"s");
-            source.insert(0,"n");
-            source.insert(1,"ne");
-            source.insert(2,"e");
-        }
-        else if(xSource == xTarget && ySource == yTarget){
-
-            target.insert(0,"ne");
-            source.insert(0,"e");
-        }
-        else{
-
-            target.insert(0,"_");
-            source.insert(0,"_");
-        }
-
-        if(yResult < yTarget){
-
-            result.insert(0,"s");
-            result.insert(1,"se");
-            result.insert(2,"sw");
-            result.insert(3,"w");
-            result.insert(4,"e");
-        }
-        else if(yResult > yTarget){
-
-            result.insert(0,"n");
-            result.insert(1,"nw");
-            result.insert(2,"w");
-            result.insert(3,"ne");
-            result.insert(4,"e");
-        }
-        else{
-
-            result.insert(0,"_");
-        }
-
-        //std::cout << "(" << a->getResult()->getGProcess()->getNode()->name.toStdString() << "," << a->getTarget()->getGProcess()->getNode()->name.toStdString() << ") = " << "x(" << xResult << "," << xTarget << ") et y(" << yResult << "," << yTarget << ") donc : " << target.at(i).toStdString() << std::endl;
-
-        // BUG FIXING ATTEMPT:
-        // to force hits' heads and bounces' tails to coincide
-
-        //int j(0);
-        //QString pos = this->positionHit->at(j);
-        _agset(res->getEdge(makeProcessName(a->getSource()), makeProcessName(a->getTarget())), "tailport", source.at(i));
-        _agset(res->getEdge(makeProcessName(a->getSource()), makeProcessName(a->getTarget())), "headport", target.at(i));
-        _agset(res->getEdge(makeProcessName(a->getTarget()), makeProcessName(a->getResult())), "tailport", target.at(i));
-        _agset(res->getEdge(makeProcessName(a->getTarget()), makeProcessName(a->getResult())), "headport", result.at(j));
-        i = (i+1) % (nbPorts-1);
-        j = (j+1) % (nbResult-1);
-
-        //j++;
-        // BUG FIXING ATTEMPT:
-        // if the target and the result are next to each other in their sort, then prevent overlap
-        /*if (a->getTarget()->getSort() == a->getResult()->getSort()) {
-//            //qDebug() << "intern bounce in " << a->getTarget()->getSort()->getName().c_str();
-            int diffIndex(a->getTarget()->getNumber() - a->getResult()->getNumber());
-            if (diffIndex == 1 || diffIndex == -1) {
-                // TODO do something to avoid edge overlap
-                //qDebug() << "close bounce: " << makeProcessName(a->getTarget()) << " -> " << makeProcessName(a->getResult());
-                _agset(res->getEdge(makeProcessName(a->getTarget()), makeProcessName(a->getResult())), "len", "10");
+                target.insert(0,"n");
+                target.insert(1,"ne");
+                target.insert(2,"e");
+                source.insert(0,"s");
+                source.insert(1,"sw");
+                source.insert(2,"w");
             }
-        }*/
+            else if((xSource < xTarget && ySource < yTarget) || (xSource <= xTarget && ySource < yTarget) || (xSource < xTarget && ySource <= yTarget)){
+
+                target.insert(0,"n");
+                target.insert(1,"nw");
+                target.insert(2,"w");
+                source.insert(0,"s");
+                source.insert(1,"se");
+                source.insert(2,"e");
+            }
+            else if((xSource > xTarget && ySource > yTarget) || (xSource >= xTarget && ySource > yTarget) || (xSource > xTarget && ySource >= yTarget)){
+
+                target.insert(0,"e");
+                target.insert(1,"se");
+                target.insert(2,"s");
+                source.insert(0,"n");
+                source.insert(1,"nw");
+                source.insert(2,"w");
+            }
+            else if((xSource < xTarget && ySource > yTarget) || (xSource <= xTarget && ySource > yTarget) || (xSource < xTarget && ySource >= yTarget)){
+
+                target.insert(0,"w");
+                target.insert(1,"sw");
+                target.insert(2,"s");
+                source.insert(0,"n");
+                source.insert(1,"ne");
+                source.insert(2,"e");
+            }
+            else if(xSource == xTarget && ySource == yTarget){
+
+                target.insert(0,"ne");
+                source.insert(0,"e");
+            }
+            else{
+
+                target.insert(0,"_");
+                source.insert(0,"_");
+            }
+
+            if(yResult < yTarget){
+
+                result.insert(0,"s");
+                result.insert(1,"se");
+                result.insert(2,"sw");
+                result.insert(3,"w");
+                result.insert(4,"e");
+            }
+            else if(yResult > yTarget){
+
+                result.insert(0,"n");
+                result.insert(1,"nw");
+                result.insert(2,"w");
+                result.insert(3,"ne");
+                result.insert(4,"e");
+            }
+            else{
+
+                result.insert(0,"_");
+            }
+
+            // BUG FIXING ATTEMPT:
+            // to force hits' heads and bounces' tails to coincide
+            _agset(res->getEdge(makeProcessName(a->getSource()), makeProcessName(a->getTarget())), "tailport", source.at(i));
+            _agset(res->getEdge(makeProcessName(a->getSource()), makeProcessName(a->getTarget())), "headport", target.at(i));
+            _agset(res->getEdge(makeProcessName(a->getTarget()), makeProcessName(a->getResult())), "tailport", target.at(i));
+            _agset(res->getEdge(makeProcessName(a->getTarget()), makeProcessName(a->getResult())), "headport", result.at(j));
+            i = (i+1) % (nbPorts-1);
+            j = (j+1) % (nbResult-1);
+
+            //j++;
+            // BUG FIXING ATTEMPT:
+            // if the target and the result are next to each other in their sort, then prevent overlap
+            /*if (a->getTarget()->getSort() == a->getResult()->getSort()) {
+    //            //qDebug() << "intern bounce in " << a->getTarget()->getSort()->getName().c_str();
+                int diffIndex(a->getTarget()->getNumber() - a->getResult()->getNumber());
+                if (diffIndex == 1 || diffIndex == -1) {
+                    // TODO do something to avoid edge overlap
+                    //qDebug() << "close bounce: " << makeProcessName(a->getTarget()) << " -> " << makeProcessName(a->getResult());
+                    _agset(res->getEdge(makeProcessName(a->getTarget()), makeProcessName(a->getResult())), "len", "10");
+                }
+            }*/
+        }
     }
-    //std::cout << "--------------------------" << std::endl;
-    // let graphviz calculate an appropriate layout
+    else if(MainWindow::mwThis->getDisplayMode() == 1){
+
+        const int nbPorts(9);
+        QString ports[nbPorts] = {"n", "ne", "e", "se", "s", "sw", "w", "nw", "_"};
+        int i(0);
+
+        // add Actions (well named)
+        for (ActionPtr &a : actions) {
+            res->addEdge(	makeProcessName(a->getSource())
+                        , 	makeProcessName(a->getTarget()));
+            res->addEdge(	makeProcessName(a->getTarget())
+                        , 	makeProcessName(a->getResult()));
+
+            // BUG FIXING ATTEMPT:
+            // to force hits' heads and bounces' tails to coincide
+            _agset(res->getEdge(makeProcessName(a->getSource()), makeProcessName(a->getTarget())), "headport", ports[i]);
+            _agset(res->getEdge(makeProcessName(a->getTarget()), makeProcessName(a->getResult())), "tailport", ports[i]);
+            i = (i+1) % (nbPorts-1);
+        }
+    }
+
     res->applyLayout();
 
     return res;

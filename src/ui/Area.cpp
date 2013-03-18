@@ -106,6 +106,7 @@ Area::Area(QWidget *parent, QString path) :
     QObject::connect(this->saveTextEdit, SIGNAL(clicked()), this, SLOT(saveEdit()));
     QObject::connect(this->textArea, SIGNAL(textChanged()), this, SLOT(onTextEdit()));    
     QObject::connect(this, SIGNAL(edition()), this, SLOT(showToolTip()));
+    QObject::connect(this, SIGNAL(makeTempXML()), this, SLOT(tempXMLfile()));
 
     // initialization
     this->textArea->setHidden(true);
@@ -276,14 +277,14 @@ void Area::cancelEdit(){
     //Put the last update into the textArea
     this->textArea->setPlainText(this->listOldText->at(a));
 
-    this->saveEdit();
+    this->saveEdit(1);
 
     this->cancelTextEdit->setDefault(false);
     this->cancelTextEdit->setEnabled(false);
 
 }
 
-void Area::saveEdit(){
+void Area::saveEdit(int del){
 
     //temporary file for the text edition
 
@@ -294,6 +295,7 @@ void Area::saveEdit(){
     flux.setCodec("UTF-8");    
 
     QString *file = new QString("temp.ph");
+    QString fileXML("tempXML.xml");
     std::string phFile = file->toStdString();
 
     try{
@@ -306,7 +308,12 @@ void Area::saveEdit(){
 
         flux << this->textArea->toPlainText() << endl;
 
-        newph.close();
+        newph.close();        
+
+        if(del == 0){
+
+            emit makeTempXML();
+        }
 
         // render graph
         PHPtr myPHPtr = PHIO::parseFile(phFile);
@@ -315,7 +322,7 @@ void Area::saveEdit(){
         PHScenePtr scene = myPHPtr->getGraphicsScene();
         this->myArea->setScene(&*scene);
 
-        // delete the current sortsTree
+        // delete the current sortsTree and groupsTree
         this->treeArea->sortsTree->clear();
         // set the pointer of the treeArea
         this->treeArea->myPHPtr = myPHPtr;
@@ -326,7 +333,7 @@ void Area::saveEdit(){
 
         this->indicatorEdit->setVisible(false);       
         this->saveTextEdit->setDefault(false);
-        this->textArea->incrementeNberTextChange();        
+        this->textArea->incrementeNberTextChange();
         this->typeOfCancel = 0;
         this->saveTextEdit->setEnabled(false);        
         this->textArea->setNberEdit(0);
@@ -335,6 +342,8 @@ void Area::saveEdit(){
         this->setOldText();
 
         newph.remove();
+
+        this->mainWindow->importXMLMetadata(fileXML);
     }
     catch(textAreaEmpty_exception & e){
 
@@ -402,6 +411,7 @@ void Area::onTextEdit(){
         if(this->textArea->getNberEdit() == 1){
 
             emit edition();
+            //emit makeTempXML();
         }
 
         this->saveTextEdit->setDefault(true);
@@ -426,4 +436,17 @@ void Area::showToolTip(){
 void Area::hideToolTip(){
 
     QToolTip::hideText();
+}
+
+void Area::tempXMLfile(){
+
+    this->tempXML.setFileName("tempXML.xml");
+    this->tempXML.open(QIODevice::WriteOnly);
+    PHIO::exportXMLMetadata(this->mainWindow, this->tempXML);
+    this->tempXML.close();
+}
+
+void Area::deleteTempXML(){
+
+    this->tempXML.remove();
 }
