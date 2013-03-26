@@ -1,0 +1,645 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<FunctionSettings>
+    <Function>
+        <Definition>
+            <name>function_test_global</name>
+            <program>pas_de_program</program>
+            <nbArgument>13</nbArgument>
+        </Definition>
+        <ArgumentsDefinition>
+            <ArgNumber>Arg 1 :</ArgNumber>
+            <ArgType>Text</ArgType>
+            <ArgSuf>pref_a</ArgSuf>
+            <ArgFacul>0</ArgFacul>
+            <ArgOutline>desc_a</ArgOutline>
+            <ChoixList>
+                <ChoixNom>pas de type choix</ChoixNom>
+                <ChoixParam>pas de type choix</ChoixParam>
+                <ChoixPrefix>pas de type choix</ChoixPrefix>
+            </ChoixList>
+        </ArgumentsDefinition>
+        <ArgumentsDefinition>
+            <ArgNumber>Arg 2 :</ArgNumber>
+            <ArgType>Integer</ArgType>
+            <ArgSuf>pref_b</ArgSuf>
+            <ArgFacul>1</ArgFacul>
+            <ArgOutline>desc_b</ArgOutline>
+            <ChoixList>
+                <ChoixNom>pas de type choix</ChoixNom>
+                <ChoixParam>pas de type choix</ChoixParam>
+                <ChoixPrefix>pas de type choix</ChoixPrefix>
+            </ChoixList>
+        </ArgumentsDefinition>
+        <ArgumentsDefinition>
+            <ArgNumber>Arg 3 :</ArgNumber>
+            <ArgType>Real</ArgType>
+            <ArgSuf>pref_c</ArgSuf>
+            <ArgFacul>0</ArgFacul>
+            <ArgOutline>desc_c</ArgOutline>
+            <ChoixList>
+                <ChoixNom>pas de type choix</ChoixNom>
+                <ChoixParam>pas de type choix</ChoixParam>
+                <ChoixPrefix>pas de type choix</ChoixPrefix>
+            </ChoixList>
+        </ArgumentsDefinition>
+        <ArgumentsDefinition>
+            <ArgNumber>Arg 4 :</ArgNumber>
+            <ArgType>Boolean</ArgType>
+            <ArgSuf>pref_d</ArgSuf>
+            <ArgFacul>1</ArgFacul>
+            <ArgOutline>desc_d</ArgOutline>
+            <ChoixList>
+                <ChoixNom>pas de type choix</ChoixNom>
+                <ChoixParam>pas de type choix</ChoixParam>
+                <ChoixPrefix>pas de type choix</ChoixPrefix>
+            </ChoixList>
+        </ArgumentsDefinition>
+        <ArgumentsDefinition>
+            <ArgNumber>Arg 5 :</ArgNumber>
+            <ArgType>Process Sequence</ArgType>
+            <ArgSuf>pref_e</ArgSuf>
+            <ArgFacul>0</ArgFacul>
+            <ArgOutline>desc_e</ArgOutline>
+            <ChoixList>
+                <ChoixNom>pas de type choix</ChoixNom>
+                <ChoixParam>pas de type choix</ChoixParam>
+                <ChoixPrefix>pas de type choix</ChoixPrefix>
+            </ChoixList>
+        </ArgumentsDefinition>
+        <ArgumentsDefinition>
+            <ArgNumber>Arg 6 :</ArgNumber>
+            <ArgType>Process Set</ArgType>
+            <ArgSuf>pref_f</ArgSuf>
+            <ArgFacul>1</ArgFacul>
+            <ArgOutline>desc_f</ArgOutline>
+            <ChoixList>
+                <ChoixNom>pas de type choix</ChoixNom>
+                <ChoixParam>pas de type choix</ChoixParam>
+                <ChoixPrefix>pas de type choix</ChoixPrefix>
+            </ChoixList>
+        </ArgumentsDefinition>
+        <ArgumentsDefinition>
+            <ArgNumber>Arg 7 :</ArgNumber>
+            <ArgType>File .ph</ArgType>
+            <ArgSuf>pref_g</ArgSuf>
+            <ArgFacul>0</ArgFacul>
+            <ArgOutline>desc_g</ArgOutline>
+            <ChoixList>
+                <ChoixNom>pas de type choix</ChoixNom>
+                <ChoixParam>pas de type choix</ChoixParam>
+                <ChoixPrefix>pas de type choix</ChoixPrefix>
+            </ChoixList>
+        </ArgumentsDefinition>
+        <ArgumentsDefinition>
+            <ArgNumber>Arg 8 :</ArgNumber>
+            <ArgType>File</ArgType>
+            <ArgSuf>pref_h</ArgSuf>
+            <ArgFacul>1</ArgFacul>
+            <ArgOutline>desc_h</ArgOutline>
+            <ChoixList>
+                <ChoixNom>pas de type choix</ChoixNom>
+                <ChoixParam>pas de type choix</ChoixParam>
+                <ChoixPrefix>pas de type choix</ChoixPrefix>
+            </ChoixList>
+        </ArgumentsDefinition>
+        <ArgumentsDefinition>
+            <ArgNumber>Arg 9 :</ArgNumber>
+            <ArgType>Folder</ArgType>
+            <ArgSuf>pref_i</ArgSuf>
+            <ArgFacul>0</ArgFacul>
+            <ArgOutline>desc_i</ArgOutline>
+            <ChoixList>
+                <ChoixNom>pas de type choix</ChoixNom>
+                <ChoixParam>pas de type choix</ChoixParam>
+                <ChoixPrefix>pas de type choix</ChoixPrefix>
+            </ChoixList>
+        </ArgumentsDefinition>
+        <ArgumentsDefinition>
+            <ArgNumber>Arg 10 :</ArgNumber>
+            <ArgType>Choice</ArgType>
+            <ArgSuf>2</ArgSuf>
+            <ArgFacul>1</ArgFacul>
+            <ArgOutline>desc_j</ArgOutline>
+            <ChoixList>
+                <ChoixNom>choix_name_a</ChoixNom>
+                <ChoixParam>choix_param_a</ChoixParam>
+                <ChoixPrefix>choix_prefix_a</ChoixPrefix>
+            </ChoixList>
+            <ChoixList>
+                <ChoixNom>choix_name_b</ChoixNom>
+                <ChoixParam>choix_param_b</ChoixParam>
+                <ChoixPrefix>choix_prefix_b</ChoixPrefix>
+            </ChoixList>
+        </ArgumentsDefinition>
+        <ArgumentsDefinition>
+            <ArgNumber>Arg 11 :</ArgNumber>
+            <ArgType>File not existing</ArgType>
+            <ArgSuf>pref_j</ArgSuf>
+            <ArgFacul>1</ArgFacul>
+            <ArgOutline>desc_k</ArgOutline>
+            <ChoixList>
+                <ChoixNom>pas de type choix</ChoixNom>
+                <ChoixParam>pas de type choix</ChoixParam>
+                <ChoixPrefix>pas de type choix</ChoixPrefix>
+            </ChoixList>
+        </ArgumentsDefinition>
+        <ArgumentsDefinition>
+            <ArgNumber>Arg 12 :</ArgNumber>
+            <ArgType>Argument</ArgType>
+            <ArgSuf>pref_k</ArgSuf>
+            <ArgFacul>0</ArgFacul>
+            <ArgOutline>desc_l</ArgOutline>
+            <ChoixList>
+                <ChoixNom>pas de type choix</ChoixNom>
+                <ChoixParam>pas de type choix</ChoixParam>
+                <ChoixPrefix>pas de type choix</ChoixPrefix>
+            </ChoixList>
+        </ArgumentsDefinition>
+        <ArgumentsDefinition>
+            <ArgNumber>Arg 13 :</ArgNumber>
+            <ArgType>Current File</ArgType>
+            <ArgSuf>pref_l</ArgSuf>
+            <ArgFacul>0</ArgFacul>
+            <ArgOutline>desc_m</ArgOutline>
+            <ChoixList>
+                <ChoixNom>pas de type choix</ChoixNom>
+                <ChoixParam>pas de type choix</ChoixParam>
+                <ChoixPrefix>pas de type choix</ChoixPrefix>
+            </ChoixList>
+        </ArgumentsDefinition>
+    </Function>
+    <Function>
+        <Definition>
+            <name>statistique_0</name>
+            <program>ph-stat</program>
+            <nbArgument>4</nbArgument>
+        </Definition>
+        <ArgumentsDefinition>
+            <ArgNumber>Arg 1 :</ArgNumber>
+            <ArgType>Argument</ArgType>
+            <ArgSuf>--no-debug</ArgSuf>
+            <ArgFacul>0</ArgFacul>
+            <ArgOutline>no debug</ArgOutline>
+            <ChoixList>
+                <ChoixNom>pas de type choix</ChoixNom>
+                <ChoixParam>pas de type choix</ChoixParam>
+                <ChoixPrefix>pas de type choix</ChoixPrefix>
+            </ChoixList>
+        </ArgumentsDefinition>
+        <ArgumentsDefinition>
+            <ArgNumber>Arg 2 :</ArgNumber>
+            <ArgType>Current File</ArgType>
+            <ArgSuf>-i</ArgSuf>
+            <ArgFacul>0</ArgFacul>
+            <ArgOutline>fichier courant</ArgOutline>
+            <ChoixList>
+                <ChoixNom>pas de type choix</ChoixNom>
+                <ChoixParam>pas de type choix</ChoixParam>
+                <ChoixPrefix>pas de type choix</ChoixPrefix>
+            </ChoixList>
+        </ArgumentsDefinition>
+        <ArgumentsDefinition>
+            <ArgNumber>Arg 3 :</ArgNumber>
+            <ArgType>Boolean</ArgType>
+            <ArgSuf>--autoinit</ArgSuf>
+            <ArgFacul>1</ArgFacul>
+            <ArgOutline>auto init</ArgOutline>
+            <ChoixList>
+                <ChoixNom>pas de type choix</ChoixNom>
+                <ChoixParam>pas de type choix</ChoixParam>
+                <ChoixPrefix>pas de type choix</ChoixPrefix>
+            </ChoixList>
+        </ArgumentsDefinition>
+        <ArgumentsDefinition>
+            <ArgNumber>Arg 4 :</ArgNumber>
+            <ArgType>Process Set</ArgType>
+            <ArgSuf>--initial-state</ArgSuf>
+            <ArgFacul>1</ArgFacul>
+            <ArgOutline>initial state</ArgOutline>
+            <ChoixList>
+                <ChoixNom>pas de type choix</ChoixNom>
+                <ChoixParam>pas de type choix</ChoixParam>
+                <ChoixPrefix>pas de type choix</ChoixPrefix>
+            </ChoixList>
+        </ArgumentsDefinition>
+    </Function>
+    <Function>
+        <Definition>
+            <name>stable_0</name>
+            <program>ph-stable</program>
+            <nbArgument>4</nbArgument>
+        </Definition>
+        <ArgumentsDefinition>
+            <ArgNumber>Arg 1 :</ArgNumber>
+            <ArgType>Argument</ArgType>
+            <ArgSuf>--no-debug</ArgSuf>
+            <ArgFacul>0</ArgFacul>
+            <ArgOutline>no debug</ArgOutline>
+            <ChoixList>
+                <ChoixNom>pas de type choix</ChoixNom>
+                <ChoixParam>pas de type choix</ChoixParam>
+                <ChoixPrefix>pas de type choix</ChoixPrefix>
+            </ChoixList>
+        </ArgumentsDefinition>
+        <ArgumentsDefinition>
+            <ArgNumber>Arg 2 :</ArgNumber>
+            <ArgType>Current File</ArgType>
+            <ArgSuf>-i</ArgSuf>
+            <ArgFacul>0</ArgFacul>
+            <ArgOutline>fichier courant</ArgOutline>
+            <ChoixList>
+                <ChoixNom>pas de type choix</ChoixNom>
+                <ChoixParam>pas de type choix</ChoixParam>
+                <ChoixPrefix>pas de type choix</ChoixPrefix>
+            </ChoixList>
+        </ArgumentsDefinition>
+        <ArgumentsDefinition>
+            <ArgNumber>Arg 3 :</ArgNumber>
+            <ArgType>Boolean</ArgType>
+            <ArgSuf>--autoinit</ArgSuf>
+            <ArgFacul>1</ArgFacul>
+            <ArgOutline>auto init</ArgOutline>
+            <ChoixList>
+                <ChoixNom>pas de type choix</ChoixNom>
+                <ChoixParam>pas de type choix</ChoixParam>
+                <ChoixPrefix>pas de type choix</ChoixPrefix>
+            </ChoixList>
+        </ArgumentsDefinition>
+        <ArgumentsDefinition>
+            <ArgNumber>Arg 4 :</ArgNumber>
+            <ArgType>Process Set</ArgType>
+            <ArgSuf>--initial-state</ArgSuf>
+            <ArgFacul>1</ArgFacul>
+            <ArgOutline>initial state</ArgOutline>
+            <ChoixList>
+                <ChoixNom>pas de type choix</ChoixNom>
+                <ChoixParam>pas de type choix</ChoixParam>
+                <ChoixPrefix>pas de type choix</ChoixPrefix>
+            </ChoixList>
+        </ArgumentsDefinition>
+    </Function>
+    <Function>
+        <Definition>
+            <name>exec_0</name>
+            <program>ph-exec</program>
+            <nbArgument>6</nbArgument>
+        </Definition>
+        <ArgumentsDefinition>
+            <ArgNumber>Arg 1 :</ArgNumber>
+            <ArgType>Choice</ArgType>
+            <ArgSuf>2</ArgSuf>
+            <ArgFacul>0</ArgFacul>
+            <ArgOutline>no debug</ArgOutline>
+            <ChoixList>
+                <ChoixNom>no debug</ChoixNom>
+                <ChoixParam>--no-debug</ChoixParam>
+                <ChoixPrefix></ChoixPrefix>
+            </ChoixList>
+            <ChoixList>
+                <ChoixNom>debug</ChoixNom>
+                <ChoixParam>--debug</ChoixParam>
+                <ChoixPrefix></ChoixPrefix>
+            </ChoixList>
+        </ArgumentsDefinition>
+        <ArgumentsDefinition>
+            <ArgNumber>Arg 2 :</ArgNumber>
+            <ArgType>Current File</ArgType>
+            <ArgSuf>-i</ArgSuf>
+            <ArgFacul>0</ArgFacul>
+            <ArgOutline>current file</ArgOutline>
+            <ChoixList>
+                <ChoixNom>pas de type choix</ChoixNom>
+                <ChoixParam>pas de type choix</ChoixParam>
+                <ChoixPrefix>pas de type choix</ChoixPrefix>
+            </ChoixList>
+        </ArgumentsDefinition>
+        <ArgumentsDefinition>
+            <ArgNumber>Arg 3 :</ArgNumber>
+            <ArgType>Real</ArgType>
+            <ArgSuf></ArgSuf>
+            <ArgFacul>0</ArgFacul>
+            <ArgOutline>reel</ArgOutline>
+            <ChoixList>
+                <ChoixNom>pas de type choix</ChoixNom>
+                <ChoixParam>pas de type choix</ChoixParam>
+                <ChoixPrefix>pas de type choix</ChoixPrefix>
+            </ChoixList>
+        </ArgumentsDefinition>
+        <ArgumentsDefinition>
+            <ArgNumber>Arg 4 :</ArgNumber>
+            <ArgType>Folder</ArgType>
+            <ArgSuf></ArgSuf>
+            <ArgFacul>0</ArgFacul>
+            <ArgOutline>dossier sortie</ArgOutline>
+            <ChoixList>
+                <ChoixNom>pas de type choix</ChoixNom>
+                <ChoixParam>pas de type choix</ChoixParam>
+                <ChoixPrefix>pas de type choix</ChoixPrefix>
+            </ChoixList>
+        </ArgumentsDefinition>
+        <ArgumentsDefinition>
+            <ArgNumber>Arg 5 :</ArgNumber>
+            <ArgType>Boolean</ArgType>
+            <ArgSuf>--autoinit</ArgSuf>
+            <ArgFacul>1</ArgFacul>
+            <ArgOutline>autoinit</ArgOutline>
+            <ChoixList>
+                <ChoixNom>pas de type choix</ChoixNom>
+                <ChoixParam>pas de type choix</ChoixParam>
+                <ChoixPrefix>pas de type choix</ChoixPrefix>
+            </ChoixList>
+        </ArgumentsDefinition>
+        <ArgumentsDefinition>
+            <ArgNumber>Arg 6 :</ArgNumber>
+            <ArgType>Process Set</ArgType>
+            <ArgSuf>--initial-state</ArgSuf>
+            <ArgFacul>1</ArgFacul>
+            <ArgOutline>initial state</ArgOutline>
+            <ChoixList>
+                <ChoixNom>pas de type choix</ChoixNom>
+                <ChoixParam>pas de type choix</ChoixParam>
+                <ChoixPrefix>pas de type choix</ChoixPrefix>
+            </ChoixList>
+        </ArgumentsDefinition>
+    </Function>
+    <Function>
+        <Definition>
+            <name>phc</name>
+            <program>phc</program>
+            <nbArgument>6</nbArgument>
+        </Definition>
+        <ArgumentsDefinition>
+            <ArgNumber>Arg 1 :</ArgNumber>
+            <ArgType>Choice</ArgType>
+            <ArgSuf>2</ArgSuf>
+            <ArgFacul>0</ArgFacul>
+            <ArgOutline>no debug</ArgOutline>
+            <ChoixList>
+                <ChoixNom>no debug</ChoixNom>
+                <ChoixParam>--no-debug</ChoixParam>
+                <ChoixPrefix></ChoixPrefix>
+            </ChoixList>
+            <ChoixList>
+                <ChoixNom>debug</ChoixNom>
+                <ChoixParam>--debug</ChoixParam>
+                <ChoixPrefix></ChoixPrefix>
+            </ChoixList>
+        </ArgumentsDefinition>
+        <ArgumentsDefinition>
+            <ArgNumber>Arg 2 :</ArgNumber>
+            <ArgType>Current File</ArgType>
+            <ArgSuf>-i</ArgSuf>
+            <ArgFacul>0</ArgFacul>
+            <ArgOutline>fichier courant</ArgOutline>
+            <ChoixList>
+                <ChoixNom>pas de type choix</ChoixNom>
+                <ChoixParam>pas de type choix</ChoixParam>
+                <ChoixPrefix>pas de type choix</ChoixPrefix>
+            </ChoixList>
+        </ArgumentsDefinition>
+        <ArgumentsDefinition>
+            <ArgNumber>Arg 3 :</ArgNumber>
+            <ArgType>Boolean</ArgType>
+            <ArgSuf>--autoinit</ArgSuf>
+            <ArgFacul>1</ArgFacul>
+            <ArgOutline>autoinit</ArgOutline>
+            <ChoixList>
+                <ChoixNom>pas de type choix</ChoixNom>
+                <ChoixParam>pas de type choix</ChoixParam>
+                <ChoixPrefix>pas de type choix</ChoixPrefix>
+            </ChoixList>
+        </ArgumentsDefinition>
+        <ArgumentsDefinition>
+            <ArgNumber>Arg 4 :</ArgNumber>
+            <ArgType>Process Set</ArgType>
+            <ArgSuf>--initial-state</ArgSuf>
+            <ArgFacul>1</ArgFacul>
+            <ArgOutline>initial state</ArgOutline>
+            <ChoixList>
+                <ChoixNom>pas de type choix</ChoixNom>
+                <ChoixParam>pas de type choix</ChoixParam>
+                <ChoixPrefix>pas de type choix</ChoixPrefix>
+            </ChoixList>
+        </ArgumentsDefinition>
+        <ArgumentsDefinition>
+            <ArgNumber>Arg 5 :</ArgNumber>
+            <ArgType>Choice</ArgType>
+            <ArgSuf>8</ArgSuf>
+            <ArgFacul>0</ArgFacul>
+            <ArgOutline>format</ArgOutline>
+            <ChoixList>
+                <ChoixNom>dump</ChoixNom>
+                <ChoixParam>dump</ChoixParam>
+                <ChoixPrefix>-l</ChoixPrefix>
+            </ChoixList>
+            <ChoixList>
+                <ChoixNom>spim</ChoixNom>
+                <ChoixParam>spim</ChoixParam>
+                <ChoixPrefix>-l</ChoixPrefix>
+            </ChoixList>
+            <ChoixList>
+                <ChoixNom>prism</ChoixNom>
+                <ChoixParam>prism</ChoixParam>
+                <ChoixPrefix>-l</ChoixPrefix>
+            </ChoixList>
+            <ChoixList>
+                <ChoixNom>prism_mdp</ChoixNom>
+                <ChoixParam>prism_mdp</ChoixParam>
+                <ChoixPrefix>-l</ChoixPrefix>
+            </ChoixList>
+            <ChoixList>
+                <ChoixNom>romeo</ChoixNom>
+                <ChoixParam>romeo</ChoixParam>
+                <ChoixPrefix>-l</ChoixPrefix>
+            </ChoixList>
+            <ChoixList>
+                <ChoixNom>tina</ChoixNom>
+                <ChoixParam>tina</ChoixParam>
+                <ChoixPrefix>-l</ChoixPrefix>
+            </ChoixList>
+            <ChoixList>
+                <ChoixNom>biocham</ChoixNom>
+                <ChoixParam>biocham</ChoixParam>
+                <ChoixPrefix>-l</ChoixPrefix>
+            </ChoixList>
+            <ChoixList>
+                <ChoixNom>kappa</ChoixNom>
+                <ChoixParam>kappa</ChoixParam>
+                <ChoixPrefix>-l</ChoixPrefix>
+            </ChoixList>
+        </ArgumentsDefinition>
+        <ArgumentsDefinition>
+            <ArgNumber>Arg 6 :</ArgNumber>
+            <ArgType>File not existing</ArgType>
+            <ArgSuf>-o</ArgSuf>
+            <ArgFacul>0</ArgFacul>
+            <ArgOutline>fichier de sortie</ArgOutline>
+            <ChoixList>
+                <ChoixNom>pas de type choix</ChoixNom>
+                <ChoixParam>pas de type choix</ChoixParam>
+                <ChoixPrefix>pas de type choix</ChoixPrefix>
+            </ChoixList>
+        </ArgumentsDefinition>
+    </Function>
+    <Function>
+        <Definition>
+            <name>Reachability</name>
+            <program>ph-reach</program>
+            <nbArgument>7</nbArgument>
+        </Definition>
+        <ArgumentsDefinition>
+            <ArgNumber>Arg 1 :</ArgNumber>
+            <ArgType>Choice</ArgType>
+            <ArgSuf>2</ArgSuf>
+            <ArgFacul>0</ArgFacul>
+            <ArgOutline>mode debug</ArgOutline>
+            <ChoixList>
+                <ChoixNom>--no-debug</ChoixNom>
+                <ChoixParam>--no-debug</ChoixParam>
+                <ChoixPrefix></ChoixPrefix>
+            </ChoixList>
+            <ChoixList>
+                <ChoixNom>--debug</ChoixNom>
+                <ChoixParam>--debug</ChoixParam>
+                <ChoixPrefix></ChoixPrefix>
+            </ChoixList>
+        </ArgumentsDefinition>
+        <ArgumentsDefinition>
+            <ArgNumber>Arg 2 :</ArgNumber>
+            <ArgType>Current File</ArgType>
+            <ArgSuf>-i</ArgSuf>
+            <ArgFacul>0</ArgFacul>
+            <ArgOutline>fichier courant</ArgOutline>
+            <ChoixList>
+                <ChoixNom>pas de type choix</ChoixNom>
+                <ChoixParam>pas de type choix</ChoixParam>
+                <ChoixPrefix>pas de type choix</ChoixPrefix>
+            </ChoixList>
+        </ArgumentsDefinition>
+        <ArgumentsDefinition>
+            <ArgNumber>Arg 3 :</ArgNumber>
+            <ArgType>Process Sequence</ArgType>
+            <ArgSuf></ArgSuf>
+            <ArgFacul>0</ArgFacul>
+            <ArgOutline>list de process</ArgOutline>
+            <ChoixList>
+                <ChoixNom>pas de type choix</ChoixNom>
+                <ChoixParam>pas de type choix</ChoixParam>
+                <ChoixPrefix>pas de type choix</ChoixPrefix>
+            </ChoixList>
+        </ArgumentsDefinition>
+        <ArgumentsDefinition>
+            <ArgNumber>Arg 4 :</ArgNumber>
+            <ArgType>Process Set</ArgType>
+            <ArgSuf>--initial-state</ArgSuf>
+            <ArgFacul>1</ArgFacul>
+            <ArgOutline>--initial-state</ArgOutline>
+            <ChoixList>
+                <ChoixNom>pas de type choix</ChoixNom>
+                <ChoixParam>pas de type choix</ChoixParam>
+                <ChoixPrefix>pas de type choix</ChoixPrefix>
+            </ChoixList>
+        </ArgumentsDefinition>
+        <ArgumentsDefinition>
+            <ArgNumber>Arg 5 :</ArgNumber>
+            <ArgType>Argument</ArgType>
+            <ArgSuf>--list-keys</ArgSuf>
+            <ArgFacul>1</ArgFacul>
+            <ArgOutline>--list-keys</ArgOutline>
+            <ChoixList>
+                <ChoixNom>pas de type choix</ChoixNom>
+                <ChoixParam>pas de type choix</ChoixParam>
+                <ChoixPrefix>pas de type choix</ChoixPrefix>
+            </ChoixList>
+        </ArgumentsDefinition>
+        <ArgumentsDefinition>
+            <ArgNumber>Arg 6 :</ArgNumber>
+            <ArgType>File not existing</ArgType>
+            <ArgSuf>--extract-graph</ArgSuf>
+            <ArgFacul>1</ArgFacul>
+            <ArgOutline>--extrac-graph</ArgOutline>
+            <ChoixList>
+                <ChoixNom>pas de type choix</ChoixNom>
+                <ChoixParam>pas de type choix</ChoixParam>
+                <ChoixPrefix>pas de type choix</ChoixPrefix>
+            </ChoixList>
+        </ArgumentsDefinition>
+        <ArgumentsDefinition>
+            <ArgNumber>Arg 7 :</ArgNumber>
+            <ArgType>Choice</ArgType>
+            <ArgSuf>2</ArgSuf>
+            <ArgFacul>1</ArgFacul>
+            <ArgOutline>--graph</ArgOutline>
+            <ChoixList>
+                <ChoixNom>verbose</ChoixNom>
+                <ChoixParam>verbose</ChoixParam>
+                <ChoixPrefix>--graph</ChoixPrefix>
+            </ChoixList>
+            <ChoixList>
+                <ChoixNom>trimmed</ChoixNom>
+                <ChoixParam>trimmed</ChoixParam>
+                <ChoixPrefix>--graph</ChoixPrefix>
+            </ChoixList>
+        </ArgumentsDefinition>
+    </Function>
+    <Function>
+        <Definition>
+            <name>Reachability</name>
+            <program>ph-reach</program>
+            <nbArgument>4</nbArgument>
+        </Definition>
+        <ArgumentsDefinition>
+            <ArgNumber>Arg 1 :</ArgNumber>
+            <ArgType>Choice</ArgType>
+            <ArgSuf>2</ArgSuf>
+            <ArgFacul>0</ArgFacul>
+            <ArgOutline>Debug Mode</ArgOutline>
+            <ChoixList>
+                <ChoixNom>Without Debug</ChoixNom>
+                <ChoixParam>--no-debug</ChoixParam>
+                <ChoixPrefix></ChoixPrefix>
+            </ChoixList>
+            <ChoixList>
+                <ChoixNom>With Debug</ChoixNom>
+                <ChoixParam>--debug</ChoixParam>
+                <ChoixPrefix></ChoixPrefix>
+            </ChoixList>
+        </ArgumentsDefinition>
+        <ArgumentsDefinition>
+            <ArgNumber>Arg 2 :</ArgNumber>
+            <ArgType>Current File</ArgType>
+            <ArgSuf>-i</ArgSuf>
+            <ArgFacul>0</ArgFacul>
+            <ArgOutline>File used</ArgOutline>
+            <ChoixList>
+                <ChoixNom>pas de type choix</ChoixNom>
+                <ChoixParam>pas de type choix</ChoixParam>
+                <ChoixPrefix>pas de type choix</ChoixPrefix>
+            </ChoixList>
+        </ArgumentsDefinition>
+        <ArgumentsDefinition>
+            <ArgNumber>Arg 3 :</ArgNumber>
+            <ArgType>Process Sequence</ArgType>
+            <ArgSuf></ArgSuf>
+            <ArgFacul>0</ArgFacul>
+            <ArgOutline>Sequence of process(es)</ArgOutline>
+            <ChoixList>
+                <ChoixNom>pas de type choix</ChoixNom>
+                <ChoixParam>pas de type choix</ChoixParam>
+                <ChoixPrefix>pas de type choix</ChoixPrefix>
+            </ChoixList>
+        </ArgumentsDefinition>
+        <ArgumentsDefinition>
+            <ArgNumber>Arg 4 :</ArgNumber>
+            <ArgType>Process Set</ArgType>
+            <ArgSuf>--initial-state</ArgSuf>
+            <ArgFacul>1</ArgFacul>
+            <ArgOutline>Initial state</ArgOutline>
+            <ChoixList>
+                <ChoixNom>pas de type choix</ChoixNom>
+                <ChoixParam>pas de type choix</ChoixParam>
+                <ChoixPrefix>pas de type choix</ChoixPrefix>
+            </ChoixList>
+        </ArgumentsDefinition>
+    </Function>
+</FunctionSettings>
