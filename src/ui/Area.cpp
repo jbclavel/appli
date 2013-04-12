@@ -411,7 +411,6 @@ void Area::onTextEdit(){
         if(this->textArea->getNberEdit() == 1){
 
             emit edition();
-            //emit makeTempXML();
         }
 
         this->saveTextEdit->setDefault(true);

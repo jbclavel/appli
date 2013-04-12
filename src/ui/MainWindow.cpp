@@ -325,10 +325,6 @@ MyArea* MainWindow::openTab() {
                     // build the tree in the treeArea
                     area->treeArea->build();
 
-                    // call the PH string and write it in the text area (dump)
-                    //std::string string(myPHPtr->toString());
-                    //area->textArea->setPlainText(QString::fromStdString(string));
-
                     // call the PH file and write it in the text area (same as .ph)
                     QFile fichier(file);
                     fichier.open(QIODevice::ReadOnly);
@@ -385,11 +381,6 @@ void MainWindow::closeTab() {
 // save a graph
 void MainWindow::save() {
 
-    /*  Modification de la fonction de sauvegarde car l'ancienne écrivait mal le fichier ph.
-     *  Ne pas modifier les commentaires pour l'instant, on garde encore en commentaire l'ancien système on sait
-     *  jamais !!
-     */
-
     if(!this->getCentraleArea()->subWindowList().isEmpty()){
 
         // get the current subwindow
@@ -411,35 +402,18 @@ void MainWindow::save() {
         QString typeFile = QInputDialog::getItem(this,"Output format","Format : ", items, 0, false, &ok);
 
         //save as
+        //Dump format
         if(ok && typeFile == "Dump"){
 
             PHPtr ph = ((Area*) subWindow->widget())->myArea->getPHPtr();
             PHIO::writeToFile (path, ph);
         }
+        //Text format (QTextEdit)
         else if(ok && typeFile == "Standard"){
 
             std::string ph = ((Area*) subWindow->widget())->textArea->toPlainText().toStdString();
             IO::writeFile (path, ph);
         }
-
-        //if(ok && items.
-        // need the PHPtr which is associated with the subwindow
-        //PHPtr ph= ((MyArea*) subWindow->widget())->getPHPtr();
-       // PHPtr ph= ((Area*) subWindow->widget())->myArea->getPHPtr();
-
-        //QFile newph(fichier);
-
-        //newph.open(QIODevice::WriteOnly | QIODevice::Truncate);
-        //QTextStream flux(&newph);
-        //flux.setCodec("UTF-8");
-
-       // flux << ((Area*) subWindow->widget())->textArea->toPlainText() << endl;
-       ///// std::string ph = ((Area*) subWindow->widget())->textArea->toPlainText().toStdString();
-
-        // save file
-       // PHIO::writeToFile (path, ph);
-         /////IO::writeFile (path, ph);
-       //this->newph.remove();
 
         }else{
             QMessageBox::critical(this, "Error", "Please save or cancel edition !");

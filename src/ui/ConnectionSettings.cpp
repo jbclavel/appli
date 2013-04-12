@@ -737,7 +737,7 @@ void ConnectionSettings::testChoix(){
     }
 
     boolean vide = false;
-    for (int k = 0; k < tabChoixNom.size(); k++){
+    for (int k = 0; k < (int)tabChoixNom.size(); k++){
         if(tabChoixNom[k]->text()=="" || tabChoixParam[k]->text()==""){
             vide=true;
         }
@@ -966,7 +966,7 @@ void ConnectionSettings::buildChoix(){
 
         if(tabChoixPrefix.size()!=0){
             tabTamponPrefix.clear();
-            for (int i=0; i<tabChoixPrefix.size() ; i++){
+            for (int i=0; i<(int)tabChoixPrefix.size() ; i++){
                 tabTamponPrefix.push_back(tabChoixPrefix[i]);
             }
 
@@ -1150,7 +1150,7 @@ void ConnectionSettings::buildChoix(){
 
 // contrairement au nom, permet juste de mettre des placeholdertext en focntion du type d'argument
 void ConnectionSettings::setEnability(QString param){
-    for(int i=0; i<tabArgfacul.size(); i++){
+    for(int i=0; i<(int)tabArgfacul.size(); i++){
         /*if(tabArgType[i]->currentText()=="Argument" || tabArgType[i]->currentText()=="Current File"){
             tabArgfacul[i]->setChecked(false);
             tabArgfacul[i]->setEnabled(false);
@@ -1170,7 +1170,7 @@ void ConnectionSettings::setEnability(QString param){
 //SLOT :focntion qui gere la copie des prefixe de ligne d'argument
 void ConnectionSettings::prefixMaj(QString text){
     int num=0;
-    for(int i=0; i<tabChoixPrefix.size(); i++){
+    for(int i=0; i<(int)tabChoixPrefix.size(); i++){
         if(tabChoixPrefix[i]==QObject::sender()){
         num=i;
         }
@@ -1179,7 +1179,7 @@ void ConnectionSettings::prefixMaj(QString text){
     int total=0;
     int compteur=0;
 
-    for (int i=0; i<tabArgSuf.size();i++){
+    for (int i=0; i<(int)tabArgSuf.size();i++){
         QString a = tabArgSuf[i]->metaObject()->className();
         if(a=="QSpinBox"){
             total += reinterpret_cast<QSpinBox*>(tabArgSuf[i])->text().toInt();
@@ -1192,7 +1192,7 @@ void ConnectionSettings::prefixMaj(QString text){
             }
         }
     }
-    if(compteur==tabArgSuf.size()){
+    if(compteur==(int)tabArgSuf.size()){
         compteur-=1;
     }
 

@@ -113,7 +113,6 @@ GVGraphPtr PH::toGVGraph(void) {
     // to force hits' heads and bounces' tails to coincide
     const int nbPorts(9);
     QString ports[nbPorts] = {"n", "ne", "e", "se", "s", "sw", "w", "nw", "_"};
-    //QStringList ports;
     int i(0);
 
     // add Actions (well named)
@@ -126,11 +125,9 @@ GVGraphPtr PH::toGVGraph(void) {
 
         // BUG FIXING ATTEMPT:
         // to force hits' heads and bounces' tails to coincide
-        //i = random() / (RAND_MAX + 1.0) * (8 + 1 - 0) + 0;
         _agset(res->getEdge(makeProcessName(a->getSource()), makeProcessName(a->getTarget())), "headport", ports[i]);
         _agset(res->getEdge(makeProcessName(a->getTarget()), makeProcessName(a->getResult())), "tailport", ports[i]);
         i = (i+1) % (nbPorts-1);
-        //this->positionHit->insert(i,ports[i]);
 
         // BUG FIXING ATTEMPT:
         // if the target and the result are next to each other in their sort, then prevent overlap
@@ -205,7 +202,7 @@ GVGraphPtr PH::updateGVGraph(PHScene *scene) {
             int ySource = a->getSource()->getGProcess()->getNode()->centerPos.y();
             int xTarget = a->getTarget()->getGProcess()->getNode()->centerPos.x();
             int yTarget = a->getTarget()->getGProcess()->getNode()->centerPos.y();
-            int xResult = a->getResult()->getGProcess()->getNode()->centerPos.x();
+            //int xResult = a->getResult()->getGProcess()->getNode()->centerPos.x();
             int yResult = a->getResult()->getGProcess()->getNode()->centerPos.y();
 
             if((xSource > xTarget && ySource < yTarget) || (xSource >= xTarget && ySource < yTarget) || (xSource > xTarget && ySource <= yTarget)){

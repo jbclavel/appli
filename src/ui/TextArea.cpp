@@ -10,21 +10,12 @@ TextArea::TextArea(QWidget *parent) :
 {
     this->setMinimumWidth(200);
     this->setMaximumWidth(200);
-    //this->setMaximumHeight(600);
     this->nberEdit = -1;
     this->nberTextChange = 0;
-
-    //attribut for syntax correction
-    //this->nberLetter = 0;
-    //this->listLetter = new QStringList();
-    //this->setAcceptRichText(true);
-//217, 221, 233
     QPalette p = this->palette();
     p.setColor(QPalette::Base, QColor(207, 226, 243));
     this->setPalette(p);
-    //this->setCurrentFont(QFont("TypeWriter", 10));
     this->setTextColor(QColor(46,46,46));
-    //this->setCursorWidth(8);
 }
 
 
@@ -71,65 +62,3 @@ void TextArea::incrementeNberTextChange(){
 
     this->nberTextChange++;
 }
-/*
-void TextArea::keyReleaseEvent(QKeyEvent *event){
-
-    if(event->key() != Qt::Key_Space && event->key() != Qt::Key_Return && event->key() != Qt::Key_Backspace){
-
-        this->listLetter->insert(this->nberLetter, event->text());
-        this->nberLetter++;
-    }
-    else{
-
-        int pos = this->textCursor().position();
-
-        this->appendWord(this->listLetter, pos);
-        this->nberLetter = 0;
-    }
-}
-
-void TextArea::appendWord(QStringList* list, int pos){
-
-    if(!list->empty()){
-
-        this->word = "";
-
-        for(int i = 0; i < list->size(); i++){
-
-            this->word.append(list->at(i));
-        }
-
-        QFile parseTemp("parseTemp.ph");
-
-        parseTemp.open(QIODevice::WriteOnly | QIODevice::Truncate);
-        QTextStream flux(&parseTemp);
-        flux.setCodec("UTF-8");
-
-        flux << this->toPlainText() << endl;
-
-        QString *file = new QString("parseTemp.ph");
-        std::string phFile = file->toStdString();
-
-        try{
-
-            PHIO::parseFile(phFile);
-
-            parseTemp.remove();
-            this->setFontUnderline(false);
-        }
-        catch(ph_parse_error & argh){
-
-            QString text = this->toPlainText();
-
-            int begin = pos-this->nberLetter-1;
-            this->setPlainText(text.replace(begin, this->nberLetter, "<u>" + this->word + "</u>"));
-
-            QTextCursor cur = this->textCursor();
-            cur.setPosition(pos);
-            this->setTextCursor(cur);
-            parseTemp.remove();
-        }
-    }
-
-    list->clear();
-}*/

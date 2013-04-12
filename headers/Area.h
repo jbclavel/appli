@@ -143,8 +143,6 @@ public:
 
     ColorerSequences *colorerSequences;
 
-    QString syntaxError;
-
     /**
       * @brief Temporary save of the textArea called by the signal of rightButton
       *
@@ -167,6 +165,11 @@ public:
 
     int typeOfCancel;
 
+    /**
+      * @brief Return the temporary file for automatic import/export
+      *
+      */
+
     QFile getTempXML();
 
 private:
@@ -175,7 +178,17 @@ private:
 
 signals:
 
+    /**
+      * @brief Indicate edition
+      *
+      */
+
     void edition();
+
+    /**
+      * @brief Moment when the XML temporary file has to be write
+      *
+      */
 
     void makeTempXML();
 
@@ -223,12 +236,28 @@ public slots:
       */
     void setOldText();    
 
+    /**
+      * @brief method to show the tooltip about shortcuts of QTextEdit
+      *
+      */
     void showToolTip();
 
+    /**
+      * @brief method to hide the tooltip about shortcuts of QTextEdit
+      *
+      */
     void hideToolTip();
 
+    /**
+      * @brief method to make the XML temporary file before edition
+      *
+      */
     void tempXMLfile();
 
+    /**
+      * @brief method to delete the XML temporary file after update
+      *
+      */
     void deleteTempXML();
 
 };

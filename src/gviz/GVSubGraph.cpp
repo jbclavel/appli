@@ -36,14 +36,17 @@ const qreal GVSubGraph::nodeSize = 50;
 const qreal GVSubGraph::sepValue = 12.0;
 void GVSubGraph::setGraphAttributes(void) {
 
+    //Selection of display mode
     QString mode;
 
     if(MainWindow::mwThis->getDisplayMode() == 0){
 
+        //Low
         mode = "false";
     }
     else if(MainWindow::mwThis->getDisplayMode() == 1){
 
+        //High
         mode = "true";
     }
 
